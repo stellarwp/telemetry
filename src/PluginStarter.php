@@ -4,19 +4,19 @@ namespace StellarWP\Telemetry;
 
 abstract class PluginStarter {
 	/** @var Template $optin_template */
-	private $optin_template;
+	protected $optin_template;
 
 	/** @var ActivationHook $activation_hook */
-	private $activation_hook;
+	protected $activation_hook;
 
 	/** @var string $plugin_slug */
-	private $plugin_slug;
+	protected $plugin_slug;
 
 	/** @var string $plugin_version */
-	private $plugin_version;
+	protected $plugin_version;
 
 	/** @var string $inherit_option */
-	private $inherit_option;
+	protected $inherit_option;
 
 	public function register_hooks(): void {
 		$this->activation_hook->register();
