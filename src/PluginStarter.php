@@ -18,8 +18,8 @@ abstract class PluginStarter {
 	/** @var string $inherit_option */
 	protected $inherit_option;
 
-	public function register_hooks(): void {
-		$this->activation_hook->register();
+	public function activation_hook(): void {
+		$this->activation_hook->run( $this );
 	}
 
 	public function apply_enqueues(): void {
