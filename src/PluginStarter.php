@@ -62,7 +62,17 @@ abstract class PluginStarter {
 		return $this->inherit_option;
 	}
 
+	public function get_option_name(): string {
+		// TODO: apply filters
+		return self::OPTION;
+	}
+
 	public function get_option(): array {
-		return (array) get_option( self::OPTION, [] );
+		return (array) get_option( $this->get_option_name(), [] );
+	}
+
+	public function get_activation_redirect(): string {
+		// TODO: apply filters
+		return $this->activation_redirect;
 	}
 }
