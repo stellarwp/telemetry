@@ -40,7 +40,7 @@ HTML;
 	public function render_scripts() {
 		echo <<<HTML
 <script>
-alert('Hello World');
+console.log('Hello World');
 </script>
 HTML;
 	}
