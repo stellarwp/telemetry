@@ -3,6 +3,8 @@
 namespace StellarWP\Telemetry;
 
 abstract class PluginStarter {
+	protected const OPTION = 'stellar_telemetry';
+
 	/** @var Template $optin_template */
 	protected $optin_template;
 
@@ -41,5 +43,9 @@ abstract class PluginStarter {
 
 	public function get_inherit_option(): string {
 		return $this->inherit_option;
+	}
+
+	public function get_option(): array {
+		return (array) get_option( self::OPTION, [] );
 	}
 }
