@@ -20,8 +20,14 @@ abstract class PluginStarter {
 	/** @var string $inherit_option */
 	protected $inherit_option;
 
+	/** @var string $activation_redirect */
+	protected $activation_redirect;
+
 	/** @var bool $enqueues_applied */
 	protected $enqueues_applied = false;
+
+	/** @var bool $create_settings_page */
+	protected $create_settings_page = false;
 
 	public function activation_hook(): void {
 		$this->activation_hook->run( $this );
