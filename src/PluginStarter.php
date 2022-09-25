@@ -20,12 +20,23 @@ abstract class PluginStarter {
 	/** @var string $inherit_option */
 	protected $inherit_option;
 
+	/** @var bool $enqueues_applied */
+	protected $enqueues_applied = false;
+
 	public function activation_hook(): void {
 		$this->activation_hook->run( $this );
 	}
 
 	public function apply_enqueues(): void {
+		if ( $this->enqueues_applied ) {
+			return;
+		}
+
+		// Apply each template enqueues.
 		$this->optin_template->enqueue();
+		// $this->uninstall_template->enqueue();
+
+		$this->enqueues_applied = true;
 	}
 
 	public function run_optin(): void {
