@@ -36,6 +36,15 @@ class DefaultPluginStarter extends PluginStarter {
 				);
 			} );
 		}
+
+		// Run activation redirect.
+		add_action( 'admin_init', function () {
+			if ( ! wp_doing_ajax() && intval( get_option( 'stellarwp_telemetry_redirection', false ) ) === wp_get_current_user()->ID ) {
+				delete_option( 'stellarwp_telemetry_redirection' );
+				wp_safe_redirect( admin_url( $this->get_activation_redirect() ) );
+				exit;
+			}
+		} );
 	}
 
 	public function render_settings_page() {
