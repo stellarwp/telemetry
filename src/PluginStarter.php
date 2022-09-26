@@ -81,4 +81,8 @@ abstract class PluginStarter {
 	function get_redirection_option_name(): string {
 		return apply_filters( 'stellarwp_telemetry_redirection_option_name', $this->get_plugin_slug() . '_redirection' );
 	}
+
+	public function is_settings_page(): bool {
+		return ( isset( $_GET['page'] ) && $_GET['page'] === $this->get_plugin_slug() );
+	}
 }
