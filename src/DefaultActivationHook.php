@@ -4,17 +4,20 @@ namespace StellarWP\Telemetry;
 
 class DefaultActivationHook implements ActivationHook {
 	public function run( PluginStarter $plugin ): void {
-		$option = $plugin->get_option();
+		$meta = $plugin->get_meta();
 
 		// Check if plugin slug exists within array
-		if ( ! array_key_exists( $plugin->get_plugin_slug(), $option ) ) {
+		if ( ! array_key_exists( $plugin->get_plugin_slug(), $meta ) ) {
 			// If plugin slug does not exist, add it.
-			$option[ $plugin->get_plugin_slug() ] = [
+			$meta[ $plugin->get_plugin_slug() ] = [
 				'optin' => false,
 			];
 
 			// Save option.
-			update_option( $plugin->get_option_name(), $option );
+			update_option( $plugin->get_option_name(), $meta );
+
+			// We should display the optin template on next load.
+			update_option( $plugin->get_show_optin_option_name(), true );
 		}
 
 		// Add redirect option for the user who activated the plugin, if redirection is enabled.

@@ -51,15 +51,15 @@ class DefaultPluginStarter extends PluginStarter {
 
 		// Only run if we are in our plugin's settings page.
 		if ( $this->is_settings_page() ) {
-			// Run optin.
-			add_action( 'admin_init', [ $this, 'run_optin' ] );
-			// Apply enqueues.
-			add_action( 'admin_init', [ $this, 'apply_enqueues' ] );
+			if ( $this->should_show_optin() ) {
+				// Run optin.
+				add_action( 'admin_init', [ $this, 'run_optin' ] );
+				// Apply enqueues.
+				add_action( 'admin_init', [ $this, 'apply_enqueues' ] );
+			}
 		}
 
-		// TODO: If user is in the plugin settings page, check optin status. Hint: use the get_current_screen() function.
-
-		// TODO: If optin status is false, run the optin template.
+		// TODO: Add radio button setting in settings page to allow user to opt-out.
 
 		// TODO: If optin status is true, add cronjob if not exists.
 

@@ -3,7 +3,7 @@
 namespace StellarWP\Telemetry;
 
 abstract class PluginStarter {
-	protected const OPTION = 'stellar_telemetry';
+	protected const OPTION = 'stellarwp_telemetry';
 	protected const REDIRECT_ON_ACTIVATION = true;
 
 	/** @var Template $optin_template */
@@ -66,7 +66,7 @@ abstract class PluginStarter {
 		return apply_filters( 'stellarwp_telemetry_option_name', self::OPTION );
 	}
 
-	public function get_option(): array {
+	public function get_meta(): array {
 		return (array) get_option( $this->get_option_name(), [] );
 	}
 
@@ -78,8 +78,33 @@ abstract class PluginStarter {
 		return (bool) apply_filters( 'stellarwp_telemetry_redirect_on_activation', self::REDIRECT_ON_ACTIVATION );
 	}
 
-	function get_redirection_option_name(): string {
-		return apply_filters( 'stellarwp_telemetry_redirection_option_name', $this->get_plugin_slug() . '_redirection' );
+	public function get_redirection_option_name(): string {
+		return apply_filters( 'stellarwp_telemetry_redirection_option_name', $this->get_option_name() . '_redirection' );
+	}
+tar
+	public function get_show_optin_option_name(): string {
+		return apply_filters( 'stellarwp_telemetry_show_optin_option_name', $this->get_option_name() . '_show_optin' );
+	}
+
+	public function should_show_optin(): bool {
+		// If the optin status is false, then we should show the optin.
+		return get_option( $this->get_show_optin_option_name(), false ) ||
+		       ! $this->get_optin_status();
+	}
+
+	public function get_optin_status(): bool {
+		$status = true;
+		$meta   = $this->get_meta();
+
+		// If any plugin's status is false, we should return false.
+		foreach ( $meta as $plugin ) {
+			if ( $plugin['optin'] === false ) {
+				$status = false;
+				break;
+			}
+		}
+
+		return $status;
 	}
 
 	public function is_settings_page(): bool {
