@@ -39,14 +39,7 @@ class DefaultPluginStarter extends PluginStarter {
 
 		// Run activation redirect.
 		add_action( 'admin_init', function () {
-			if ( $this->should_redirect_on_activation() &&
-			     ! wp_doing_ajax() &&
-			     ( intval( get_option( $this->get_redirection_option_name(), false ) ) === wp_get_current_user()->ID )
-			) {
-				delete_option( $this->get_redirection_option_name() );
-				wp_safe_redirect( admin_url( $this->get_activation_redirect() ) );
-				exit;
-			}
+			$this->perform_activation_redirect();
 		} );
 
 		// Only run if we are in our plugin's settings page.

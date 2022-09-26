@@ -81,7 +81,7 @@ abstract class PluginStarter {
 	public function get_redirection_option_name(): string {
 		return apply_filters( 'stellarwp_telemetry_redirection_option_name', $this->get_option_name() . '_redirection' );
 	}
-tar
+
 	public function get_show_optin_option_name(): string {
 		return apply_filters( 'stellarwp_telemetry_show_optin_option_name', $this->get_option_name() . '_show_optin' );
 	}
@@ -109,5 +109,16 @@ tar
 
 	public function is_settings_page(): bool {
 		return ( isset( $_GET['page'] ) && $_GET['page'] === $this->get_plugin_slug() );
+	}
+
+	protected function perform_activation_redirect(): void {
+		if ( $this->should_redirect_on_activation() &&
+		     ! wp_doing_ajax() &&
+		     ( intval( get_option( $this->get_redirection_option_name(), false ) ) === wp_get_current_user()->ID )
+		) {
+			delete_option( $this->get_redirection_option_name() );
+			wp_safe_redirect( admin_url( $this->get_activation_redirect() ) );
+			exit;
+		}
 	}
 }
