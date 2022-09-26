@@ -10,7 +10,7 @@ class DefaultPluginStarter extends PluginStarter {
 			'optin_template'       => new DefaultOptinTemplate(),
 			'plugin_slug'          => 'stellarwp-telemetry-starter',
 			'plugin_version'       => '1.0.0',
-			'inherit_option'       => 'freemius_inherit',
+			'option_to_inherit'    => 'freemius_inherit',
 			'create_settings_page' => true,
 			'activation_redirect'  => 'options-general.php?page=stellarwp-telemetry-starter',
 		] );
@@ -19,7 +19,7 @@ class DefaultPluginStarter extends PluginStarter {
 		$this->optin_template       = $args['optin_template'];
 		$this->plugin_slug          = $args['plugin_slug'];
 		$this->plugin_version       = $args['plugin_version'];
-		$this->inherit_option       = $args['inherit_option'];
+		$this->option_to_inherit    = $args['option_to_inherit'];
 		$this->create_settings_page = $args['create_settings_page'];
 		$this->activation_redirect  = $args['activation_redirect'];
 
@@ -39,12 +39,23 @@ class DefaultPluginStarter extends PluginStarter {
 
 		// Run activation redirect.
 		add_action( 'admin_init', function () {
-			if ( ! wp_doing_ajax() && intval( get_option( 'stellarwp_telemetry_redirection', false ) ) === wp_get_current_user()->ID ) {
-				delete_option( 'stellarwp_telemetry_redirection' );
+			if ( $this->should_redirect_on_activation() &&
+			     ! wp_doing_ajax() &&
+			     ( intval( get_option( $this->get_redirection_option_name(), false ) ) === wp_get_current_user()->ID )
+			) {
+				delete_option( $this->get_redirection_option_name() );
 				wp_safe_redirect( admin_url( $this->get_activation_redirect() ) );
 				exit;
 			}
 		} );
+
+		// TODO: If user is in the plugin settings page, check optin status. Hint: use the get_current_screen() function.
+
+		// TODO: If optin status is false, run the optin template.
+
+		// TODO: If optin status is true, add cronjob if not exists.
+
+		// TODO: Add uninstall hook and remove cronjob if exists and option only has current plugin slug as false, or all are false.
 	}
 
 	public function render_settings_page() {

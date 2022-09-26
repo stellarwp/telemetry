@@ -18,7 +18,7 @@ class DefaultActivationHook implements ActivationHook {
 		}
 
 		// Add redirect option for the user who activated the plugin, if redirection is enabled.
-		if ( $plugin->get_activation_redirect() ) {
+		if ( $plugin->should_redirect_on_activation() ) {
 			// Do not add redirect option if doing a bulk activation.
 			if (
 				( isset( $_REQUEST['action'] ) && 'activate-selected' === $_REQUEST['action'] ) &&
@@ -26,7 +26,7 @@ class DefaultActivationHook implements ActivationHook {
 				return;
 			}
 
-			add_option( 'stellarwp_telemetry_redirection', wp_get_current_user()->ID );
+			add_option( $plugin->get_redirection_option_name(), wp_get_current_user()->ID );
 		}
 	}
 }

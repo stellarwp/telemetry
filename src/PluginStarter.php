@@ -4,6 +4,7 @@ namespace StellarWP\Telemetry;
 
 abstract class PluginStarter {
 	protected const OPTION = 'stellar_telemetry';
+	protected const REDIRECT_ON_ACTIVATION = true;
 
 	/** @var Template $optin_template */
 	protected $optin_template;
@@ -17,8 +18,8 @@ abstract class PluginStarter {
 	/** @var string $plugin_version */
 	protected $plugin_version;
 
-	/** @var string $inherit_option */
-	protected $inherit_option;
+	/** @var string $option_to_inherit */
+	protected $option_to_inherit;
 
 	/** @var string $activation_redirect */
 	protected $activation_redirect;
@@ -50,21 +51,19 @@ abstract class PluginStarter {
 	}
 
 	public function get_plugin_slug(): string {
-		// TODO: Add apply_filters
-		return $this->plugin_slug;
+		return apply_filters( 'stellarwp_telemetry_plugin_slug', $this->plugin_slug );
 	}
 
 	public function get_plugin_version(): string {
-		return $this->plugin_version;
+		return apply_filters( 'stellarwp_telemetry_version', $this->plugin_version );
 	}
 
-	public function get_inherit_option(): string {
-		return $this->inherit_option;
+	public function get_option_to_inherit(): string {
+		return apply_filters( 'stellarwp_telemetry_option_to_inherit', $this->option_to_inherit );
 	}
 
 	public function get_option_name(): string {
-		// TODO: apply filters
-		return self::OPTION;
+		return apply_filters( 'stellarwp_telemetry_option_name', self::OPTION );
 	}
 
 	public function get_option(): array {
@@ -72,7 +71,14 @@ abstract class PluginStarter {
 	}
 
 	public function get_activation_redirect(): string {
-		// TODO: apply filters
-		return $this->activation_redirect;
+		return apply_filters( 'stellarwp_telemetry_activation_redirect', $this->activation_redirect );
+	}
+
+	public function should_redirect_on_activation(): bool {
+		return (bool) apply_filters( 'stellarwp_telemetry_redirect_on_activation', self::REDIRECT_ON_ACTIVATION );
+	}
+
+	function get_redirection_option_name(): string {
+		return apply_filters( 'stellarwp_telemetry_redirection_option_name', $this->get_plugin_slug() . '_redirection' );
 	}
 }
