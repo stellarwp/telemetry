@@ -24,6 +24,9 @@ abstract class PluginStarter {
 	/** @var string $activation_redirect */
 	protected $activation_redirect;
 
+	/** @var string $telemetry_url */
+	protected $telemetry_url;
+
 	/** @var bool $enqueues_applied */
 	protected $enqueues_applied = false;
 
@@ -120,5 +123,52 @@ abstract class PluginStarter {
 			wp_safe_redirect( admin_url( $this->get_activation_redirect() ) );
 			exit;
 		}
+	}
+
+	public function get_cron_hook_name() {
+		return apply_filters( 'stellarwp_telemetry_cron_hook_name', $this->get_option_name() . '_cron' );
+	}
+
+	public function get_cron_interval() {
+		return apply_filters( 'stellarwp_telemetry_cron_interval', DAY_IN_SECONDS );
+	}
+
+	public function get_telemetry_url() {
+		return apply_filters( 'stellarwp_telemetry_url', $this->telemetry_url );
+	}
+
+	public function get_telemetry_body() {
+		// TODO: Use DI to inject the telemetry provider.
+		$provider = new DefaultTelemetryProvider();
+
+		return apply_filters( 'stellarwp_telemetry_body', json_encode( [
+			'data' => $provider->get_data(),
+		] ) );
+	}
+
+	public function maybe_add_cronjobs() {
+		if ( $this->get_optin_status() ) {
+			add_action( 'admin_init', function () {
+				// If the cron job is not scheduled, schedule it using as_next_scheduled_action().
+				if ( ! as_next_scheduled_action( $this->get_cron_hook_name() ) ) {
+					as_schedule_recurring_action( time(), $this->get_cron_interval(), $this->get_cron_hook_name() );
+				}
+			} );
+		}
+	}
+
+	public function register_cronjob_handlers(): void {
+		add_action( $this->get_cron_hook_name(), function () {
+			if ( empty( $this->get_telemetry_url() ) ) {
+				return;
+			}
+
+			wp_remote_post( $this->get_telemetry_url(), [
+				'headers' => [
+					'Content-Type' => 'application/json',
+				],
+				'body'    => $this->get_telemetry_body(),
+			] );
+		}, 10, 0 );
 	}
 }

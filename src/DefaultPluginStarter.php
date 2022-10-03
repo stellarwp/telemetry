@@ -13,6 +13,7 @@ class DefaultPluginStarter extends PluginStarter {
 			'option_to_inherit'    => 'freemius_inherit',
 			'create_settings_page' => true,
 			'activation_redirect'  => 'options-general.php?page=stellarwp-telemetry-starter',
+			'telemetry_url'        => getenv( 'STELLARWP_TELEMETRY_URL' ) ?: '',
 		] );
 
 		$this->activation_hook      = $args['activation_hook'];
@@ -22,6 +23,7 @@ class DefaultPluginStarter extends PluginStarter {
 		$this->option_to_inherit    = $args['option_to_inherit'];
 		$this->create_settings_page = $args['create_settings_page'];
 		$this->activation_redirect  = $args['activation_redirect'];
+		$this->telemetry_url        = $args['telemetry_url'];
 
 		// Create settings page.
 		if ( $this->create_settings_page === true ) {
@@ -37,24 +39,33 @@ class DefaultPluginStarter extends PluginStarter {
 			} );
 		}
 
-		// Run activation redirect.
+		$this->register_cronjob_handlers();
+
 		add_action( 'admin_init', function () {
+			// We don't want to run this on every ajax request.
+			if ( wp_doing_ajax() ) {
+				return;
+			}
+
+			// Run activation redirect.
 			$this->perform_activation_redirect();
+
+			// Add cronjob if it doesn't exist and opted in.
+			$this->maybe_add_cronjobs();
+
+			if ( $this->is_settings_page() ) {
+				if ( $this->should_show_optin() ) {
+					// Apply enqueues.
+					$this->apply_enqueues();
+
+					// Run optin.
+					$this->run_optin();
+				}
+			}
 		} );
 
-		// Only run if we are in our plugin's settings page.
-		if ( $this->is_settings_page() ) {
-			if ( $this->should_show_optin() ) {
-				// Run optin.
-				add_action( 'admin_init', [ $this, 'run_optin' ] );
-				// Apply enqueues.
-				add_action( 'admin_init', [ $this, 'apply_enqueues' ] );
-			}
-		}
 
 		// TODO: Add radio button setting in settings page to allow user to opt-out.
-
-		// TODO: If optin status is true, add cronjob if not exists.
 
 		// TODO: Add uninstall hook and remove cronjob if exists and option only has current plugin slug as false, or all are false.
 	}
