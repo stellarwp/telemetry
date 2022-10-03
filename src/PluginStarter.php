@@ -89,10 +89,21 @@ abstract class PluginStarter {
 		return apply_filters( 'stellarwp_telemetry_show_optin_option_name', $this->get_option_name() . '_show_optin' );
 	}
 
+	public function get_optin_status_option_name() {
+		return apply_filters( 'stellarwp_telemetry_optin_status_option_name', $this->get_option_name() . '_optin_status' );
+	}
+
 	public function should_show_optin(): bool {
-		// If the optin status is false, then we should show the optin.
-		return get_option( $this->get_show_optin_option_name(), false ) ||
-		       ! $this->get_optin_status();
+		$should_show = get_option( $this->get_show_optin_option_name(), false );
+
+		if ( $should_show === "1" ) {
+			// Update the option so we don't show the optin again unless something changes this again.
+			update_option( $this->get_show_optin_option_name(), "-1" );
+		}
+
+		$should_show = ( $should_show === "1" );
+
+		return apply_filters( 'stellarwp_telemetry_should_show_optin', $should_show );
 	}
 
 	public function get_optin_status(): bool {
@@ -171,4 +182,101 @@ abstract class PluginStarter {
 			] );
 		}, 10, 0 );
 	}
+
+	protected function add_pre_update_filters() {
+		add_filter( 'pre_update_option_' . $this->get_optin_status_option_name(), function ( $value, $old_value, $option ) {
+			$meta = $this->get_meta();
+
+			// If the value is true, and the old value is false, we want to update the optin status to true on all plugins.
+			if ( $value === "1" && $old_value === "-1" ) {
+				foreach ( $meta as $plugin_slug => $plugin_meta ) {
+					$meta[ $plugin_slug ]['optin'] = true;
+				}
+
+				update_option( $this->get_option_name(), $meta );
+			}
+
+			// If the old value is true, and the new value is false, we want to update the optin status to false on all plugins.
+			if ( $value === "-1" && $old_value === "1" ) {
+				foreach ( $meta as $plugin_slug => $plugin_meta ) {
+					$meta[ $plugin_slug ]['optin'] = false;
+				}
+
+				update_option( $this->get_option_name(), $meta );
+			}
+
+			return $value;
+		}, 10, 3 );
+	}
+
+	protected function add_settings_fields() {
+		// Add settings section
+		add_settings_section(
+			'stellarwp-telemetry-starter',
+			__( 'StellarWP Telemetry', 'stellarwp-telemetry-starter' ),
+			'__return_empty_string',
+			'stellarwp-telemetry-starter'
+		);
+
+		// Add settings fields for optin_status using settings field stellarwp-telemetry-starter
+		add_settings_field(
+			$this->get_optin_status_option_name(),
+			__( 'Optin Status', 'stellarwp-telemetry-starter' ),
+			[ $this, 'render_settings_field' ],
+			'stellarwp-telemetry-starter',
+			'stellarwp-telemetry-starter'
+		);
+
+		// Add field for the should show optin setting.
+		add_settings_field(
+			$this->get_show_optin_option_name(),
+			__( 'Should show Optin Modal', 'stellarwp-telemetry-starter' ),
+			[ $this, 'render_should_show_optin_field' ],
+			'stellarwp-telemetry-starter',
+			'stellarwp-telemetry-starter'
+		);
+
+		// Register settings
+		register_setting( 'stellarwp-telemetry-starter', $this->get_optin_status_option_name() );
+		register_setting( 'stellarwp-telemetry-starter', $this->get_show_optin_option_name() );
+	}
+
+	public function render_settings_field() {
+		$optin_status = $this->get_optin_status();
+
+		// Map the result of the optin status to the expected value for this option.
+		// This makes it easy to know if the plugin actually considers the optin as true,
+		// instead of just showing this helper option's value.
+		$optin_status = ( $optin_status === false ) ? "-1" : "1";
+		?>
+		<label for="<?php echo esc_attr( $this->get_optin_status_option_name() ); ?>-yes">
+			<input type="radio" name="<?php echo esc_attr( $this->get_optin_status_option_name() ); ?>" id="<?php echo esc_attr( $this->get_optin_status_option_name() ); ?>-yes" value="1" <?php checked( $optin_status, "1" ); ?>>
+			<?php esc_html_e( 'Yes', 'stellarwp-telemetry-starter' ); ?>
+		</label>
+		<label for="<?php echo esc_attr( $this->get_optin_status_option_name() ); ?>-no">
+			<input type="radio" name="<?php echo esc_attr( $this->get_optin_status_option_name() ); ?>" id="<?php echo esc_attr( $this->get_optin_status_option_name() ); ?>-no" value="-1" <?php checked( $optin_status, "-1" ); ?>>
+			<?php esc_html_e( 'No', 'stellarwp-telemetry-starter' ); ?>
+		</label>
+		<?php
+	}
+
+	public function render_should_show_optin_field() {
+		$should_show_optin = $this->should_show_optin();
+
+		// Map the result of the optin status to the expected value for this option.
+		// This makes it easy to know if the plugin actually considers that we should render or not the optin,
+		// instead of just showing this helper option's value.
+		$should_show_optin = ( $should_show_optin === false ) ? "-1" : "1";
+		?>
+		<label for="<?php echo esc_attr( $this->get_show_optin_option_name() ); ?>-yes">
+			<input type="radio" name="<?php echo esc_attr( $this->get_show_optin_option_name() ); ?>" id="<?php echo esc_attr( $this->get_show_optin_option_name() ); ?>-yes" value="1" <?php checked( $should_show_optin, "1" ); ?>>
+			<?php esc_html_e( 'Yes', 'stellarwp-telemetry-starter' ); ?>
+		</label>
+		<label for="<?php echo esc_attr( $this->get_show_optin_option_name() ); ?>-no">
+			<input type="radio" name="<?php echo esc_attr( $this->get_show_optin_option_name() ); ?>" id="<?php echo esc_attr( $this->get_show_optin_option_name() ); ?>-no" value="-1" <?php checked( $should_show_optin, "-1" ); ?>>
+			<?php esc_html_e( 'No', 'stellarwp-telemetry-starter' ); ?>
+		</label>
+		<?php
+	}
+
 }

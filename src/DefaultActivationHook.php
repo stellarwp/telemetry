@@ -17,7 +17,7 @@ class DefaultActivationHook implements ActivationHook {
 			update_option( $plugin->get_option_name(), $meta );
 
 			// We should display the optin template on next load.
-			update_option( $plugin->get_show_optin_option_name(), true );
+			update_option( $plugin->get_show_optin_option_name(), "1" );
 		}
 
 		// Add redirect option for the user who activated the plugin, if redirection is enabled.

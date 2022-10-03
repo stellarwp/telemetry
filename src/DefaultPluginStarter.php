@@ -62,16 +62,29 @@ class DefaultPluginStarter extends PluginStarter {
 					$this->run_optin();
 				}
 			}
+
+			// Add settings fields for optin_status using settings field stellarwp-telemetry-starter
+			$this->add_settings_fields();
+
+			// Add pre update filters for the new options
+			$this->add_pre_update_filters();
 		} );
-
-
-		// TODO: Add radio button setting in settings page to allow user to opt-out.
 
 		// TODO: Add uninstall hook and remove cronjob if exists and option only has current plugin slug as false, or all are false.
 	}
 
 	public function render_settings_page() {
-		echo "Hello World";
+		?>
+		<div class="wrap">
+		<h1><?php esc_html_e( 'StellarWP Telemetry Options', 'stellarwp-telemetry-starter' ); ?></h1>
+		<form method="post" action="<?php echo admin_url( 'options.php' ); ?>">
+			<?php
+			settings_fields( 'stellarwp-telemetry-starter' );
+			do_settings_sections( 'stellarwp-telemetry-starter' );
+			submit_button();
+			?>
+		</form>
+		<?php
 	}
 
 }
