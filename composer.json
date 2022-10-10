@@ -1,0 +1,19 @@
+{
+    "name": "stellarwp/telemetry",
+    "description": "Telemetry library for StellarWP plugins.",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "Stellarwp\\Telemetry\\": "src/"
+        }
+    },
+    "minimum-stability": "stable",
+    "license": "GPL-2.0-or-later",
+    "require": {
+        "php": ">=7.2",
+        "woocommerce/action-scheduler": "^3.5"
+    },
+    "require-dev": {
+        "lucatume/wp-browser": "^3.1"
+    }
+}
