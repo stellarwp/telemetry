@@ -5,6 +5,7 @@ namespace StellarWP\Telemetry;
 abstract class PluginStarter {
 	protected const OPTION = 'stellarwp_telemetry';
 	protected const REDIRECT_ON_ACTIVATION = true;
+	protected const CRON_INTERVAL = WEEK_IN_SECONDS;
 
 	/** @var Template $optin_template */
 	protected $optin_template;
@@ -29,9 +30,6 @@ abstract class PluginStarter {
 
 	/** @var bool $enqueues_applied */
 	protected $enqueues_applied = false;
-
-	/** @var bool $create_settings_page */
-	protected $create_settings_page = false;
 
 	public function activation_hook(): void {
 		$this->activation_hook->run( $this );
@@ -141,7 +139,7 @@ abstract class PluginStarter {
 	}
 
 	public function get_cron_interval() {
-		return apply_filters( 'stellarwp_telemetry_cron_interval', DAY_IN_SECONDS );
+		return apply_filters( 'stellarwp_telemetry_cron_interval', self::CRON_INTERVAL );
 	}
 
 	public function get_telemetry_url() {
