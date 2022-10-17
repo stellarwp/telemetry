@@ -165,4 +165,14 @@ abstract class PluginStarter {
 	public function get_activation_redirect(): string {
 		return apply_filters( 'stellarwp_telemetry_activation_redirect', self::ACTIVATION_REDIRECT );
 	}
+
+	public function send_request( Request $request ) {
+		$method = $request->get_method();
+		$url = $request->get_url();
+		$args = $request->get_args();
+
+		$response = wp_remote_request( $url, $args );
+
+		return $response;
+	}
 }

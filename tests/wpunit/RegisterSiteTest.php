@@ -8,7 +8,9 @@ use StellarWP\Telemetry\DefaultOptinTemplate;
 use StellarWP\Telemetry\DefaultPluginStarter;
 use StellarWP\Telemetry\DefaultTelemetryProvider;
 use StellarWP\Telemetry\PluginStarter;
+use StellarWP\Telemetry\RegisterSiteRequest;
 use StellarWP\Telemetry\TelemetryProvider;
+use StellarWP\Telemetry\Request;
 
 class RegisterSiteTest extends WPTestCase {
 	/**
@@ -56,5 +58,7 @@ class RegisterSiteTest extends WPTestCase {
 	}
 
 	public function test_it_sends_a_request_to_the_register_site_endpoint() {
+		$request = new RegisterSiteRequest();
+		$this->assertNotNull( $request->run() );
 	}
 }
