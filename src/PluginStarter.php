@@ -166,12 +166,9 @@ abstract class PluginStarter {
 		return apply_filters( 'stellarwp_telemetry_activation_redirect', $this::ACTIVATION_REDIRECT );
 	}
 
-	public function send_request( Request $request ) {
-		$url = $request->get_url();
-		$args = $request->get_args();
+	public function get_token(): string {
+		$meta = $this->get_meta();
 
-		$response = wp_remote_request( $url, $args );
-
-		return $response;
+		return apply_filters( 'stellarwp_telemetry_token', $meta['token'] ?? '' );
 	}
 }
