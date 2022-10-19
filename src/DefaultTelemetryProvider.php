@@ -2,14 +2,28 @@
 
 namespace StellarWP\Telemetry;
 
+use WP_Debug_Data;
+
 class DefaultTelemetryProvider implements TelemetryProvider {
 	public function get_data(): array {
-		$site_health = \WP_Site_Health::get_instance();
-		$tests       = \WP_Site_Health::get_tests();
-		$data        = [];
+		if ( ! class_exists( 'WP_Debug_Data' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/class-wp-debug-data.php';
+		}
+		$info = WP_Debug_Data::debug_data();
 
-		// TODO: Copy the code from the site health class to get the localized script data.
+		$active_plugins = get_option('active_plugins');
+		$plugins        = get_plugins();
+		$active         = [];
 
-		return apply_filters( 'stellarwp_telemetry_data', $data );
+		foreach ( $active_plugins as $active_plugin ){
+			if ( isset( $plugins[ $active_plugin ] ) ) {
+				$active[ $active_plugin ] = $plugins[ $active_plugin ];
+				unset( $plugins[ $active_plugin ] );
+			}
+		}
+		$info['telemetry-active-plugins']['fields'] = $active;
+		$info['telemetry-inactive-plugins']['fields'] = $plugins;
+
+		return apply_filters( 'stellarwp_telemetry_data', $info );
 	}
 }
