@@ -29,14 +29,44 @@ class RegisterSiteRequest implements Request {
 		] );
 	}
 
-	public function run() {
+	public function run(): bool {
 		$data = $this->get_args();
 		$url = $this->get_url();
 
-		$response = wp_remote_post( $url, [
+		$response = $this->request( $url, $data );
+		$data = $this->parse_response( $response );
+
+		if ( empty( $data ) ) {
+			return false;
+		}
+
+		return $this->save_token( $data['token'] );
+	}
+
+	private function request( $url, $data ) {
+		return wp_remote_post( $url, [
 			'body' => $data,
 		] );
+	}
 
-		return $response;
+	private function parse_response( $response ): ?array {
+		$body = wp_remote_retrieve_body( $response );
+
+		$data = json_decode( $body, true );
+
+		// If status is false, return null
+		if ( ! $data['status'] ) {
+			return null;
+		}
+
+		return $data;
+	}
+
+	private function save_token( string $token ): bool {
+		$meta = array_merge( $this->starter->get_meta(), [
+			'token' => $token,
+		] );
+
+		return update_option( $this->starter->get_option_name(), $meta );
 	}
 }

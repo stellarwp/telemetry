@@ -3,5 +3,5 @@
 namespace StellarWP\Telemetry;
 
 interface ActivationHook {
-	public function run( PluginStarter $plugin ): void;
+	public function run(): void;
 }

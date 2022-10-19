@@ -26,18 +26,21 @@ class RegisterSiteTest extends WPTestCase {
 
 		// Your set up methods here.
 		$this->container = new Container();
-		$this->container->bind( ActivationHook::class, DefaultActivationHook::class );
 		$this->container->bind( TelemetryProvider::class, DefaultTelemetryProvider::class );
 		$this->container->singleton(
 			PluginStarter::class,
 			function () {
 				return new DefaultPluginStarter(
-					$this->container->get( ActivationHook::class ),
 					new DefaultOptinTemplate(),
 					$this->container->get( TelemetryProvider::class )
 				);
-			}
+			},
+			[ 'init' ]
 		);
+		$this->container->singleton( ActivationHook::class, DefaultActivationHook::class );
+
+		// Run the activation hook code to register our plugin option.
+		$this->container->get( ActivationHook::class )->run();
 	}
 
 	public function tearDown(): void {
@@ -56,8 +59,15 @@ class RegisterSiteTest extends WPTestCase {
 		$this->assertInstanceOf( DefaultPluginStarter::class, $this->container->get( PluginStarter::class ) );
 	}
 
-	public function test_it_sends_a_request_to_the_register_site_endpoint() {
-		$request = new RegisterSiteRequest( $this->container->get( PluginStarter::class ), $this->container->get( TelemetryProvider::class ) );
-		$this->assertNotNull( $request->run() );
+	public function test_it_saves_token_on_register_site_request() {
+		$starter = $this->container->get( PluginStarter::class );
+		$request = new RegisterSiteRequest( $starter, $this->container->get( TelemetryProvider::class ) );
+
+		// Test we currently have no token.
+		$this->assertArrayNotHasKey( 'token', $starter->get_meta() );
+
+		// Test we save the user token on run.
+		$this->assertTrue( $request->run() );
+		$this->assertArrayHasKey( 'token', $starter->get_meta() );
 	}
 }
