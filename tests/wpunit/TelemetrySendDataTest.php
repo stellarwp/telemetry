@@ -2,14 +2,14 @@
 
 use Codeception\TestCase\WPTestCase;
 use lucatume\DI52\Container;
+use StellarWP\Telemetry\Runnable;
 use StellarWP\Telemetry\ActivationHook;
-use StellarWP\Telemetry\DefaultActivationHook;
-use StellarWP\Telemetry\DefaultOptinTemplate;
-use StellarWP\Telemetry\DefaultPluginStarter;
-use StellarWP\Telemetry\DefaultTelemetryProvider;
-use StellarWP\Telemetry\PluginStarter;
+use StellarWP\Telemetry\OptInTemplate;
+use StellarWP\Telemetry\ExampleStarter;
+use StellarWP\Telemetry\DebugDataProvider;
+use StellarWP\Telemetry\Starter;
 use StellarWP\Telemetry\RegisterSiteRequest;
-use StellarWP\Telemetry\TelemetryProvider;
+use StellarWP\Telemetry\DataProvider;
 use StellarWP\Telemetry\TelemetrySendDataRequest;
 
 class TelemetrySendDataTest extends WPTestCase {
@@ -27,27 +27,27 @@ class TelemetrySendDataTest extends WPTestCase {
 
 		// Your set up methods here.
 		$this->container = new Container();
-		$this->container->bind( TelemetryProvider::class, DefaultTelemetryProvider::class );
+		$this->container->bind( DataProvider::class, DebugDataProvider::class );
 		$this->container->singleton(
-			PluginStarter::class,
+			Starter::class,
 			function () {
-				return new DefaultPluginStarter(
-					new DefaultOptinTemplate(),
-					$this->container->get( TelemetryProvider::class )
+				return new ExampleStarter(
+					new OptInTemplate(),
+					$this->container->get( DataProvider::class )
 				);
 			},
 			[ 'init' ]
 		);
-		$this->container->singleton( ActivationHook::class, DefaultActivationHook::class );
+		$this->container->singleton( Runnable::class, ActivationHook::class );
 		$this->container->bind( RegisterSiteRequest::class, function () {
 			return new RegisterSiteRequest(
-				$this->container->get( PluginStarter::class ),
-				$this->container->get( TelemetryProvider::class )
+				$this->container->get( Starter::class ),
+				$this->container->get( DataProvider::class )
 			);
 		} );
 
 		// Run the activation hook code to register our plugin option.
-		$this->container->get( ActivationHook::class )->run();
+		$this->container->get( Runnable::class )->run();
 
 		// Run the register site request to get a Token.
 		$this->container->get( RegisterSiteRequest::class )->run();
@@ -62,20 +62,27 @@ class TelemetrySendDataTest extends WPTestCase {
 
 	// Tests
 	public function test_it_sends_telemetry_send_data_request() {
-		$starter = $this->container->get( PluginStarter::class );
-		$request = new TelemetrySendDataRequest( $starter, $this->container->get( TelemetryProvider::class ) );
+		$starter = $this->container->get( Starter::class );
+		$request = new TelemetrySendDataRequest( $starter, $this->container->get( DataProvider::class ) );
 
 		// Test we currently have a token
 		$this->assertArrayHasKey( 'token', $starter->get_meta() );
 
-		// Test we can send the data
-		$this->assertTrue( $request->run() );
+		// Run the request
+		$request->run();
 
-		// Test we can send modified data to same site using the same token
+		// Test the request was successful.
+		$this->assertArrayHasKey( 'status', $request->response );
+
+		// Modify the WP_Version value for our next test.
 		global $wp_version;
 		$wp_version = '1.3.3.7';
 
-		$this->assertTrue( $request->run() );
+		// Run the request
+		$request->run();
+
+		// Test the request was successful.
+		$this->assertArrayHasKey( 'status', $request->response );
 
 		// TODO: Ideally at this point I would do an assertSee with the 1.3.3.7 text.
 	}

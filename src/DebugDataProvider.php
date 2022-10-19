@@ -4,7 +4,7 @@ namespace StellarWP\Telemetry;
 
 use WP_Debug_Data;
 
-class DefaultTelemetryProvider implements TelemetryProvider {
+class DebugDataProvider implements DataProvider {
 	public function get_data(): array {
 		if ( ! class_exists( 'WP_Debug_Data' ) ) {
 			require_once ABSPATH . 'wp-admin/includes/class-wp-debug-data.php';

@@ -2,18 +2,22 @@
 
 namespace StellarWP\Telemetry;
 
-class TelemetrySendDataRequest implements Request {
+class TelemetrySendDataRequest implements Request, Runnable {
 
 	/**
-	 * @var TelemetryProvider
+	 * @var DataProvider
 	 */
 	private $provider;
 	/**
-	 * @var PluginStarter
+	 * @var Starter
 	 */
 	private $starter;
+	/**
+	 * @var array
+	 */
+	public $response;
 
-	public function __construct( PluginStarter $starter, TelemetryProvider $provider ) {
+	public function __construct( Starter $starter, DataProvider $provider ) {
 		$this->provider = $provider;
 		$this->starter  = $starter;
 	}
@@ -29,14 +33,11 @@ class TelemetrySendDataRequest implements Request {
 		] );
 	}
 
-	public function run(): bool {
+	public function run(): void {
 		$data = $this->get_args();
 		$url  = $this->get_url();
 
-		$response = $this->request( $url, $data );
-		$data     = $this->parse_response( $response );
-
-		return $data['status'] ?? false;
+		$this->response = $this->parse_response( $this->request( $url, $data ) );
 	}
 
 	private function request( $url, $data ) {

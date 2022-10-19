@@ -2,45 +2,50 @@
 
 namespace StellarWP\Telemetry;
 
-class RegisterSiteRequest implements Request {
+class RegisterSiteRequest implements Request, Runnable {
 
 	/**
-	 * @var TelemetryProvider
+	 * @var DataProvider
 	 */
 	private $provider;
 	/**
-	 * @var PluginStarter
+	 * @var Starter
 	 */
 	private $starter;
 
-	public function __construct( PluginStarter $starter, TelemetryProvider $provider ) {
+	/**
+	 * @var array
+	 */
+	public $response;
+
+	public function __construct( Starter $starter, DataProvider $provider ) {
 		$this->provider = $provider;
-		$this->starter = $starter;
+		$this->starter  = $starter;
 	}
 
 	public function get_url(): string {
-		return apply_filters( 'stellarwp_telemetry_register_site_url' , $this->starter->get_telemetry_url() . '/register-site' );
+		return apply_filters( 'stellarwp_telemetry_register_site_url', $this->starter->get_telemetry_url() . '/register-site' );
 	}
 
 	public function get_args(): array {
-		return apply_filters( 'stellarwp_telemetry_register_site_data' , [
+		return apply_filters( 'stellarwp_telemetry_register_site_data', [
 			'email'     => 'dummy@email.com',
 			'telemetry' => json_encode( $this->provider->get_data() ),
 		] );
 	}
 
-	public function run(): bool {
+	public function run(): void {
 		$data = $this->get_args();
-		$url = $this->get_url();
+		$url  = $this->get_url();
 
-		$response = $this->request( $url, $data );
-		$data = $this->parse_response( $response );
+		$response       = $this->request( $url, $data );
+		$this->response = $this->parse_response( $response );
 
-		if ( empty( $data ) ) {
-			return false;
+		if ( empty( $this->response['token'] ) ) {
+			return;
 		}
 
-		return $this->save_token( $data['token'] );
+		$this->save_token( $this->response['token'] );
 	}
 
 	private function request( $url, $data ) {

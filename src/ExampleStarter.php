@@ -2,10 +2,10 @@
 
 namespace StellarWP\Telemetry;
 
-class DefaultPluginStarter extends PluginStarter {
-	public const TELEMETRY_URL = 'https://telemetry-api.moderntribe.qa/api/v1';
-
-	public function __construct( Template $optin_template, TelemetryProvider $provider ) {
+class ExampleStarter extends Starter {
+	public function __construct( Template $optin_template, DataProvider $provider ) {
+		// TODO: Remove this class, make this all in the Starter class, and create
+		//       new abstract methods for before_init(); and after_init();
 		$this->optin_template  = $optin_template;
 		$this->provider        = $provider;
 	}
