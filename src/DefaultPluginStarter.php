@@ -3,6 +3,7 @@
 namespace StellarWP\Telemetry;
 
 class DefaultPluginStarter extends PluginStarter {
+	public const TELEMETRY_URL = 'https://telemetry-api.moderntribe.qa/api/v1';
 
 	public function __construct( ActivationHook $activation_hook, Template $optin_template, TelemetryProvider $provider ) {
 		$this->activation_hook = $activation_hook;

@@ -16,7 +16,8 @@
     "license": "GPL-2.0-or-later",
     "require": {
         "php": ">=7.2",
-        "woocommerce/action-scheduler": "^3.5"
+        "woocommerce/action-scheduler": "^3.5",
+        "ext-json": "*"
     },
     "require-dev": {
         "lucatume/wp-browser": "^3.1",

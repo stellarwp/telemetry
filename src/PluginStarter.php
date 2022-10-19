@@ -49,11 +49,11 @@ abstract class PluginStarter {
 	}
 
 	public function get_option_name(): string {
-		return apply_filters( 'stellarwp_telemetry_option_name', self::OPTION );
+		return apply_filters( 'stellarwp_telemetry_option_name', $this::OPTION );
 	}
 
 	public function get_telemetry_url() {
-		return apply_filters( 'stellarwp_telemetry_url', self::TELEMETRY_URL );
+		return apply_filters( 'stellarwp_telemetry_url', $this::TELEMETRY_URL );
 	}
 
 	public function get_telemetry_body() {
@@ -63,7 +63,7 @@ abstract class PluginStarter {
 	}
 
 	public function get_plugin_version(): string {
-		return apply_filters( 'stellarwp_telemetry_version', self::PLUGIN_VERSION );
+		return apply_filters( 'stellarwp_telemetry_version', $this::PLUGIN_VERSION );
 	}
 
 	public abstract function init(): void;
@@ -99,7 +99,7 @@ abstract class PluginStarter {
 	}
 
 	public function get_cron_interval() {
-		return apply_filters( 'stellarwp_telemetry_cron_interval', self::CRON_INTERVAL );
+		return apply_filters( 'stellarwp_telemetry_cron_interval', $this::CRON_INTERVAL );
 	}
 
 	public function is_settings_page(): bool {
@@ -107,18 +107,18 @@ abstract class PluginStarter {
 	}
 
 	public function get_plugin_slug(): string {
-		return apply_filters( 'stellarwp_telemetry_plugin_slug', self::PLUGIN_SLUG );
+		return apply_filters( 'stellarwp_telemetry_plugin_slug', $this::PLUGIN_SLUG );
 	}
 
 	public function should_show_optin(): bool {
 		$should_show = get_option( $this->get_show_optin_option_name(), false );
 
-		if ( $should_show === self::YES ) {
+		if ( $should_show === $this::YES ) {
 			// Update the option so we don't show the optin again unless something changes this again.
-			update_option( $this->get_show_optin_option_name(), self::NO );
+			update_option( $this->get_show_optin_option_name(), $this::NO );
 		}
 
-		$should_show = ( $should_show === self::YES );
+		$should_show = ( $should_show === $this::YES );
 
 		return apply_filters( 'stellarwp_telemetry_should_show_optin', $should_show );
 	}
@@ -155,7 +155,7 @@ abstract class PluginStarter {
 	}
 
 	public function should_redirect_on_activation(): bool {
-		return (bool) apply_filters( 'stellarwp_telemetry_redirect_on_activation', self::REDIRECT_ON_ACTIVATION );
+		return (bool) apply_filters( 'stellarwp_telemetry_redirect_on_activation', $this::REDIRECT_ON_ACTIVATION );
 	}
 
 	public function get_redirection_option_name(): string {
@@ -163,11 +163,10 @@ abstract class PluginStarter {
 	}
 
 	public function get_activation_redirect(): string {
-		return apply_filters( 'stellarwp_telemetry_activation_redirect', self::ACTIVATION_REDIRECT );
+		return apply_filters( 'stellarwp_telemetry_activation_redirect', $this::ACTIVATION_REDIRECT );
 	}
 
 	public function send_request( Request $request ) {
-		$method = $request->get_method();
 		$url = $request->get_url();
 		$args = $request->get_args();
 
