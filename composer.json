@@ -4,16 +4,30 @@
     "type": "library",
     "autoload": {
         "psr-4": {
-            "Stellarwp\\Telemetry\\": "src/"
+            "StellarWP\\Telemetry\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "StellarWP\\Telemetry\\Tests\\": "tests/"
         }
     },
     "minimum-stability": "stable",
     "license": "GPL-2.0-or-later",
     "require": {
         "php": ">=7.2",
-        "woocommerce/action-scheduler": "^3.5"
+        "woocommerce/action-scheduler": "^3.5",
+        "ext-json": "*"
     },
     "require-dev": {
-        "lucatume/wp-browser": "^3.1"
+        "lucatume/wp-browser": "^3.1",
+        "codeception/module-asserts": "^1.0",
+        "codeception/module-phpbrowser": "^1.0",
+        "codeception/module-webdriver": "^1.0",
+        "codeception/module-db": "^1.0",
+        "codeception/module-filesystem": "^1.0",
+        "codeception/module-cli": "^1.0",
+        "codeception/util-universalframework": "^1.0",
+        "lucatume/di52": "3.0.0"
     }
 }

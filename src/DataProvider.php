@@ -2,6 +2,6 @@
 
 namespace StellarWP\Telemetry;
 
-interface TelemetryProvider {
+interface DataProvider {
 	public function get_data(): array;
 }

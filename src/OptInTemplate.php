@@ -2,7 +2,7 @@
 
 namespace StellarWP\Telemetry;
 
-class DefaultOptinTemplate implements Template {
+class OptInTemplate implements Template {
 
 	public function enqueue() {
 		add_action( 'admin_head', [ $this, 'render_styles' ] );
