@@ -2,6 +2,7 @@
 
 namespace StellarWP\Telemetry;
 
+use StellarWP\Telemetry\Contracts\DataProvider;
 use WP_Debug_Data;
 
 class DebugDataProvider implements DataProvider {

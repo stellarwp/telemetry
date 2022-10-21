@@ -1,6 +1,6 @@
 <?php
 
-namespace StellarWP\Telemetry;
+namespace StellarWP\Telemetry\Contracts;
 
 interface Request {
 	public function get_url(): string;
