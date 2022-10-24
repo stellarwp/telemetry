@@ -2,13 +2,14 @@
 
 namespace StellarWP\Telemetry;
 
+use StellarWP\Telemetry\Contracts\DataProvider;
+use StellarWP\Telemetry\Contracts\Template;
+
 abstract class Starter {
 	public const OPTION                 = 'stellarwp_telemetry';
-	public const REDIRECT_ON_ACTIVATION = true;
 	public const CRON_INTERVAL          = WEEK_IN_SECONDS;
 	public const PLUGIN_SLUG            = 'stellarwp-telemetry-starter';
 	public const PLUGIN_VERSION         = '1.0.0';
-	public const ACTIVATION_REDIRECT    = 'options-general.php?page=stellarwp-telemetry-starter';
 	public const TELEMETRY_URL          = 'https://telemetry-api.moderntribe.qa/api/v1';
 	public const YES                    = "1";
 	public const NO                     = "-1";
@@ -16,18 +17,11 @@ abstract class Starter {
 	/** @var Template $optin_template */
 	protected $optin_template;
 
-	/** @var Runnable $activation_hook */
-	protected $activation_hook;
-
 	/** @var DataProvider $provider */
 	protected $provider;
 
 	/** @var bool $enqueues_applied */
 	protected $enqueues_applied = false;
-
-	public function activation_hook(): void {
-		$this->activation_hook->run( $this );
-	}
 
 	public function register_cronjob_handlers(): void {
 		add_action( $this->get_cron_hook_name(), function () {
@@ -141,29 +135,6 @@ abstract class Starter {
 
 	public function run_optin(): void {
 		$this->optin_template->render();
-	}
-
-	protected function perform_activation_redirect(): void {
-		if ( $this->should_redirect_on_activation() &&
-		     ! wp_doing_ajax() &&
-		     ( intval( get_option( $this->get_redirection_option_name(), false ) ) === wp_get_current_user()->ID )
-		) {
-			delete_option( $this->get_redirection_option_name() );
-			wp_safe_redirect( admin_url( $this->get_activation_redirect() ) );
-			exit;
-		}
-	}
-
-	public function should_redirect_on_activation(): bool {
-		return (bool) apply_filters( 'stellarwp_telemetry_redirect_on_activation', $this::REDIRECT_ON_ACTIVATION );
-	}
-
-	public function get_redirection_option_name(): string {
-		return apply_filters( 'stellarwp_telemetry_redirection_option_name', $this->get_option_name() . '_redirection' );
-	}
-
-	public function get_activation_redirect(): string {
-		return apply_filters( 'stellarwp_telemetry_activation_redirect', $this::ACTIVATION_REDIRECT );
 	}
 
 	public function get_token(): string {

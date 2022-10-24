@@ -2,6 +2,8 @@
 
 namespace StellarWP\Telemetry;
 
+use StellarWP\Telemetry\Contracts\Template;
+
 class OptInTemplate implements Template {
 
 	public function enqueue() {

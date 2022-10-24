@@ -1,6 +1,6 @@
 <?php
 
-namespace StellarWP\Telemetry;
+namespace StellarWP\Telemetry\Contracts;
 
 interface Runnable {
 	public function run(): void;

@@ -2,6 +2,10 @@
 
 namespace StellarWP\Telemetry;
 
+use StellarWP\Telemetry\Contracts\DataProvider;
+use StellarWP\Telemetry\Contracts\Request;
+use StellarWP\Telemetry\Contracts\Runnable;
+
 class RegisterSiteRequest implements Request, Runnable {
 
 	/**

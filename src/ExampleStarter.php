@@ -2,6 +2,9 @@
 
 namespace StellarWP\Telemetry;
 
+use StellarWP\Telemetry\Contracts\DataProvider;
+use StellarWP\Telemetry\Contracts\Template;
+
 class ExampleStarter extends Starter {
 	public function __construct( Template $optin_template, DataProvider $provider ) {
 		// TODO: Remove this class, make this all in the Starter class, and create

@@ -2,14 +2,14 @@
 
 use Codeception\TestCase\WPTestCase;
 use lucatume\DI52\Container;
-use StellarWP\Telemetry\Runnable;
 use StellarWP\Telemetry\ActivationHook;
-use StellarWP\Telemetry\OptInTemplate;
-use StellarWP\Telemetry\ExampleStarter;
+use StellarWP\Telemetry\Contracts\DataProvider;
+use StellarWP\Telemetry\Contracts\Runnable;
 use StellarWP\Telemetry\DebugDataProvider;
-use StellarWP\Telemetry\Starter;
+use StellarWP\Telemetry\ExampleStarter;
+use StellarWP\Telemetry\OptInTemplate;
 use StellarWP\Telemetry\RegisterSiteRequest;
-use StellarWP\Telemetry\DataProvider;
+use StellarWP\Telemetry\Starter;
 
 class RegisterSiteTest extends WPTestCase {
 	/**
