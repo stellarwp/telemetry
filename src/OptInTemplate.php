@@ -5,13 +5,17 @@ namespace StellarWP\Telemetry;
 use StellarWP\Telemetry\Contracts\Template;
 
 class OptInTemplate implements Template {
+	protected const YES = "1";
+	protected const NO = "-1";
 
-	public function enqueue() {
-		add_action( 'admin_head', [ $this, 'render_styles' ] );
-		add_action( 'admin_head', [ $this, 'render_scripts' ] );
+	public function enqueue(): void {
+		// TODO: Once FE template is done, enqueue it here.
 	}
 
-	public function render() {
+	public function render(): void {
+		$this->render_styles();
+		$this->render_scripts();
+
 		echo <<<HTML
 <div class="stellarwp-telemetry-starter modal">
 <h1>Hello, World</h1>
@@ -19,7 +23,25 @@ class OptInTemplate implements Template {
 HTML;
 	}
 
-	public function render_styles() {
+	protected function get_option_name(): string {
+		return apply_filters( 'stellarwp_telemetry_show_optin_option_name', 'stellarwp_telemetry_show_optin' );
+	}
+
+	public function should_render(): bool {
+		if ( get_option( $this->get_option_name(), false ) === self::YES ) {
+			return true;
+		}
+
+		return false;
+	}
+
+	public function maybe_render(): void {
+		if ( $this->should_render() ) {
+			$this->render();
+		}
+	}
+
+	public function render_styles(): void {
 		echo <<<HTML
 <style>
 .stellarwp-telemetry-starter {
@@ -39,7 +61,7 @@ HTML;
 HTML;
 	}
 
-	public function render_scripts() {
+	public function render_scripts(): void {
 		echo <<<HTML
 <script>
 console.log('Hello World');
