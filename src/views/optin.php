@@ -54,6 +54,7 @@
 		background: #0047FF;
 		border-radius: 4px;
 		color: #fff;
+		text-decoration: none;
 	}
 
 	.stellarwp-telemetry-starter .btn-text {
@@ -61,6 +62,10 @@
 		color: #000;
 	}
 
+	.stellarwp-telemetry-starter .links a:hover,
+	.stellarwp-telemetry-starter .btn-text:hover {
+		text-decoration: underline;
+	}
 	.stellarwp-telemetry-starter .links {
 		display: flex;
 		gap: 16px;
@@ -82,20 +87,24 @@
 <div class="stellarwp-telemetry-starter wrapper">
 	<section class="stellarwp-telemetry-starter modal">
 		<header>
-			<img src="<?php echo $args['url']; ?>" width="151" height="32" alt="Plugin Logo" />
-			<h1 class="stellarwp-telemetry-starter-header">We hope you love [The Events Calendar].</h1>
+			<img src="<?php echo $args['plugin_logo']; ?>" width="<?php echo $args['plugin_logo_width']; ?>" height="<?php echo $args['plugin_logo_height']; ?>" alt="<?php echo $args['plugin_logo_alt']; ?>" />
+			<h1 class="stellarwp-telemetry-starter-header">We hope you love <?php echo $args['plugin_name'] ; ?>.</h1>
 		</header>
 		<main>
-			<p>Hi, [username]! This is an invitation to help our StellarWP community. If you opt-in, some data about your usage of [The Events Calendar] and Future StellarWP Products will be shared with our teams (so they can work their butts off to improve). We will also share some helpful info on WordPress, and our products from time to time. And if you skip this, that’s okay! Our Products still works just fine.</p>
+			<p>Hi, <?php echo $args['user_name']; ?>! This is an invitation to help our StellarWP community.
+				If you opt-in, some data about your usage of <?php echo $args['plugin_name']; ?> and future
+				StellarWP Products will be shared with our teams (so they can work their butts off to improve).
+				We will also share some helpful info on WordPress, and our products from time to time.
+				And if you skip this, that’s okay! Our products still work just fine.</p>
 			<ul class="links">
-				<li><a href="#">What permissions are being granted?</a></li>
-				<li><a href="#">Terms of Service</a></li>
-				<li><a href="#">Privacy Policy</a></li>
+				<li><a href="<?php echo $args['permissions_url'] ;?>" target="_blank">What permissions are being granted?</a></li>
+				<li><a href="<?php echo $args['tos_url'] ;?>" target="_blank">Terms of Service</a></li>
+				<li><a href="<?php echo $args['privacy_url'] ;?>" target="_blank">Privacy Policy</a></li>
 			</ul>
 		</main>
 		<footer>
-			<button class="btn-primary">Allow &amp; Continue</button>
-			<button class="btn-text">Skip</button>
+			<a class="btn-primary" href="#">Allow &amp; Continue</a>
+			<a class="btn-text" href="#">Skip</a>
 		</footer>
 	</section>
 </div>

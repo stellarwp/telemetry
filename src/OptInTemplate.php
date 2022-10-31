@@ -14,7 +14,15 @@ class OptInTemplate implements Template {
 
 	public function render(): void {
 		load_template( __DIR__ . '/views/optin.php', true, [
-			'url' => plugin_dir_url( __DIR__ ) . 'public/logo.png',
+			'plugin_logo'        => plugin_dir_url( __DIR__ ) . 'public/logo.png',
+			'plugin_logo_width'  => 151,
+			'plugin_logo_height' => 32,
+			'plugin_logo_alt'    => 'StellarWP Logo',
+			'plugin_name'        => 'The Events Calendar',
+			'user_name'          => wp_get_current_user()->display_name,
+			'permissions_url'    => '#',
+			'tos_url'            => '#',
+			'privacy_url'        => '#',
 		] );
 	}
 
