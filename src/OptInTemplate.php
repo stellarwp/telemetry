@@ -12,8 +12,8 @@ class OptInTemplate implements Template {
 		// TODO: Once FE template is done, enqueue it here.
 	}
 
-	public function render(): void {
-		load_template( __DIR__ . '/views/optin.php', true, [
+	protected function get_args(): array {
+		return apply_filters( 'stellarwp_telemetry_optin_args', [
 			'plugin_logo'        => plugin_dir_url( __DIR__ ) . 'public/logo.png',
 			'plugin_logo_width'  => 151,
 			'plugin_logo_height' => 32,
@@ -24,6 +24,10 @@ class OptInTemplate implements Template {
 			'tos_url'            => '#',
 			'privacy_url'        => '#',
 		] );
+	}
+
+	public function render(): void {
+		load_template( __DIR__ . '/views/optin.php', true, $this->get_args() );
 	}
 
 	protected function get_option_name(): string {
