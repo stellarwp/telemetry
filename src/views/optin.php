@@ -14,7 +14,7 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		transition: all -1.3s ease-in-out;
+		transition: all 0.3s ease-in-out;
 	}
 
 	.stellarwp-telemetry-starter.modal {
@@ -55,6 +55,14 @@
 		border-radius: 4px;
 		color: #fff;
 		text-decoration: none;
+		border: 0;
+		outline: none;
+		transition: all 0.1s ease-in-out;
+		cursor: pointer;
+	}
+
+	.stellarwp-telemetry-starter .btn-primary:hover {
+		background: #0032b7;
 	}
 
 	.stellarwp-telemetry-starter .btn-text {
@@ -66,6 +74,7 @@
 	.stellarwp-telemetry-starter .btn-text:hover {
 		text-decoration: underline;
 	}
+
 	.stellarwp-telemetry-starter .links {
 		display: flex;
 		gap: 16px;
@@ -81,14 +90,27 @@
 
 
 <script>
-	console.log('Hello World');
+	// JS document on ready event
+	document.addEventListener("DOMContentLoaded", function () {
+		let wrapper = document.getElementById("modal-wrapper");
+
+		document.getElementById("close-modal").addEventListener("click", function (event) {
+			event.preventDefault();
+			close_modal(wrapper);
+		});
+	});
+
+	function close_modal(wrapper) {
+		wrapper.parentNode.removeChild(wrapper);
+	}
 </script>
 
-<div class="stellarwp-telemetry-starter wrapper">
+<div id="modal-wrapper" class="stellarwp-telemetry-starter wrapper">
 	<section class="stellarwp-telemetry-starter modal">
 		<header>
-			<img src="<?php echo $args['plugin_logo']; ?>" width="<?php echo $args['plugin_logo_width']; ?>" height="<?php echo $args['plugin_logo_height']; ?>" alt="<?php echo $args['plugin_logo_alt']; ?>" />
-			<h1 class="stellarwp-telemetry-starter-header">We hope you love <?php echo $args['plugin_name'] ; ?>.</h1>
+			<img src="<?php echo $args['plugin_logo']; ?>" width="<?php echo $args['plugin_logo_width']; ?>"
+			     height="<?php echo $args['plugin_logo_height']; ?>" alt="<?php echo $args['plugin_logo_alt']; ?>"/>
+			<h1 class="stellarwp-telemetry-starter-header">We hope you love <?php echo $args['plugin_name']; ?>.</h1>
 		</header>
 		<main>
 			<p>Hi, <?php echo $args['user_name']; ?>! This is an invitation to help our StellarWP community.
@@ -97,14 +119,19 @@
 				We will also share some helpful info on WordPress, and our products from time to time.
 				And if you skip this, that’s okay! Our products still work just fine.</p>
 			<ul class="links">
-				<li><a href="<?php echo $args['permissions_url'] ;?>" target="_blank">What permissions are being granted?</a></li>
-				<li><a href="<?php echo $args['tos_url'] ;?>" target="_blank">Terms of Service</a></li>
-				<li><a href="<?php echo $args['privacy_url'] ;?>" target="_blank">Privacy Policy</a></li>
+				<li><a href="<?php echo $args['permissions_url']; ?>" target="_blank">What permissions are being
+						granted?</a></li>
+				<li><a href="<?php echo $args['tos_url']; ?>" target="_blank">Terms of Service</a></li>
+				<li><a href="<?php echo $args['privacy_url']; ?>" target="_blank">Privacy Policy</a></li>
 			</ul>
 		</main>
 		<footer>
-			<a class="btn-primary" href="#">Allow &amp; Continue</a>
-			<a class="btn-text" href="#">Skip</a>
+			<form method="get">
+				<?php wp_nonce_field( 'optin-modal' ); ?>
+				<input type="hidden" name="page" value="<?php echo esc_attr( $_GET['page'] ); ?>">
+				<button id="agree-modal" class="btn-primary" type="submit" name="optin-agreed" value="1">Allow &amp; Continue</button>
+				<button id="close-modal" class="btn-text" type="button">Skip</button>
+			</form>
 		</footer>
 	</section>
 </div>
