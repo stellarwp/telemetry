@@ -58,4 +58,18 @@ class OptInStatus {
 
 		return update_option( $this->get_option_name(), $option );
 	}
+
+	public function set_status( bool $status ): bool {
+		$option = $this->get_option();
+
+		foreach ( $option as $plugin_slug => $plugin ) {
+			if ( 'token' === $plugin_slug ) {
+				continue;
+			}
+
+			$option[ $plugin_slug ]['optin'] = $status;
+		}
+
+		return update_option( $this->get_option_name(), $option );
+	}
 }
