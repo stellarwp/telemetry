@@ -7,38 +7,27 @@ use StellarWP\Telemetry\Contracts\Request;
 use StellarWP\Telemetry\Contracts\Runnable;
 
 class RegisterSiteRequest implements Request, Runnable {
-
-	/**
-	 * @var DataProvider
-	 */
+	/** @var DataProvider */
 	private $provider;
-	/**
-	 * @var Starter
-	 */
-	private $starter;
-	/**
-	 * @var OptInStatus
-	 */
+
+	/** @var OptInStatus */
 	private $optin_status;
 
-	/**
-	 * @var array
-	 */
+	/** @var array */
 	public $response;
 
-	public function __construct( Starter $starter, DataProvider $provider, OptInStatus $optin_status ) {
-		$this->provider = $provider;
-		$this->starter  = $starter;
+	public function __construct( DataProvider $provider, OptInStatus $optin_status ) {
+		$this->provider     = $provider;
 		$this->optin_status = $optin_status;
 	}
 
 	public function get_url(): string {
-		return apply_filters( 'stellarwp_telemetry_register_site_url', $this->starter->get_telemetry_url() . '/register-site' );
+		return apply_filters( 'stellarwp_telemetry_register_site_url', self::TELEMETRY_URL . '/register-site' );
 	}
 
 	public function get_args(): array {
 		return apply_filters( 'stellarwp_telemetry_register_site_data', [
-			'email'     => 'dummy@email.com',
+			'user'      => json_encode( $this->get_user_details() ),
 			'telemetry' => json_encode( $this->provider->get_data() ),
 		] );
 	}
@@ -82,5 +71,14 @@ class RegisterSiteRequest implements Request, Runnable {
 		] );
 
 		return update_option( $this->optin_status->get_option_name(), $option );
+	}
+
+	protected function get_user_details(): array {
+		$user = wp_get_current_user();
+
+		return apply_filters( 'stellarwp_telemetry_register_site_user_details', [
+			'name'  => $user->display_name,
+			'email' => $user->user_email,
+		] );
 	}
 }

@@ -8,31 +8,20 @@ use StellarWP\Telemetry\Contracts\Runnable;
 
 class TelemetrySendDataRequest implements Request, Runnable {
 
-	/**
-	 * @var DataProvider
-	 */
+	/** @var DataProvider */
 	protected $provider;
-	/**
-	 * @var Starter
-	 */
-	protected $starter;
-	/**
-	 * @var array
-	 */
+	/** @var array */
 	public $response;
-	/**
-	 * @var OptInStatus
-	 */
+	/** @var OptInStatus */
 	protected $optin_status;
 
-	public function __construct( Starter $starter, DataProvider $provider, OptInStatus $optin_status ) {
+	public function __construct( DataProvider $provider, OptInStatus $optin_status ) {
 		$this->provider = $provider;
-		$this->starter  = $starter;
 		$this->optin_status = $optin_status;
 	}
 
 	public function get_url(): string {
-		return apply_filters( 'stellarwp_telemetry_send_data_url', $this->starter->get_telemetry_url() . '/telemetry' );
+		return apply_filters( 'stellarwp_telemetry_send_data_url', self::TELEMETRY_URL . '/telemetry' );
 	}
 
 	public function get_args(): array {

@@ -20,7 +20,11 @@ class OptInStatus {
 		$status = self::STATUS_ACTIVE;
 		$option = $this->get_option();
 
-		foreach ( $option as $plugin ) {
+		foreach ( $option as $plugin_slug => $plugin ) {
+			if ( 'token' === $plugin_slug ) {
+				continue;
+			}
+
 			// If a plugin's status is false, we set the status as inactive.
 			if ( $plugin['optin'] === false ) {
 				$status = self::STATUS_INACTIVE;
@@ -62,14 +66,30 @@ class OptInStatus {
 	public function set_status( bool $status ): bool {
 		$option = $this->get_option();
 
-		foreach ( $option as $plugin_slug => $plugin ) {
+		foreach ( $option as $plugin_slug => &$plugin ) {
 			if ( 'token' === $plugin_slug ) {
 				continue;
 			}
 
-			$option[ $plugin_slug ]['optin'] = $status;
+			$plugin['optin'] = $status;
 		}
 
 		return update_option( $this->get_option_name(), $option );
+	}
+
+	public function get_status(): string {
+		switch ( $this->get() ) {
+			case self::STATUS_ACTIVE:
+				$optin_label = __( 'Active', 'stellarwp-telemetry-starter' );
+				break;
+			case self::STATUS_INACTIVE:
+				$optin_label = __( 'Inactive', 'stellarwp-telemetry-starter' );
+				break;
+			case self::STATUS_MIXED:
+				$optin_label = __( 'Mixed', 'stellarwp-telemetry-starter' );
+				break;
+		}
+
+		return apply_filters( 'stellarwp_telemetry_optin_status_label', $optin_label );
 	}
 }

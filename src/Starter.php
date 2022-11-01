@@ -9,7 +9,6 @@ class Starter {
 	public const CRON_INTERVAL = WEEK_IN_SECONDS;
 	public const PLUGIN_SLUG = 'stellarwp-telemetry-starter';
 	public const PLUGIN_VERSION = '1.0.0';
-	public const TELEMETRY_URL = 'https://telemetry-api.moderntribe.qa/api/v1';
 	public const YES = "1";
 	public const NO = "-1";
 
@@ -62,10 +61,6 @@ class Starter {
 
 	public function get_cron_hook_name() {
 		return apply_filters( 'stellarwp_telemetry_cron_hook_name', $this->optin_status->get_option_name() . '_cron' );
-	}
-
-	public function get_telemetry_url() {
-		return apply_filters( 'stellarwp_telemetry_url', self::TELEMETRY_URL );
 	}
 
 	public function get_telemetry_body() {

@@ -127,9 +127,9 @@
 		</main>
 		<footer>
 			<form method="get">
-				<?php wp_nonce_field( 'optin-modal' ); ?>
 				<input type="hidden" name="page" value="<?php echo esc_attr( $_GET['page'] ); ?>">
-				<button id="agree-modal" class="btn-primary" type="submit" name="optin-agreed" value="1">Allow &amp; Continue</button>
+				<input type="hidden" name="action" value="stellarwp-telemetry">
+				<button id="agree-modal" class="btn-primary" type="submit" name="optin-agreed" value="true">Allow &amp; Continue</button>
 				<button id="close-modal" class="btn-text" type="button">Skip</button>
 			</form>
 		</footer>
