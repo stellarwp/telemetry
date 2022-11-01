@@ -4,9 +4,8 @@ use Codeception\TestCase\WPTestCase;
 use lucatume\DI52\Container;
 use StellarWP\Telemetry\ActivationHook;
 use StellarWP\Telemetry\Contracts\DataProvider;
-use StellarWP\Telemetry\Contracts\Runnable;
 use StellarWP\Telemetry\DebugDataProvider;
-use StellarWP\Telemetry\ExampleStarter;
+use StellarWP\Telemetry\OptInStatus;
 use StellarWP\Telemetry\OptInTemplate;
 use StellarWP\Telemetry\RegisterSiteRequest;
 use StellarWP\Telemetry\Starter;
@@ -25,22 +24,30 @@ class RegisterSiteTest extends WPTestCase {
 		parent::setUp();
 
 		// Your set up methods here.
-		$this->container = new Container();
-		$this->container->bind( DataProvider::class, DebugDataProvider::class );
-		$this->container->singleton(
+		$container = new Container();
+		$container->bind( DataProvider::class, DebugDataProvider::class );
+		$container->singleton( OptInStatus::class );
+		$container->singleton(
 			Starter::class,
-			function () {
-				return new ExampleStarter(
-					new OptInTemplate(),
-					$this->container->get( DataProvider::class )
+			static function () use ( $container ) {
+				return new Starter(
+					$container->get( OptInStatus::class ),
+					$container->get( DataProvider::class ),
+					new OptInTemplate()
 				);
-			},
-			[ 'init' ]
+			}
 		);
-		$this->container->singleton( Runnable::class, ActivationHook::class );
+		$container->bind( ActivationHook::class, static function () use ( $container ) {
+			return new ActivationHook( $container->get( OptInStatus::class ), $container->get( Starter::class ) );
+		} );
+		$container->singleton( OptInTemplate::class, static function () use ( $container ) {
+			return new OptInTemplate();
+		} );
+
+		$this->container = $container;
 
 		// Run the activation hook code to register our plugin option.
-		$this->container->get( Runnable::class )->run();
+		$this->container->get( ActivationHook::class )->run();
 	}
 
 	public function tearDown(): void {
@@ -56,15 +63,16 @@ class RegisterSiteTest extends WPTestCase {
 
 		$this->assertInstanceOf( WP_Post::class, $post );
 
-		$this->assertInstanceOf( ExampleStarter::class, $this->container->get( Starter::class ) );
+		$this->assertInstanceOf( Starter::class, $this->container->get( Starter::class ) );
 	}
 
 	public function test_it_saves_token_on_register_site_request() {
 		$starter = $this->container->get( Starter::class );
-		$request = new RegisterSiteRequest( $starter, $this->container->get( DataProvider::class ) );
+		$optin_status = $this->container->get( OptInStatus::class );
+		$request = new RegisterSiteRequest( $this->container->get( DataProvider::class ), $optin_status );
 
 		// Test we currently have no token.
-		$this->assertArrayNotHasKey( 'token', $starter->get_meta() );
+		$this->assertArrayNotHasKey( 'token', $optin_status->get_option() );
 
 		// Run the request
 		$request->run();
@@ -73,6 +81,6 @@ class RegisterSiteTest extends WPTestCase {
 		$this->assertArrayHasKey( 'status', $request->response );
 
 		// Test we save the user token on run.
-		$this->assertArrayHasKey( 'token', $starter->get_meta() );
+		$this->assertArrayHasKey( 'token', $optin_status->get_option() );
 	}
 }
