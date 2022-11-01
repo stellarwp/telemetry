@@ -4,9 +4,8 @@ namespace StellarWP\Telemetry;
 
 use StellarWP\Telemetry\Contracts\DataProvider;
 use StellarWP\Telemetry\Contracts\Request;
-use StellarWP\Telemetry\Contracts\Runnable;
 
-class TelemetrySendDataRequest implements Request, Runnable {
+class TelemetrySendDataRequest implements Request {
 
 	/** @var DataProvider */
 	protected $provider;
@@ -31,7 +30,7 @@ class TelemetrySendDataRequest implements Request, Runnable {
 		] );
 	}
 
-	public function run(): void {
+	public function send(): void {
 		$data = $this->get_args();
 		$url  = $this->get_url();
 
@@ -50,7 +49,7 @@ class TelemetrySendDataRequest implements Request, Runnable {
 		$data = json_decode( $body, true );
 
 		// If status is false, return null
-		if ( ! $data['status'] ) {
+		if ( false === $data['status'] ?? false ) {
 			return null;
 		}
 

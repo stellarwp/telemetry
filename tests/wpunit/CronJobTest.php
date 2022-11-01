@@ -3,8 +3,9 @@
 use Codeception\TestCase\WPTestCase;
 use lucatume\DI52\Container;
 use StellarWP\Telemetry\ActivationHook;
+use StellarWP\Telemetry\Contracts\CronJob as CronJobContract;
 use StellarWP\Telemetry\Contracts\DataProvider;
-use StellarWP\Telemetry\Contracts\Runnable;
+use StellarWP\Telemetry\CronJob;
 use StellarWP\Telemetry\DebugDataProvider;
 use StellarWP\Telemetry\OptInStatus;
 use StellarWP\Telemetry\OptInTemplate;
@@ -12,7 +13,7 @@ use StellarWP\Telemetry\RegisterSiteRequest;
 use StellarWP\Telemetry\Starter;
 use StellarWP\Telemetry\TelemetrySendDataRequest;
 
-class TelemetrySendDataTest extends WPTestCase {
+class CronJobTest extends WPTestCase {
 	/**
 	 * @var WpunitTester
 	 */
@@ -40,16 +41,18 @@ class TelemetrySendDataTest extends WPTestCase {
 			},
 			[ 'init' ]
 		);
-		$this->container->singleton( Runnable::class, ActivationHook::class );
-		$this->container->bind( RegisterSiteRequest::class, function () {
-			return new RegisterSiteRequest(
-				$this->container->get( DataProvider::class ),
-				$this->container->get( OptInStatus::class )
+		$this->container->singleton( ActivationHook::class );
+		$this->container->singleton( RegisterSiteRequest::class );
+		$this->container->singleton( TelemetrySendDataRequest::class );
+		$this->container->bind( CronJobContract::class, function () {
+			return new CronJob(
+				$this->container->get( OptInStatus::class ),
+				$this->container->get( TelemetrySendDataRequest::class )
 			);
 		} );
 
 		// Run the activation hook code to register our plugin option.
-		$this->container->get( Runnable::class )->run();
+		$this->container->get( ActivationHook::class )->run();
 
 		// Run the register site request to get a Token.
 		$this->container->get( RegisterSiteRequest::class )->send();
@@ -62,31 +65,16 @@ class TelemetrySendDataTest extends WPTestCase {
 		parent::tearDown();
 	}
 
-	// Tests
-	public function test_it_sends_telemetry_send_data_request() {
-		$starter = $this->container->get( Starter::class );
-		$optin_status = $this->container->get( OptInStatus::class );
-		$request = new TelemetrySendDataRequest( $this->container->get( DataProvider::class ), $optin_status );
+	public function test_cron_can_be_scheduled() {
+		$cron = $this->container->get( CronJobContract::class );
 
-		// Test we currently have a token
-		$this->assertArrayHasKey( 'token', $optin_status->get_option() );
+		// Cron should not be scheduled by default
+		$this->assertFalse( $cron->is_scheduled() );
 
-		// Run the request
-		$request->send();
+		// Schedule the cron
+		$cron->schedule( time() );
 
-		// Test the request was successful.
-		$this->assertArrayHasKey( 'status', $request->response );
-
-		// Modify the WP_Version value for our next test.
-		global $wp_version;
-		$wp_version = '1.3.3.7';
-
-		// Run the request
-		$request->send();
-
-		// Test the request was successful.
-		$this->assertArrayHasKey( 'status', $request->response );
-
-		// TODO: Ideally at this point I would do an assertSee with the 1.3.3.7 text.
+		// Cron should be scheduled
+		$this->assertTrue( $cron->is_scheduled() );
 	}
 }

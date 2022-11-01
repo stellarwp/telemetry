@@ -75,7 +75,7 @@ class RegisterSiteTest extends WPTestCase {
 		$this->assertArrayNotHasKey( 'token', $optin_status->get_option() );
 
 		// Run the request
-		$request->run();
+		$request->send();
 
 		// Test the request was successful.
 		$this->assertArrayHasKey( 'status', $request->response );

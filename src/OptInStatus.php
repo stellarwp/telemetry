@@ -92,4 +92,8 @@ class OptInStatus {
 
 		return apply_filters( 'stellarwp_telemetry_optin_status_label', $optin_label );
 	}
+
+	public function is_active(): bool {
+		return $this->get() === self::STATUS_ACTIVE;
+	}
 }

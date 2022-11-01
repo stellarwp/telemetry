@@ -4,9 +4,8 @@ namespace StellarWP\Telemetry;
 
 use StellarWP\Telemetry\Contracts\DataProvider;
 use StellarWP\Telemetry\Contracts\Request;
-use StellarWP\Telemetry\Contracts\Runnable;
 
-class RegisterSiteRequest implements Request, Runnable {
+class RegisterSiteRequest implements Request {
 	/** @var DataProvider */
 	private $provider;
 
@@ -32,7 +31,7 @@ class RegisterSiteRequest implements Request, Runnable {
 		] );
 	}
 
-	public function run(): void {
+	public function send(): void {
 		$data = $this->get_args();
 		$url  = $this->get_url();
 

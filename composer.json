@@ -5,7 +5,10 @@
     "autoload": {
         "psr-4": {
             "StellarWP\\Telemetry\\": "src/"
-        }
+        },
+        "files": [
+            "vendor/woocommerce/action-scheduler/action-scheduler.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
