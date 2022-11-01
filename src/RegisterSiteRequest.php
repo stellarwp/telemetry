@@ -16,15 +16,20 @@ class RegisterSiteRequest implements Request, Runnable {
 	 * @var Starter
 	 */
 	private $starter;
+	/**
+	 * @var OptInStatus
+	 */
+	private $optin_status;
 
 	/**
 	 * @var array
 	 */
 	public $response;
 
-	public function __construct( Starter $starter, DataProvider $provider ) {
+	public function __construct( Starter $starter, DataProvider $provider, OptInStatus $optin_status ) {
 		$this->provider = $provider;
 		$this->starter  = $starter;
+		$this->optin_status = $optin_status;
 	}
 
 	public function get_url(): string {
@@ -72,10 +77,10 @@ class RegisterSiteRequest implements Request, Runnable {
 	}
 
 	private function save_token( string $token ): bool {
-		$meta = array_merge( $this->starter->get_meta(), [
+		$option = array_merge( $this->optin_status->get_option(), [
 			'token' => $token,
 		] );
 
-		return update_option( $this->starter->get_option_name(), $meta );
+		return update_option( $this->optin_status->get_option_name(), $option );
 	}
 }

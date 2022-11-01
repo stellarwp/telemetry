@@ -11,19 +11,24 @@ class TelemetrySendDataRequest implements Request, Runnable {
 	/**
 	 * @var DataProvider
 	 */
-	private $provider;
+	protected $provider;
 	/**
 	 * @var Starter
 	 */
-	private $starter;
+	protected $starter;
 	/**
 	 * @var array
 	 */
 	public $response;
+	/**
+	 * @var OptInStatus
+	 */
+	protected $optin_status;
 
-	public function __construct( Starter $starter, DataProvider $provider ) {
+	public function __construct( Starter $starter, DataProvider $provider, OptInStatus $optin_status ) {
 		$this->provider = $provider;
 		$this->starter  = $starter;
+		$this->optin_status = $optin_status;
 	}
 
 	public function get_url(): string {
@@ -32,7 +37,7 @@ class TelemetrySendDataRequest implements Request, Runnable {
 
 	public function get_args(): array {
 		return apply_filters( 'stellarwp_telemetry_send_data_args', [
-			'token'     => $this->starter->get_token(),
+			'token'     => $this->optin_status->get_token(),
 			'telemetry' => json_encode( $this->provider->get_data() ),
 		] );
 	}
@@ -44,13 +49,13 @@ class TelemetrySendDataRequest implements Request, Runnable {
 		$this->response = $this->parse_response( $this->request( $url, $data ) );
 	}
 
-	private function request( $url, $data ) {
+	protected function request( $url, $data ) {
 		return wp_remote_post( $url, [
 			'body' => $data,
 		] );
 	}
 
-	private function parse_response( $response ): ?array {
+	protected function parse_response( $response ): ?array {
 		$body = wp_remote_retrieve_body( $response );
 
 		$data = json_decode( $body, true );
