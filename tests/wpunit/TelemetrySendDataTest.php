@@ -6,7 +6,7 @@ use StellarWP\Telemetry\ActivationHook;
 use StellarWP\Telemetry\Contracts\DataProvider;
 use StellarWP\Telemetry\Contracts\Runnable;
 use StellarWP\Telemetry\DebugDataProvider;
-use StellarWP\Telemetry\ExampleStarter;
+use StellarWP\Telemetry\OptInStatus;
 use StellarWP\Telemetry\OptInTemplate;
 use StellarWP\Telemetry\RegisterSiteRequest;
 use StellarWP\Telemetry\Starter;
@@ -28,12 +28,14 @@ class TelemetrySendDataTest extends WPTestCase {
 		// Your set up methods here.
 		$this->container = new Container();
 		$this->container->bind( DataProvider::class, DebugDataProvider::class );
+		$this->container->singleton( OptInStatus::class );
 		$this->container->singleton(
 			Starter::class,
 			function () {
-				return new ExampleStarter(
-					new OptInTemplate(),
-					$this->container->get( DataProvider::class )
+				return new Starter(
+					$this->container->get( OptInStatus::class ),
+					$this->container->get( DataProvider::class ),
+					new OptInTemplate()
 				);
 			},
 			[ 'init' ]
@@ -41,8 +43,8 @@ class TelemetrySendDataTest extends WPTestCase {
 		$this->container->singleton( Runnable::class, ActivationHook::class );
 		$this->container->bind( RegisterSiteRequest::class, function () {
 			return new RegisterSiteRequest(
-				$this->container->get( Starter::class ),
-				$this->container->get( DataProvider::class )
+				$this->container->get( DataProvider::class ),
+				$this->container->get( OptInStatus::class )
 			);
 		} );
 
@@ -63,10 +65,11 @@ class TelemetrySendDataTest extends WPTestCase {
 	// Tests
 	public function test_it_sends_telemetry_send_data_request() {
 		$starter = $this->container->get( Starter::class );
-		$request = new TelemetrySendDataRequest( $starter, $this->container->get( DataProvider::class ) );
+		$optin_status = $this->container->get( OptInStatus::class );
+		$request = new TelemetrySendDataRequest( $this->container->get( DataProvider::class ), $optin_status );
 
 		// Test we currently have a token
-		$this->assertArrayHasKey( 'token', $starter->get_meta() );
+		$this->assertArrayHasKey( 'token', $optin_status->get_option() );
 
 		// Run the request
 		$request->run();
