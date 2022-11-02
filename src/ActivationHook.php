@@ -19,6 +19,7 @@ class ActivationHook implements Runnable {
 	}
 
 	public function run(): void {
+		// TODO: optin->show,
 		// Check if plugin slug exists within array
 		if ( $this->optin_status->plugin_exists( $this->starter->get_plugin_slug() ) ) {
 			$this->optin_status->add_plugin( $this->starter->get_plugin_slug() );
