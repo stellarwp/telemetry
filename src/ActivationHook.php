@@ -7,28 +7,24 @@ use StellarWP\Telemetry\Contracts\Runnable;
 class ActivationHook implements Runnable {
 	public const REDIRECT_ON_ACTIVATION = true;
 
-	/**
-	 * @var Starter
-	 */
+	/** @var OptInStatus */
+	private $optin_status;
+
+	/** @var Starter */
 	private $starter;
 
-	public function __construct( Starter $starter ) {
-		$this->starter = $starter;
+	public function __construct( OptInStatus $optin_status, Starter $starter ) {
+		$this->optin_status = $optin_status;
+		$this->starter      = $starter;
 	}
 
 	public function run(): void {
-		$meta = $this->starter->get_meta();
-
+		// TODO: optin->show,
 		// Check if plugin slug exists within array
-		if ( ! array_key_exists( $this->starter->get_plugin_slug(), $meta ) ) {
-			// If plugin slug does not exist, add it.
-			$meta[ $this->starter->get_plugin_slug() ] = [
-				'optin' => false,
-			];
+		if ( $this->optin_status->plugin_exists( $this->starter->get_plugin_slug() ) ) {
+			$this->optin_status->add_plugin( $this->starter->get_plugin_slug() );
 
-			// Save option.
-			update_option( $this->starter->get_option_name(), $meta );
-
+			// TODO: Look for a way to move this to the Plugin.
 			// We should display the optin template on next load.
 			update_option( $this->starter->get_show_optin_option_name(), "1" );
 		}
@@ -42,7 +38,7 @@ class ActivationHook implements Runnable {
 				return;
 			}
 
-			add_option( $this->get_redirection_option_name(), wp_get_current_user()->ID );
+			update_option( $this->get_redirection_option_name(), wp_get_current_user()->ID );
 		}
 	}
 
@@ -51,6 +47,6 @@ class ActivationHook implements Runnable {
 	}
 
 	public function get_redirection_option_name(): string {
-		return apply_filters( 'stellarwp_telemetry_redirection_option_name', $this->starter->get_option_name() . '_redirection' );
+		return apply_filters( 'stellarwp_telemetry_redirection_option_name', $this->optin_status->get_option_name() . '_redirection' );
 	}
 }

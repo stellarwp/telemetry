@@ -10,7 +10,12 @@
     "autoload-dev": {
         "psr-4": {
             "StellarWP\\Telemetry\\Tests\\": "tests/"
-        }
+        },
+        "classmap": [
+            "vendor/woocommerce/action-scheduler/lib/",
+            "vendor/woocommerce/action-scheduler/deprecated/",
+            "vendor/woocommerce/action-scheduler/classes/"
+        ]
     },
     "minimum-stability": "stable",
     "license": "GPL-2.0-or-later",
