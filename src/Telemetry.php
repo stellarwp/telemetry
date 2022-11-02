@@ -35,7 +35,7 @@ class Telemetry {
 		$response       = $this->request( $url, $data );
 		$response = $this->parse_response( $response );
 
-		if ( empty( $response['token'] ) ) {
+		if ( empty( $response['status'] ) ) {
 			return null;
 		}
 
@@ -81,10 +81,12 @@ class Telemetry {
 		] );
 	}
 
-	public function save_token( string $token ): bool {
-		$option = get_option( $this->option_name, [] );
+	protected function get_option(): array {
+		return get_option( $this->option_name, [] );
+	}
 
-		$option = array_merge( $option, [
+	public function save_token( string $token ): bool {
+		$option = array_merge( $this->get_option(), [
 			'token' => $token,
 		] );
 
@@ -93,8 +95,36 @@ class Telemetry {
 
 	public function is_registered(): bool {
 		// Check if the site is registered by checking if the token is set.
-		$option = get_option( $this->option_name, [] );
+		$option = $this->get_option();
 
 		return ! empty( $option['token'] );
 	}
+
+	public function send_data(): bool {
+		if ( ! $this->is_registered() ) {
+			return false;
+		}
+
+		$response = $this->send( $this->get_send_data_args(), $this->get_send_data_url() );
+
+		return $response['status'] ?? false;
+	}
+
+	protected function get_send_data_args(): array {
+		return apply_filters( 'stellarwp_telemetry_send_data_args', [
+			'token'     => $this->get_token(),
+			'telemetry' => json_encode( $this->provider->get_data() ),
+		] );
+	}
+
+	protected function get_send_data_url(): string {
+		return apply_filters( 'stellarwp_telemetry_send_data_url', self::SERVER_URL . '/telemetry' );
+	}
+
+	protected function get_token(): string {
+		$option = $this->get_option();
+
+		return apply_filters( 'stellarwp_telemetry_token', $option['token'] ?? '' );
+	}
+
 }

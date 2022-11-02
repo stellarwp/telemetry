@@ -38,4 +38,18 @@ class TelemetryTest extends WPTestCase {
 		// Check that we can re-register the site if we pass true to the force parameter
 		$this->assertTrue( $telemetry->register_site( true ) );
 	}
+
+	public function test_we_can_send_data() {
+		$telemetry = new Telemetry( new DebugDataProvider(), 'stellarwp_telemetry' );
+
+		// Check we can't send data when the site is not registered
+		$this->assertFalse( $telemetry->send_data() );
+
+		// TODO: Mock this.
+		// Register the site
+		$telemetry->register_site();
+
+		// Send data
+		$this->assertTrue( $telemetry->send_data() );
+	}
 }
