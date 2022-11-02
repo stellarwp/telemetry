@@ -2,18 +2,15 @@
 
 namespace StellarWP\Telemetry;
 
-use StellarWP\Telemetry\Contracts\Request;
-
 class CronJob implements Contracts\CronJob {
 	public const CRON_INTERVAL = WEEK_IN_SECONDS;
 	public const ACTION_NAME   = 'stellarwp_telemetry_cron';
 
-	/** @var Request */
-	protected $request;
+	/** @var Telemetry */
+	protected $telemetry;
 
-	public function __construct( Request $request ) {
-		// TODO: Change to Telemetry.
-		$this->request = $request;
+	public function __construct( Telemetry $telemetry ) {
+		$this->telemetry = $telemetry;
 	}
 
 	public function get_cron_interval(): int {
@@ -25,13 +22,11 @@ class CronJob implements Contracts\CronJob {
 	}
 
 	public function schedule( int $start ): void {
-		as_schedule_recurring_action( $start, $this->get_cron_interval(), $this->get_cron_hook_name() );
-	}
-
-	public function maybe_schedule( int $start ): void {
-		if ( ! $this->is_scheduled() ) {
-			$this->schedule( $start );
+		if ( $this->is_scheduled() ) {
+			return;
 		}
+
+		as_schedule_recurring_action( $start, $this->get_cron_interval(), $this->get_cron_hook_name() );
 	}
 
 	protected function register_action(): void {
@@ -40,8 +35,12 @@ class CronJob implements Contracts\CronJob {
 		}, 10, 0 );
 	}
 
-	public function is_scheduled(): int {
-		return (int) as_next_scheduled_action( $this->get_cron_hook_name() );
+	public function is_scheduled( int $time = 0 ): bool {
+		if ( $time > 0 ) {
+			return as_next_scheduled_action( $this->get_cron_hook_name() ) === $time;
+		}
+
+		return as_has_scheduled_action( $this->get_cron_hook_name() );
 	}
 
 	public function unschedule(): void {
@@ -49,7 +48,7 @@ class CronJob implements Contracts\CronJob {
 	}
 
 	public function run(): void {
-		$this->request->send();
+		$this->telemetry->send_data();
 	}
 
 	public function admin_init(): void {

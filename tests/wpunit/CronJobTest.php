@@ -3,11 +3,9 @@
 use Codeception\TestCase\WPTestCase;
 use lucatume\DI52\Container;
 use StellarWP\Telemetry\Contracts\CronJob as CronJobContract;
-use StellarWP\Telemetry\Contracts\DataProvider;
-use StellarWP\Telemetry\Contracts\Request;
 use StellarWP\Telemetry\CronJob;
 use StellarWP\Telemetry\DebugDataProvider;
-use StellarWP\Telemetry\TelemetrySendDataRequest;
+use StellarWP\Telemetry\Telemetry;
 
 class CronJobTest extends WPTestCase {
 	/**
@@ -26,23 +24,32 @@ class CronJobTest extends WPTestCase {
 		parent::setUp();
 
 		$this->container = new Container();
-		// TODO: This should only require one Telemetry class.
+		$this->container->singleton( Telemetry::class, function () {
+			return new Telemetry( new DebugDataProvider(), 'stellarwp_telemetry' );
+		} );
 		$this->container->singleton( CronJobContract::class, CronJob::class );
-		$this->container->singleton( Request::class, TelemetrySendDataRequest::class );
-		$this->container->singleton( DataProvider::class, DebugDataProvider::class );
 	}
 
 	public function test_cron_can_be_scheduled() {
 		$cron = $this->container->get( CronJobContract::class );
 
 		// Cron should not be scheduled by default
-		$this->assertLessThanOrEqual( 0, $cron->is_scheduled() );
+		$this->assertFalse( $cron->is_scheduled() );
 
 		// Schedule the cron
 		$cron->schedule( time() );
 
 		// Cron should be scheduled
-		$this->assertGreaterThanOrEqual( 1, $cron->is_scheduled() );
+		$this->assertTrue( $cron->is_scheduled() );
+	}
+
+	public function test_we_can_schedule_to_a_specific_timestamp() {
+		$cron = $this->container->get( CronJobContract::class );
+
+		// We can schedule to a specific timestamp
+		$time = time() + 3600;
+		$cron->schedule( $time );
+		$this->assertTrue( $cron->is_scheduled( $time ) );
 	}
 
 	public function test_cron_job_can_be_unscheduled() {
