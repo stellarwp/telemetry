@@ -83,4 +83,17 @@ class CronJobTest extends WPTestCase {
 		// Cron hook should be registered
 		$this->assertTrue( has_action( $cron->get_cron_hook_name() ) );
 	}
+
+	public function test_cron_reschedules_itself_after_running() {
+		$cron = $this->container->get( CronJobContract::class );
+
+		// There should be no cron scheduled by default.
+		$this->assertFalse( $cron->is_scheduled() );
+
+		// Run the cron
+		$cron->run();
+
+		// Cron should be scheduled
+		$this->assertTrue( $cron->is_scheduled() );
+	}
 }

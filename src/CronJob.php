@@ -52,6 +52,9 @@ class CronJob implements Contracts\CronJob {
 
 	public function run(): void {
 		$this->telemetry->send_data();
+
+		// Reschedule the cron.
+		$this->schedule( time() + $this->get_cron_interval() );
 	}
 
 	public function admin_init(): void {
