@@ -24,7 +24,9 @@ class CronJobTest extends WPTestCase {
 		$this->container->singleton( Telemetry::class, function () {
 			return new Telemetry( new DebugDataProvider(), 'stellarwp_telemetry' );
 		} );
-		$this->container->singleton( CronJobContract::class, CronJob::class );
+		$this->container->singleton( CronJobContract::class, function () {
+			return new CronJob( $this->container->get( Telemetry::class ), __DIR__ . '/../../' );
+		} );
 	}
 
 	public function test_cron_can_be_scheduled() {
