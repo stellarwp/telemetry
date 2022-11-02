@@ -6,8 +6,10 @@
         "psr-4": {
             "StellarWP\\Telemetry\\": "src/"
         },
-        "files": [
-            "vendor/woocommerce/action-scheduler/action-scheduler.php"
+        "classmap": [
+            "vendor/woocommerce/action-scheduler/lib/",
+            "vendor/woocommerce/action-scheduler/deprecated/",
+            "vendor/woocommerce/action-scheduler/classes/"
         ]
     },
     "autoload-dev": {

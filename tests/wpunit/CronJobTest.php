@@ -2,15 +2,11 @@
 
 use Codeception\TestCase\WPTestCase;
 use lucatume\DI52\Container;
-use StellarWP\Telemetry\ActivationHook;
 use StellarWP\Telemetry\Contracts\CronJob as CronJobContract;
 use StellarWP\Telemetry\Contracts\DataProvider;
+use StellarWP\Telemetry\Contracts\Request;
 use StellarWP\Telemetry\CronJob;
 use StellarWP\Telemetry\DebugDataProvider;
-use StellarWP\Telemetry\OptInStatus;
-use StellarWP\Telemetry\OptInTemplate;
-use StellarWP\Telemetry\RegisterSiteRequest;
-use StellarWP\Telemetry\Starter;
 use StellarWP\Telemetry\TelemetrySendDataRequest;
 
 class CronJobTest extends WPTestCase {
@@ -23,58 +19,29 @@ class CronJobTest extends WPTestCase {
 	protected $container;
 
 	public function setUp(): void {
+		// Initialize ActionScheduler
+		require_once __DIR__ . '/../../vendor/woocommerce/action-scheduler/action-scheduler.php';
+
 		// Before...
 		parent::setUp();
 
-		// Your set up methods here.
 		$this->container = new Container();
-		$this->container->bind( DataProvider::class, DebugDataProvider::class );
-		$this->container->singleton( OptInStatus::class );
-		$this->container->singleton(
-			Starter::class,
-			function () {
-				return new Starter(
-					$this->container->get( OptInStatus::class ),
-					$this->container->get( DataProvider::class ),
-					new OptInTemplate()
-				);
-			},
-			[ 'init' ]
-		);
-		$this->container->singleton( ActivationHook::class );
-		$this->container->singleton( RegisterSiteRequest::class );
-		$this->container->singleton( TelemetrySendDataRequest::class );
-		$this->container->bind( CronJobContract::class, function () {
-			return new CronJob(
-				$this->container->get( OptInStatus::class ),
-				$this->container->get( TelemetrySendDataRequest::class )
-			);
-		} );
-
-		// Run the activation hook code to register our plugin option.
-		$this->container->get( ActivationHook::class )->run();
-
-		// Run the register site request to get a Token.
-		$this->container->get( RegisterSiteRequest::class )->send();
-	}
-
-	public function tearDown(): void {
-		// Your tear down methods here.
-
-		// Then...
-		parent::tearDown();
+		// TODO: This should only require one Telemetry class.
+		$this->container->singleton( CronJobContract::class, CronJob::class );
+		$this->container->singleton( Request::class, TelemetrySendDataRequest::class );
+		$this->container->singleton( DataProvider::class, DebugDataProvider::class );
 	}
 
 	public function test_cron_can_be_scheduled() {
 		$cron = $this->container->get( CronJobContract::class );
 
 		// Cron should not be scheduled by default
-		$this->assertFalse( $cron->is_scheduled() );
+		$this->assertLessThanOrEqual( 0, $cron->is_scheduled() );
 
 		// Schedule the cron
 		$cron->schedule( time() );
 
 		// Cron should be scheduled
-		$this->assertTrue( $cron->is_scheduled() );
+		$this->assertGreaterThanOrEqual( 1, $cron->is_scheduled() );
 	}
 }
