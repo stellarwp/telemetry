@@ -14,7 +14,7 @@ class Telemetry {
 	protected $option_name;
 
 	public function __construct( DataProvider $provider, string $option_name ) {
-		$this->provider = $provider;
+		$this->provider    = $provider;
 		$this->option_name = $option_name;
 	}
 
@@ -32,7 +32,7 @@ class Telemetry {
 	}
 
 	protected function send( array $data, string $url ): ?array {
-		$response       = $this->request( $url, $data );
+		$response = $this->request( $url, $data );
 		$response = $this->parse_response( $response );
 
 		if ( empty( $response['status'] ) ) {
