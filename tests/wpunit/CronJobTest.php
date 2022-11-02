@@ -44,4 +44,39 @@ class CronJobTest extends WPTestCase {
 		// Cron should be scheduled
 		$this->assertGreaterThanOrEqual( 1, $cron->is_scheduled() );
 	}
+
+	public function test_cron_job_can_be_unscheduled() {
+		$cron = $this->container->get( CronJobContract::class );
+
+		// Schedule the cron
+		$cron->schedule( time() );
+
+		// Cron should be scheduled
+		$this->assertGreaterThanOrEqual( 1, $cron->is_scheduled() );
+
+		// Unschedule the cron
+		$cron->unschedule();
+
+		// Cron should not be scheduled
+		$this->assertLessThanOrEqual( 0, $cron->is_scheduled() );
+	}
+
+	public function test_cron_interval_is_a_week_by_default() {
+		$cron = $this->container->get( CronJobContract::class );
+
+		$this->assertEquals( WEEK_IN_SECONDS, $cron->get_cron_interval() );
+	}
+
+	public function test_cron_registers_hook_using_admin_init() {
+		$cron = $this->container->get( CronJobContract::class );
+
+		// Cron hook should not be registered
+		$this->assertFalse( has_action( $cron->get_cron_hook_name() ) );
+
+		// Register the cron hook, this should be done during `admin_init`
+		$cron->admin_init();
+
+		// Cron hook should be registered
+		$this->assertTrue( has_action( $cron->get_cron_hook_name() ) );
+	}
 }
