@@ -9,11 +9,11 @@ class CronJob implements Contracts\CronJob {
 	/** @var Telemetry */
 	protected $telemetry;
 
-	public function __construct( Telemetry $telemetry ) {
+	public function __construct( Telemetry $telemetry, string $plugin_path ) {
 		$this->telemetry = $telemetry;
 
 		// Load ActionScheduler
-		require_once plugin_dir_path( __DIR__ ) . 'vendor/woocommerce/action-scheduler/action-scheduler.php';
+		require_once trailingslashit( $plugin_path ) . 'vendor/woocommerce/action-scheduler/action-scheduler.php';
 	}
 
 	public function get_cron_interval(): int {
