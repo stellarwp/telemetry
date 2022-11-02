@@ -17,9 +17,6 @@ class CronJobTest extends WPTestCase {
 	protected $container;
 
 	public function setUp(): void {
-		// Initialize ActionScheduler
-		require_once __DIR__ . '/../../vendor/woocommerce/action-scheduler/action-scheduler.php';
-
 		// Before...
 		parent::setUp();
 
