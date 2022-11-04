@@ -8,10 +8,10 @@ class Telemetry {
 	public const SERVER_URL = 'https://telemetry-api.moderntribe.qa/api/v1';
 
 	/** @var DataProvider */
-	protected $provider;
+	public $provider;
 
 	/** @var string */
-	protected $option_name;
+	public $option_name;
 
 	public function __construct( DataProvider $provider, string $option_name ) {
 		$this->provider    = $provider;
@@ -61,18 +61,18 @@ class Telemetry {
 		return $data;
 	}
 
-	protected function get_register_site_url(): string {
+	public function get_register_site_url(): string {
 		return apply_filters( 'stellarwp_telemetry_register_site_url', self::SERVER_URL . '/register-site' );
 	}
 
-	protected function get_register_site_data(): array {
+	public function get_register_site_data(): array {
 		return apply_filters( 'stellarwp_telemetry_register_site_data', [
 			'user'      => json_encode( $this->get_user_details() ),
 			'telemetry' => json_encode( $this->provider->get_data() ),
 		] );
 	}
 
-	protected function get_user_details(): array {
+	public function get_user_details(): array {
 		$user = wp_get_current_user();
 
 		return apply_filters( 'stellarwp_telemetry_register_site_user_details', [
@@ -81,7 +81,7 @@ class Telemetry {
 		] );
 	}
 
-	protected function get_option(): array {
+	public function get_option(): array {
 		return get_option( $this->option_name, [] );
 	}
 
@@ -110,18 +110,18 @@ class Telemetry {
 		return $response['status'] ?? false;
 	}
 
-	protected function get_send_data_args(): array {
+	public function get_send_data_args(): array {
 		return apply_filters( 'stellarwp_telemetry_send_data_args', [
 			'token'     => $this->get_token(),
 			'telemetry' => json_encode( $this->provider->get_data() ),
 		] );
 	}
 
-	protected function get_send_data_url(): string {
+	public function get_send_data_url(): string {
 		return apply_filters( 'stellarwp_telemetry_send_data_url', self::SERVER_URL . '/telemetry' );
 	}
 
-	protected function get_token(): string {
+	public function get_token(): string {
 		$option = $this->get_option();
 
 		return apply_filters( 'stellarwp_telemetry_token', $option['token'] ?? '' );
