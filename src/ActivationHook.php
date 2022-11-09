@@ -43,10 +43,10 @@ class ActivationHook implements Runnable {
 	}
 
 	protected function should_redirect_on_activation(): bool {
-		return apply_filters( 'stellarwp_telemetry_redirect_on_activation', self::REDIRECT_ON_ACTIVATION );
+		return apply_filters( 'stellarwp/telemetry/redirect_on_activation', self::REDIRECT_ON_ACTIVATION );
 	}
 
 	public function get_redirection_option_name(): string {
-		return apply_filters( 'stellarwp_telemetry_redirection_option_name', $this->optin_status->get_option_name() . '_redirection' );
+		return apply_filters( 'stellarwp/telemetry/redirection_option_name', $this->optin_status->get_option_name() . '_redirection' );
 	}
 }

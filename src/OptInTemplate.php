@@ -13,7 +13,7 @@ class OptInTemplate implements Template {
 	}
 
 	protected function get_args(): array {
-		return apply_filters( 'stellarwp_telemetry_optin_args', [
+		return apply_filters( 'stellarwp/telemetry/optin_args', [
 			'plugin_logo'        => plugin_dir_url( __DIR__ ) . 'public/logo.png',
 			'plugin_logo_width'  => 151,
 			'plugin_logo_height' => 32,
@@ -31,7 +31,7 @@ class OptInTemplate implements Template {
 	}
 
 	protected function get_option_name(): string {
-		return apply_filters( 'stellarwp_telemetry_show_optin_option_name', 'stellarwp_telemetry_show_optin' );
+		return apply_filters( 'stellarwp/telemetry/show_optin_option_name', 'stellarwp_telemetry_show_optin' );
 	}
 
 	public function should_render(): bool {

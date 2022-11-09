@@ -17,11 +17,11 @@ class CronJob implements Contracts\CronJob {
 	}
 
 	public function get_cron_interval(): int {
-		return apply_filters( 'stellarwp_telemetry_cron_interval', self::CRON_INTERVAL );
+		return apply_filters( 'stellarwp/telemetry/cron_interval', self::CRON_INTERVAL );
 	}
 
 	public function get_cron_hook_name(): string {
-		return apply_filters( 'stellarwp_telemetry_cron_hook_name', self::ACTION_NAME );
+		return apply_filters( 'stellarwp/telemetry/cron_hook_name', self::ACTION_NAME );
 	}
 
 	public function schedule( int $start ): void {
