@@ -2,28 +2,23 @@
 
 namespace StellarWP\Telemetry;
 
-use StellarWP\Telemetry\Contracts\DataProvider;
-use StellarWP\Telemetry\Contracts\Template;
-
 class Core {
 	public const PLUGIN_SLUG = 'stellarwp-telemetry-starter';
 	public const PLUGIN_VERSION = '1.0.0';
 	public const YES = "1";
 	public const NO = "-1";
 
-	/** @var Template */
-	protected $optin_template;
+	private static self $instance;
 
-	/** @var DataProvider */
-	protected $provider;
+	/**
+	 * @return self
+	 */
+	public static function instance(): self {
+		if ( ! isset( self::$instance ) ) {
+			self::$instance = new self();
+		}
 
-	/** @var OptInStatus */
-	protected $optin_status;
-
-	public function __construct( OptInStatus $optin_status, DataProvider $provider, Template $optin_template ) {
-		$this->optin_status   = $optin_status;
-		$this->provider       = $provider;
-		$this->optin_template = $optin_template;
+		return self::$instance;
 	}
 
 	public function init(): void {
@@ -68,10 +63,10 @@ class Core {
 	}
 
 	public function get_show_optin_option_name(): string {
-		return apply_filters( 'stellarwp/telemetry/show_optin_option_name', $this->optin_status->get_option_name() . '_show_optin' );
+		return apply_filters( 'stellarwp/telemetry/show_optin_option_name', ( new OptInStatus() )->get_option_name() . '_show_optin' );
 	}
 
 	public function run_optin(): void {
-		$this->optin_template->render();
+		( new OptInTemplate() )->render();
 	}
 }
