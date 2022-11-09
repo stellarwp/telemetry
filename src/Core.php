@@ -2,12 +2,18 @@
 
 namespace StellarWP\Telemetry;
 
+use lucatume\DI52\Container;
+use StellarWP\Telemetry\Contracts\DataProvider;
+
 class Core {
+	public const PLUGIN_SLUG = 'plugin_slug';
 	public const YES = "1";
 	public const NO = "-1";
 
 	public string $plugin_slug;
 	public string $plugin_version;
+
+	private Container $container;
 
 	private static self $instance;
 
@@ -29,20 +35,34 @@ class Core {
 	 * @param string $plugin_version The current version of the plugin.
 	 */
 	public function init( string $plugin_path, string $plugin_version ): void {
-		$this->plugin_slug    = plugin_basename( $plugin_path );
+		$this->plugin_slug    = dirname( plugin_basename( $plugin_path ) );
 		$this->plugin_version = $plugin_version;
 
-		// We don't want to run this on every ajax request.
-		if ( wp_doing_ajax() ) {
-			return;
-		}
+		$container = new Container();
+		$container->bind( self::PLUGIN_SLUG, $this->plugin_slug );
+		$container->bind( DataProvider::class, DebugDataProvider::class );
+		$container->bind( ActivationHook::class, static function () use ( $container ) {
+			return new ActivationHook( $container->get( OptInStatus::class ), $container );
+		} );
+		$container->bind( ActivationRedirect::class, static function () use ( $container ) {
+			return new ActivationRedirect( $container->get( ActivationHook::class ) );
+		} );
+		$container->bind( CronJobContract::class, static function () use ( $container ) {
+			return new CronJob( $container->get( Telemetry::class ), __DIR__ );
+		} );
+		$container->bind( OptInTemplate::class, static function () use ( $container ) {
+			return new OptInTemplate();
+		} );
+		$container->bind( Telemetry::class, static function () use ( $container ) {
+			return new Telemetry( $container->get( DataProvider::class ), 'stellarwp_telemetry' );
+		} );
 
-		if ( $this->is_settings_page() ) {
-			if ( $this->should_show_optin() ) {
-				// Run optin.
-				(new OptInTemplate())->maybe_render();
-			}
-		}
+		// Store the container for later use.
+		$this->container = $container;
+	}
+
+	public function container() {
+		return $this->container;
 	}
 
 	/**
@@ -88,6 +108,6 @@ class Core {
 	 * Gets the optin option name.
 	 */
 	public function get_show_optin_option_name(): string {
-		return apply_filters( 'stellarwp/telemetry/show_optin_option_name', ( new OptInStatus() )->get_option_name() . '_show_optin' );
+		return apply_filters( 'stellarwp/telemetry/show_optin_option_name', $this->container->get( OptInStatus::class )->get_option_name() . '_show_optin' );
 	}
 }

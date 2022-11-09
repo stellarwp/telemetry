@@ -2,6 +2,7 @@
 
 namespace StellarWP\Telemetry;
 
+use lucatume\DI52\Container;
 use StellarWP\Telemetry\Contracts\Runnable;
 
 class ActivationHook implements Runnable {
@@ -10,23 +11,23 @@ class ActivationHook implements Runnable {
 	/** @var OptInStatus */
 	private $optin_status;
 
-	/** @var Core */
-	private $starter;
+	/** @var Container */
+	private $container;
 
-	public function __construct( OptInStatus $optin_status, Core $starter ) {
+	public function __construct( OptInStatus $optin_status, Container $container ) {
 		$this->optin_status = $optin_status;
-		$this->starter      = $starter;
+		$this->container    = $container;
 	}
 
 	public function run(): void {
 		// TODO: optin->show,
 		// Check if plugin slug exists within array
-		if ( $this->optin_status->plugin_exists( $this->starter->get_plugin_slug() ) ) {
-			$this->optin_status->add_plugin( $this->starter->get_plugin_slug() );
+		if ( $this->optin_status->plugin_exists( $this->container->get( Core::PLUGIN_SLUG )->get_plugin_slug() ) ) {
+			$this->optin_status->add_plugin( $this->container->get( Core::PLUGIN_SLUG )->get_plugin_slug() );
 
 			// TODO: Look for a way to move this to the Plugin.
 			// We should display the optin template on next load.
-			update_option( $this->starter->get_show_optin_option_name(), "1" );
+			update_option( $this->container->get( Core::PLUGIN_SLUG )->get_show_optin_option_name(), "1" );
 		}
 
 		// Add redirect option for the user who activated the plugin, if redirection is enabled.
