@@ -9,7 +9,7 @@ class OptInStatus {
 	public const STATUS_MIXED = 3;
 
 	public function get_option_name(): string {
-		return apply_filters( 'stellarwp_telemetry_option_name', self::OPTION_NAME );
+		return apply_filters( 'stellarwp/telemetry/option_name', self::OPTION_NAME );
 	}
 
 	public function get_option(): array {
@@ -38,13 +38,13 @@ class OptInStatus {
 			}
 		}
 
-		return apply_filters( 'stellarwp_telemetry_optin_status', $status );
+		return apply_filters( 'stellarwp/telemetry/optin_status', $status );
 	}
 
 	public function get_token(): string {
 		$option = $this->get_option();
 
-		return apply_filters( 'stellarwp_telemetry_token', $option['token'] ?? '' );
+		return apply_filters( 'stellarwp/telemetry/token', $option['token'] ?? '' );
 	}
 
 	public function plugin_exists( string $plugin_slug ): bool {
@@ -90,7 +90,7 @@ class OptInStatus {
 				break;
 		}
 
-		return apply_filters( 'stellarwp_telemetry_optin_status_label', $optin_label );
+		return apply_filters( 'stellarwp/telemetry/optin_status_label', $optin_label );
 	}
 
 	public function is_active(): bool {

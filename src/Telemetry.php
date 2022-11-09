@@ -62,11 +62,11 @@ class Telemetry {
 	}
 
 	protected function get_register_site_url(): string {
-		return apply_filters( 'stellarwp_telemetry_register_site_url', self::SERVER_URL . '/register-site' );
+		return apply_filters( 'stellarwp/telemetry/register_site_url', self::SERVER_URL . '/register-site' );
 	}
 
 	protected function get_register_site_data(): array {
-		return apply_filters( 'stellarwp_telemetry_register_site_data', [
+		return apply_filters( 'stellarwp/telemetry/register_site_data', [
 			'user'      => json_encode( $this->get_user_details() ),
 			'telemetry' => json_encode( $this->provider->get_data() ),
 		] );
@@ -75,7 +75,7 @@ class Telemetry {
 	protected function get_user_details(): array {
 		$user = wp_get_current_user();
 
-		return apply_filters( 'stellarwp_telemetry_register_site_user_details', [
+		return apply_filters( 'stellarwp/telemetry/register_site_user_details', [
 			'name'  => $user->display_name,
 			'email' => $user->user_email,
 		] );
@@ -111,20 +111,20 @@ class Telemetry {
 	}
 
 	protected function get_send_data_args(): array {
-		return apply_filters( 'stellarwp_telemetry_send_data_args', [
+		return apply_filters( 'stellarwp/telemetry/send_data_args', [
 			'token'     => $this->get_token(),
 			'telemetry' => json_encode( $this->provider->get_data() ),
 		] );
 	}
 
 	protected function get_send_data_url(): string {
-		return apply_filters( 'stellarwp_telemetry_send_data_url', self::SERVER_URL . '/telemetry' );
+		return apply_filters( 'stellarwp/telemetry/send_data_url', self::SERVER_URL . '/telemetry' );
 	}
 
 	protected function get_token(): string {
 		$option = $this->get_option();
 
-		return apply_filters( 'stellarwp_telemetry_token', $option['token'] ?? '' );
+		return apply_filters( 'stellarwp/telemetry/token', $option['token'] ?? '' );
 	}
 
 }

@@ -41,20 +41,17 @@ class Starter {
 	}
 
 	public function get_plugin_version(): string {
-		return apply_filters( 'stellarwp_telemetry_version', self::PLUGIN_VERSION );
+		return apply_filters( 'stellarwp/telemetry/version', self::PLUGIN_VERSION );
 	}
 
 	public function is_settings_page(): bool {
 		$is_settings_page = ( isset( $_GET['page'] ) && $_GET['page'] === $this->get_plugin_slug() );
 
-		return apply_filters(
-			'stellarwp_telemetry_is_settings_page',
-			$is_settings_page
-		);
+		return apply_filters( 'stellarwp/telemetry/is_settings_page', $is_settings_page );
 	}
 
 	public function get_plugin_slug(): string {
-		return apply_filters( 'stellarwp_telemetry_plugin_slug', self::PLUGIN_SLUG );
+		return apply_filters( 'stellarwp/telemetry/plugin_slug', self::PLUGIN_SLUG );
 	}
 
 	public function should_show_optin(): bool {
@@ -67,11 +64,11 @@ class Starter {
 
 		$should_show = ( $should_show === self::YES );
 
-		return apply_filters( 'stellarwp_telemetry_should_show_optin', $should_show );
+		return apply_filters( 'stellarwp/telemetry/should_show_optin', $should_show );
 	}
 
 	public function get_show_optin_option_name(): string {
-		return apply_filters( 'stellarwp_telemetry_show_optin_option_name', $this->optin_status->get_option_name() . '_show_optin' );
+		return apply_filters( 'stellarwp/telemetry/show_optin_option_name', $this->optin_status->get_option_name() . '_show_optin' );
 	}
 
 	public function run_optin(): void {

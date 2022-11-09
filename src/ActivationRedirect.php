@@ -23,7 +23,7 @@ class ActivationRedirect implements Redirection {
 	}
 
 	public function get_url(): string {
-		return apply_filters( 'stellarwp_telemetry_activation_redirect', self::REDIRECTION_URL );
+		return apply_filters( 'stellarwp/telemetry/activation_redirect', self::REDIRECTION_URL );
 	}
 
 	protected function remove_activation_redirect_option(): void {
