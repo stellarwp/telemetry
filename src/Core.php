@@ -5,7 +5,7 @@ namespace StellarWP\Telemetry;
 use StellarWP\Telemetry\Contracts\DataProvider;
 use StellarWP\Telemetry\Contracts\Template;
 
-class Starter {
+class Core {
 	public const PLUGIN_SLUG = 'stellarwp-telemetry-starter';
 	public const PLUGIN_VERSION = '1.0.0';
 	public const YES = "1";

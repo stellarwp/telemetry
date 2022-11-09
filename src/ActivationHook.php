@@ -10,10 +10,10 @@ class ActivationHook implements Runnable {
 	/** @var OptInStatus */
 	private $optin_status;
 
-	/** @var Starter */
+	/** @var Core */
 	private $starter;
 
-	public function __construct( OptInStatus $optin_status, Starter $starter ) {
+	public function __construct( OptInStatus $optin_status, Core $starter ) {
 		$this->optin_status = $optin_status;
 		$this->starter      = $starter;
 	}
