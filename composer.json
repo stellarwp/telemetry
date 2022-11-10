@@ -32,6 +32,11 @@
     "codeception/util-universalframework": "^1.0"
   },
   "extra": {
+    "installer-paths": {
+      "vendor/{$vendor}/{$name}": [
+        "woocommerce/action-scheduler"
+      ]
+    },
     "installer-disable": [
       "wordpress-plugin"
     ]
