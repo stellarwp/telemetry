@@ -11,6 +11,9 @@ class Cron_Job implements Contracts\Cron_Job {
 
 	public function __construct( Telemetry $telemetry ) {
 		$this->telemetry = $telemetry;
+
+		// Load Action Scheduler
+		require_once trailingslashit( dirname( $plugin_path ) ) . '/vendor/woocommerce/action-scheduler/action-scheduler.php';
 	}
 
 	public function get_cron_interval(): int {
