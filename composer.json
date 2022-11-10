@@ -7,9 +7,9 @@
       "StellarWP\\Telemetry\\": "src/Telemetry"
     },
     "classmap": [
-      "vendor/woocommerce/action-scheduler/lib/",
-      "vendor/woocommerce/action-scheduler/deprecated/",
-      "vendor/woocommerce/action-scheduler/classes/"
+      "../../woocommerce/action-scheduler/lib/",
+      "../../woocommerce/action-scheduler/deprecated/",
+      "../../woocommerce/action-scheduler/classes/"
     ]
   },
   "autoload-dev": {
