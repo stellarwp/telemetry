@@ -57,10 +57,12 @@ class Core {
 			return new Telemetry( $container->get( DataProvider::class ), 'stellarwp_telemetry' );
 		} );
 
-		// Store the container for later use.
 		$this->container = $container;
 	}
 
+	/**
+	 * @return lucatume\DI52\Container
+	 */
 	public function container() {
 		return $this->container;
 	}
