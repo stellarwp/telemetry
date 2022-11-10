@@ -9,6 +9,7 @@ class Core {
 	public const PLUGIN_SLUG = 'plugin.slug';
 
 	private array $subscribers = [
+		Admin_Subscriber::class,
 		Cron_Subscriber::class,
 	];
 
