@@ -6,12 +6,10 @@ use lucatume\DI52\Container;
 use StellarWP\Telemetry\Contracts\DataProvider;
 
 class Core {
-	public const PLUGIN_SLUG = 'plugin_slug';
+	public const PLUGIN_SLUG    = 'plugin.slug';
+	public const PLUGIN_VERSION = 'plugin.version';
 	public const YES = "1";
 	public const NO = "-1";
-
-	public string $plugin_slug;
-	public string $plugin_version;
 
 	private Container $container;
 
@@ -32,37 +30,11 @@ class Core {
 	 * Sets up the library.
 	 *
 	 * @param string $plugin_path    The path to the main plugin file.
-	 * @param string $plugin_version The current version of the plugin.
 	 */
-	public function init( string $plugin_path, string $plugin_version ): void {
-		$this->plugin_slug    = dirname( plugin_basename( $plugin_path ) );
-		$this->plugin_version = $plugin_version;
-
-		$container = new Container();
-		$container->bind( self::PLUGIN_SLUG, $this->plugin_slug );
-		$container->bind( DataProvider::class, DebugDataProvider::class );
-		$container->bind( ActivationHook::class, static function () use ( $container ) {
-			return new ActivationHook( $container->get( OptInStatus::class ), $container );
-		} );
-		$container->bind( ActivationRedirect::class, static function () use ( $container ) {
-			return new ActivationRedirect( $container->get( ActivationHook::class ) );
-		} );
-		$container->bind( CronJobContract::class, static function () use ( $container ) {
-			return new CronJob( $container->get( Telemetry::class ), __DIR__ );
-		} );
-		$container->bind( OptInTemplate::class, static function () use ( $container ) {
-			return new OptInTemplate();
-		} );
-		$container->bind( Telemetry::class, static function () use ( $container ) {
-			return new Telemetry( $container->get( DataProvider::class ), 'stellarwp_telemetry' );
-		} );
-
-		$this->container = $container;
+	public function init( string $plugin_path ): void {
+		$this->init_container( $plugin_path );
 	}
 
-	/**
-	 * @return lucatume\DI52\Container
-	 */
 	public function container() {
 		return $this->container;
 	}
@@ -111,5 +83,30 @@ class Core {
 	 */
 	public function get_show_optin_option_name(): string {
 		return apply_filters( 'stellarwp/telemetry/show_optin_option_name', $this->container->get( OptInStatus::class )->get_option_name() . '_show_optin' );
+	}
+
+	private function init_container( string $plugin_path ): void {
+		$container = new Container();
+		$container->bind( self::PLUGIN_SLUG, dirname( plugin_basename( $plugin_path ) ) );
+		$container->bind( self::PLUGIN_VERSION, get_plugin_data( $plugin_path )['Version'] );
+		$container->bind( DataProvider::class, DebugDataProvider::class );
+		$container->bind( ActivationHook::class, static function () use ( $container ) {
+			return new ActivationHook( $container->get( OptInStatus::class ), $container );
+		} );
+		$container->bind( ActivationRedirect::class, static function () use ( $container ) {
+			return new ActivationRedirect( $container->get( ActivationHook::class ) );
+		} );
+		$container->bind( CronJobContract::class, static function () use ( $container ) {
+			return new CronJob( $container->get( Telemetry::class ), __DIR__ );
+		} );
+		$container->bind( OptInTemplate::class, static function () use ( $container ) {
+			return new OptInTemplate();
+		} );
+		$container->bind( Telemetry::class, static function () use ( $container ) {
+			return new Telemetry( $container->get( DataProvider::class ), 'stellarwp_telemetry' );
+		} );
+
+		// Store the container for later use.
+		$this->container = $container;
 	}
 }
