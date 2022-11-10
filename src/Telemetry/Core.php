@@ -33,7 +33,9 @@ class Core {
 	 * @param string $plugin_path    The path to the main plugin file.
 	 */
 	public function init( string $plugin_path ): void {
-		require_once '../../vendor/woocommerce/action-scheduler/action-scheduler.php';
+		// Load Action Scheduler
+		require_once trailingslashit( $plugin_path ) . '/vendor/woocommerce/action-scheduler/action-scheduler.php';
+
 		$this->init_container( $plugin_path );
 	}
 
