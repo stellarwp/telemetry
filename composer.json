@@ -33,7 +33,9 @@
   },
   "extra": {
     "installer-paths": {
-      "vendor/{$vendor}/{$name}": "woocommerce/action-scheduler"
+      "vendor/{$vendor}/{$name}": [
+        "woocommerce/action-scheduler"
+      ]
     }
   }
 }
