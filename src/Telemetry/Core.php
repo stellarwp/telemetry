@@ -3,13 +3,13 @@
 namespace StellarWP\Telemetry;
 
 use lucatume\DI52\Container;
-use StellarWP\Telemetry\Contracts\DataProvider;
+use StellarWP\Telemetry\Contracts\Data_Provider;
 
 class Core {
 	public const PLUGIN_SLUG = 'plugin.slug';
 
 	private array $subscribers = [
-		CronSubscriber::class,
+		Cron_Subscriber::class,
 	];
 
 	private Container $container;
@@ -66,21 +66,21 @@ class Core {
 	private function init_container( string $plugin_path ): void {
 		$container = new Container();
 		$container->bind( self::PLUGIN_SLUG, dirname( plugin_basename( $plugin_path ) ) );
-		$container->bind( DataProvider::class, DebugDataProvider::class );
-		$container->bind( ActivationHook::class, static function () use ( $container ) {
-			return new ActivationHook( $container->get( OptInStatus::class ), $container );
+		$container->bind( Data_Provider::class, Debug_Data_Provider::class );
+		$container->bind( Activation_Hook::class, static function () use ( $container ) {
+			return new Activation_Hook( $container->get( Opt_In_Status::class ), $container );
 		} );
-		$container->bind( ActivationRedirect::class, static function () use ( $container ) {
-			return new ActivationRedirect( $container->get( ActivationHook::class ) );
+		$container->bind( Activation_Redirect::class, static function () use ( $container ) {
+			return new Activation_Redirect( $container->get( Activation_Hook::class ) );
 		} );
-		$container->bind( CronJob::class, static function () use ( $container ) {
-			return new CronJob( $container->get( Telemetry::class ), __DIR__ );
+		$container->bind( Cron_Job::class, static function () use ( $container ) {
+			return new Cron_Job( $container->get( Telemetry::class ), __DIR__ );
 		} );
-		$container->bind( OptInTemplate::class, static function () use ( $container ) {
-			return new OptInTemplate();
+		$container->bind( Opt_In_Template::class, static function () use ( $container ) {
+			return new Opt_In_Template();
 		} );
 		$container->bind( Telemetry::class, static function () use ( $container ) {
-			return new Telemetry( $container->get( DataProvider::class ), 'stellarwp_telemetry' );
+			return new Telemetry( $container->get( Data_Provider::class ), 'stellarwp_telemetry' );
 		} );
 
 		// Store the container for later use.

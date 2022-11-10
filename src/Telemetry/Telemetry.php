@@ -2,18 +2,18 @@
 
 namespace StellarWP\Telemetry;
 
-use StellarWP\Telemetry\Contracts\DataProvider;
+use StellarWP\Telemetry\Contracts\Data_Provider;
 
 class Telemetry {
 	public const SERVER_URL = 'https://telemetry-api.moderntribe.qa/api/v1';
 
-	/** @var DataProvider */
+	/** @var Data_Provider */
 	protected $provider;
 
 	/** @var string */
 	protected $option_name;
 
-	public function __construct( DataProvider $provider, string $option_name ) {
+	public function __construct( Data_Provider $provider, string $option_name ) {
 		$this->provider    = $provider;
 		$this->option_name = $option_name;
 	}
