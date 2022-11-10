@@ -8,6 +8,14 @@ class Admin_Subscriber extends Abstract_Subscriber {
 
 	public function register(): void {
 		add_action( 'admin_init', function () {
+			// If GET param is set, handle plugin actions.
+			if ( isset( $_GET['action'] ) && 'stellarwp-telemetry' === $_GET['action'] ) {
+				// If user opted in, register the site.
+				if ( isset( $_GET['optin-agreed'] ) && 'true' === $_GET['optin-agreed'] ) {
+					$this->container->get( Opt_In_Status::class )->set_status( true );
+				}
+			}
+
 			// Check if we should redirect
 			if ( $this->container->get( Activation_Redirect::class )->should_trigger() ) {
 				$this->container->get( Activation_Redirect::class )->trigger();
