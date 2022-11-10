@@ -7,8 +7,10 @@ use StellarWP\Telemetry\Contracts\DataProvider;
 
 class Core {
 	public const PLUGIN_SLUG = 'plugin.slug';
-	public const YES = "1";
-	public const NO = "-1";
+
+	private array $subscribers = [
+		CronSubscriber::class,
+	];
 
 	private Container $container;
 
@@ -71,7 +73,7 @@ class Core {
 		$container->bind( ActivationRedirect::class, static function () use ( $container ) {
 			return new ActivationRedirect( $container->get( ActivationHook::class ) );
 		} );
-		$container->bind( CronJobContract::class, static function () use ( $container ) {
+		$container->bind( CronJob::class, static function () use ( $container ) {
 			return new CronJob( $container->get( Telemetry::class ), __DIR__ );
 		} );
 		$container->bind( OptInTemplate::class, static function () use ( $container ) {
@@ -83,5 +85,9 @@ class Core {
 
 		// Store the container for later use.
 		$this->container = $container;
+
+		foreach ( $this->subscribers as $subscriber_class ) {
+			( new $subscriber_class( $this->container ) )->register();
+		}
 	}
 }
