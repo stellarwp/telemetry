@@ -73,8 +73,8 @@ class Core {
 		$container->bind( Activation_Redirect::class, static function () use ( $container ) {
 			return new Activation_Redirect( $container->get( Activation_Hook::class ) );
 		} );
-		$container->bind( Cron_Job::class, static function () use ( $container ) {
-			return new Cron_Job( $container->get( Telemetry::class ), __DIR__ );
+		$container->bind( Cron_Job::class, static function () use ( $container, $plugin_path ) {
+			return new Cron_Job( $container->get( Telemetry::class ), $plugin_path );
 		} );
 		$container->bind( Opt_In_Template::class, static function () use ( $container ) {
 			return new Opt_In_Template();
