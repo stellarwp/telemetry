@@ -6,10 +6,8 @@
     "psr-4": {
       "StellarWP\\Telemetry\\": "src/Telemetry"
     },
-    "classmap": [
-      "../../../woocommerce/action-scheduler/lib/",
-      "../../../woocommerce/action-scheduler/deprecated/",
-      "../../../woocommerce/action-scheduler/classes/"
+    "files": [
+      "src/Libs/woocommerce/action-scheduler/action-scheduler.php"
     ]
   },
   "autoload-dev": {
@@ -23,7 +21,8 @@
     "php": ">=7.2",
     "woocommerce/action-scheduler": "^3.5",
     "ext-json": "*",
-    "lucatume/di52": "3.0.0"
+    "lucatume/di52": "3.0.0",
+    "composer/installers": "^2.2"
   },
   "require-dev": {
     "lucatume/wp-browser": "^3.1",
@@ -34,5 +33,12 @@
     "codeception/module-filesystem": "^1.0",
     "codeception/module-cli": "^1.0",
     "codeception/util-universalframework": "^1.0"
+  },
+  "extra": {
+    "installer-paths": {
+      "src/Libs/{$name}": [
+        "woocommerce/action-scheduler"
+      ]
+    }
   }
 }
