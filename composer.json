@@ -4,7 +4,7 @@
     "type": "library",
     "autoload": {
         "psr-4": {
-            "StellarWP\\Telemetry\\": "src/"
+            "StellarWP\\Telemetry\\": "src/Telemetry"
         },
         "classmap": [
             "vendor/woocommerce/action-scheduler/lib/",
