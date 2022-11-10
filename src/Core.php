@@ -6,7 +6,7 @@ use lucatume\DI52\Container;
 use StellarWP\Telemetry\Contracts\DataProvider;
 
 class Core {
-	public const PLUGIN_SLUG    = 'plugin.slug';
+	public const PLUGIN_SLUG = 'plugin.slug';
 	public const YES = "1";
 	public const NO = "-1";
 
@@ -59,29 +59,6 @@ class Core {
 		$is_settings_page = ( isset( $_GET['page'] ) && $_GET['page'] === $this->get_plugin_slug() );
 
 		return apply_filters( 'stellarwp/telemetry/is_settings_page', $is_settings_page );
-	}
-
-	/**
-	 * Determines if the optin modal should be shown to the user.
-	 */
-	public function should_show_optin(): bool {
-		$should_show = (bool) get_option( $this->get_show_optin_option_name(), false );
-
-		if ( $should_show ) {
-			// Update the option so we don't show the optin again unless something changes this again.
-			update_option( $this->get_show_optin_option_name(), self::NO );
-		}
-
-		$should_show = ( $should_show === self::YES );
-
-		return apply_filters( 'stellarwp/telemetry/should_show_optin', $should_show );
-	}
-
-	/**
-	 * Gets the optin option name.
-	 */
-	public function get_show_optin_option_name(): string {
-		return apply_filters( 'stellarwp/telemetry/show_optin_option_name', $this->container->get( OptInStatus::class )->get_option_name() . '_show_optin' );
 	}
 
 	private function init_container( string $plugin_path ): void {

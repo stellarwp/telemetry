@@ -6,8 +6,6 @@ use lucatume\DI52\Container;
 use StellarWP\Telemetry\Contracts\Runnable;
 
 class ActivationHook implements Runnable {
-	public const REDIRECT_ON_ACTIVATION = true;
-
 	/** @var OptInStatus */
 	private $optin_status;
 
@@ -22,12 +20,12 @@ class ActivationHook implements Runnable {
 	public function run(): void {
 		// TODO: optin->show,
 		// Check if plugin slug exists within array
-		if ( $this->optin_status->plugin_exists( $this->container->get( Core::PLUGIN_SLUG )->get_plugin_slug() ) ) {
-			$this->optin_status->add_plugin( $this->container->get( Core::PLUGIN_SLUG )->get_plugin_slug() );
+		if ( $this->optin_status->plugin_exists( $this->container->get( Core::PLUGIN_SLUG ) ) ) {
+			$this->optin_status->add_plugin( $this->container->get( Core::PLUGIN_SLUG ) );
 
 			// TODO: Look for a way to move this to the Plugin.
 			// We should display the optin template on next load.
-			update_option( $this->container->get( Core::PLUGIN_SLUG )->get_show_optin_option_name(), "1" );
+			update_option( $this->get_show_optin_option_name(), "1" );
 		}
 
 		// Add redirect option for the user who activated the plugin, if redirection is enabled.
@@ -44,10 +42,31 @@ class ActivationHook implements Runnable {
 	}
 
 	protected function should_redirect_on_activation(): bool {
-		return apply_filters( 'stellarwp/telemetry/redirect_on_activation', self::REDIRECT_ON_ACTIVATION );
+		return apply_filters( 'stellarwp/telemetry/redirect_on_activation', true );
 	}
 
 	public function get_redirection_option_name(): string {
 		return apply_filters( 'stellarwp/telemetry/redirection_option_name', $this->optin_status->get_option_name() . '_redirection' );
+	}
+
+	/**
+	 * Determines if the optin modal should be shown to the user.
+	 */
+	public function should_show_optin(): bool {
+		$should_show = (bool) get_option( $this->get_show_optin_option_name(), false );
+
+		if ( $should_show ) {
+			// Update the option so we don't show the optin again unless something changes this again.
+			update_option( $this->get_show_optin_option_name(), false );
+		}
+
+		return apply_filters( 'stellarwp/telemetry/should_show_optin', $should_show );
+	}
+
+	/**
+	 * Gets the optin option name.
+	 */
+	public function get_show_optin_option_name(): string {
+		return apply_filters( 'stellarwp/telemetry/show_optin_option_name', $this->container->get( OptInStatus::class )->get_option_name() . '_show_optin' );
 	}
 }
