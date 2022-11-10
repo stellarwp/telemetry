@@ -14,7 +14,6 @@ vendor/
 
 # Third party dependencies
 vendor/
-src/Libs/
 
 # Tests
 codeception.yml

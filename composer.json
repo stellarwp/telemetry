@@ -5,10 +5,7 @@
   "autoload": {
     "psr-4": {
       "StellarWP\\Telemetry\\": "src/Telemetry"
-    },
-    "files": [
-      "src/Libs/woocommerce/action-scheduler/action-scheduler.php"
-    ]
+    }
   },
   "autoload-dev": {
     "psr-4": {
@@ -33,12 +30,5 @@
     "codeception/module-filesystem": "^1.0",
     "codeception/module-cli": "^1.0",
     "codeception/util-universalframework": "^1.0"
-  },
-  "extra": {
-    "installer-paths": {
-      "src/Libs/{$name}": [
-        "woocommerce/action-scheduler"
-      ]
-    }
   }
 }
