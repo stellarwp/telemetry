@@ -3,7 +3,6 @@
 namespace StellarWP\Telemetry;
 
 use StellarWP\Telemetry\Contracts\Abstract_Subscriber;
-use StellarWP\Telemetry\Contracts\Cron_Job;
 
 class Admin_Subscriber extends Abstract_Subscriber {
 
