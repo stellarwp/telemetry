@@ -35,11 +35,7 @@ class OptInTemplate implements Template {
 	}
 
 	public function should_render(): bool {
-		if ( get_option( $this->get_option_name(), false ) === self::YES ) {
-			return true;
-		}
-
-		return false;
+		return get_option( $this->get_option_name(), false );
 	}
 
 	public function maybe_render(): void {
