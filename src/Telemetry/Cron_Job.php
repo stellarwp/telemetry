@@ -2,7 +2,9 @@
 
 namespace StellarWP\Telemetry;
 
-class Cron_Job implements Contracts\Cron_Job {
+use StellarWP\Telemetry\Contracts\Cron_Job_Interface;
+
+class Cron_Job implements Cron_Job_Interface {
 	public const CRON_INTERVAL = WEEK_IN_SECONDS;
 	public const ACTION_NAME   = 'stellarwp_telemetry_cron';
 
