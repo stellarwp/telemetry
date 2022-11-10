@@ -3,6 +3,7 @@
 namespace StellarWP\Telemetry;
 
 use StellarWP\Telemetry\Contracts\Abstract_Subscriber;
+use StellarWP\Telemetry\Contracts\Cron_Job;
 
 class Admin_Subscriber extends Abstract_Subscriber {
 
@@ -14,12 +15,12 @@ class Admin_Subscriber extends Abstract_Subscriber {
 			}
 
 			// Register cronjob hook.
-			$this->container->get( Cron_Job_Contract::class )->admin_init();
+			$this->container->get( Cron_Job::class )->admin_init();
 
 			// Cronjob schedule.
 			$optin     = $this->container->get( Opt_In_Status::class );
 			$telemetry = $this->container->get( Telemetry::class );
-			$cronjob   = $this->container->get( Cron_Job_Contract::class );
+			$cronjob   = $this->container->get( Cron_Job::class );
 
 			if ( $optin->is_active() ) {
 				if ( $telemetry->is_registered() ) {
