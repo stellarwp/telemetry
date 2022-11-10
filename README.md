@@ -1,4 +1,4 @@
-# Schema Builder
+# Telemetry Library
 
 A library for Opt-in and Telemetry data to be sent to the StellarWP Telemetry server.
 
