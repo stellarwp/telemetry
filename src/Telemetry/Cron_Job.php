@@ -9,7 +9,7 @@ class Cron_Job implements Contracts\Cron_Job {
 	/** @var Telemetry */
 	protected $telemetry;
 
-	public function __construct( Telemetry $telemetry ) {
+	public function __construct( Telemetry $telemetry, string $plugin_path ) {
 		$this->telemetry = $telemetry;
 
 		// Load Action Scheduler
