@@ -16,10 +16,10 @@
   "license": "GPL-2.0-or-later",
   "require": {
     "php": ">=7.2",
-    "woocommerce/action-scheduler": "^3.5",
     "ext-json": "*",
     "lucatume/di52": "3.0.0",
-    "composer/installers": "^2.2"
+    "composer/installers": "^2.2",
+    "woocommerce/action-scheduler": "^3.5"
   },
   "require-dev": {
     "lucatume/wp-browser": "^3.1",
@@ -30,5 +30,10 @@
     "codeception/module-filesystem": "^1.0",
     "codeception/module-cli": "^1.0",
     "codeception/util-universalframework": "^1.0"
+  },
+  "extra": {
+    "installer-paths": {
+      "vendor/{$vendor}/{$name}": "woocommerce/action-scheduler"
+    }
   }
 }
