@@ -7,7 +7,6 @@ use StellarWP\Telemetry\Contracts\DataProvider;
 
 class Core {
 	public const PLUGIN_SLUG    = 'plugin.slug';
-	public const PLUGIN_VERSION = 'plugin.version';
 	public const YES = "1";
 	public const NO = "-1";
 
@@ -88,7 +87,6 @@ class Core {
 	private function init_container( string $plugin_path ): void {
 		$container = new Container();
 		$container->bind( self::PLUGIN_SLUG, dirname( plugin_basename( $plugin_path ) ) );
-		$container->bind( self::PLUGIN_VERSION, get_plugin_data( $plugin_path )['Version'] );
 		$container->bind( DataProvider::class, DebugDataProvider::class );
 		$container->bind( ActivationHook::class, static function () use ( $container ) {
 			return new ActivationHook( $container->get( OptInStatus::class ), $container );
