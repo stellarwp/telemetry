@@ -27,7 +27,7 @@ class Opt_In_Template implements Template {
 	}
 
 	public function render(): void {
-		load_template( __DIR__ . '/views/optin.php', true, $this->get_args() );
+		load_template( dirname( __DIR__ ) . '/views/optin.php', true, $this->get_args() );
 	}
 
 	protected function get_option_name(): string {
@@ -35,7 +35,7 @@ class Opt_In_Template implements Template {
 	}
 
 	public function should_render(): bool {
-		return get_option( $this->get_option_name(), false );
+		return (bool) get_option( $this->get_option_name(), false );
 	}
 
 	public function maybe_render(): void {
