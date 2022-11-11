@@ -169,7 +169,7 @@ use StellarWP\Telemetry\Exit_Interview_Subscriber;
 				}
 			}).done(function (response) {
 				// Redirect to the plugin page.
-				//window.location.href = redirectLink;
+				window.location.href = redirectLink;
 			});
 		}
 
