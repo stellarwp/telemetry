@@ -2,7 +2,7 @@
 
 namespace StellarWP\Telemetry\Contracts;
 
-interface CronJob {
+interface Cron_Job_Interface {
 	public function is_scheduled(): bool;
 	public function schedule( int $start ): void;
 	public function unschedule(): void;

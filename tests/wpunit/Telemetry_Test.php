@@ -1,10 +1,10 @@
 <?php
 
 use Codeception\TestCase\WPTestCase;
-use StellarWP\Telemetry\DebugDataProvider;
+use StellarWP\Telemetry\Debug_Data_Provider;
 use StellarWP\Telemetry\Telemetry;
 
-class TelemetryTest extends WPTestCase {
+class Telemetry_Test extends WPTestCase {
 	/** @var WpunitTester */
 	protected $tester;
 
@@ -17,11 +17,11 @@ class TelemetryTest extends WPTestCase {
 
 	// Tests
 	public function test_we_can_instantiate_it() {
-		$this->assertInstanceOf( Telemetry::class, new Telemetry( new DebugDataProvider(), 'stellarwp_telemetry' ) );
+		$this->assertInstanceOf( Telemetry::class, new Telemetry( new Debug_Data_Provider(), 'stellarwp_telemetry' ) );
 	}
 
 	public function test_we_can_register_site() {
-		$telemetry = new Telemetry( new DebugDataProvider(), 'stellarwp_telemetry' );
+		$telemetry = new Telemetry( new Debug_Data_Provider(), 'stellarwp_telemetry' );
 
 		// Check that the site is not registered
 		$this->assertFalse( $telemetry->is_registered() );
@@ -40,7 +40,7 @@ class TelemetryTest extends WPTestCase {
 	}
 
 	public function test_we_can_send_data() {
-		$telemetry = new Telemetry( new DebugDataProvider(), 'stellarwp_telemetry' );
+		$telemetry = new Telemetry( new Debug_Data_Provider(), 'stellarwp_telemetry' );
 
 		// Check we can't send data when the site is not registered
 		$this->assertFalse( $telemetry->send_data() );

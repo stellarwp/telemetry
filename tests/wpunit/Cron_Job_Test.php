@@ -2,12 +2,12 @@
 
 use Codeception\TestCase\WPTestCase;
 use lucatume\DI52\Container;
-use StellarWP\Telemetry\Contracts\CronJob as CronJobContract;
-use StellarWP\Telemetry\CronJob;
-use StellarWP\Telemetry\DebugDataProvider;
+use StellarWP\Telemetry\Contracts\Cron_Job as CronJobContract;
+use StellarWP\Telemetry\Cron_Job;
+use StellarWP\Telemetry\Debug_Data_Provider;
 use StellarWP\Telemetry\Telemetry;
 
-class CronJobTest extends WPTestCase {
+class Cron_Job_Test extends WPTestCase {
 	/**
 	 * @var WpunitTester
 	 */
@@ -22,10 +22,10 @@ class CronJobTest extends WPTestCase {
 
 		$this->container = new Container();
 		$this->container->singleton( Telemetry::class, function () {
-			return new Telemetry( new DebugDataProvider(), 'stellarwp_telemetry' );
+			return new Telemetry( new Debug_Data_Provider(), 'stellarwp_telemetry' );
 		} );
 		$this->container->singleton( CronJobContract::class, function () {
-			return new CronJob( $this->container->get( Telemetry::class ), __DIR__ . '/../../' );
+			return new Cron_Job( $this->container->get( Telemetry::class ), __DIR__ . '/../../' );
 		} );
 	}
 
