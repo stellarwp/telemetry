@@ -15,6 +15,43 @@ composer require stellarwp/telemetry
 >
 > Luckily, adding Strauss to your `composer.json` is only slightly more complicated than adding a typical dependency, so checkout our [strauss docs](https://github.com/stellarwp/global-docs/blob/main/docs/strauss-setup.md).
 
+## Table of Contents
+- [Telemetry Library](#telemetry-library)
+	- [Installation](#installation)
+	- [Table of Contents](#table-of-contents)
+	- [Integration](#integration)
+	- [Opt-In Modal Usage](#opt-in-modal-usage)
+		- [Prompting Users on a Settings Page](#prompting-users-on-a-settings-page)
+	- [Filter Reference](#filter-reference)
+		- [Activation](#activation)
+			- [stellarwp/telemetry/redirect_on_activation](#stellarwptelemetryredirect_on_activation)
+			- [stellarwp/telemetry/redirection_option_name](#stellarwptelemetryredirection_option_name)
+			- [stellarwp/telemetry/should_show_optin](#stellarwptelemetryshould_show_optin)
+			- [stellarwp/telemetry/show_optin_option_name](#stellarwptelemetryshow_optin_option_name)
+			- [stellarwp/telemetry/activation_redirect](#stellarwptelemetryactivation_redirect)
+		- [Core](#core)
+			- [stellarwp/telemetry/is_settings_page](#stellarwptelemetryis_settings_page)
+		- [Cron](#cron)
+			- [stellarwp/telemetry/cron_interval](#stellarwptelemetrycron_interval)
+			- [stellarwp/telemetry/cron_hook_name](#stellarwptelemetrycron_hook_name)
+		- [Data](#data)
+			- [stellarwp/telemetry/data](#stellarwptelemetrydata)
+		- [Opt-in Status](#opt-in-status)
+			- [stellarwp/telemetry/option_name](#stellarwptelemetryoption_name)
+			- [stellarwp/telemetry/optin_status](#stellarwptelemetryoptin_status)
+			- [stellarwp/telemetry/token](#stellarwptelemetrytoken)
+			- [stellarwp/telemetry/optin_status_label](#stellarwptelemetryoptin_status_label)
+		- [Opt-in Template](#opt-in-template)
+			- [stellarwp/telemetry/optin_args](#stellarwptelemetryoptin_args)
+			- [stellarwp/telemetry/show_optin_option_name](#stellarwptelemetryshow_optin_option_name-1)
+		- [Telemetry](#telemetry)
+			- [stellarwp/telemetry/register_site_url](#stellarwptelemetryregister_site_url)
+			- [stellarwp/telemetry/register_site_data](#stellarwptelemetryregister_site_data)
+			- [stellarwp/telemetry/register_site_user_details](#stellarwptelemetryregister_site_user_details)
+			- [stellarwp/telemetry/send_data_args](#stellarwptelemetrysend_data_args)
+			- [stellarwp/telemetry/send_data_url](#stellarwptelemetrysend_data_url)
+			- [stellarwp/telemetry/token](#stellarwptelemetrytoken-1)
+
 ## Integration
 Initialize the library within your main plugin file after plugins are loaded and configure a unique prefix (we suggest you use your plugin slug):
 ```php
@@ -55,3 +92,33 @@ _Note: When adding the `do_action`, you may pass additional arguments to the lib
 ```php
 do_action( 'stellarwp/telemetry/optin', [ 'plugin_slug' => 'the-events-calendar' ] );
 ```
+
+## Filter Reference
+### Activation
+#### stellarwp/telemetry/redirect_on_activation
+#### stellarwp/telemetry/redirection_option_name
+#### stellarwp/telemetry/should_show_optin
+#### stellarwp/telemetry/show_optin_option_name
+#### stellarwp/telemetry/activation_redirect
+### Core
+#### stellarwp/telemetry/is_settings_page
+### Cron
+#### stellarwp/telemetry/cron_interval
+#### stellarwp/telemetry/cron_hook_name
+### Data
+#### stellarwp/telemetry/data
+### Opt-in Status
+#### stellarwp/telemetry/option_name
+#### stellarwp/telemetry/optin_status
+#### stellarwp/telemetry/token
+#### stellarwp/telemetry/optin_status_label
+### Opt-in Template
+#### stellarwp/telemetry/optin_args
+#### stellarwp/telemetry/show_optin_option_name
+### Telemetry
+#### stellarwp/telemetry/register_site_url
+#### stellarwp/telemetry/register_site_data
+#### stellarwp/telemetry/register_site_user_details
+#### stellarwp/telemetry/send_data_args
+#### stellarwp/telemetry/send_data_url
+#### stellarwp/telemetry/token
