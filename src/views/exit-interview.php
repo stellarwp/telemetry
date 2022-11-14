@@ -6,7 +6,7 @@ use StellarWP\Telemetry\Exit_Interview_Subscriber;
 
 ?>
 <style>
-	.stellarwp-telemetry-starter.wrapper {
+	.stellarwp-telemetry.wrapper {
 		position: fixed;
 		visibility: hidden;
 		pointer-events: none;
@@ -23,13 +23,13 @@ use StellarWP\Telemetry\Exit_Interview_Subscriber;
 		transition: all 0.3s ease-in-out;
 	}
 
-	.stellarwp-telemetry-starter.wrapper.active {
+	.stellarwp-telemetry.wrapper.active {
 		visibility: visible;
 		pointer-events: all;
 		opacity: 1;
 	}
 
-	.stellarwp-telemetry-starter.modal {
+	.stellarwp-telemetry.modal {
 		position: absolute;
 		z-index: 999999;
 		display: flex;
@@ -43,11 +43,11 @@ use StellarWP\Telemetry\Exit_Interview_Subscriber;
 		text-align: center;
 	}
 
-	.stellarwp-telemetry-starter img.plugin-logo {
+	.stellarwp-telemetry img.plugin-logo {
 		margin: auto;
 	}
 
-	.stellarwp-telemetry-starter h1 {
+	.stellarwp-telemetry h1 {
 		font-family: 'SF Pro Text', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
 		font-size: 18px;
 		font-weight: 500;
@@ -57,7 +57,7 @@ use StellarWP\Telemetry\Exit_Interview_Subscriber;
 		margin: 1rem 0;
 	}
 
-	.stellarwp-telemetry-starter .intro {
+	.stellarwp-telemetry .intro {
 		font-size: 12px;
 		font-weight: 400;
 		line-height: 18px;
@@ -65,13 +65,13 @@ use StellarWP\Telemetry\Exit_Interview_Subscriber;
 		text-align: center;
 	}
 
-	.stellarwp-telemetry-starter ul.questions {
+	.stellarwp-telemetry ul.questions {
 		text-align: left;
 		width: 85%;
 		margin: 1rem auto;
 	}
 
-	.stellarwp-telemetry-starter ul.questions li {
+	.stellarwp-telemetry ul.questions li {
 		font-size: 14px;
 		font-weight: 400;
 		line-height: 18px;
@@ -83,25 +83,25 @@ use StellarWP\Telemetry\Exit_Interview_Subscriber;
 		border-radius: 4px;
 	}
 
-	.stellarwp-telemetry-starter ul.questions li.active {
+	.stellarwp-telemetry ul.questions li.active {
 		background: rgb(238 238 238 / 45%);
 		padding: 1rem;
 	}
 
-	.stellarwp-telemetry-starter ul.questions li:last-child {
+	.stellarwp-telemetry ul.questions li:last-child {
 		margin-bottom: 0;
 	}
 
-	.stellarwp-telemetry-starter ul.questions li input[type="radio"] {
+	.stellarwp-telemetry ul.questions li input[type="radio"] {
 		margin-top: 1px;
 		margin-right: 1rem;
 	}
 
-	.stellarwp-telemetry-starter ul.questions li label {
+	.stellarwp-telemetry ul.questions li label {
 		width: 100%;
 	}
 
-	.stellarwp-telemetry-starter ul.questions li textarea {
+	.stellarwp-telemetry ul.questions li textarea {
 		width: 100%;
 		height: 55px;
 		border: 1px solid #DFDFDF;
@@ -111,12 +111,12 @@ use StellarWP\Telemetry\Exit_Interview_Subscriber;
 		display: none;
 	}
 
-	.stellarwp-telemetry-starter ul.questions li.active textarea {
+	.stellarwp-telemetry ul.questions li.active textarea {
 		display: block;
 	}
 
-	.stellarwp-telemetry-starter .btn-primary,
-	.stellarwp-telemetry-starter .btn-grey {
+	.stellarwp-telemetry .btn-primary,
+	.stellarwp-telemetry .btn-grey {
 		padding: 8px 12px;
 		background: #0047FF;
 		border-radius: 4px;
@@ -128,16 +128,16 @@ use StellarWP\Telemetry\Exit_Interview_Subscriber;
 		cursor: pointer;
 	}
 
-	.stellarwp-telemetry-starter .btn-primary:hover {
+	.stellarwp-telemetry .btn-primary:hover {
 		background: #0032b7;
 	}
 
-	.stellarwp-telemetry-starter .btn-grey {
+	.stellarwp-telemetry .btn-grey {
 		background: #eee;
 		color: #000;
 	}
 
-	.stellarwp-telemetry-starter .btn-grey:hover {
+	.stellarwp-telemetry .btn-grey:hover {
 		background: #ddd;
 	}
 </style>
@@ -148,15 +148,15 @@ use StellarWP\Telemetry\Exit_Interview_Subscriber;
 		let redirectLink;
 
 		function showModal() {
-			$('.stellarwp-telemetry-starter.wrapper').addClass('active');
+			$('.stellarwp-telemetry.wrapper').addClass('active');
 		}
 
 		function closeModal( $this ) {
-			$this.closest('.stellarwp-telemetry-starter.wrapper').removeClass('active');
+			$this.closest('.stellarwp-telemetry.wrapper').removeClass('active');
 		}
 
 		function submit() {
-			let $form = $('.stellarwp-telemetry-starter.wrapper').find('form');
+			let $form = $('.stellarwp-telemetry.wrapper').find('form');
 
 			$.ajax({
 				url: ajaxurl,
@@ -210,12 +210,12 @@ use StellarWP\Telemetry\Exit_Interview_Subscriber;
 	})(jQuery);
 </script>
 
-<div class="stellarwp-telemetry-starter wrapper">
-	<section class="stellarwp-telemetry-starter modal">
+<div class="stellarwp-telemetry wrapper">
+	<section class="stellarwp-telemetry modal">
 		<img src="<?php echo $args['plugin_logo']; ?>" width="<?php echo $args['plugin_logo_width']; ?>"
 			 height="<?php echo $args['plugin_logo_height']; ?>" alt="<?php echo $args['plugin_logo_alt']; ?>"
 			 class="plugin-logo">
-		<h1 class="stellarwp-telemetry-starter-header">
+		<h1 class="stellarwp-telemetry-header">
 			<?php echo $args['heading']; ?>
 		</h1>
 		<div class="intro">
