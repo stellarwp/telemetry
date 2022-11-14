@@ -183,12 +183,13 @@ use StellarWP\Telemetry\Exit_Interview_Subscriber;
 			showModal();
 		});
 
-		$body.on( 'click', '[data-js="close-modal"]', function ( e ) {
+		$body.on( 'click', '[data-js="skip-interview"]', function ( e ) {
 			e.preventDefault();
 			closeModal( $(this) );
+			window.location.href = redirectLink;
 		});
 
-		$body.on( 'click', '[data-js="submit-telemetry-starter"]', function ( e ) {
+		$body.on( 'click', '[data-js="submit-telemetry"]', function ( e ) {
 			e.preventDefault();
 			submit( $(this) );
 		});
@@ -235,10 +236,10 @@ use StellarWP\Telemetry\Exit_Interview_Subscriber;
 				<?php endforeach; ?>
 			</ul>
 			<footer>
-				<button data-js="close-modal" class="btn-grey" type="button">
-					<?php echo __( 'Cancel', 'stellarwp-telemetry' ); ?>
+				<button data-js="skip-interview" class="btn-grey" type="button">
+					<?php echo __( 'Skip', 'stellarwp-telemetry' ); ?>
 				</button>
-				<button data-js="submit-telemetry-starter" class="btn-primary" type="submit" name="deactivate" value="true">
+				<button data-js="submit-telemetry" class="btn-primary" type="submit" name="deactivate" value="true">
 					<?php echo __( 'Deactivate', 'stellarwp-telemetry' ); ?>
 				</button>
 			</footer>
