@@ -16,8 +16,6 @@ A library for Opt-in and Telemetry data to be sent to the StellarWP Telemetry se
 			- [stellarwp/telemetry/should_show_optin](#stellarwptelemetryshould_show_optin)
 			- [stellarwp/telemetry/show_optin_option_name](#stellarwptelemetryshow_optin_option_name)
 			- [stellarwp/telemetry/activation_redirect](#stellarwptelemetryactivation_redirect)
-		- [Core](#core)
-			- [stellarwp/telemetry/is_settings_page](#stellarwptelemetryis_settings_page)
 		- [Cron](#cron)
 			- [stellarwp/telemetry/cron_interval](#stellarwptelemetrycron_interval)
 			- [stellarwp/telemetry/cron_hook_name](#stellarwptelemetrycron_hook_name)
@@ -100,9 +98,6 @@ do_action( 'stellarwp/telemetry/optin', [ 'plugin_slug' => 'the-events-calendar'
 #### stellarwp/telemetry/should_show_optin
 #### stellarwp/telemetry/show_optin_option_name
 #### stellarwp/telemetry/activation_redirect
-### Core
-[Table of Contents](#table-of-contents)
-#### stellarwp/telemetry/is_settings_page
 ### Cron
 [Table of Contents](#table-of-contents)
 #### stellarwp/telemetry/cron_interval
