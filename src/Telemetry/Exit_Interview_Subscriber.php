@@ -10,9 +10,10 @@ class Exit_Interview_Subscriber extends Abstract_Subscriber {
 
 	public function register(): void {
 		add_action( 'admin_footer', [ $this, 'render_exit_interview' ] );
-		add_filter( 'plugin_action_links_' . $this->container->get( Core::PLUGIN_BASENAME ), [ $this, 'plugin_action_links' ], 10, 1 );
-
 		add_action( 'wp_ajax_' . self::AJAX_ACTION, [ $this, 'ajax_exit_interview' ] );
+
+		add_filter( 'network_admin_plugin_action_links_' . $this->container->get( Core::PLUGIN_BASENAME ), [ $this, 'plugin_action_links' ], 10, 1 );
+		add_filter( 'plugin_action_links_' . $this->container->get( Core::PLUGIN_BASENAME ), [ $this, 'plugin_action_links' ], 10, 1 );
 	}
 
 	public function render_exit_interview() {
@@ -21,36 +22,6 @@ class Exit_Interview_Subscriber extends Abstract_Subscriber {
 		if ( $pagenow === 'plugins.php' ) {
 			$this->container->get( Exit_Interview_Template::class )->maybe_render();
 		}
-	}
-
-	public function plugin_action_links( $links ) {
-		$passed_deactivate = false;
-		$deactivate_link   = '';
-		$before_deactivate = [];
-		$after_deactivate  = [];
-
-		foreach ( $links as $key => $link ) {
-			if ( 'deactivate' === $key ) {
-				$deactivate_link   = $link;
-				$passed_deactivate = true;
-				continue;
-			}
-
-			if ( ! $passed_deactivate ) {
-				$before_deactivate[ $key ] = $link;
-			} else {
-				$after_deactivate[ $key ] = $link;
-			}
-		}
-
-		if ( ! empty( $deactivate_link ) ) {
-			$deactivate_link .= '<i class="telemetry-plugin-id" data-module-id="' . $this->container->get( Core::PLUGIN_SLUG ) . '"></i>';
-
-			// Append deactivation link.
-			$before_deactivate['deactivate'] = $deactivate_link;
-		}
-
-		return array_merge( $before_deactivate, $after_deactivate );
 	}
 
 	public function ajax_exit_interview() {
@@ -75,6 +46,36 @@ class Exit_Interview_Subscriber extends Abstract_Subscriber {
 		$telemetry->send_uninstall( $uninstall_reason, $this->container->get( Core::PLUGIN_SLUG ), $comment );
 
 		wp_send_json_success();
+	}
+
+	public function plugin_action_links( $links ) {
+		$passed_deactivate = false;
+		$deactivate_link   = '';
+		$before_deactivate = [];
+		$after_deactivate  = [];
+
+		foreach ( $links as $key => $link ) {
+			if ( 'deactivate' === $key ) {
+				$deactivate_link   = $link;
+				$passed_deactivate = true;
+				continue;
+			}
+
+			if ( ! $passed_deactivate ) {
+				$before_deactivate[ $key ] = $link;
+			} else {
+				$after_deactivate[ $key ] = $link;
+			}
+		}
+
+		if ( ! empty( $deactivate_link ) ) {
+			$deactivate_link .= '<i class="telemetry-plugin-slug" data-plugin-slug="' . $this->container->get( Core::PLUGIN_SLUG ) . '"></i>';
+
+			// Append deactivation link.
+			$before_deactivate['deactivate'] = $deactivate_link;
+		}
+
+		return array_merge( $before_deactivate, $after_deactivate );
 	}
 
 }

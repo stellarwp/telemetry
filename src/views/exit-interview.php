@@ -6,7 +6,7 @@ use StellarWP\Telemetry\Exit_Interview_Subscriber;
 
 ?>
 <style>
-	.stellarwp-telemetry.wrapper {
+	.stellarwp-telemetry.exit-interview {
 		position: fixed;
 		visibility: hidden;
 		pointer-events: none;
@@ -23,7 +23,7 @@ use StellarWP\Telemetry\Exit_Interview_Subscriber;
 		transition: all 0.3s ease-in-out;
 	}
 
-	.stellarwp-telemetry.wrapper.active {
+	.stellarwp-telemetry.exit-interview.active {
 		visibility: visible;
 		pointer-events: all;
 		opacity: 1;
@@ -142,75 +142,7 @@ use StellarWP\Telemetry\Exit_Interview_Subscriber;
 	}
 </style>
 
-<script>
-	(function ($) {
-		let $body = $('body');
-		let redirectLink;
-
-		function showModal() {
-			$('.stellarwp-telemetry.wrapper').addClass('active');
-		}
-
-		function closeModal( $this ) {
-			$this.closest('.stellarwp-telemetry.wrapper').removeClass('active');
-		}
-
-		function submit() {
-			let $form = $('.stellarwp-telemetry.wrapper').find('form');
-
-			$.ajax({
-				url: ajaxurl,
-				type: 'POST',
-				data: {
-					action: '<?php echo Exit_Interview_Subscriber::AJAX_ACTION; ?>',
-					nonce: '<?php echo wp_create_nonce( Exit_Interview_Subscriber::AJAX_ACTION ); ?>',
-					uninstall_reason: $form.find('input[name="uninstall_reason"]:checked').val(),
-				  	comment: $form.find('textarea').val(),
-				}
-			}).done(function (response) {
-				// Redirect to the plugin page.
-				window.location.href = redirectLink;
-			});
-		}
-
-		$body.on( 'click', '#the-list .deactivate > a', function ( e ) {
-			if ( 0 === $( this ).next( '[data-module-id].telemetry-plugin-id' ).length ) {
-				return true;
-			}
-
-			e.preventDefault();
-			redirectLink = $(this).attr('href');
-			showModal();
-		});
-
-		$body.on( 'click', '[data-js="skip-interview"]', function ( e ) {
-			e.preventDefault();
-			closeModal( $(this) );
-			window.location.href = redirectLink;
-		});
-
-		$body.on( 'click', '[data-js="submit-telemetry"]', function ( e ) {
-			e.preventDefault();
-			submit( $(this) );
-		});
-
-		$body.on( 'change', '[name="uninstall_reason"]', function () {
-			let $this = $(this);
-			let $wrapper = $this.closest('li');
-			let $reason = $wrapper.find('[name="comment"]');
-
-			if ( ! $reason.length ) {
-				return;
-			}
-
-			$body.find('ul.questions li.active').removeClass('active');
-			$body.find('ul.questions li [name="comment"]').val('');
-			$wrapper.addClass('active');
-		});
-	})(jQuery);
-</script>
-
-<div class="stellarwp-telemetry wrapper">
+<div class="stellarwp-telemetry exit-interview" data-plugin-slug="<?php echo $args['plugin_slug']; ?>">
 	<section class="stellarwp-telemetry modal">
 		<img src="<?php echo $args['plugin_logo']; ?>" width="<?php echo $args['plugin_logo_width']; ?>"
 			 height="<?php echo $args['plugin_logo_height']; ?>" alt="<?php echo $args['plugin_logo_alt']; ?>"
@@ -246,3 +178,86 @@ use StellarWP\Telemetry\Exit_Interview_Subscriber;
 		</form>
 	</section>
 </div>
+
+<script>
+	(function ( $ ) {
+
+		$('body').find('.stellarwp-telemetry.exit-interview').each( function ( index ) {
+			let $exitInterview = $(this);
+			let pluginSlug     = $exitInterview.data('plugin-slug');
+			let redirectLink   = null;
+
+			// Deactivate Button
+			$('body').on( 'click', '#the-list .deactivate > a', function ( e ) {
+				if ( 0 === $( this ).next( '[data-plugin-slug].telemetry-plugin-slug' ).length ) {
+					return true;
+				}
+
+				if ( $( this ).next( '[data-plugin-slug].telemetry-plugin-slug' ).data( 'plugin-slug' ) !== pluginSlug ) {
+					return true;
+				}
+
+				e.preventDefault();
+
+				redirectLink = $(this).attr('href');
+				$exitInterview.addClass('active');
+
+				// Skip Button
+				$exitInterview.on( 'click', '[data-js="skip-interview"]', function ( e ) {
+					e.preventDefault();
+					$exitInterview.removeClass('active');
+					window.location.href = redirectLink;
+				});
+
+				// Question Click
+				$exitInterview.on( 'change', '[name="uninstall_reason"]', function () {
+					let $this = $(this);
+					let $wrapper = $this.closest('li');
+					let $reason = $wrapper.find('[name="comment"]');
+
+					if ( ! $reason.length ) {
+						return;
+					}
+
+					$exitInterview.find('ul.questions li.active').removeClass('active');
+					$exitInterview.find('ul.questions li [name="comment"]').val('');
+					$wrapper.addClass('active');
+				});
+
+				// Submit Button
+				$exitInterview.on( 'click', '[data-js="submit-telemetry"]', function ( e ) {
+					e.preventDefault();
+
+					let $form = $('.stellarwp-telemetry.exit-interview').find('form');
+
+					let data = {
+						action: '<?php echo Exit_Interview_Subscriber::AJAX_ACTION; ?>',
+						nonce: '<?php echo wp_create_nonce( Exit_Interview_Subscriber::AJAX_ACTION ); ?>',
+					};
+
+					// Get non empty values and add them to the data object
+					$form.serializeArray().forEach( function ( item ) {
+						if ( item.value ) {
+							data[item.name] = item.value;
+						}
+					});
+
+					// uninstall_reason is required
+					if ( ! data.uninstall_reason ) {
+						return;
+					}
+
+					$.ajax({
+						url: ajaxurl,
+						type: 'POST',
+						data: data,
+					}).done(function () {
+						// Redirect to the plugin page.
+						window.location.href = redirectLink;
+					});
+				} );
+			});
+		});
+
+	}( jQuery ));
+</script>
