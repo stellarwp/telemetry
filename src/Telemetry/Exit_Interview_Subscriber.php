@@ -71,11 +71,6 @@ class Exit_Interview_Subscriber extends Abstract_Subscriber {
 			wp_send_json_error( 'Invalid nonce' );
 		}
 
-		// Show errors
-		ini_set( 'display_errors', '1' );
-		ini_set( 'display_startup_errors', '1' );
-		error_reporting( E_ALL );
-
 		$telemetry = $this->container->get( Telemetry::class );
 		$telemetry->send_uninstall( $uninstall_reason, $this->container->get( Core::PLUGIN_SLUG ), $comment );
 
