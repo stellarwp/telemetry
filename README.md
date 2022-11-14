@@ -94,51 +94,37 @@ do_action( 'stellarwp/telemetry/optin', [ 'plugin_slug' => 'the-events-calendar'
 
 ## Filter Reference
 ### Activation
+[Table of Contents](#table-of-contents)
 #### stellarwp/telemetry/redirect_on_activation
-[Table of Contents](#table-of-contents)
 #### stellarwp/telemetry/redirection_option_name
-[Table of Contents](#table-of-contents)
 #### stellarwp/telemetry/should_show_optin
-[Table of Contents](#table-of-contents)
 #### stellarwp/telemetry/show_optin_option_name
-[Table of Contents](#table-of-contents)
 #### stellarwp/telemetry/activation_redirect
-[Table of Contents](#table-of-contents)
 ### Core
+[Table of Contents](#table-of-contents)
 #### stellarwp/telemetry/is_settings_page
-[Table of Contents](#table-of-contents)
 ### Cron
+[Table of Contents](#table-of-contents)
 #### stellarwp/telemetry/cron_interval
-[Table of Contents](#table-of-contents)
 #### stellarwp/telemetry/cron_hook_name
-[Table of Contents](#table-of-contents)
 ### Data
+[Table of Contents](#table-of-contents)
 #### stellarwp/telemetry/data
-[Table of Contents](#table-of-contents)
 ### Opt-in Status
+[Table of Contents](#table-of-contents)
 #### stellarwp/telemetry/option_name
-[Table of Contents](#table-of-contents)
 #### stellarwp/telemetry/optin_status
-[Table of Contents](#table-of-contents)
 #### stellarwp/telemetry/token
-[Table of Contents](#table-of-contents)
 #### stellarwp/telemetry/optin_status_label
-[Table of Contents](#table-of-contents)
 ### Opt-in Template
+[Table of Contents](#table-of-contents)
 #### stellarwp/telemetry/optin_args
-[Table of Contents](#table-of-contents)
 #### stellarwp/telemetry/show_optin_option_name
-[Table of Contents](#table-of-contents)
 ### Telemetry
+[Table of Contents](#table-of-contents)
 #### stellarwp/telemetry/register_site_url
-[Table of Contents](#table-of-contents)
 #### stellarwp/telemetry/register_site_data
-[Table of Contents](#table-of-contents)
 #### stellarwp/telemetry/register_site_user_details
-[Table of Contents](#table-of-contents)
 #### stellarwp/telemetry/send_data_args
-[Table of Contents](#table-of-contents)
 #### stellarwp/telemetry/send_data_url
-[Table of Contents](#table-of-contents)
 #### stellarwp/telemetry/token
-[Table of Contents](#table-of-contents)
