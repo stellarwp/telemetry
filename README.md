@@ -101,7 +101,16 @@ do_action( 'stellarwp/telemetry/optin', [ 'plugin_slug' => 'the-events-calendar'
 ### Cron
 [Table of Contents](#table-of-contents)
 #### stellarwp/telemetry/cron_interval
+Set how often data should be sent to the Telemetry server.
+```php
+add_filter( 'stellarwp/telemetry/cron_interval', 'send_data_weekly', 10, 0 );
+
+function send_data_weekly() {
+	return WEEK_IN_SECONDS;
+}
+```
 #### stellarwp/telemetry/cron_hook_name
+
 ### Data
 [Table of Contents](#table-of-contents)
 #### stellarwp/telemetry/data
