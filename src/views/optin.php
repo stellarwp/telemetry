@@ -3,7 +3,7 @@
 /** @var array $args */
 ?>
 <style>
-	.stellarwp-telemetry-starter.wrapper {
+	.stellarwp-telemetry.wrapper {
 		position: fixed;
 		bottom: 0;
 		right: 0;
@@ -17,7 +17,7 @@
 		transition: all 0.3s ease-in-out;
 	}
 
-	.stellarwp-telemetry-starter.modal {
+	.stellarwp-telemetry.modal {
 		position: absolute;
 		z-index: 999999;
 		display: flex;
@@ -31,7 +31,7 @@
 		border-radius: 4px;
 	}
 
-	.stellarwp-telemetry-starter h1 {
+	.stellarwp-telemetry h1 {
 		font-family: 'SF Pro Text', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
 		font-size: 18px;
 		font-weight: 500;
@@ -40,7 +40,7 @@
 		color: #000;
 	}
 
-	.stellarwp-telemetry-starter {
+	.stellarwp-telemetry {
 		font-family: 'SF Pro Text', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
 		font-size: 14px;
 		font-weight: 400;
@@ -48,8 +48,8 @@
 		color: #4E4E4E;
 	}
 
-	.stellarwp-telemetry-starter .btn-primary,
-	.stellarwp-telemetry-starter .btn-text {
+	.stellarwp-telemetry .btn-primary,
+	.stellarwp-telemetry .btn-text {
 		padding: 6px 12px;
 		background: #0047FF;
 		border-radius: 4px;
@@ -61,28 +61,28 @@
 		cursor: pointer;
 	}
 
-	.stellarwp-telemetry-starter .btn-primary:hover {
+	.stellarwp-telemetry .btn-primary:hover {
 		background: #0032b7;
 	}
 
-	.stellarwp-telemetry-starter .btn-text {
+	.stellarwp-telemetry .btn-text {
 		background: #fff;
 		color: #000;
 	}
 
-	.stellarwp-telemetry-starter .links a:hover,
-	.stellarwp-telemetry-starter .btn-text:hover {
+	.stellarwp-telemetry .links a:hover,
+	.stellarwp-telemetry .btn-text:hover {
 		text-decoration: underline;
 	}
 
-	.stellarwp-telemetry-starter .links {
+	.stellarwp-telemetry .links {
 		display: flex;
 		gap: 16px;
 		font-size: 12px;
 		line-height: 16px;
 	}
 
-	.stellarwp-telemetry-starter .links a {
+	.stellarwp-telemetry .links a {
 		color: #0047FF;
 		text-decoration: none;
 	}
@@ -105,12 +105,12 @@
 	}
 </script>
 
-<div id="modal-wrapper" class="stellarwp-telemetry-starter wrapper">
-	<section class="stellarwp-telemetry-starter modal">
+<div id="modal-wrapper" class="stellarwp-telemetry wrapper">
+	<section class="stellarwp-telemetry modal">
 		<header>
 			<img src="<?php echo $args['plugin_logo']; ?>" width="<?php echo $args['plugin_logo_width']; ?>"
 			     height="<?php echo $args['plugin_logo_height']; ?>" alt="<?php echo $args['plugin_logo_alt']; ?>"/>
-			<h1 class="stellarwp-telemetry-starter-header">We hope you love <?php echo $args['plugin_name']; ?>.</h1>
+			<h1 class="stellarwp-telemetry-header">We hope you love <?php echo $args['plugin_name']; ?>.</h1>
 		</header>
 		<main>
 			<p>Hi, <?php echo $args['user_name']; ?>! This is an invitation to help our StellarWP community.
