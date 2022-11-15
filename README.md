@@ -30,6 +30,7 @@ A library for Opt-in and Telemetry data to be sent to the StellarWP Telemetry se
 		- [stellarwp/telemetry/send_data_args](#stellarwptelemetrysend_data_args)
 		- [stellarwp/telemetry/send_data_url](#stellarwptelemetrysend_data_url)
 		- [stellarwp/telemetry/token](#stellarwptelemetrytoken)
+		- [stellarwp/telemetry/exit_interview_args](#stellarwptelemetryexit_interview_args)
 ## Installation
 
 It's recommended that you install Telemetry as a project dependency via [Composer](https://getcomposer.org/):
@@ -269,3 +270,43 @@ Filters the URL of the telemetry server used to send the site data.
 Filters the token used to authenticate requests to the telemetry server.
 
 **Parameters**: _string_ `$token`
+
+### stellarwp/telemetry/exit_interview_args
+Filters the arguments used in the plugin deactivation "exit interview" form.
+
+**Parameters**: _array_ `$args`
+
+**Default**:
+```php
+$args = [
+	'plugin_slug'        => $this->container->get( Core::PLUGIN_SLUG ),
+	'plugin_logo'        => plugin_dir_url( __DIR__ ) . 'public/logo.png',
+	'plugin_logo_width'  => 151,
+	'plugin_logo_height' => 32,
+	'plugin_logo_alt'    => 'StellarWP Logo',
+	'heading'            => __( 'We’re sorry to see you go.', 'stellarwp-telemetry' ),
+	'intro' 		     => __( 'We’d love to know why you’re leaving so we can improve our plugin.', 'stellarwp-telemetry' ),
+	'questions'          => [
+		[
+			'question'   => __( 'I couldn’t understand how to make it work.', 'stellarwp-telemetry' ),
+			'show_field' => true
+		],
+		[
+			'question'   => __( 'I found a better plugin.', 'stellarwp-telemetry' ),
+			'show_field' => true
+		],
+		[
+			'question'   => __( 'I need a specific feature it doesn’t provide.', 'stellarwp-telemetry' ),
+			'show_field' => true
+		],
+		[
+			'question'   => __( 'The plugin doesn’t work.', 'stellarwp-telemetry' ),
+			'show_field' => true
+		],
+		[
+			'question'   => __( 'It’s not what I was looking for.', 'stellarwp-telemetry' ),
+			'show_field' => true
+		]
+	],
+];
+```
