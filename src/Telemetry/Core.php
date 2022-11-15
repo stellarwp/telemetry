@@ -58,14 +58,6 @@ class Core {
 	public function get_plugin_slug(): string {
 		return $this->plugin_slug;
 	}
-	/**
-	 * Determines if the current page is the plugin's main settings page.
-	 */
-	public function is_settings_page(): bool {
-		$is_settings_page = ( isset( $_GET['page'] ) && $_GET['page'] === $this->get_plugin_slug() );
-
-		return apply_filters( 'stellarwp/telemetry/is_settings_page', $is_settings_page );
-	}
 
 	private function init_container( string $plugin_path ): void {
 		$container = new Container();
