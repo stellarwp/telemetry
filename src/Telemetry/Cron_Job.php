@@ -15,7 +15,7 @@ class Cron_Job implements Cron_Job_Interface {
 		$this->telemetry = $telemetry;
 
 		// Load ActionScheduler
-		require_once trailingslashit( dirname( $plugin_path ) ) . 'vendor/woocommerce/action-scheduler/action-scheduler.php';
+		require_once trailingslashit( dirname( $plugin_path ) ) . 'lib/vendor/woocommerce/action-scheduler/action-scheduler.php';
 	}
 
 	public function get_cron_interval(): int {

@@ -31,6 +31,18 @@ class Telemetry {
 		return $this->save_token( $response['token'] ?? '' );
 	}
 
+	public function send_uninstall( string $uninstall_reason, string $plugin_slug, string $comment = '' ) {
+		$response = $this->send(
+			[
+				'access_token' => $this->get_token(),
+				'plugin_slug'  => $plugin_slug,
+				'uninstall_reason' => $uninstall_reason,
+				'comment' => $comment,
+			],
+			$this->get_uninstall_url()
+		);
+	}
+
 	protected function send( array $data, string $url ): ?array {
 		$response = $this->request( $url, $data );
 		$response = $this->parse_response( $response );
@@ -63,6 +75,10 @@ class Telemetry {
 
 	protected function get_register_site_url(): string {
 		return apply_filters( 'stellarwp/telemetry/register_site_url', self::SERVER_URL . '/register-site' );
+	}
+
+	protected function get_uninstall_url(): string {
+		return apply_filters( 'stellarwp/telemetry/uninstall_url', self::SERVER_URL . '/uninstall' );
 	}
 
 	protected function get_register_site_data(): array {
