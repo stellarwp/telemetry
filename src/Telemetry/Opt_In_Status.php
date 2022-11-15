@@ -96,4 +96,25 @@ class Opt_In_Status {
 	public function is_active(): bool {
 		return $this->get() === self::STATUS_ACTIVE;
 	}
+
+	/**
+	 * Determines if the optin modal should be shown to the user.
+	 */
+	public function should_show_optin() {
+		$should_show = (bool) get_option( $this->get_show_optin_option_name(), false );
+
+		if ( $should_show ) {
+			// Update the option so we don't show the optin again unless something changes this again.
+			update_option( $this->get_show_optin_option_name(), false );
+		}
+
+		return apply_filters( 'stellarwp/telemetry/should_show_optin', $should_show );
+	}
+
+	/**
+	 * Gets the optin option name.
+	 */
+	public function get_show_optin_option_name() {
+		return apply_filters( 'stellarwp/telemetry/show_optin_option_name', $this->container->get( Opt_In_Status::class )->get_option_name() . '_show_optin' );
+	}
 }
