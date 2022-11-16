@@ -12,13 +12,20 @@
       "StellarWP\\Telemetry\\Tests\\": "tests/"
     }
   },
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/stellarwp/container-contract"
+    }
+  ],
   "minimum-stability": "stable",
   "license": "GPL-2.0-or-later",
   "require": {
     "php": ">=7.2",
     "ext-json": "*",
     "lucatume/di52": "3.0.0",
-    "woocommerce/action-scheduler": "^3.5"
+    "woocommerce/action-scheduler": "^3.5",
+    "stellarwp/container-contract": "^1.0"
   },
   "require-dev": {
     "lucatume/wp-browser": "^3.1",
