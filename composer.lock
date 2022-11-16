@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "441b2b92232f1993ecfa0b7574f79bdc",
+    "content-hash": "c89eb077f82cffb31a4e2653e28fa368",
     "packages": [
         {
             "name": "stellarwp/container-contract",
@@ -46,10 +46,6 @@
                 "container-interop",
                 "psr-11"
             ],
-            "support": {
-                "source": "https://github.com/stellarwp/container-contract/tree/1.0.3",
-                "issues": "https://github.com/stellarwp/container-contract/issues"
-            },
             "time": "2022-09-23T02:59:52+00:00"
         },
         {
