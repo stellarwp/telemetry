@@ -12,16 +12,6 @@ class Admin_Subscriber extends Abstract_Subscriber {
 		add_action( 'admin_init', [ $this, 'set_cron_schedule' ] );
 	}
 
-	public function set_optin_status() {
-		// If GET param is set, handle plugin actions.
-		if ( isset( $_GET['action'] ) && 'stellarwp-telemetry' === $_GET['action'] ) {
-			// If user opted in, register the site.
-			if ( isset( $_GET['optin-agreed'] ) && 'true' === $_GET['optin-agreed'] ) {
-				$this->container->get( Opt_In_Status::class )->set_status( true );
-			}
-		}
-	}
-
 	public function register_cron() {
 		// Register cronjob hook.
 		$this->container->get( Cron_Job::class )->admin_init();

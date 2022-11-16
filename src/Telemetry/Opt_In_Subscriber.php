@@ -8,7 +8,19 @@ class Opt_In_Subscriber extends Abstract_Subscriber {
 
 	public function register(): void {
 		add_action( 'stellarwp/telemetry/optin', [ $this, 'maybe_render_optin' ] );
+		add_action( 'admin_init', [ $this, 'set_optin_status' ] );
 		add_action( 'admin_init', [ $this, 'initialize_optin_option' ] );
+	}
+
+	public function set_optin_status() {
+		// If GET param is set, handle plugin actions.
+		if ( isset( $_GET['action'] ) && 'stellarwp-telemetry' === $_GET['action'] ) {
+			// If user opted in, register the site and don't show modal again.
+			if ( isset( $_GET['optin-agreed'] ) && 'true' === $_GET['optin-agreed'] ) {
+				$this->container->get( Opt_In_Status::class )->set_status( true );
+				update_option( $this->container->get( Opt_In_Status::class )->get_show_optin_option_name(), "0" );
+			}
+		}
 	}
 
 	public function maybe_render_optin() {
