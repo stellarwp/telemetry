@@ -45,7 +45,7 @@ composer require stellarwp/telemetry
 ## Usage Prerequisites
 To actually _use_ the telemetry library, you must have a Dependency Injection Container (DI Container) that is compatible with [di52](https://github.com/lucatume/di52) (_We recommend using di52_).
 
-In order to keep this library as light as possible, a container is not included in the library itself. To avoid version compatibility issues, it is also not included as a Composer dependency. Instead, you must include it in your project. We recommend including it via composer using Strauss, just like you have done with this library.
+In order to keep this library as light as possible, a container is not included in the library itself. To avoid version compatibility issues, it is also not included as a Composer dependency. Instead, you must include it in your project. We recommend including it via composer [using Strauss](https://github.com/stellarwp/global-docs/blob/main/docs/strauss-setup.md), just like you have done with this library.
 
 ## Integration
 Initialize the library within your main plugin file after plugins are loaded (or anywhere else you see fit). Optionally, you can configure a unique prefix (we suggest you use your plugin slug) so that hooks can be uniquely called for your specific instance of the library.
