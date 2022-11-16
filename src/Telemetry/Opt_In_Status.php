@@ -115,6 +115,6 @@ class Opt_In_Status {
 	 * Gets the optin option name.
 	 */
 	public function get_show_optin_option_name() {
-		return apply_filters( 'stellarwp/telemetry/show_optin_option_name', $this->container->get( Opt_In_Status::class )->get_option_name() . '_show_optin' );
+		return apply_filters( 'stellarwp/telemetry/show_optin_option_name', $this->get_option_name() . '_show_optin' );
 	}
 }
