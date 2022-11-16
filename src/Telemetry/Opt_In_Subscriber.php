@@ -12,7 +12,7 @@ class Opt_In_Subscriber extends Abstract_Subscriber {
 	}
 
 	public function maybe_render_optin() {
-		( new Opt_In_Template() )->maybe_render();
+		$this->container->get( Opt_In_Template::class )->maybe_render();
 	}
 
 	public function initialize_optin_option() {
