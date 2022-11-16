@@ -6,6 +6,7 @@ A library for Opt-in and Telemetry data to be sent to the StellarWP Telemetry se
 - [Telemetry Library](#telemetry-library)
 	- [Table of Contents](#table-of-contents)
 	- [Installation](#installation)
+	- [Usage Prerequisites](#usage-prerequisites)
 	- [Integration](#integration)
 	- [Opt-In Modal Usage](#opt-in-modal-usage)
 		- [Prompting Users on a Settings Page](#prompting-users-on-a-settings-page)
@@ -41,6 +42,11 @@ composer require stellarwp/telemetry
 >
 > Luckily, adding Strauss to your `composer.json` is only slightly more complicated than adding a typical dependency, so checkout our [strauss docs](https://github.com/stellarwp/global-docs/blob/main/docs/strauss-setup.md).
 
+## Usage Prerequisites
+To actually _use_ the telemetry library, you must have a Dependency Injection Container (DI Container) that is compatible with [di52](https://github.com/lucatume/di52) (_We recommend using di52_).
+
+In order to keep this library as light as possible, a container is not included in the library itself. To avoid version compatibility issues, it is also not included as a Composer dependency. Instead, you must include it in your project. We recommend including it via composer using Strauss, just like you have done with this library.
+
 ## Integration
 Initialize the library within your main plugin file after plugins are loaded (or anywhere else you see fit). Optionally, you can configure a unique prefix (we suggest you use your plugin slug) so that hooks can be uniquely called for your specific instance of the library.
 
@@ -48,10 +54,14 @@ Initialize the library within your main plugin file after plugins are loaded (or
 add_action( 'plugins_loaded', 'initialize_telemetry' );
 
 function initialize_telemetry() {
-    // Optional: Set a unique prefix for actions & filters.
+	// Configure the container.
+	$container = new lucatume\DI52\Container();
+	Config::set_container( $container );
+
+	// Optional: Set a unique prefix for actions & filters.
     Config::set_hook_prefix( 'my-custom-prefix_' );
 
-    // Initialize the library
+    // Initialize the library.
     Telemetry::instance()->init( __FILE__ );
 }
 ```

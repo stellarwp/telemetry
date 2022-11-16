@@ -2,20 +2,20 @@
 
 namespace StellarWP\Telemetry;
 
-use lucatume\DI52\Container;
+use StellarWP\ContainerContract\ContainerInterface;
 use StellarWP\Telemetry\Contracts\Template;
 
 class Exit_Interview_Template implements Template {
 
 	/**
-	 * @var Container
+	 * @var ContainerInterface
 	 */
 	protected $container;
 
 	/**
 	 * Abstract_Subscriber constructor.
 	 */
-	public function __construct( Container $container ) {
+	public function __construct( ContainerInterface $container ) {
 		$this->container = $container;
 	}
 

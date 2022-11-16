@@ -38,6 +38,10 @@ class Core {
 	 * @param string $plugin_path    The path to the main plugin file.
 	 */
 	public function init( string $plugin_path ): void {
+		if ( ! Config::has_container() ) {
+			throw new \RuntimeException( 'You must call StellarWP\Schema\Config::set_container() before calling StellarWP\Telemetry::init().' );
+		}
+
 		$this->init_container( $plugin_path );
 	}
 
@@ -60,14 +64,15 @@ class Core {
 	}
 
 	private function init_container( string $plugin_path ): void {
-		$container = new Container();
+		$container = Config::get_container();
+
 		$container->bind( self::PLUGIN_SLUG, dirname( plugin_basename( $plugin_path ) ) );
 		$container->bind( self::PLUGIN_BASENAME, plugin_basename( $plugin_path ) );
 		$container->bind( Data_Provider::class, Debug_Data_Provider::class );
 		$container->bind( Cron_Job::class, static function () use ( $container, $plugin_path ) {
 			return new Cron_Job( $container->get( Telemetry::class ), $plugin_path );
 		} );
-		$container->bind( Opt_In_Template::class, static function () use ( $container ) {
+		$container->bind( Opt_In_Template::class, static function () {
 			return new Opt_In_Template();
 		} );
 		$container->bind( Exit_Interview_Template::class, static function () use ( $container ) {

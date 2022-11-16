@@ -21,20 +21,20 @@
   "minimum-stability": "stable",
   "license": "GPL-2.0-or-later",
   "require": {
-    "php": ">=7.2",
     "ext-json": "*",
-    "lucatume/di52": "3.0.0",
-    "woocommerce/action-scheduler": "^3.5",
-    "stellarwp/container-contract": "^1.0"
+    "php": ">=7.2",
+    "stellarwp/container-contract": "^1.0",
+    "woocommerce/action-scheduler": "^3.5"
   },
   "require-dev": {
-    "lucatume/wp-browser": "^3.1",
     "codeception/module-asserts": "^1.0",
     "codeception/module-phpbrowser": "^1.0",
     "codeception/module-webdriver": "^1.0",
     "codeception/module-db": "^1.0",
     "codeception/module-filesystem": "^1.0",
     "codeception/module-cli": "^1.0",
-    "codeception/util-universalframework": "^1.0"
+    "codeception/util-universalframework": "^1.0",
+    "lucatume/wp-browser": "^3.1",
+    "lucatume/di52": "3.0.0"
   }
 }
