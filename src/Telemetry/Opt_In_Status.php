@@ -50,7 +50,7 @@ class Opt_In_Status {
 	public function plugin_exists( string $plugin_slug ): bool {
 		$option = $this->get_option();
 
-		return ! array_key_exists( $plugin_slug, $option );
+		return array_key_exists( $plugin_slug, $option );
 	}
 
 	public function add_plugin( string $plugin_slug, bool $status = false ): bool {
