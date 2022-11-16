@@ -64,12 +64,6 @@ class Core {
 		$container->bind( self::PLUGIN_SLUG, dirname( plugin_basename( $plugin_path ) ) );
 		$container->bind( self::PLUGIN_BASENAME, plugin_basename( $plugin_path ) );
 		$container->bind( Data_Provider::class, Debug_Data_Provider::class );
-		$container->bind( Activation_Hook::class, static function () use ( $container ) {
-			return new Activation_Hook( $container->get( Opt_In_Status::class ), $container );
-		} );
-		$container->bind( Activation_Redirect::class, static function () use ( $container ) {
-			return new Activation_Redirect( $container->get( Activation_Hook::class ) );
-		} );
 		$container->bind( Cron_Job::class, static function () use ( $container, $plugin_path ) {
 			return new Cron_Job( $container->get( Telemetry::class ), $plugin_path );
 		} );
