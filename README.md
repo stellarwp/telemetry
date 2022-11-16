@@ -11,11 +11,8 @@ A library for Opt-in and Telemetry data to be sent to the StellarWP Telemetry se
 		- [Prompting Users on a Settings Page](#prompting-users-on-a-settings-page)
 	- [Server Authentication Flow](#server-authentication-flow)
 	- [Filter Reference](#filter-reference)
-		- [stellarwp/telemetry/redirect_on_activation](#stellarwptelemetryredirect_on_activation)
-		- [stellarwp/telemetry/redirection_option_name](#stellarwptelemetryredirection_option_name)
 		- [stellarwp/telemetry/should_show_optin](#stellarwptelemetryshould_show_optin)
 		- [stellarwp/telemetry/show_optin_option_name](#stellarwptelemetryshow_optin_option_name)
-		- [stellarwp/telemetry/activation_redirect](#stellarwptelemetryactivation_redirect)
 		- [stellarwp/telemetry/cron_interval](#stellarwptelemetrycron_interval)
 		- [stellarwp/telemetry/cron_hook_name](#stellarwptelemetrycron_hook_name)
 		- [stellarwp/telemetry/data](#stellarwptelemetrydata)
@@ -89,20 +86,6 @@ do_action( 'stellarwp/telemetry/optin', [ 'plugin_slug' => 'the-events-calendar'
 TBD
 
 ## Filter Reference
-### stellarwp/telemetry/redirect_on_activation
-Filters whether the user should be redirected on plugin activation.
-
-**Parameters**: _bool_ `$should_redirect`
-
-**Default**: `true`
-
-### stellarwp/telemetry/redirection_option_name
-Filters the option name used to store the redirection destination.
-
-**Parameters**: _string_ `$option_name`
-
-**Default**: `stellarwp_telemetry_redirection`
-
 ### stellarwp/telemetry/should_show_optin
 Filters whether the user should be shown the opt-in modal.
 
@@ -116,13 +99,6 @@ Filters the option name used to store whether the opt-in should be shown.
 **Parameters**: _string_ `$option_name`
 
 **Default**: `stellarwp_telemetry_show_optin`
-
-### stellarwp/telemetry/activation_redirect
-Filters the URL slug to use when redirecting the user.
-
-**Parameters**: _string_ `$slug`
-
-**Default**: `options-general.php?page=stellarwp-telemetry-starter`
 
 ### stellarwp/telemetry/cron_interval
 Filters how often data should be sent to the Telemetry server in seconds.
