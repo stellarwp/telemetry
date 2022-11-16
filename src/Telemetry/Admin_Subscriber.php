@@ -7,7 +7,6 @@ use StellarWP\Telemetry\Contracts\Abstract_Subscriber;
 class Admin_Subscriber extends Abstract_Subscriber {
 
 	public function register(): void {
-		add_action( 'admin_init', [ $this, 'set_optin_status' ] );
 		add_action( 'admin_init', [ $this, 'register_cron' ] );
 		add_action( 'admin_init', [ $this, 'set_cron_schedule' ] );
 	}
