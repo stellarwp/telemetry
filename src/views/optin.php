@@ -2,10 +2,6 @@
 // $args comes from load_template() in OptinTemplate.php
 /** @var array $args */
 ?>
-<style>
-
-</style>
-
 <div id="modal-wrapper" class="stellarwp-telemetry wrapper">
 	<section class="stellarwp-telemetry modal">
 		<header>
