@@ -61,16 +61,16 @@ Using a custom hook prefix provides the ability to uniquely filter modal functio
 ## Opt-In Modal Usage
 
 ### Prompting Users on a Settings Page
-On each settings page you'd like to prompt the user to opt-in, add a `do_action()`:
+On each settings page you'd like to prompt the user to opt-in, add a `do_action()`. _Be sure to include your hook prefix if you are using one_.
 ```php
-do_action( 'stellarwp/telemetry/optin' );
+do_action( 'stellarwp/telemetry/my-custom-prefix_optin' );
 ```
 The library calls this action to handle registering the required resources needed to render the modal. It will only display the modal for users who haven't yet opted in.
 
 To show the modal on a settings page, add the `do_action()` to the top of your rendered page content:
 ```php
 function my_options_page() {
-    do_action( 'stellarwp/telemetry/optin' );
+    do_action( 'stellarwp/telemetry/my-custom-prefix_optin' );
     ?>
     <div>
         <h2>My Plugin Settings Page</h2>
@@ -80,7 +80,7 @@ function my_options_page() {
 ```
 _Note: When adding the `do_action`, you may pass additional arguments to the library with an array. There is no functionality at the moment, but we expect to expand the library to accept configuration through the passed array._
 ```php
-do_action( 'stellarwp/telemetry/optin', [ 'plugin_slug' => 'the-events-calendar' ] );
+do_action( 'stellarwp/telemetry/my-custom-prefix_optin', [ 'plugin_slug' => 'the-events-calendar' ] );
 ```
 
 ## Server Authentication Flow
