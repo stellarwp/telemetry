@@ -66,7 +66,7 @@ function initialize_telemetry() {
 }
 ```
 
-Using a custom hook prefix provides the ability to uniquely filter modal functionality for your plugin's specific instance of the library.
+Using a custom hook prefix provides the ability to uniquely filter functionality of your plugin's specific instance of the library.
 
 ## Opt-In Modal Usage
 
