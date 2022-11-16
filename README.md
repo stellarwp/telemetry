@@ -42,13 +42,14 @@ composer require stellarwp/telemetry
 > Luckily, adding Strauss to your `composer.json` is only slightly more complicated than adding a typical dependency, so checkout our [strauss docs](https://github.com/stellarwp/global-docs/blob/main/docs/strauss-setup.md).
 
 ## Integration
-Initialize the library within your main plugin file after plugins are loaded and configure a unique prefix (we suggest you use your plugin slug):
+Initialize the library within your main plugin file after plugins are loaded (or anywhere else you see fit). Optionally, you can configure a unique prefix (we suggest you use your plugin slug) so that hooks can be uniquely called for your specific instance of the library.
+
 ```php
 add_action( 'plugins_loaded', 'initialize_telemetry' );
 
 function initialize_telemetry() {
-    // Set a unique prefix for actions & filters.
-    Config::set_hook_prefix( 'my-custom-prefix' );
+    // Optional: Set a unique prefix for actions & filters.
+    Config::set_hook_prefix( 'my-custom-prefix_' );
 
     // Initialize the library
     Telemetry::instance()->init( __FILE__ );
@@ -86,6 +87,11 @@ do_action( 'stellarwp/telemetry/optin', [ 'plugin_slug' => 'the-events-calendar'
 TBD
 
 ## Filter Reference
+
+If you configured this library to use a hook prefix, note that all hooks will now use this prefix. For example:
+```php
+add_filter( 'stellarwp/telemetry/my-custom-prefix_should_show_optin', 'my-custom-filter', 10, 1 );
+```
 ### stellarwp/telemetry/should_show_optin
 Filters whether the user should be shown the opt-in modal.
 
