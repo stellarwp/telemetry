@@ -4,14 +4,14 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1e2b41bb5e236b319713bf1180da6139",
+    "content-hash": "441b2b92232f1993ecfa0b7574f79bdc",
     "packages": [
         {
             "name": "stellarwp/container-contract",
             "version": "1.0.3",
             "source": {
                 "type": "git",
-                "url": "https://github.com/stellarwp/container-contract.git",
+                "url": "https://github.com/stellarwp/container-contract",
                 "reference": "65262f5b98538b56f0d20269b0deb55f5d366e3a"
             },
             "dist": {
@@ -5821,8 +5821,8 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=7.2",
-        "ext-json": "*"
+        "ext-json": "*",
+        "php": ">=7.2"
     },
     "platform-dev": [],
     "plugin-api-version": "1.1.0"

@@ -12,12 +12,6 @@
       "StellarWP\\Telemetry\\Tests\\": "tests/"
     }
   },
-  "repositories": [
-    {
-      "type": "vcs",
-      "url": "https://github.com/stellarwp/container-contract"
-    }
-  ],
   "minimum-stability": "stable",
   "license": "GPL-2.0-or-later",
   "require": {
@@ -36,5 +30,13 @@
     "codeception/util-universalframework": "^1.0",
     "lucatume/wp-browser": "^3.1",
     "lucatume/di52": "3.0.0"
-  }
+  },
+  "repositories": [
+    {
+      "name": "stellarwp/container-contract",
+      "type": "github",
+      "url": "https://github.com/stellarwp/container-contract",
+      "no-api": true
+    }
+  ]
 }
