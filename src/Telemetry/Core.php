@@ -2,8 +2,7 @@
 
 namespace StellarWP\Telemetry;
 
-use lucatume\DI52\Container;
-use StellarWP\Telemetry\Contracts\Cron_Job_Interface;
+use StellarWP\ContainerContract\ContainerInterface;
 use StellarWP\Telemetry\Contracts\Data_Provider;
 
 class Core {
@@ -17,7 +16,7 @@ class Core {
 		Exit_Interview_Subscriber::class,
 	];
 
-	private Container $container;
+	private ContainerInterface $container;
 
 	private static self $instance;
 
