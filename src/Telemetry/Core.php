@@ -90,6 +90,9 @@ class Core {
 		$container->bind( Telemetry::class, static function () use ( $container ) {
 			return new Telemetry( $container->get( Data_Provider::class ), 'stellarwp_telemetry' );
 		} );
+		$container->bind( Admin_Resources::class, static function () {
+			return new Admin_Resources();
+		} );
 
 		// Store the container for later use.
 		$this->container = $container;

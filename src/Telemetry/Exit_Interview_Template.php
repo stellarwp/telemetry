@@ -22,7 +22,7 @@ class Exit_Interview_Template implements Template {
 	protected function get_args(): array {
 		return apply_filters( 'stellarwp/telemetry/exit_interview_args', [
 			'plugin_slug'        => $this->container->get( Core::PLUGIN_SLUG ),
-			'plugin_logo'        => plugin_dir_url( __DIR__ ) . 'public/logo.png',
+			'plugin_logo'        => Admin_Resources::get_asset_path() . 'resources/images/stellar-logo.svg',
 			'plugin_logo_width'  => 151,
 			'plugin_logo_height' => 32,
 			'plugin_logo_alt'    => 'StellarWP Logo',

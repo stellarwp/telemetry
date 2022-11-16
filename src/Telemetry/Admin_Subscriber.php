@@ -21,6 +21,9 @@ class Admin_Subscriber extends Abstract_Subscriber {
 				$this->container->get( Activation_Redirect::class )->trigger();
 			}
 
+			// Load the admin resources.
+			$this->container->get( Admin_Resources::class )->enqueue();
+
 			// Register cronjob hook.
 			$this->container->get( Cron_Job::class )->admin_init();
 
