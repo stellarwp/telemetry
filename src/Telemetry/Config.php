@@ -75,6 +75,11 @@ class Config {
 	 * @return void
 	 */
 	public static function set_hook_prefix( string $prefix ): void {
+		// Make sure the prefix always ends with a separator.
+		if ( substr( $prefix, -1 ) !== '_' ) {
+			$prefix = $prefix . '_';
+		}
+
 		static::$hookprefix = $prefix;
 	}
 

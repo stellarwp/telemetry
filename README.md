@@ -59,7 +59,7 @@ function initialize_telemetry() {
 	Config::set_container( $container );
 
 	// Optional: Set a unique prefix for actions & filters.
-    Config::set_hook_prefix( 'my-custom-prefix_' );
+	Config::set_hook_prefix( 'my-custom-prefix' );
 
     // Initialize the library.
     Telemetry::instance()->init( __FILE__ );
