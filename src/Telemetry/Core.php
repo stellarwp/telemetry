@@ -1,28 +1,66 @@
 <?php
-
+/**
+ * Handles setting up the library.
+ *
+ * @since 1.0.0
+ *
+ * @package StellarWP\Telemetry
+ */
 namespace StellarWP\Telemetry;
 
 use StellarWP\ContainerContract\ContainerInterface;
 use StellarWP\Telemetry\Contracts\Data_Provider;
 
+/**
+ * The core class of the library.
+ *
+ * @since 1.0.0
+ *
+ * @package StellarWP\Telemetry
+ */
 class Core {
 	public const PLUGIN_SLUG     = 'plugin.slug';
 	public const PLUGIN_BASENAME = 'plugin.basename';
 
+	/**
+	 * The subscriber class names that should be registered in the container.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @var string[]
+	 */
 	private array $subscribers = [
 		Cron_Subscriber::class,
 		Opt_In_Subscriber::class,
 		Exit_Interview_Subscriber::class,
 	];
 
+	/**
+	 * The container that should be used for loading library resources.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @var ContainerInterface
+	 */
 	private ContainerInterface $container;
 
+	/**
+	 * The current instance of the library.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @var self
+	 */
 	private static self $instance;
 
 	/**
+	 * Returns the current instance or creates one to return.
+	 *
+	 * @since 1.0.0
+	 *
 	 * @return self
 	 */
-	public static function instance(): self {
+	public static function instance() {
 		if ( ! isset( self::$instance ) ) {
 			self::$instance = new self();
 		}
@@ -31,36 +69,55 @@ class Core {
 	}
 
 	/**
-	 * Sets up the library.
+	 * Initializes the library.
 	 *
-	 * @param string $plugin_path    The path to the main plugin file.
+	 * @since 1.0.0
+	 *
+	 * @param string $plugin_path The path to the main plugin file.
+	 *
+	 * @throws \RuntimeException
+	 *
+	 * @return void
 	 */
-	public function init( string $plugin_path ): void {
+	public function init( string $plugin_path ) {
 		if ( ! Config::has_container() ) {
-			throw new \RuntimeException( 'You must call StellarWP\Schema\Config::set_container() before calling StellarWP\Telemetry::init().' );
+			throw new \RuntimeException( 'You must call StellarWP\Telemetry\Config::set_container() before calling StellarWP\Telemetry::init().' );
 		}
 
 		$this->init_container( $plugin_path );
 	}
 
+	/**
+	 * Gets the container.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return \StellarWP\ContainerContract\ContainerInterface
+	 */
 	public function container() {
 		return $this->container;
 	}
 
 	/**
-	 * Gets the plugin's version.
+	 * Gets the plugin's slug.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return string
 	 */
-	public function get_plugin_version(): string {
-		return $this->plugin_version;
+	public function get_plugin_slug() {
+		return $this->container->get( self::PLUGIN_SLUG );
 	}
 
 	/**
-	 * Gets the plugin's slug.
+	 * Initializes the container with library resources.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $plugin_path The path of the plugin.
+	 *
+	 * @return void
 	 */
-	public function get_plugin_slug(): string {
-		return $this->plugin_slug;
-	}
-
 	private function init_container( string $plugin_path ): void {
 		$container = Config::get_container();
 
