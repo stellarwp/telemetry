@@ -2,19 +2,19 @@
 
 namespace StellarWP\Telemetry\Contracts;
 
-use lucatume\DI52\Container;
+use StellarWP\ContainerContract\ContainerInterface;
 
 abstract class Abstract_Subscriber implements Subscriber_Interface {
 
 	/**
-	 * @var Container
+	 * @var ContainerInterface
 	 */
 	protected $container;
 
 	/**
 	 * Abstract_Subscriber constructor.
 	 */
-	public function __construct( Container $container ) {
+	public function __construct( ContainerInterface $container ) {
 		$this->container = $container;
 	}
 

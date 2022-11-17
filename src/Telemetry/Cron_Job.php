@@ -15,15 +15,15 @@ class Cron_Job implements Cron_Job_Interface {
 		$this->telemetry = $telemetry;
 
 		// Load ActionScheduler
-		require_once trailingslashit( dirname( $plugin_path ) ) . 'lib/vendor/woocommerce/action-scheduler/action-scheduler.php';
+		require_once trailingslashit( dirname( $plugin_path ) ) . 'vendor/woocommerce/action-scheduler/action-scheduler.php';
 	}
 
 	public function get_cron_interval(): int {
-		return apply_filters( 'stellarwp/telemetry/cron_interval', self::CRON_INTERVAL );
+		return apply_filters( 'stellarwp/telemetry/' . Config::get_hook_prefix() . 'cron_interval', self::CRON_INTERVAL );
 	}
 
 	public function get_cron_hook_name(): string {
-		return apply_filters( 'stellarwp/telemetry/cron_hook_name', self::ACTION_NAME );
+		return apply_filters( 'stellarwp/telemetry/' . Config::get_hook_prefix() . 'cron_hook_name', self::ACTION_NAME );
 	}
 
 	public function schedule( int $start ): void {

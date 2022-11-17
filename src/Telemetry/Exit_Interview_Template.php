@@ -2,25 +2,25 @@
 
 namespace StellarWP\Telemetry;
 
-use lucatume\DI52\Container;
+use StellarWP\ContainerContract\ContainerInterface;
 use StellarWP\Telemetry\Contracts\Template;
 
 class Exit_Interview_Template implements Template {
 
 	/**
-	 * @var Container
+	 * @var ContainerInterface
 	 */
 	protected $container;
 
 	/**
 	 * Abstract_Subscriber constructor.
 	 */
-	public function __construct( Container $container ) {
+	public function __construct( ContainerInterface $container ) {
 		$this->container = $container;
 	}
 
 	protected function get_args(): array {
-		return apply_filters( 'stellarwp/telemetry/exit_interview_args', [
+		return apply_filters( 'stellarwp/telemetry/' . Config::get_hook_prefix() . 'exit_interview_args', [
 			'plugin_slug'        => $this->container->get( Core::PLUGIN_SLUG ),
 			'plugin_logo'        => plugin_dir_url( __DIR__ ) . 'public/logo.png',
 			'plugin_logo_width'  => 151,
@@ -62,7 +62,7 @@ class Exit_Interview_Template implements Template {
 	}
 
 	public function should_render(): bool {
-		return apply_filters( 'stellarwp/telemetry/exit_interview_should_render', true );
+		return apply_filters( 'stellarwp/telemetry/' . Config::get_hook_prefix() . 'exit_interview_should_render', true );
 	}
 
 	public function maybe_render(): void {

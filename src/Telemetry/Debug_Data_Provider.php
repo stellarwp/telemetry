@@ -25,6 +25,6 @@ class Debug_Data_Provider implements Data_Provider {
 		$info['telemetry-active-plugins']['fields'] = $active;
 		$info['telemetry-inactive-plugins']['fields'] = $plugins;
 
-		return apply_filters( 'stellarwp/telemetry/data', $info );
+		return apply_filters( 'stellarwp/telemetry/' . Config::get_hook_prefix() . 'data', $info );
 	}
 }

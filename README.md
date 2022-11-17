@@ -6,16 +6,14 @@ A library for Opt-in and Telemetry data to be sent to the StellarWP Telemetry se
 - [Telemetry Library](#telemetry-library)
 	- [Table of Contents](#table-of-contents)
 	- [Installation](#installation)
+	- [Usage Prerequisites](#usage-prerequisites)
 	- [Integration](#integration)
 	- [Opt-In Modal Usage](#opt-in-modal-usage)
 		- [Prompting Users on a Settings Page](#prompting-users-on-a-settings-page)
 	- [Server Authentication Flow](#server-authentication-flow)
 	- [Filter Reference](#filter-reference)
-		- [stellarwp/telemetry/redirect_on_activation](#stellarwptelemetryredirect_on_activation)
-		- [stellarwp/telemetry/redirection_option_name](#stellarwptelemetryredirection_option_name)
 		- [stellarwp/telemetry/should_show_optin](#stellarwptelemetryshould_show_optin)
 		- [stellarwp/telemetry/show_optin_option_name](#stellarwptelemetryshow_optin_option_name)
-		- [stellarwp/telemetry/activation_redirect](#stellarwptelemetryactivation_redirect)
 		- [stellarwp/telemetry/cron_interval](#stellarwptelemetrycron_interval)
 		- [stellarwp/telemetry/cron_hook_name](#stellarwptelemetrycron_hook_name)
 		- [stellarwp/telemetry/data](#stellarwptelemetrydata)
@@ -44,35 +42,54 @@ composer require stellarwp/telemetry
 >
 > Luckily, adding Strauss to your `composer.json` is only slightly more complicated than adding a typical dependency, so checkout our [strauss docs](https://github.com/stellarwp/global-docs/blob/main/docs/strauss-setup.md).
 
+## Usage Prerequisites
+To actually _use_ the telemetry library, you must have a Dependency Injection Container (DI Container) that is compatible with [di52](https://github.com/lucatume/di52) (_We recommend using di52_).
+
+In order to keep this library as light as possible, a container is not included in the library itself. To avoid version compatibility issues, it is also not included as a Composer dependency. Instead, you must include it in your project. We recommend including it via composer [using Strauss](https://github.com/stellarwp/global-docs/blob/main/docs/strauss-setup.md), just like you have done with this library.
+
 ## Integration
-Initialize the library within your main plugin file after plugins are loaded and configure a unique prefix (we suggest you use your plugin slug):
+Initialize the library within your main plugin file after plugins are loaded (or anywhere else you see fit). Optionally, you can configure a unique prefix (we suggest you use your plugin slug) so that hooks can be uniquely called for your specific instance of the library.
+
 ```php
 add_action( 'plugins_loaded', 'initialize_telemetry' );
 
 function initialize_telemetry() {
-    // Set a unique prefix for actions & filters.
-    Config::set_hook_prefix( 'my-custom-prefix' );
+	/**
+	 * Configure the container.
+	 *
+	 * The container must be compatible with stellarwp/container-contract.
+	 * See here: https://github.com/stellarwp/container-contract#usage.
+	 *
+	 * If you do not have a container, we recommend https://github.com/lucatume/di52
+	 * and the corresponding wrapper:
+	 * https://github.com/stellarwp/container-contract/blob/main/examples/di52/Container.php
+	 */
+	$container = new Container();
+	Config::set_container( $container );
 
-    // Initialize the library
+	// Optional: Set a unique prefix for actions & filters.
+	Config::set_hook_prefix( 'my-custom-prefix' );
+
+    // Initialize the library.
     Telemetry::instance()->init( __FILE__ );
 }
 ```
 
-Using a custom hook prefix provides the ability to uniquely filter modal functionality for your plugin's specific instance of the library.
+Using a custom hook prefix provides the ability to uniquely filter functionality of your plugin's specific instance of the library.
 
 ## Opt-In Modal Usage
 
 ### Prompting Users on a Settings Page
-On each settings page you'd like to prompt the user to opt-in, add a `do_action()`:
+On each settings page you'd like to prompt the user to opt-in, add a `do_action()`. _Be sure to include your hook prefix if you are using one_.
 ```php
-do_action( 'stellarwp/telemetry/optin' );
+do_action( 'stellarwp/telemetry/my-custom-prefix/optin' );
 ```
 The library calls this action to handle registering the required resources needed to render the modal. It will only display the modal for users who haven't yet opted in.
 
 To show the modal on a settings page, add the `do_action()` to the top of your rendered page content:
 ```php
 function my_options_page() {
-    do_action( 'stellarwp/telemetry/optin' );
+    do_action( 'stellarwp/telemetry/my-custom-prefix/optin' );
     ?>
     <div>
         <h2>My Plugin Settings Page</h2>
@@ -82,27 +99,18 @@ function my_options_page() {
 ```
 _Note: When adding the `do_action`, you may pass additional arguments to the library with an array. There is no functionality at the moment, but we expect to expand the library to accept configuration through the passed array._
 ```php
-do_action( 'stellarwp/telemetry/optin', [ 'plugin_slug' => 'the-events-calendar' ] );
+do_action( 'stellarwp/telemetry/my-custom-prefix/optin', [ 'plugin_slug' => 'the-events-calendar' ] );
 ```
 
 ## Server Authentication Flow
 TBD
 
 ## Filter Reference
-### stellarwp/telemetry/redirect_on_activation
-Filters whether the user should be redirected on plugin activation.
 
-**Parameters**: _bool_ `$should_redirect`
-
-**Default**: `true`
-
-### stellarwp/telemetry/redirection_option_name
-Filters the option name used to store the redirection destination.
-
-**Parameters**: _string_ `$option_name`
-
-**Default**: `stellarwp_telemetry_redirection`
-
+If you configured this library to use a hook prefix, note that all hooks will now use this prefix. For example:
+```php
+add_filter( 'stellarwp/telemetry/my-custom-prefix/should_show_optin', 'my-custom-filter', 10, 1 );
+```
 ### stellarwp/telemetry/should_show_optin
 Filters whether the user should be shown the opt-in modal.
 
@@ -116,13 +124,6 @@ Filters the option name used to store whether the opt-in should be shown.
 **Parameters**: _string_ `$option_name`
 
 **Default**: `stellarwp_telemetry_show_optin`
-
-### stellarwp/telemetry/activation_redirect
-Filters the URL slug to use when redirecting the user.
-
-**Parameters**: _string_ `$slug`
-
-**Default**: `options-general.php?page=stellarwp-telemetry-starter`
 
 ### stellarwp/telemetry/cron_interval
 Filters how often data should be sent to the Telemetry server in seconds.
