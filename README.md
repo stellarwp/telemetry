@@ -54,8 +54,17 @@ Initialize the library within your main plugin file after plugins are loaded (or
 add_action( 'plugins_loaded', 'initialize_telemetry' );
 
 function initialize_telemetry() {
-	// Configure the container.
-	$container = new lucatume\DI52\Container();
+	/**
+	 * Configure the container.
+	 *
+	 * The container must be compatible with stellarwp/container-contract.
+	 * See here: https://github.com/stellarwp/container-contract#usage.
+	 *
+	 * If you do not have a container, we recommend https://github.com/lucatume/di52
+	 * and the corresponding wrapper:
+	 * https://github.com/stellarwp/container-contract/blob/main/examples/di52/Container.php
+	 */
+	$container = new Container();
 	Config::set_container( $container );
 
 	// Optional: Set a unique prefix for actions & filters.
