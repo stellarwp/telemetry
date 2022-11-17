@@ -25,6 +25,13 @@ class Exit_Interview_Subscriber extends Abstract_Subscriber {
 	}
 
 	public function ajax_exit_interview() {
+		$uninstall_reason_id = filter_input( INPUT_POST, 'uninstall_reason_id', FILTER_SANITIZE_STRING );
+		$uninstall_reason_id = ! empty( $uninstall_reason_id ) ? $uninstall_reason_id : false;
+
+		if ( ! $uninstall_reason_id ) {
+			wp_send_json_error( 'No reason id provided' );
+		}
+
 		$uninstall_reason = filter_input( INPUT_POST, 'uninstall_reason', FILTER_SANITIZE_STRING );
 		$uninstall_reason = ! empty( $uninstall_reason ) ? $uninstall_reason : false;
 
@@ -43,7 +50,7 @@ class Exit_Interview_Subscriber extends Abstract_Subscriber {
 		}
 
 		$telemetry = $this->container->get( Telemetry::class );
-		$telemetry->send_uninstall( $uninstall_reason, $this->container->get( Core::PLUGIN_SLUG ), $comment );
+		$telemetry->send_uninstall( $this->container->get( Core::PLUGIN_SLUG ), $uninstall_reason_id, $uninstall_reason, $comment );
 
 		wp_send_json_success();
 	}

@@ -28,26 +28,27 @@ class Exit_Interview_Template implements Template {
 			'plugin_logo_alt'    => 'StellarWP Logo',
 			'heading'            => __( 'We’re sorry to see you go.', 'stellarwp-telemetry' ),
 			'intro' 		     => __( 'We’d love to know why you’re leaving so we can improve our plugin.', 'stellarwp-telemetry' ),
-			'questions'          => [
+			'uninstall_reasons'  => [
 				[
-					'question'   => __( 'I couldn’t understand how to make it work.', 'stellarwp-telemetry' ),
-					'show_field' => true
+					'uninstall_reason_id' => 'confusing',
+					'uninstall_reason'    => __( 'I couldn’t understand how to make it work.', 'stellarwp-telemetry' ),
 				],
 				[
-					'question'   => __( 'I found a better plugin.', 'stellarwp-telemetry' ),
-					'show_field' => true
+					'uninstall_reason_id' => 'better-plugin',
+					'uninstall_reason'    => __( 'I found a better plugin.', 'stellarwp-telemetry' ),
 				],
 				[
-					'question'   => __( 'I need a specific feature it doesn’t provide.', 'stellarwp-telemetry' ),
-					'show_field' => true
+					'uninstall_reason_id' => 'no-feature',
+					'uninstall_reason'    => __( 'I need a specific feature it doesn’t provide.', 'stellarwp-telemetry' ),
 				],
 				[
-					'question'   => __( 'The plugin doesn’t work.', 'stellarwp-telemetry' ),
-					'show_field' => true
+					'uninstall_reason_id' => 'broken',
+					'uninstall_reason'    => __( 'The plugin doesn’t work.', 'stellarwp-telemetry' ),
 				],
 				[
-					'question'   => __( 'It’s not what I was looking for.', 'stellarwp-telemetry' ),
-					'show_field' => true
+					'uninstall_reason_id' => 'other',
+					'uninstall_reason'    => __( 'Other', 'stellarwp-telemetry' ),
+					'show_comment'        => true
 				]
 			],
 		] );

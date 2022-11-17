@@ -31,13 +31,14 @@ class Telemetry {
 		return $this->save_token( $response['token'] ?? '' );
 	}
 
-	public function send_uninstall( string $uninstall_reason, string $plugin_slug, string $comment = '' ) {
+	public function send_uninstall( string $plugin_slug, string $uninstall_reason_id, string $uninstall_reason, string $comment = '' ) {
 		$response = $this->send(
 			[
-				'access_token' => $this->get_token(),
-				'plugin_slug'  => $plugin_slug,
-				'uninstall_reason' => $uninstall_reason,
-				'comment' => $comment,
+				'access_token'        => $this->get_token(),
+				'plugin_slug'         => $plugin_slug,
+				'uninstall_reason_id' => $uninstall_reason_id,
+				'uninstall_reason'    => $uninstall_reason,
+				'comment'             => $comment,
 			],
 			$this->get_uninstall_url()
 		);
