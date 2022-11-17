@@ -18,7 +18,7 @@ class Config {
 	 *
 	 * @var string
 	 */
-	protected static string $hookprefix = '';
+	protected static string $hook_prefix = '';
 
 	/**
 	 * Get the container.
@@ -39,7 +39,7 @@ class Config {
 	 * @return string
 	 */
 	public static function get_hook_prefix(): string {
-		return static::$hookprefix;
+		return static::$hook_prefix;
 	}
 
 	/**
@@ -55,7 +55,7 @@ class Config {
 	 * Resets this class back to the defaults.
 	 */
 	public static function reset(): void {
-		static::$hookprefix = '';
+		static::$hook_prefix = '';
 	}
 
 	/**
@@ -80,7 +80,7 @@ class Config {
 			$prefix = $prefix . '/';
 		}
 
-		static::$hookprefix = $prefix;
+		static::$hook_prefix = $prefix;
 	}
 
 }
