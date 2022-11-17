@@ -1,9 +1,19 @@
-<?php declare(strict_types=1);
+<?php
+/**
+ * Handles setting up a base for all subscribers.
+ *
+ * @package StellarWP\Telemetry\Contracts
+ */
 
 namespace StellarWP\Telemetry\Contracts;
 
 use StellarWP\ContainerContract\ContainerInterface;
 
+/**
+ * Class Abstract_Subscriber
+ *
+ * @package StellarWP\Telemetry\Contracts
+ */
 abstract class Abstract_Subscriber implements Subscriber_Interface {
 
 	/**
@@ -12,7 +22,9 @@ abstract class Abstract_Subscriber implements Subscriber_Interface {
 	protected $container;
 
 	/**
-	 * Abstract_Subscriber constructor.
+	 * Constructor for the class.
+	 *
+	 * @param ContainerInterface $container
 	 */
 	public function __construct( ContainerInterface $container ) {
 		$this->container = $container;

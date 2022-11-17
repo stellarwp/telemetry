@@ -10,7 +10,6 @@ class Core {
 	public const PLUGIN_BASENAME = 'plugin.basename';
 
 	private array $subscribers = [
-		Admin_Subscriber::class,
 		Cron_Subscriber::class,
 		Opt_In_Subscriber::class,
 		Exit_Interview_Subscriber::class,
