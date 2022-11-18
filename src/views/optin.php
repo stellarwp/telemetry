@@ -88,23 +88,6 @@
 	}
 </style>
 
-
-<script>
-	// JS document on ready event
-	document.addEventListener("DOMContentLoaded", function () {
-		let wrapper = document.getElementById("modal-wrapper");
-
-		document.getElementById("close-modal").addEventListener("click", function (event) {
-			event.preventDefault();
-			close_modal(wrapper);
-		});
-	});
-
-	function close_modal(wrapper) {
-		wrapper.parentNode.removeChild(wrapper);
-	}
-</script>
-
 <div id="modal-wrapper" class="stellarwp-telemetry wrapper">
 	<section class="stellarwp-telemetry modal">
 		<header>
@@ -126,11 +109,11 @@
 			</ul>
 		</main>
 		<footer>
-			<form method="get">
+			<form method="post" action="">
 				<input type="hidden" name="page" value="<?php echo esc_attr( $_GET['page'] ); ?>">
 				<input type="hidden" name="action" value="stellarwp-telemetry">
 				<button id="agree-modal" class="btn-primary" type="submit" name="optin-agreed" value="true">Allow &amp; Continue</button>
-				<button id="close-modal" class="btn-text" type="button">Skip</button>
+				<button id="close-modal" class="btn-text" type="submit" name="optin-agreed" value="false">Skip</button>
 			</form>
 		</footer>
 	</section>
