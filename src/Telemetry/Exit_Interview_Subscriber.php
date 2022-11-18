@@ -1,13 +1,33 @@
 <?php
-
+/**
+ * A class that handles displaying an "Exit Interview" for users deactivating the plugin.
+ *
+ * @since 1.0.0
+ *
+ * @package StellarWP\Telemetry
+ */
 namespace StellarWP\Telemetry;
 
 use StellarWP\Telemetry\Contracts\Abstract_Subscriber;
 
+/**
+ * A class that handles displaying an "Exit Interview" for users deactivating the plugin.
+ *
+ * @since 1.0.0
+ *
+ * @package StellarWP\Telemetry
+ */
 class Exit_Interview_Subscriber extends Abstract_Subscriber {
 
 	const AJAX_ACTION = 'exit-interview';
 
+	/**
+	 * @inheritDoc
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
 	public function register(): void {
 		add_action( 'admin_footer', [ $this, 'render_exit_interview' ] );
 		add_action( 'wp_ajax_' . self::AJAX_ACTION, [ $this, 'ajax_exit_interview' ] );
@@ -16,6 +36,13 @@ class Exit_Interview_Subscriber extends Abstract_Subscriber {
 		add_filter( 'plugin_action_links_' . $this->container->get( Core::PLUGIN_BASENAME ), [ $this, 'plugin_action_links' ], 10, 1 );
 	}
 
+	/**
+	 * Possibly renders the exit interview if the user is on the plugins list page.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
 	public function render_exit_interview() {
 		global $pagenow;
 
@@ -24,6 +51,13 @@ class Exit_Interview_Subscriber extends Abstract_Subscriber {
 		}
 	}
 
+	/**
+	 * Handles the ajax request for rendering the "Exit Interivew" modal.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
 	public function ajax_exit_interview() {
 		$uninstall_reason = filter_input( INPUT_POST, 'uninstall_reason', FILTER_SANITIZE_STRING );
 		$uninstall_reason = ! empty( $uninstall_reason ) ? $uninstall_reason : false;
@@ -48,6 +82,17 @@ class Exit_Interview_Subscriber extends Abstract_Subscriber {
 		wp_send_json_success();
 	}
 
+	/**
+	 * Updates the "deactivate" link on the plugin so that it doesn't actually trigger the deactivation.
+	 *
+	 * The deactivation is deferred to the modal displayed by the ajax action.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param array $links
+	 *
+	 * @return void
+	 */
 	public function plugin_action_links( $links ) {
 		$passed_deactivate = false;
 		$deactivate_link   = '';

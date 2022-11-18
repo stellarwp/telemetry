@@ -1,25 +1,60 @@
 <?php
-
+/**
+ * Handles the methods for rendering the "Exit Interview" modal on plugin deactivation.
+ *
+ * @since 1.0.0
+ *
+ * @package StellarWP\Telemetry
+ */
 namespace StellarWP\Telemetry;
 
 use StellarWP\ContainerContract\ContainerInterface;
 use StellarWP\Telemetry\Contracts\Template;
 
+/**
+ * The primary class for rendering the "Exit Interview" modal on plugin deactivation.
+ *
+ * @since 1.0.0
+ *
+ * @package StellarWP\Telemetry
+ */
 class Exit_Interview_Template implements Template {
 
 	/**
-	 * @var ContainerInterface
+	 * The plugin container.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @var \StellarWP\ContainerContract\ContainerInterface
 	 */
 	protected $container;
 
 	/**
-	 * Abstract_Subscriber constructor.
+	 * The class constructor.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param \StellarWP\ContainerContract\ContainerInterface
 	 */
 	public function __construct( ContainerInterface $container ) {
 		$this->container = $container;
 	}
 
-	protected function get_args(): array {
+	/**
+	 * Gets the arguments for configuring the "Exit Interview" modal.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return array
+	 */
+	protected function get_args() {
+		/**
+		 * Filters the "Exit Interview" modal arguments.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param array $args The arguments used to configure the modal.
+		 */
 		return apply_filters( 'stellarwp/telemetry/' . Config::get_hook_prefix() . 'exit_interview_args', [
 			'plugin_slug'        => $this->container->get( Core::PLUGIN_SLUG ),
 			'plugin_logo'        => plugin_dir_url( __DIR__ ) . 'public/logo.png',
@@ -53,19 +88,54 @@ class Exit_Interview_Template implements Template {
 		] );
 	}
 
-	public function render(): void {
+	/**
+	 * @inheritDoc
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
+	public function render() {
 		load_template( dirname( __DIR__ ) . '/views/exit-interview.php', true, $this->get_args() );
 	}
 
-	public function enqueue(): void {
+	/**
+	 * @inheritDoc
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
+	public function enqueue() {
 		// TODO: Implement enqueue() method.
 	}
 
-	public function should_render(): bool {
+	/**
+	 * @inheritDoc
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return boolean
+	 */
+	public function should_render() {
+		/**
+		 * Filters whether the "Exit Interview" modal should render.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param bool $should_render Whether the modal should render.
+		 */
 		return apply_filters( 'stellarwp/telemetry/' . Config::get_hook_prefix() . 'exit_interview_should_render', true );
 	}
 
-	public function maybe_render(): void {
+	/**
+	 * Renders the template if it should be rendered.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
+	public function maybe_render() {
 		if ( $this->should_render() ) {
 			$this->render();
 		}
