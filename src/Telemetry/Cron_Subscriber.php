@@ -51,16 +51,16 @@ class Cron_Subscriber extends Abstract_Subscriber {
 	 * @return void
 	 */
 	public function set_cron_schedule() {
-		$cronjob   = $this->container->get( Cron_Job::class );
+		$cron_job  = $this->container->get( Cron_Job::class );
 		$optin     = $this->container->get( Opt_In_Status::class );
 		$telemetry = $this->container->get( Telemetry::class );
 
 		// Don't set the cron if the optin is not active.
 		if ( ! $optin->is_active() ) {
 
-			// Unschedule existing cronjobs if any.
-			if ( $cronjob->is_scheduled() ) {
-				$cronjob->unschedule();
+			// User is not opted in, remove any existing scheduled jobs.
+			if ( $cron_job->is_scheduled() ) {
+				$cron_job->unschedule();
 			}
 
 			return;
@@ -72,6 +72,6 @@ class Cron_Subscriber extends Abstract_Subscriber {
 		}
 
 		// If site is registered, schedule it immediately.
-		$cronjob->schedule( time() );
+		$cron_job->schedule( time() );
 	}
 }
