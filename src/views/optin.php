@@ -88,23 +88,6 @@
 	}
 </style>
 
-
-<script>
-	// JS document on ready event
-	document.addEventListener("DOMContentLoaded", function () {
-		let wrapper = document.getElementById("modal-wrapper");
-
-		document.getElementById("close-modal").addEventListener("click", function (event) {
-			event.preventDefault();
-			close_modal(wrapper);
-		});
-	});
-
-	function close_modal(wrapper) {
-		wrapper.parentNode.removeChild(wrapper);
-	}
-</script>
-
 <div id="modal-wrapper" class="stellarwp-telemetry wrapper">
 	<section class="stellarwp-telemetry modal">
 		<header>
