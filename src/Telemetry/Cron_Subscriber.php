@@ -51,25 +51,27 @@ class Cron_Subscriber extends Abstract_Subscriber {
 	 * @return void
 	 */
 	public function set_cron_schedule() {
+		$cronjob   = $this->container->get( Cron_Job::class );
 		$optin     = $this->container->get( Opt_In_Status::class );
 		$telemetry = $this->container->get( Telemetry::class );
-		$cronjob   = $this->container->get( Cron_Job::class );
 
-		if ( $optin->is_active() ) {
-			if ( $telemetry->is_registered() ) {
-				if ( ! $cronjob->is_scheduled() ) {
-					// If site is registered, but cronjob is not scheduled, schedule it immediately.
-					$cronjob->schedule( time() );
-				}
-			} else {
-				// If site is not registered, register it and schedule the cron.
-				$telemetry->register_site();
-				$cronjob->schedule( time() + ( 5 * MINUTE_IN_SECONDS ) );
+		// Don't set the cron if the optin is not active.
+		if ( ! $optin->is_active() ) {
+
+			// Unschedule existing cronjobs if any.
+			if ( $cronjob->is_scheduled() ) {
+				$cronjob->unschedule();
 			}
-		} else {
-			// If optin is not active, unschedule the cronjob.
-			$cronjob->unschedule();
-		}
-	}
 
+			return;
+		}
+
+		// If the site is unregistered, we don't have authority to send data.
+		if ( ! $telemetry->is_registered() ) {
+			return;
+		}
+
+		// If site is registered, schedule it immediately.
+		$cronjob->schedule( time() );
+	}
 }
