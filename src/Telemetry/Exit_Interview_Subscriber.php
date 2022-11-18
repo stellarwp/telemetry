@@ -52,7 +52,7 @@ class Exit_Interview_Subscriber extends Abstract_Subscriber {
 	}
 
 	/**
-	 * Handles the ajax request for rendering the "Exit Interivew" modal.
+	 * Handles the ajax request for submitting "Exit Interivew" form data.
 	 *
 	 * @since 1.0.0
 	 *
