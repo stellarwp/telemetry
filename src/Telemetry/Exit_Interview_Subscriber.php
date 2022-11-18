@@ -83,9 +83,9 @@ class Exit_Interview_Subscriber extends Abstract_Subscriber {
 	}
 
 	/**
-	 * Updates the "deactivate" link on the plugin so that it doesn't actually trigger the deactivation.
+	 * Adds an <i> element after the "deactivate" link on the plugin list table so that it can be targeted by JS to trigger the interview modal.
 	 *
-	 * The deactivation is deferred to the modal displayed by the ajax action.
+	 * The deactivation is deferred to the modal displayed.
 	 *
 	 * @since 1.0.0
 	 *
