@@ -38,14 +38,30 @@ class Opt_In_Subscriber extends Abstract_Subscriber {
 	 * @return void
 	 */
 	public function set_optin_status() {
-		// If GET param is set, handle plugin actions.
-		if ( isset( $_GET['action'] ) && 'stellarwp-telemetry' === $_GET['action'] ) {
-			// If user opted in, register the site and don't show modal again.
-			if ( isset( $_GET['optin-agreed'] ) && 'true' === $_GET['optin-agreed'] ) {
-				$this->container->get( Opt_In_Status::class )->set_status( true );
-				update_option( $this->container->get( Opt_In_Status::class )->get_show_optin_option_name(), "0" );
-			}
+
+		// We're not attempting an action.
+		if ( empty( $_POST ) ) {
+			return;
 		}
+
+		// We're not attempting a telemetry action.
+		if ( $_POST['action'] !== 'stellarwp-telemetry' ) {
+			return;
+		}
+
+		// The user did not respond to the opt-in modal.
+		if ( ! isset( $_POST['optin-agreed'] ) ) {
+			return;
+		}
+
+		// User agreed to opt-in to Telemetry.
+		if ( 'true' === $_POST['optin-agreed'] ) {
+			$this->container->get( Telemetry::class )->register_site();
+			$this->container->get( Opt_In_Status::class )->set_status( true );
+		}
+
+		// Don't show the opt-in modal again.
+		update_option( $this->container->get( Opt_In_Status::class )->get_show_optin_option_name(), "0" );
 	}
 
 	/**
