@@ -1,11 +1,34 @@
 <?php
-
+/**
+ * A helper class for getting site health data.
+ *
+ * @since 1.0.0
+ *
+ * @package StellarWP\Telemetry
+ */
 namespace StellarWP\Telemetry;
 
 use StellarWP\Telemetry\Contracts\Data_Provider;
 use WP_Debug_Data;
 
+/**
+ * Provides methods for retrieving site health data.
+ *
+ * @since 1.0.0
+ *
+ * @package StellarWP\Telemetry
+ */
 class Debug_Data_Provider implements Data_Provider {
+
+	/**
+	 * Gets the current site health data
+	 *
+	 * @since 1.0.0
+	 *
+	 * @see https://developer.wordpress.org/reference/classes/wp_debug_data/
+	 *
+	 * @return array Site health data
+	 */
 	public function get_data(): array {
 		if ( ! class_exists( 'WP_Debug_Data' ) ) {
 			require_once ABSPATH . 'wp-admin/includes/class-wp-debug-data.php';
@@ -25,6 +48,15 @@ class Debug_Data_Provider implements Data_Provider {
 		$info['telemetry-active-plugins']['fields'] = $active;
 		$info['telemetry-inactive-plugins']['fields'] = $plugins;
 
-		return apply_filters( 'stellarwp/telemetry/data', $info );
+		/**
+		 * Filters the site health data array.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @see https://developer.wordpress.org/reference/classes/wp_debug_data/debug_data/
+		 *
+		 * @param array $info The array of site data.
+		 */
+		return apply_filters( 'stellarwp/telemetry/' . Config::get_hook_prefix() . 'data', $info );
 	}
 }
