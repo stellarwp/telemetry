@@ -1,7 +1,16 @@
-<?php declare(strict_types=1);
-
+<?php
+/**
+ * The API implemented by all subscribers.
+ *
+ * @package StellarWP\Telemetry\Contracts
+ */
 namespace StellarWP\Telemetry\Contracts;
 
+/**
+ * Interface Subscriber_Interface
+ *
+ * @package StellarWP\Telemetry\Contracts
+ */
 interface Subscriber_Interface {
 
 	/**
@@ -9,6 +18,6 @@ interface Subscriber_Interface {
 	 *
 	 * @return void
 	 */
-	public function register(): void;
+	public function register();
 
 }
