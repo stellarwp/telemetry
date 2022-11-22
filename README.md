@@ -51,6 +51,8 @@ In order to keep this library as light as possible, a container is not included 
 Initialize the library within your main plugin file after plugins are loaded (or anywhere else you see fit). Optionally, you can configure a unique prefix (we suggest you use your plugin slug) so that hooks can be uniquely called for your specific instance of the library.
 
 ```php
+use StellarWP\Telemetry\Core as Telemetry;
+
 add_action( 'plugins_loaded', 'initialize_telemetry' );
 
 function initialize_telemetry() {
