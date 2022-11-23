@@ -49,7 +49,7 @@
 				let $wrapper = $this.closest('li');
 				let $reason = $wrapper.find('[name="comment"]');
 
-				$exitInterview.find('.stellarwp-telemetry-uninstall-reasons__item--active').removeClass('active');
+				$exitInterview.find('.stellarwp-telemetry-uninstall-reasons__item--active').removeClass('.stellarwp-telemetry-uninstall-reasons__item--active');
 				$exitInterview.find('.stellarwp-telemetry-uninstall-reasons__item [name="comment"]').val('');
 				$exitInterview.find('.stellarwp-telemetry-error-message').hide();
 
