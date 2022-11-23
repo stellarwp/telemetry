@@ -76,19 +76,21 @@ class Telemetry {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string $uninstall_reason Why the user deactivated the plugin.
-	 * @param string $plugin_slug      The plugin slug.
-	 * @param string $comment          The additional comment from the text field shown with the uninstall reason.
+	 * @param string $plugin_slug         The plugin slug.
+	 * @param string $uninstall_reason_id The ID for the reason the plugin was deactivated.
+	 * @param string $uninstall_reason    Why the user deactivated the plugin.
+	 * @param string $comment             The additional comment from the text field shown with the uninstall reason.
 	 *
 	 * @return void
 	 */
-	public function send_uninstall( string $uninstall_reason, string $plugin_slug, string $comment = '' ) {
+	public function send_uninstall( string $plugin_slug, string $uninstall_reason_id, string $uninstall_reason, string $comment = '' ) {
 		$response = $this->send(
 			[
-				'access_token' => $this->get_token(),
-				'plugin_slug'  => $plugin_slug,
-				'uninstall_reason' => $uninstall_reason,
-				'comment' => $comment,
+				'access_token'        => $this->get_token(),
+				'plugin_slug'         => $plugin_slug,
+				'uninstall_reason_id' => $uninstall_reason_id,
+				'uninstall_reason'    => $uninstall_reason,
+				'comment'             => $comment,
 			],
 			$this->get_uninstall_url()
 		);
