@@ -63,8 +63,8 @@ function close_modal(wrapper) {
 				let $form = $('.stellarwp-telemetry.exit-interview').find('form');
 
 				let data = {
-					action: '<?php echo Exit_Interview_Subscriber::AJAX_ACTION; ?>',
-					nonce: '<?php echo wp_create_nonce( Exit_Interview_Subscriber::AJAX_ACTION ); ?>',
+					action: stellarwpTelemetry.exit_interview.action,
+					nonce: stellarwpTelemetry.exit_interview.nonce,
 				};
 
 				// Get non empty values and add them to the data object
