@@ -14,7 +14,7 @@ class Admin_Subscriber extends Abstract_Subscriber {
 	 * @return void
 	 */
 	public function register(): void {
-		add_action( 'admin_init', [ $this, 'enqueue_admin_assets' ] );
+		add_action( 'admin_init', [ $this, 'maybe_enqueue_admin_assets' ] );
 
 	}
 
@@ -25,8 +25,12 @@ class Admin_Subscriber extends Abstract_Subscriber {
 	 *
 	 * @return void
 	 */
-	public function enqueue_admin_assets() {
-		$this->container->get( Admin_Resources::class )->admin_init();
+	public function maybe_enqueue_admin_assets() {
+		global $pagenow;
+
+		if ( $pagenow === 'plugins.php' || $this->container->get( Opt_In_Template::class )->should_render() ) {
+			$this->container->get( Admin_Resources::class )->enqueue_admin_assets();
+		}
 	}
 
 }

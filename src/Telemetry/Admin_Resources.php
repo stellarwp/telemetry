@@ -14,7 +14,7 @@ class Admin_Resources {
 	 *
 	 * @return void
 	 */
-	public function admin_init() {
+	public function enqueue_admin_assets() {
 		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_scripts' ] );
 		add_action( 'admin_enqueue_scripts', [ $this, 'localize_script' ] );
 		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_styles' ] );
