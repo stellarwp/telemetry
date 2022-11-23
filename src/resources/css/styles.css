@@ -193,3 +193,8 @@
 	color: #0047FF;
 	text-decoration: none;
 }
+
+.stellarwp-telemetry .error-message {
+	display: none;
+	margin-bottom: 1rem;
+}

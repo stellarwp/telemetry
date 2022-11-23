@@ -41,18 +41,20 @@ function close_modal(wrapper) {
 				window.location.href = redirectLink;
 			});
 
-			// Question Click
+			// Answer Click
 			$exitInterview.on( 'change', '[name="uninstall_reason"]', function () {
 				let $this = $(this);
 				let $wrapper = $this.closest('li');
 				let $reason = $wrapper.find('[name="comment"]');
 
+				$exitInterview.find('ul.uninstall_reasons li.active').removeClass('active');
+				$exitInterview.find('ul.uninstall_reasons li [name="comment"]').val('');
+				$exitInterview.find('.error-message').hide();
+
 				if ( ! $reason.length ) {
 					return;
 				}
 
-				$exitInterview.find('ul.questions li.active').removeClass('active');
-				$exitInterview.find('ul.questions li [name="comment"]').val('');
 				$wrapper.addClass('active');
 			});
 
@@ -67,16 +69,27 @@ function close_modal(wrapper) {
 					nonce: stellarwpTelemetry.exit_interview.nonce,
 				};
 
-				// Get non empty values and add them to the data object
-				$form.serializeArray().forEach( function ( item ) {
-					if ( item.value ) {
-						data[item.name] = item.value;
-					}
-				});
+				// Get uninstall_reason value
+				let $reason = $form.find('[name="uninstall_reason"]:checked');
 
-				// uninstall_reason is required
-				if ( ! data.uninstall_reason ) {
+				if ( ! $reason.length ) {
+					$exitInterview.find('.error-message').show();
 					return;
+				}
+
+				data['uninstall_reason_id'] = $reason.data('uninstall-reason-id');
+				data['uninstall_reason']    = $reason.val();
+
+				// Get comment value if exists
+				let $comment = $reason.closest('li').find('[name="comment"]');
+
+				if ( $comment.length ) {
+					if ( ! $comment.val() ) {
+						$exitInterview.find('.error-message').show();
+						return;
+					}
+
+					data['comment'] = $comment.val();
 				}
 
 				$.ajax({
