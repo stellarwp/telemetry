@@ -3,19 +3,19 @@
 /** @var array $args */
 ?>
 
-<div class="stellarwp-telemetry exit-interview" data-js="exit-interview-modal" data-plugin-slug="<?php echo $args['plugin_slug']; ?>">
-	<section class="stellarwp-telemetry modal">
+<div class="stellarwp-telemetry stellarwp-telemetry-modal stellarwp-telemetry-modal--exit-interview" data-js="exit-interview-modal" data-plugin-slug="<?php echo $args['plugin_slug']; ?>">
+	<div class="stellarwp-telemetry-modal__inner">
 		<img src="<?php echo $args['plugin_logo']; ?>" width="<?php echo $args['plugin_logo_width']; ?>" height="<?php echo $args['plugin_logo_height']; ?>" alt="<?php echo $args['plugin_logo_alt']; ?>" class="plugin-logo">
-		<h1 class="stellarwp-telemetry-header">
+		<h1 class="stellarwp-telemetry__title">
 			<?php echo $args['heading']; ?>
 		</h1>
-		<div class="intro">
+		<div class="stellarwp-telemetry__intro">
 			<?php echo $args['intro']; ?>
 		</div>
 		<form method="get">
-			<ul class="uninstall_reasons">
+			<ul class="stellarwp-telemetry-uninstall-reasons">
 				<?php foreach ( $args['uninstall_reasons'] as $key => $item ) : ?>
-					<li>
+					<li class="stellarwp-telemetry-uninstall-reasons__item">
 						<input type="radio" name="uninstall_reason" id="reason-<?php echo $key; ?>" value="<?php echo $item['uninstall_reason']; ?>" data-uninstall-reason-id="<?php echo $item['uninstall_reason_id']; ?>">
 						<label for="reason-<?php echo $key; ?>">
 							<?php echo $item['uninstall_reason']; ?>
@@ -26,17 +26,17 @@
 					</li>
 				<?php endforeach; ?>
 			</ul>
-			<div class="error-message">
+			<div class="stellarwp-telemetry-error-message">
 				<?php echo __( 'Please select a reason', 'stellarwp-telemetry' ); ?>
 			</div>
 			<footer>
-				<button data-js="skip-interview" class="btn-grey" type="button">
+				<button data-js="skip-interview" class="stellarwp-telemetry-btn-grey" type="button">
 					<?php echo __( 'Skip', 'stellarwp-telemetry' ); ?>
 				</button>
-				<button data-js="submit-telemetry" class="btn-primary" type="submit" name="deactivate" value="true">
+				<button data-js="submit-telemetry" class="stellarwp-telemetry-btn-primary" type="submit" name="deactivate" value="true">
 					<?php echo __( 'Deactivate', 'stellarwp-telemetry' ); ?>
 				</button>
 			</footer>
 		</form>
-	</section>
+	</div>
 </div>

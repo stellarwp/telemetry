@@ -34,12 +34,12 @@
 			e.preventDefault();
 
 			redirectLink = $(this).attr('href');
-			$exitInterview.addClass('active');
+			$exitInterview.addClass('stellarwp-telemetry-modal--active');
 
 			// Skip Button
 			$exitInterview.on( 'click', '[data-js="skip-interview"]', function ( e ) {
 				e.preventDefault();
-				$exitInterview.removeClass('active');
+				$exitInterview.removeClass('stellarwp-telemetry-modal--active');
 				window.location.href = redirectLink;
 			});
 
@@ -49,15 +49,15 @@
 				let $wrapper = $this.closest('li');
 				let $reason = $wrapper.find('[name="comment"]');
 
-				$exitInterview.find('ul.uninstall_reasons li.active').removeClass('active');
-				$exitInterview.find('ul.uninstall_reasons li [name="comment"]').val('');
-				$exitInterview.find('.error-message').hide();
+				$exitInterview.find('.stellarwp-telemetry-uninstall-reasons__item--active').removeClass('active');
+				$exitInterview.find('.stellarwp-telemetry-uninstall-reasons__item [name="comment"]').val('');
+				$exitInterview.find('.stellarwp-telemetry-error-message').hide();
 
 				if ( ! $reason.length ) {
 					return;
 				}
 
-				$wrapper.addClass('active');
+				$wrapper.addClass('stellarwp-telemetry-uninstall-reasons__item--active');
 			});
 
 			// Submit Button
@@ -75,7 +75,7 @@
 				let $reason = $form.find('[name="uninstall_reason"]:checked');
 
 				if ( ! $reason.length ) {
-					$exitInterview.find('.error-message').show();
+					$exitInterview.find('.stellarwp-telemetry-error-message').show();
 					return;
 				}
 
@@ -87,7 +87,7 @@
 
 				if ( $comment.length ) {
 					if ( ! $comment.val() ) {
-						$exitInterview.find('.error-message').show();
+						$exitInterview.find('.stellarwp-telemetry-error-message').show();
 						return;
 					}
 

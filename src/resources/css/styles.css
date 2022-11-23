@@ -6,8 +6,7 @@
 	color: #4E4E4E;
 }
 
-.stellarwp-telemetry h1 {
-	font-family: 'SF Pro Text', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+.stellarwp-telemetry__title {
 	font-size: 18px;
 	font-weight: 500;
 	line-height: 24px;
@@ -16,21 +15,19 @@
 	margin: 1rem 0;
 }
 
-.stellarwp-telemetry .intro {
+.stellarwp-telemetry__intro {
 	font-size: 12px;
-	font-weight: 400;
-	line-height: 18px;
 	letter-spacing: -0.01em;
 	text-align: center;
 }
 
-.stellarwp-telemetry ul.uninstall_reasons {
+.stellarwp-telemetry-uninstall-reasons {
 	text-align: left;
 	width: 85%;
 	margin: 1rem auto;
 }
 
-.stellarwp-telemetry ul.uninstall_reasons li {
+.stellarwp-telemetry-uninstall-reasons__item {
 	font-size: 14px;
 	font-weight: 400;
 	line-height: 18px;
@@ -42,25 +39,20 @@
 	border-radius: 4px;
 }
 
-.stellarwp-telemetry ul.uninstall_reasons li.active {
-	background: rgb(238 238 238 / 45%);
-	padding: 1rem;
-}
-
-.stellarwp-telemetry ul.uninstall_reasons li:last-child {
+.stellarwp-telemetry-uninstall-reasons__item:last-child {
 	margin-bottom: 0;
 }
 
-.stellarwp-telemetry ul.uninstall_reasons li input[type="radio"] {
+.stellarwp-telemetry-uninstall-reasons__item input[type="radio"] {
 	margin-top: 1px;
 	margin-right: 1rem;
 }
 
-.stellarwp-telemetry ul.uninstall_reasons li label {
+.stellarwp-telemetry-uninstall-reasons__item label {
 	width: 100%;
 }
 
-.stellarwp-telemetry ul.uninstall_reasons li textarea {
+.stellarwp-telemetry-uninstall-reasons__item textarea {
 	width: 100%;
 	height: 55px;
 	border: 1px solid #DFDFDF;
@@ -70,13 +62,18 @@
 	display: none;
 }
 
-.stellarwp-telemetry ul.uninstall_reasons li.active textarea {
+.stellarwp-telemetry-uninstall-reasons__item--active {
+	background: rgb(238 238 238 / 45%);
+	padding: 1rem;
+}
+
+.stellarwp-telemetry-uninstall-reasons__item--active textarea {
 	display: block;
 }
 
-.stellarwp-telemetry .btn-primary,
-.stellarwp-telemetry .btn-grey,
-.stellarwp-telemetry .btn-text {
+.stellarwp-telemetry-btn-primary,
+.stellarwp-telemetry-btn-grey,
+.stellarwp-telemetry-btn-text {
 	padding: 8px 12px;
 	background: #0047FF;
 	border-radius: 4px;
@@ -88,24 +85,30 @@
 	cursor: pointer;
 }
 
-.stellarwp-telemetry .btn-primary:hover {
+.stellarwp-telemetry-btn-primary:hover {
 	background: #0032b7;
 }
 
-.stellarwp-telemetry .btn-grey {
+.stellarwp-telemetry-btn-grey {
 	background: #eee;
 	color: #000;
 }
 
-.stellarwp-telemetry .btn-grey:hover {
+.stellarwp-telemetry-btn-grey:hover {
 	background: #ddd;
 }
 
-.stellarwp-telemetry.exit-interview {
+.stellarwp-telemetry-btn-text {
+	background: #fff;
+	color: #000;
+}
+
+.stellarwp-telemetry-btn-text:hover {
+	text-decoration: underline;
+}
+
+.stellarwp-telemetry-modal {
 	position: fixed;
-	visibility: hidden;
-	pointer-events: none;
-	opacity: 0;
 	bottom: 0;
 	right: 0;
 	width: 100%;
@@ -116,51 +119,19 @@
 	justify-content: center;
 	align-items: center;
 	transition: all 0.3s ease-in-out;
+	visibility: hidden;
+	pointer-events: none;
+	opacity: 0;
 }
 
-.stellarwp-telemetry.exit-interview.active {
+.stellarwp-telemetry-modal--active {
 	visibility: visible;
 	pointer-events: all;
 	opacity: 1;
 }
 
-.stellarwp-telemetry.exit-interview .stellarwp-telemetry.modal {
+.stellarwp-telemetry-modal__inner {
 	position: absolute;
-	z-index: 999999;
-	display: flex;
-	flex-direction: column;
-	padding: 32px;
-	width: 90%;
-	top: unset;
-	left: unset;
-	max-width: 585px;
-	background: #fff;
-	box-shadow: 0 0 32px rgba(0, 0, 0, 0.1);
-	border-radius: 4px;
-	text-align: center;
-}
-
-.stellarwp-telemetry.exit-interview .stellarwp-telemetry img.plugin-logo {
-	margin: auto;
-}
-
-.stellarwp-telemetry.wrapper {
-	position: fixed;
-	bottom: 0;
-	right: 0;
-	width: 100%;
-	height: 100%;
-	background: rgba(0, 0, 0, 0.5);
-	z-index: 999999;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	transition: all 0.3s ease-in-out;
-}
-
-.stellarwp-telemetry.modal {
-	position: absolute;
-	z-index: 999999;
 	display: flex;
 	flex-direction: column;
 	padding: 32px;
@@ -172,29 +143,31 @@
 	border-radius: 4px;
 }
 
-.stellarwp-telemetry .btn-text {
-	background: #fff;
-	color: #000;
+.stellarwp-telemetry-modal--exit-interview .stellarwp-telemetry-modal__inner {
+	max-width: 585px;
 }
 
-.stellarwp-telemetry .links a:hover,
-.stellarwp-telemetry .btn-text:hover {
-	text-decoration: underline;
+.stellarwp-telemetry.exit-interview .stellarwp-telemetry img.plugin-logo {
+	margin: auto;
 }
 
-.stellarwp-telemetry .links {
+.stellarwp-telemetry-links {
 	display: flex;
 	gap: 16px;
 	font-size: 12px;
 	line-height: 16px;
 }
 
-.stellarwp-telemetry .links a {
+.stellarwp-telemetry-links__link {
 	color: #0047FF;
 	text-decoration: none;
 }
 
-.stellarwp-telemetry .error-message {
+.stellarwp-telemetry-links__link:hover {
+	text-decoration: underline;
+}
+
+.stellarwp-telemetry-error-message {
 	display: none;
 	margin-bottom: 1rem;
 }
