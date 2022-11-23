@@ -64,7 +64,7 @@
 			$exitInterview.on( 'click', '[data-js="submit-telemetry"]', function ( e ) {
 				e.preventDefault();
 
-				let $form = $('.stellarwp-telemetry.exit-interview').find('form');
+				let $form = $('[data-js="exit-interview-form"]');
 
 				let data = {
 					action: stellarwpTelemetry.exit_interview.action,

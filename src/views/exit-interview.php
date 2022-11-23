@@ -12,7 +12,7 @@
 		<div class="stellarwp-telemetry__intro">
 			<?php echo $args['intro']; ?>
 		</div>
-		<form method="get">
+		<form method="get" data-js="exit-interview-form">
 			<ul class="stellarwp-telemetry-uninstall-reasons">
 				<?php foreach ( $args['uninstall_reasons'] as $key => $item ) : ?>
 					<li class="stellarwp-telemetry-uninstall-reasons__item">
@@ -26,7 +26,7 @@
 					</li>
 				<?php endforeach; ?>
 			</ul>
-			<div class="stellarwp-telemetry-error-message">
+			<div class="error-message stellarwp-telemetry-error-message">
 				<?php echo __( 'Please select a reason', 'stellarwp-telemetry' ); ?>
 			</div>
 			<footer>
