@@ -117,11 +117,15 @@
 	z-index: 999999;
 	display: flex;
 	justify-content: center;
-	align-items: center;
+	align-items: flex-start;
 	transition: all 0.3s ease-in-out;
 	visibility: hidden;
 	pointer-events: none;
 	opacity: 0;
+}
+
+.stellarwp-telemetry-modal--exit-interview {
+	align-items: center;
 }
 
 .stellarwp-telemetry-modal--active {
@@ -135,8 +139,7 @@
 	flex-direction: column;
 	padding: 32px;
 	width: 90%;
-	top: 47px;
-	left: 32px;
+	margin-top: 47px;
 	background: #fff;
 	box-shadow: 0 0 32px rgba(0, 0, 0, 0.1);
 	border-radius: 4px;
@@ -145,6 +148,7 @@
 .stellarwp-telemetry-modal--exit-interview .stellarwp-telemetry-modal__inner {
 	max-width: 585px;
 	text-align: center;
+	margin-top: 0;
 }
 
 .stellarwp-telemetry-plugin-logo {
