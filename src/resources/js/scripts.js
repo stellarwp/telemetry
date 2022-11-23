@@ -56,6 +56,8 @@
 				if ( ! $reason.length ) {
 					return;
 				}
+
+				$wrapper.addClass('stellarwp-telemetry-uninstall-reasons__item--active');
 			});
 
 			// Submit Button
