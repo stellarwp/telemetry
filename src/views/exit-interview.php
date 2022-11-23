@@ -15,19 +15,23 @@
 			<?php echo $args['intro']; ?>
 		</div>
 		<form method="get">
-			<ul class="questions">
-				<?php foreach ( $args['questions'] as $key => $item ) : ?>
+			<ul class="uninstall_reasons">
+				<?php foreach ( $args['uninstall_reasons'] as $key => $item ) : ?>
 					<li>
-						<input type="radio" name="uninstall_reason" id="reason-<?php echo $key; ?>" value="<?php echo $item['question']; ?>">
+						<input type="radio" name="uninstall_reason" id="reason-<?php echo $key; ?>" value="<?php echo $item['uninstall_reason']; ?>"
+							   data-uninstall-reason-id="<?php echo $item['uninstall_reason_id']; ?>">
 						<label for="reason-<?php echo $key; ?>">
-							<?php echo $item['question']; ?>
-							<?php if ( $item['show_field'] ) { ?>
+							<?php echo $item['uninstall_reason']; ?>
+							<?php if ( isset( $item['show_comment'] ) && $item['show_comment'] ) { ?>
 								<textarea name="comment" placeholder="<?php echo __( 'Tell us more...', 'stellarwp-telemetry' ); ?>"></textarea>
 							<?php } ?>
 						</label>
 					</li>
 				<?php endforeach; ?>
 			</ul>
+			<div class="error-message">
+				<?php echo __( 'Please select a reason', 'stellarwp-telemetry' ); ?>
+			</div>
 			<footer>
 				<button data-js="skip-interview" class="btn-grey" type="button">
 					<?php echo __( 'Skip', 'stellarwp-telemetry' ); ?>
