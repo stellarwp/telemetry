@@ -131,7 +131,6 @@
 }
 
 .stellarwp-telemetry-modal__inner {
-	position: absolute;
 	display: flex;
 	flex-direction: column;
 	padding: 32px;
@@ -145,9 +144,10 @@
 
 .stellarwp-telemetry-modal--exit-interview .stellarwp-telemetry-modal__inner {
 	max-width: 585px;
+	text-align: center;
 }
 
-.stellarwp-telemetry.exit-interview .stellarwp-telemetry img.plugin-logo {
+.stellarwp-telemetry-plugin-logo {
 	margin: auto;
 }
 

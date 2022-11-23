@@ -5,7 +5,7 @@
 
 <div class="stellarwp-telemetry stellarwp-telemetry-modal stellarwp-telemetry-modal--exit-interview" data-js="exit-interview-modal" data-plugin-slug="<?php echo $args['plugin_slug']; ?>">
 	<div class="stellarwp-telemetry-modal__inner">
-		<img src="<?php echo $args['plugin_logo']; ?>" width="<?php echo $args['plugin_logo_width']; ?>" height="<?php echo $args['plugin_logo_height']; ?>" alt="<?php echo $args['plugin_logo_alt']; ?>" class="plugin-logo">
+		<img src="<?php echo $args['plugin_logo']; ?>" width="<?php echo $args['plugin_logo_width']; ?>" height="<?php echo $args['plugin_logo_height']; ?>" alt="<?php echo $args['plugin_logo_alt']; ?>" class="stellarwp-telemetry-plugin-logo">
 		<h1 class="stellarwp-telemetry__title">
 			<?php echo $args['heading']; ?>
 		</h1>
