@@ -3,11 +3,9 @@
 /** @var array $args */
 ?>
 
-<div class="stellarwp-telemetry exit-interview" data-plugin-slug="<?php echo $args['plugin_slug']; ?>">
+<div class="stellarwp-telemetry exit-interview" data-js="exit-interview-modal" data-plugin-slug="<?php echo $args['plugin_slug']; ?>">
 	<section class="stellarwp-telemetry modal">
-		<img src="<?php echo $args['plugin_logo']; ?>" width="<?php echo $args['plugin_logo_width']; ?>"
-			 height="<?php echo $args['plugin_logo_height']; ?>" alt="<?php echo $args['plugin_logo_alt']; ?>"
-			 class="plugin-logo">
+		<img src="<?php echo $args['plugin_logo']; ?>" width="<?php echo $args['plugin_logo_width']; ?>" height="<?php echo $args['plugin_logo_height']; ?>" alt="<?php echo $args['plugin_logo_alt']; ?>" class="plugin-logo">
 		<h1 class="stellarwp-telemetry-header">
 			<?php echo $args['heading']; ?>
 		</h1>
@@ -18,8 +16,7 @@
 			<ul class="uninstall_reasons">
 				<?php foreach ( $args['uninstall_reasons'] as $key => $item ) : ?>
 					<li>
-						<input type="radio" name="uninstall_reason" id="reason-<?php echo $key; ?>" value="<?php echo $item['uninstall_reason']; ?>"
-							   data-uninstall-reason-id="<?php echo $item['uninstall_reason_id']; ?>">
+						<input type="radio" name="uninstall_reason" id="reason-<?php echo $key; ?>" value="<?php echo $item['uninstall_reason']; ?>" data-uninstall-reason-id="<?php echo $item['uninstall_reason_id']; ?>">
 						<label for="reason-<?php echo $key; ?>">
 							<?php echo $item['uninstall_reason']; ?>
 							<?php if ( isset( $item['show_comment'] ) && $item['show_comment'] ) { ?>

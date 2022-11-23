@@ -1,20 +1,22 @@
-// JS document on ready event
-document.addEventListener("DOMContentLoaded", function () {
-	let wrapper = document.getElementById("modal-wrapper");
-
-	document.getElementById("close-modal").addEventListener("click", function (event) {
-		event.preventDefault();
-		close_modal(wrapper);
-	});
-});
-
-function close_modal(wrapper) {
-	wrapper.parentNode.removeChild(wrapper);
-}
-
 (function ( $ ) {
 
-	$('body').find('.stellarwp-telemetry.exit-interview').each( function ( index ) {
+	/**
+	 * jQuery code to handle the opt-in modal.
+	 */
+	$('body').find('[data-js="optin-modal"]').each(function () {
+		let $optin = $(this);
+		let $close = $optin.find('[data-js="close-modal"]');
+
+		$close.click(function (e) {
+			e.preventDefault();
+			$optin.remove();
+		});
+	});
+
+	/**
+	 * jQuery code to handle the exit interview modal.
+	 */
+	$('body').find('[data-js="exit-interview-modal"]').each( function () {
 		let $exitInterview = $(this);
 		let pluginSlug     = $exitInterview.data('plugin-slug');
 		let redirectLink   = null;
