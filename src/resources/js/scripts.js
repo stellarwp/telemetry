@@ -49,15 +49,13 @@
 				let $wrapper = $this.closest('li');
 				let $reason = $wrapper.find('[name="comment"]');
 
-				$exitInterview.find('.stellarwp-telemetry-uninstall-reasons__item--active').removeClass('.stellarwp-telemetry-uninstall-reasons__item--active');
+				$exitInterview.find('.stellarwp-telemetry-uninstall-reasons__item--active').removeClass('stellarwp-telemetry-uninstall-reasons__item--active');
 				$exitInterview.find('.stellarwp-telemetry-uninstall-reasons__item [name="comment"]').val('');
 				$exitInterview.find('.stellarwp-telemetry-error-message').hide();
 
 				if ( ! $reason.length ) {
 					return;
 				}
-
-				$wrapper.addClass('stellarwp-telemetry-uninstall-reasons__item--active');
 			});
 
 			// Submit Button
