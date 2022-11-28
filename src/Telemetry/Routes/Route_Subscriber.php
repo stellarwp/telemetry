@@ -3,7 +3,6 @@
 namespace StellarWP\Telemetry\Routes;
 
 use StellarWP\Telemetry\Contracts\Abstract_Subscriber;
-use StellarWP\Telemetry\Core;
 use StellarWP\Telemetry\Opt_In_Status;
 
 class Route_Subscriber extends Abstract_Subscriber {
@@ -17,13 +16,8 @@ class Route_Subscriber extends Abstract_Subscriber {
 			return;
 		}
 
-		register_rest_route( 'stellarwp/telemetry/v1', $this->container->get( Core::PLUGIN_SLUG ) . '/check', [
-			'methods' => 'GET',
-			'callback' => [ $this, 'check' ],
-		] );
+		$this->container->get( Check::class )->register_route();
+		$this->container->get( Send::class )->register_route();
 	}
 
-	public function check() {
-		return $this->container->get( Check::class )->response();
-	}
 }
