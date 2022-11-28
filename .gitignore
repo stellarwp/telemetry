@@ -1,21 +1,53 @@
+# OS generated files #
+######################
+.DS_Store*
+ehthumbs.db
+._*
+*~
+.svn
+.cvs
+*.bak
+*.swp
+Thumbs.db
 .DS_Store
+.idea
+.phpstorm.meta.php
 
-files/
-repo/
-vendor/
+# IDE generated files #
+######################
+.vscode/*
+!.vscode/extensions.json
 
-# Dev tools
-.buildpath
-*.iml
-.project
-.idea/
-.vscode/
-.phpunit.result.cache
+# Vim generated files #
+#######################
+*.un~
 
-# Third party dependencies
-vendor/
+# Packages #
+############
+*.7z
+*.dmg
+*.gz
+*.bz2
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+*.tgz
 
-# Tests
+# Logs and databases #
+######################
+*.log
+*.sql
+
+# DevOps #
+#######################
+/.garden-*
+/.env
+/vendor
+
+# Testing #
+#######################
 codeception.yml
 tests/_output/*
 tests/*.suite.yml
@@ -26,3 +58,11 @@ tests/*.suite.yml
 tests/*.pem
 tests/*.cert
 tests/*.key
+
+# Code Quality #
+###############
+phpcs.xml
+.phpcs-cache
+phpstan.neon
+.phpstan-cache
+/lefthook-local.yml
