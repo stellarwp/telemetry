@@ -10,6 +10,7 @@ namespace StellarWP\Telemetry;
 
 use StellarWP\ContainerContract\ContainerInterface;
 use StellarWP\Telemetry\Contracts\Data_Provider;
+use StellarWP\Telemetry\Rest_Routes\Rest_Subscriber;
 
 /**
  * The core class of the library.
@@ -31,8 +32,9 @@ class Core {
 	 */
 	private array $subscribers = [
 		Cron_Subscriber::class,
-		Opt_In_Subscriber::class,
 		Exit_Interview_Subscriber::class,
+		Opt_In_Subscriber::class,
+		Rest_Subscriber::class,
 	];
 
 	/**
