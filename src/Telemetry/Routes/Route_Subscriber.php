@@ -1,6 +1,6 @@
 <?php
 
-namespace StellarWP\Telemetry\Rest_Routes;
+namespace StellarWP\Telemetry\Routes;
 
 use StellarWP\Telemetry\Contracts\Abstract_Subscriber;
 use StellarWP\Telemetry\Core;
@@ -8,7 +8,7 @@ use StellarWP\Telemetry\Opt_In_Status;
 use WP_REST_Request;
 use WP_REST_Response;
 
-class Rest_Subscriber extends Abstract_Subscriber {
+class Route_Subscriber extends Abstract_Subscriber {
 
     public function register() {
 		add_action( 'rest_api_init', [ $this, 'register_routes' ] );
