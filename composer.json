@@ -17,7 +17,6 @@
   "require": {
     "ext-json": "*",
     "php": ">=7.2",
-    "woocommerce/action-scheduler": "^3.5",
     "stellarwp/container-contract": "^1.0"
   },
   "require-dev": {
