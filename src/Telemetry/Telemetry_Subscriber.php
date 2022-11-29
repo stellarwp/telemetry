@@ -52,6 +52,6 @@ class Telemetry_Subscriber extends Abstract_Subscriber {
 
 		wp_remote_get( get_rest_url( null, $route_namespace . '/send' ), [
 			'nonce' => $nonce,
-		] )
+		] );
 	}
 }
