@@ -6,7 +6,7 @@ use WP_REST_Response;
 
 class Check extends Abstract_Route {
 
-    protected function get_endpoint() {
+    public function get_endpoint() {
 		return '/check';
 	}
 

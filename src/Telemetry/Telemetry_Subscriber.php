@@ -6,6 +6,7 @@ namespace StellarWP\Telemetry;
 
 use DateTimeImmutable;
 use StellarWP\Telemetry\Contracts\Abstract_Subscriber;
+use StellarWP\Telemetry\Routes\Send;
 
 /**
  * Class Telemetry_Subscriber
