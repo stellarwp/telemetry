@@ -63,19 +63,27 @@ class Last_Send {
 	public function set_new_timestamp( DateTimeImmutable $time ) {
 		global $wpdb;
 
-		$timestamp = $time->format( "Y-m-d H:i:s" );
+		$timestamp         = $time->format( "Y-m-d H:i:s" );
+		$option_name       = $this->get_option_name();
+		$current_timestamp = $this->get_timestamp();
 
+		/**
+		 * Update the timestamp and use the current timestamp to make sure it
+		 * is only updated a single time.
+		 */
 		$result = $wpdb->update(
 			$wpdb->options,
 			[
-				$this->get_option_name() => $timestamp,
+				'option_name'  => $option_name,
+				'option_value' => $timestamp,
 			],
 			[
-				$this->get_option_name() => $this->get_timestamp(),
+				'option_name'  => $option_name,
+				'option_value' => $current_timestamp,
 			]
 		);
 
-		return $result;
+		return $result ?: 0;
 	}
 
 	/**
