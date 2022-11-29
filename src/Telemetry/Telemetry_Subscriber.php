@@ -4,6 +4,7 @@
  */
 namespace StellarWP\Telemetry;
 
+use DateTimeImmutable;
 use StellarWP\Telemetry\Contracts\Abstract_Subscriber;
 
 /**
@@ -33,6 +34,9 @@ class Telemetry_Subscriber extends Abstract_Subscriber {
 		if ( ! $this->container->get( Last_Send::class )->is_expired() ) {
 			return;
 		}
+
+		// The last send is expired, set a new timestamp.
+		$this->container->get( Last_Send::class )->set_new_timestamp( new DateTimeImmutable() );
 	}
 
 }
