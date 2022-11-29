@@ -56,22 +56,26 @@ class Last_Send {
 	/**
 	 * Sets a new timestamp for the last_send option.
 	 *
-	 * @param string $time A timestamp string ("Y-m-d H:i:s")
+	 * @param DateTimeImmutable $time
 	 *
 	 * @return int Number of rows affected.
 	 */
-	public function set_new_timestamp( $time ) {
+	public function set_new_timestamp( DateTimeImmutable $time ) {
 		global $wpdb;
 
-		$sql = $wpdb->prepare(
-			"UPDATE {$wpdb->options} %s = %s WHERE %s = %s",
-			$this->get_option_name(),
-			$time,
-			$this->get_option_name(),
-			$this->get_timestamp()
+		$timestamp = $time->format( "Y-m-d H:i:s" );
+
+		$result = $wpdb->update(
+			$wpdb->options,
+			[
+				$this->get_option_name() => $timestamp,
+			],
+			[
+				$this->get_option_name() => $this->get_timestamp(),
+			]
 		);
 
-		return $wpdb->query( $sql ) ?: 0;
+		return $result;
 	}
 
 	/**
