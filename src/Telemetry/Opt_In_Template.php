@@ -92,7 +92,7 @@ class Opt_In_Template implements Template {
 	 *
 	 * @return void
 	 */
-	protected function get_option_name() {
+	public function get_option_name() {
 		/**
 		 * Filters if the Opt-In modal should be rendered.
 		 *
