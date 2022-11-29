@@ -45,7 +45,7 @@ class Opt_In_Subscriber extends Abstract_Subscriber {
 		}
 
 		// We're not attempting a telemetry action.
-		if ( $_POST['action'] !== 'stellarwp-telemetry' ) {
+		if ( isset( $_POST['action'] ) && $_POST['action'] !== 'stellarwp-telemetry' ) {
 			return;
 		}
 
