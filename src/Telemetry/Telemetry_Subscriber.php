@@ -32,12 +32,26 @@ class Telemetry_Subscriber extends Abstract_Subscriber {
 	 * @return void
 	 */
 	public function send_telemetry_data() {
-		if ( ! $this->container->get( Last_Send::class )->is_expired() ) {
+		$last_send = $this->container->get( Last_Send::class );
+
+		// Bail if last send timestamp is not expired.
+		if ( ! $last_send->is_expired() ) {
 			return;
 		}
 
 		// The last send is expired, set a new timestamp.
-		$this->container->get( Last_Send::class )->set_new_timestamp( new DateTimeImmutable() );
-	}
+		$rows_affected = $last_send->set_new_timestamp( new DateTimeImmutable() );
 
+		// We weren't able to update the timestamp, likely another process updated it first.
+		if ( $rows_affected === 0 ) {
+			return;
+		}
+
+		$nonce           = wp_create_nonce( 'stellarwp/telemetry/send_telemetry_data' );
+		$route_namespace = $this->container->get( Send::class )->get_namespace();
+
+		wp_remote_get( get_rest_url( null, $route_namespace . '/send' ), [
+			'nonce' => $nonce,
+		] )
+	}
 }
