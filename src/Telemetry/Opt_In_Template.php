@@ -18,7 +18,7 @@ use StellarWP\Telemetry\Contracts\Template;
  * @package StellarWP\Telemetry
  */
 class Opt_In_Template implements Template {
-	public const OPTION_NAME = 'stellarwp_telemetry';
+	public const OPTION_NAME = 'stellarwp_telemetry_show_optin';
 	protected const YES = "1";
 	protected const NO = "-1";
 
