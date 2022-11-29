@@ -1,25 +1,39 @@
 <?php
-
+/**
+ * Handles hooking into the WordPress request lifecycle.
+ */
 namespace StellarWP\Telemetry;
 
+use DateTime;
 use StellarWP\Telemetry\Contracts\Abstract_Subscriber;
 
+/**
+ * Class Telemetry_Subscriber
+ *
+ * @since 1.0.0
+ */
 class Telemetry_Subscriber extends Abstract_Subscriber {
 
+	/**
+	 * @inheritDoc
+	 *
+	 * @return void
+	 */
     public function register() {
 		add_action( 'shutdown', [ $this, 'send_telemetry_data' ] );
 	}
 
+	/**
+	 * Handles sending telemetry data during the 'shutdown' action.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
 	public function send_telemetry_data() {
-		global $wpdb;
-
-
-		$sql = $wpdb->prepare(
-			"SELECT option_value FROM {$wpdb->options} WHERE option_name = %s",
-			'stellarwp_telemetry_telemetry_testing_last_send'
-		);
-
-		$timestamp = $wpdb->get_var( $sql );
+		if ( ! $this->container->get( Last_Send::class )->is_expired() ) {
+			return;
+		}
 	}
 
 }
