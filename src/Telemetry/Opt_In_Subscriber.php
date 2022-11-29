@@ -58,7 +58,6 @@ class Opt_In_Subscriber extends Abstract_Subscriber {
 		if ( 'true' === $_POST['optin-agreed'] ) {
 			$this->container->get( Telemetry::class )->register_site();
 			$this->container->get( Opt_In_Status::class )->set_status( true );
-			$this->container->get( Cron_Job::class )->schedule( time() );
 		}
 
 		// Don't show the opt-in modal again.
