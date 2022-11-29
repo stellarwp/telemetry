@@ -35,6 +35,7 @@ class Core {
 		Exit_Interview_Subscriber::class,
 		Opt_In_Subscriber::class,
 		Route_Subscriber::class,
+		Telemetry_Subscriber::class,
 	];
 
 	/**
