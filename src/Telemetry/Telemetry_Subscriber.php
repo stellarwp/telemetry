@@ -47,11 +47,13 @@ class Telemetry_Subscriber extends Abstract_Subscriber {
 			return;
 		}
 
-		$nonce           = wp_create_nonce( 'stellarwp/telemetry/send_telemetry_data' );
+		$nonce           = wp_create_nonce( Telemetry::NONCE );
 		$route_namespace = $this->container->get( Send::class )->get_namespace();
 
 		wp_remote_get( get_rest_url( null, $route_namespace . '/send' ), [
-			'nonce' => $nonce,
+			'body' => [
+				'nonce' => $nonce,
+			]
 		] );
 	}
 }

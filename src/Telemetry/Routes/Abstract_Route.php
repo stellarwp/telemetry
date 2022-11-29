@@ -2,11 +2,13 @@
 
 namespace StellarWP\Telemetry\Routes;
 
+use WP_REST_Request;
+
 abstract class Abstract_Route {
 
 	public abstract function get_endpoint();
 
-	protected abstract function action();
+	public abstract function action( WP_REST_Request $request );
 
 	public function register_route() {
 		register_rest_route( $this->get_namespace(), $this->get_endpoint(), $this->get_args() );

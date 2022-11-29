@@ -12,10 +12,8 @@ class Send extends Abstract_Route {
 		return '/send';
 	}
 
-    public function action() {
-		$request = new WP_REST_Request();
-
-		if ( ! wp_verify_nonce( $request->get_params( 'nonce' ), Telemetry::NONCE ) ) {
+    public function action( WP_REST_Request $request ) {
+		if ( ! wp_verify_nonce( $request->get_param( 'nonce' ), Telemetry::NONCE ) ) {
 			$this->send_early_unauthorized();
 		}
 
