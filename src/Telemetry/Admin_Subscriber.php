@@ -1,9 +1,22 @@
-<?php declare(strict_types=1);
-
+<?php
+/**
+ * Handles all hooks/filters related to the admin screens.
+ *
+ * @since 1.0.0
+ *
+ * @package StellarWP\Telemetry
+ */
 namespace StellarWP\Telemetry;
 
 use StellarWP\Telemetry\Contracts\Abstract_Subscriber;
 
+/**
+ * Handles all hooks/filters related to the admin screens.
+ *
+ * @since 1.0.0
+ *
+ * @package StellarWP\Telemetry
+ */
 class Admin_Subscriber extends Abstract_Subscriber {
 
 	/**
