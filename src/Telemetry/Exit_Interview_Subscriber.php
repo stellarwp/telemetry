@@ -138,7 +138,7 @@ class Exit_Interview_Subscriber extends Abstract_Subscriber {
 	 * @return string
 	 */
 	static public function get_ajax_action() {
-		return Exit_Interview_Subscriber::AJAX_ACTION . '_' . Config::get_hook_prefix();
+		return Config::get_hook_prefix() . Exit_Interview_Subscriber::AJAX_ACTION;
 	}
 
 }
