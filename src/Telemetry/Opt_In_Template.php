@@ -18,6 +18,7 @@ use StellarWP\Telemetry\Contracts\Template;
  * @package StellarWP\Telemetry
  */
 class Opt_In_Template implements Template {
+	public const OPTION_NAME = 'stellarwp_telemetry';
 	protected const YES = "1";
 	protected const NO = "-1";
 
@@ -99,7 +100,10 @@ class Opt_In_Template implements Template {
 		 *
 		 * @param bool $show_optin
 		 */
-		return apply_filters( 'stellarwp/telemetry/' . Config::get_hook_prefix() . 'show_optin_option_name', 'stellarwp_telemetry_show_optin' );
+		return apply_filters(
+			'stellarwp/telemetry/' . Config::get_hook_prefix() . 'show_optin_option_name',
+			self::OPTION_NAME . '_' . Config::get_hook_prefix()
+		);
 	}
 
 	/**
