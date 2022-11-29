@@ -1,23 +1,71 @@
 <?php
-
+/**
+ * Handles setting up a base REST route.
+ *
+ * @since 1.0.0
+ *
+ * @package StellarWP\Telemetry
+ */
 namespace StellarWP\Telemetry\Routes;
 
 use WP_REST_Request;
 
+/**
+ * Abstract class Abstract_Route
+ *
+ * @since 1.0.0
+ */
 abstract class Abstract_Route {
 
+	/**
+	 * Gets the endpoint for the route.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
 	public abstract function get_endpoint();
 
+	/**
+	 * The action that fires when the endpoint receives a request.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param WP_REST_Request $request
+	 *
+	 * @return void
+	 */
 	public abstract function action( WP_REST_Request $request );
 
+	/**
+	 * Registers the route.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
 	public function register_route() {
 		register_rest_route( $this->get_namespace(), $this->get_endpoint(), $this->get_args() );
 	}
 
+	/**
+	 * Gets a consistent namespace for the library's routes.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
 	public function get_namespace() {
 		return 'stellarwp/telemetry/v1';
 	}
 
+	/**
+	 * Gets shared args for the routes.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
 	public function get_args() {
 		return [
 			'methods' => 'GET',
