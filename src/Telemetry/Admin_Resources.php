@@ -1,7 +1,21 @@
 <?php
+/**
+ * A collection of methods to enqueue and localize admin assets.
+ *
+ * @since 1.0.0
+ *
+ * @package StellarWP\Telemetry
+ */
 
 namespace StellarWP\Telemetry;
 
+/**
+ * A class that enqueues and localizes admin assets.
+ *
+ * @since 1.0.0
+ *
+ * @package StellarWP\Telemetry
+ */
 class Admin_Resources {
 
 	const SCRIPT_HANDLE  = 'stellarwp-telemetry-admin';
