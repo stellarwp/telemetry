@@ -50,10 +50,13 @@ class Telemetry_Subscriber extends Abstract_Subscriber {
 		$nonce           = wp_create_nonce( Telemetry::NONCE );
 		$route_namespace = $this->container->get( Send::class )->get_namespace();
 
-		wp_remote_get( get_rest_url( null, $route_namespace . '/send' ), [
-			'body' => [
-				'nonce' => $nonce,
-			]
-		] );
+		try {
+			wp_remote_get( get_rest_url( null, $route_namespace . '/send?nonce=' . $nonce ), [
+				'blocking' => false,
+				'timeout' => 1
+			] );
+		} catch ( \Error $e ) {
+			return;
+		}
 	}
 }
