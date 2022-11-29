@@ -21,15 +21,6 @@ use StellarWP\ContainerContract\ContainerInterface;
 class Last_Send {
 
 	/**
-	 * @var string
-	 */
-	private $plugin_slug = '';
-
-	public function __construct( ContainerInterface $container ) {
-		$this->plugin_slug = $container->get( Core::PLUGIN_SLUG );
-	}
-
-	/**
 	 * Checks whether the last send timestamp is expired or not.
 	 *
 	 * If the timestamp is >= 1 week, the last send is expired.
@@ -71,7 +62,9 @@ class Last_Send {
 	 * @return string
 	 */
 	protected function get_option_name() {
-		return 'stellarwp_telemetry_' . $this->plugin_slug . '_last_send';
+		$plugin_slug = Config::get_container()->get( Core::PLUGIN_SLUG );
+
+		return 'stellarwp_telemetry_' . $plugin_slug . '_last_send';
 	}
 
 	/**
