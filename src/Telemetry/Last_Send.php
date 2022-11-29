@@ -9,7 +9,6 @@
 namespace StellarWP\Telemetry;
 
 use DateTimeImmutable;
-use StellarWP\ContainerContract\ContainerInterface;
 
 /**
  * Handles all methods for determining when to send telemetry data.

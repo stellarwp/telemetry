@@ -4,7 +4,6 @@
  */
 namespace StellarWP\Telemetry;
 
-use DateTime;
 use StellarWP\Telemetry\Contracts\Abstract_Subscriber;
 
 /**
