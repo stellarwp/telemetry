@@ -51,7 +51,7 @@ class Last_Send {
 		 */
 		$expire_days = apply_filters( 'stellarwp/telemetry/' . Config::get_hook_prefix() . 'last_send_expire_days', 7 );
 
-		return $interval->format('d') >= $expire_days;
+		return $interval->days >= $expire_days;
 	}
 
 	/**
