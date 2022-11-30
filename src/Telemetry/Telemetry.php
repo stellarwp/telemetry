@@ -334,14 +334,7 @@ class Telemetry {
 	protected function get_token() {
 		$option = $this->get_option();
 
-		/**
-		 * Filters the auth token for the current site.
-		 *
-		 * @since 1.0.0
-		 *
-		 * @param string $auth_token
-		 */
-		return apply_filters( 'stellarwp/telemetry/' . Config::get_hook_prefix() . 'token', $option['token'] ?? '' );
+		return $option['token'] ?? '';
 	}
 
 }

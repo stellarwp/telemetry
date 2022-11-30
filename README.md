@@ -16,7 +16,6 @@ A library for Opt-in and Telemetry data to be sent to the StellarWP Telemetry se
 		- [stellarwp/telemetry/show\_optin\_option\_name](#stellarwptelemetryshow_optin_option_name)
 		- [stellarwp/telemetry/cron\_interval](#stellarwptelemetrycron_interval)
 		- [stellarwp/telemetry/cron\_hook\_name](#stellarwptelemetrycron_hook_name)
-		- [stellarwp/telemetry/data](#stellarwptelemetrydata)
 		- [stellarwp/telemetry/option\_name](#stellarwptelemetryoption_name)
 		- [stellarwp/telemetry/optin\_status](#stellarwptelemetryoptin_status)
 		- [stellarwp/telemetry/optin\_status\_label](#stellarwptelemetryoptin_status_label)
@@ -27,7 +26,6 @@ A library for Opt-in and Telemetry data to be sent to the StellarWP Telemetry se
 		- [stellarwp/telemetry/register\_site\_user\_details](#stellarwptelemetryregister_site_user_details)
 		- [stellarwp/telemetry/send\_data\_args](#stellarwptelemetrysend_data_args)
 		- [stellarwp/telemetry/send\_data\_url](#stellarwptelemetrysend_data_url)
-		- [stellarwp/telemetry/token](#stellarwptelemetrytoken)
 		- [stellarwp/telemetry/exit\_interview\_args](#stellarwptelemetryexit_interview_args)
 ## Installation
 
@@ -150,28 +148,6 @@ Filters the string used for the cron hook.
 
 **Default**: `stellarwp_telemetry_cron`
 
-### stellarwp/telemetry/data
-Filters the data sent to the Telemetry server.
-
-**Parameters**: _array_ `$info`
-
-**Default**: see output of [debug_data()](https://developer.wordpress.org/reference/classes/wp_debug_data/debug_data/)
-```php
-// Additional default array values appended to debug_data().
-$info['telemetry-active-plugins']['fields']   = $active_plugins;
-$info['telemetry-inactive-plugins']['fields'] = $inactive_plugins;
-```
-
-**Example**:
-```php
-add_filter( 'stellarwp/telemetry/data', 'add_total_post_count_to_site_data', 10, 1 );
-
-function add_total_post_count_to_site_data( array $info ) {
-	$info['total_post_count'] = wp_count_posts( 'post' );
-
-	return $info;
-}
-```
 ### stellarwp/telemetry/option_name
 Filter the option name used to store current users' optin status.
 
@@ -271,11 +247,6 @@ Filters the URL of the telemetry server used to send the site data.
 **Parameters**: _string_ `$url`
 
 **Default**: `https://telemetry-api.moderntribe.qa/api/v1/telemetry`
-
-### stellarwp/telemetry/token
-Filters the token used to authenticate requests to the telemetry server.
-
-**Parameters**: _string_ `$token`
 
 ### stellarwp/telemetry/exit_interview_args
 Filters the arguments used in the plugin deactivation "exit interview" form.
