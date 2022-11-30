@@ -40,7 +40,8 @@ class Telemetry_Subscriber extends Abstract_Subscriber {
 		}
 
 		// The last send is expired, set a new timestamp.
-		$rows_affected = $last_send->set_new_timestamp( new DateTimeImmutable() );
+		$timestamp = new DateTimeImmutable();
+		$rows_affected = $last_send->set_new_timestamp( $timestamp );
 
 		// We weren't able to update the timestamp, likely another process updated it first.
 		if ( $rows_affected === 0 ) {
@@ -51,7 +52,7 @@ class Telemetry_Subscriber extends Abstract_Subscriber {
 		$route_namespace = $this->container->get( Send::class )->get_namespace();
 
 		try {
-			wp_remote_get( get_rest_url( null, $route_namespace . '/send?nonce=' . $nonce ), [
+			wp_remote_get( get_rest_url( null, $route_namespace . '/send?nonce=' . $nonce . '&timestamp=' . $timestamp ), [
 				'blocking' => false,
 				'timeout' => 1
 			] );

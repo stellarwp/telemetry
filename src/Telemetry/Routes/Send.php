@@ -8,6 +8,7 @@
  */
 namespace StellarWP\Telemetry\Routes;
 
+use DateTimeImmutable;
 use StellarWP\Telemetry\Config;
 use StellarWP\Telemetry\Telemetry;
 use WP_REST_Request;
@@ -42,6 +43,15 @@ class Send extends Abstract_Route {
 	 * @return void
 	 */
     public function action( WP_REST_Request $request ) {
+		$timestamp   = new DateTimeImmutable( $request->get_param( 'timestamp' ) );
+		$now         = new DateTimeImmutable();
+		$interval    = date_diff( $timestamp, $now );
+
+		// Bail if timestamp from request is more than 30 seconds old.
+		if ( $interval->s > 30 ) {
+			return;
+		}
+
 		if ( ! wp_verify_nonce( $request->get_param( 'nonce' ), Telemetry::NONCE ) ) {
 			$this->send_early_unauthorized();
 		}
