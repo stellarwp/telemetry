@@ -57,6 +57,7 @@ class Opt_In_Subscriber extends Abstract_Subscriber {
 		// User agreed to opt-in to Telemetry.
 		if ( 'true' === $_POST['optin-agreed'] ) {
 			$this->container->get( Telemetry::class )->register_site();
+			$this->container->get( Telemetry::class )->send_data();
 			$this->container->get( Opt_In_Status::class )->set_status( true );
 		}
 
