@@ -48,15 +48,6 @@ class Debug_Data_Provider implements Data_Provider {
 		$info['telemetry-active-plugins']['fields'] = $active;
 		$info['telemetry-inactive-plugins']['fields'] = $plugins;
 
-		/**
-		 * Filters the site health data array.
-		 *
-		 * @since 1.0.0
-		 *
-		 * @see https://developer.wordpress.org/reference/classes/wp_debug_data/debug_data/
-		 *
-		 * @param array $info The array of site data.
-		 */
-		return apply_filters( 'stellarwp/telemetry/' . Config::get_hook_prefix() . 'data', $info );
+		return $info;
 	}
 }
