@@ -20,6 +20,19 @@ use DateTimeImmutable;
 class Last_Send {
 
 	/**
+	 * Initially sets the _last_send option in the options table.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
+	public function initialize_option() {
+		if ( get_option( $this->get_option_name() ) === false ) {
+			update_option( $this->get_option_name(), '' );
+		}
+	}
+
+	/**
 	 * Checks whether the last send timestamp is expired or not.
 	 *
 	 * If the timestamp is >= 1 week, the last send is expired.
