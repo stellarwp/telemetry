@@ -18,8 +18,6 @@ use StellarWP\Telemetry\Contracts\Data_Provider;
  * @package StellarWP\Telemetry
  */
 class Telemetry {
-	public const SERVER_URL = 'https://telemetry-api.moderntribe.qa/api/v1';
-
 	/**
 	 * A data provider for gathering the data.
 	 *
@@ -170,7 +168,7 @@ class Telemetry {
 		 *
 		 * @param string $site_url
 		 */
-		return apply_filters( 'stellarwp/telemetry/' . Config::get_hook_prefix() . 'register_site_url', self::SERVER_URL . '/register-site' );
+		return apply_filters( 'stellarwp/telemetry/' . Config::get_hook_prefix() . 'register_site_url', Config::get_server_url() . '/register-site' );
 	}
 
 	/**
@@ -188,7 +186,7 @@ class Telemetry {
 		 *
 		 * @param string $uninstall_url
 		 */
-		return apply_filters( 'stellarwp/telemetry/' . Config::get_hook_prefix() . 'uninstall_url', self::SERVER_URL . '/uninstall' );
+		return apply_filters( 'stellarwp/telemetry/' . Config::get_hook_prefix() . 'uninstall_url', Config::get_server_url() . '/uninstall' );
 	}
 
 	/**
@@ -323,7 +321,7 @@ class Telemetry {
 		 *
 		 * @param string $data_url
 		 */
-		return apply_filters( 'stellarwp/telemetry/' . Config::get_hook_prefix() . 'send_data_url', self::SERVER_URL . '/telemetry' );
+		return apply_filters( 'stellarwp/telemetry/' . Config::get_hook_prefix() . 'send_data_url', Config::get_server_url() . '/telemetry' );
 	}
 
 	/**
