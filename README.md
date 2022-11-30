@@ -12,23 +12,23 @@ A library for Opt-in and Telemetry data to be sent to the StellarWP Telemetry se
 		- [Prompting Users on a Settings Page](#prompting-users-on-a-settings-page)
 	- [Server Authentication Flow](#server-authentication-flow)
 	- [Filter Reference](#filter-reference)
-		- [stellarwp/telemetry/should_show_optin](#stellarwptelemetryshould_show_optin)
-		- [stellarwp/telemetry/show_optin_option_name](#stellarwptelemetryshow_optin_option_name)
-		- [stellarwp/telemetry/cron_interval](#stellarwptelemetrycron_interval)
-		- [stellarwp/telemetry/cron_hook_name](#stellarwptelemetrycron_hook_name)
+		- [stellarwp/telemetry/should\_show\_optin](#stellarwptelemetryshould_show_optin)
+		- [stellarwp/telemetry/show\_optin\_option\_name](#stellarwptelemetryshow_optin_option_name)
+		- [stellarwp/telemetry/cron\_interval](#stellarwptelemetrycron_interval)
+		- [stellarwp/telemetry/cron\_hook\_name](#stellarwptelemetrycron_hook_name)
 		- [stellarwp/telemetry/data](#stellarwptelemetrydata)
-		- [stellarwp/telemetry/option_name](#stellarwptelemetryoption_name)
-		- [stellarwp/telemetry/optin_status](#stellarwptelemetryoptin_status)
-		- [stellarwp/telemetry/optin_status_label](#stellarwptelemetryoptin_status_label)
-		- [stellarwp/telemetry/optin_args](#stellarwptelemetryoptin_args)
-		- [stellarwp/telemetry/show_optin_option_name](#stellarwptelemetryshow_optin_option_name-1)
-		- [stellarwp/telemetry/register_site_url](#stellarwptelemetryregister_site_url)
-		- [stellarwp/telemetry/register_site_data](#stellarwptelemetryregister_site_data)
-		- [stellarwp/telemetry/register_site_user_details](#stellarwptelemetryregister_site_user_details)
-		- [stellarwp/telemetry/send_data_args](#stellarwptelemetrysend_data_args)
-		- [stellarwp/telemetry/send_data_url](#stellarwptelemetrysend_data_url)
+		- [stellarwp/telemetry/option\_name](#stellarwptelemetryoption_name)
+		- [stellarwp/telemetry/optin\_status](#stellarwptelemetryoptin_status)
+		- [stellarwp/telemetry/optin\_status\_label](#stellarwptelemetryoptin_status_label)
+		- [stellarwp/telemetry/optin\_args](#stellarwptelemetryoptin_args)
+		- [stellarwp/telemetry/show\_optin\_option\_name](#stellarwptelemetryshow_optin_option_name-1)
+		- [stellarwp/telemetry/register\_site\_url](#stellarwptelemetryregister_site_url)
+		- [stellarwp/telemetry/register\_site\_data](#stellarwptelemetryregister_site_data)
+		- [stellarwp/telemetry/register\_site\_user\_details](#stellarwptelemetryregister_site_user_details)
+		- [stellarwp/telemetry/send\_data\_args](#stellarwptelemetrysend_data_args)
+		- [stellarwp/telemetry/send\_data\_url](#stellarwptelemetrysend_data_url)
 		- [stellarwp/telemetry/token](#stellarwptelemetrytoken)
-		- [stellarwp/telemetry/exit_interview_args](#stellarwptelemetryexit_interview_args)
+		- [stellarwp/telemetry/exit\_interview\_args](#stellarwptelemetryexit_interview_args)
 ## Installation
 
 It's recommended that you install Telemetry as a project dependency via [Composer](https://getcomposer.org/):
@@ -68,6 +68,9 @@ function initialize_telemetry() {
 	 */
 	$container = new Container();
 	Config::set_container( $container );
+
+	// Set the full URL for the Telemetry Server API.
+	Config::set_server_url( 'https://telemetry.example.com/api/v1' );
 
 	// Optional: Set a unique prefix for actions & filters.
 	Config::set_hook_prefix( 'my-custom-prefix' );
