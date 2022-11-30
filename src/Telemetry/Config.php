@@ -38,6 +38,15 @@ class Config {
 	protected static $hook_prefix = '';
 
 	/**
+	 * The url of the telemetry server.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @var string
+	 */
+	protected static $server_url = '';
+
+	/**
 	 * Get the container.
 	 *
 	 * @since 1.0.0
@@ -66,6 +75,17 @@ class Config {
 	}
 
 	/**
+	 * Gets the telemetry server url.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return string
+	 */
+	public static function get_server_url() {
+		return static::$server_url;
+	}
+
+	/**
 	 * Returns whether the container has been set.
 	 *
 	 * @since 1.0.0
@@ -85,6 +105,7 @@ class Config {
 	 */
 	public static function reset() {
 		static::$hook_prefix = '';
+		static::$server_url  = '';
 	}
 
 	/**
@@ -116,6 +137,19 @@ class Config {
 		}
 
 		static::$hook_prefix = $prefix;
+	}
+
+	/**
+	 * Sets the telemetry server url.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $url
+	 *
+	 * @return void
+	 */
+	public static function set_server_url( string $url ) {
+		static::$server_url = $url;
 	}
 
 }
