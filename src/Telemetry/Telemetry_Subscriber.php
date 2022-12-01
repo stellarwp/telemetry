@@ -39,6 +39,11 @@ class Telemetry_Subscriber extends Abstract_Subscriber {
 	 * @return void
 	 */
 	public function send_async_request() {
+
+		if ( ! $this->container->get( Opt_In_Status::class )->is_active() ) {
+			return;
+		}
+
 		$last_send = $this->container->get( Last_Send::class );
 
 		// Bail if last send timestamp is not expired.
