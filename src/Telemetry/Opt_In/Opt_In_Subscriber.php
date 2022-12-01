@@ -59,12 +59,12 @@ class Opt_In_Subscriber extends Abstract_Subscriber {
 		// User agreed to opt-in to Telemetry.
 		if ( 'true' === $_POST['optin-agreed'] ) {
 			$this->container->get( Telemetry::class )->register_site();
-			$this->container->get( Opt_In_Status::class )->set_status( true );
+			$this->container->get( Status::class )->set_status( true );
 			$this->container->get( Cron_Job::class )->schedule( time() );
 		}
 
 		// Don't show the opt-in modal again.
-		update_option( $this->container->get( Opt_In_Status::class )->get_show_optin_option_name(), "0" );
+		update_option( $this->container->get( Status::class )->get_show_optin_option_name(), "0" );
 	}
 
 	/**
@@ -89,7 +89,7 @@ class Opt_In_Subscriber extends Abstract_Subscriber {
 	 * @return void
 	 */
 	public function initialize_optin_option() {
-		$opt_in_status = $this->container->get( Opt_In_Status::class );
+		$opt_in_status = $this->container->get( Status::class );
 		// Check if plugin slug exists within array
 		if ( ! $opt_in_status->plugin_exists( $this->container->get( Core::PLUGIN_SLUG ) ) ) {
 			$opt_in_status->add_plugin( $this->container->get( Core::PLUGIN_SLUG ) );

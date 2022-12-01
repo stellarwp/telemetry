@@ -10,6 +10,7 @@
 namespace StellarWP\Telemetry;
 
 use StellarWP\Telemetry\Contracts\Abstract_Subscriber;
+use StellarWP\Telemetry\Opt_In\Status;
 
 /**
  * Handles all hooks/filters related to the cron.
@@ -52,7 +53,7 @@ class Cron_Subscriber extends Abstract_Subscriber {
 	 */
 	public function set_cron_schedule() {
 		$cron_job  = $this->container->get( Cron_Job::class );
-		$optin     = $this->container->get( Opt_In_Status::class );
+		$optin     = $this->container->get( Status::class );
 		$telemetry = $this->container->get( Telemetry::class );
 
 		// Don't set the cron if the optin is not active.

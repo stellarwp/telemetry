@@ -9,6 +9,7 @@
 namespace StellarWP\Telemetry\Admin;
 
 use StellarWP\Telemetry\Contracts\Abstract_Subscriber;
+use StellarWP\Telemetry\Opt_In\Opt_In_Template;
 
 /**
  * Handles all hooks/filters related to the admin screens.

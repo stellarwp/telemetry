@@ -9,9 +9,12 @@
 namespace StellarWP\Telemetry;
 
 use StellarWP\ContainerContract\ContainerInterface;
+use StellarWP\Telemetry\Admin\Admin_Subscriber;
 use StellarWP\Telemetry\Admin\Resources;
 use StellarWP\Telemetry\Contracts\Data_Provider;
+use StellarWP\Telemetry\Exit_Interview\Exit_Interview_Subscriber;
 use StellarWP\Telemetry\Exit_Interview\Template;
+use StellarWP\Telemetry\Opt_In\Opt_In_Subscriber;
 use StellarWP\Telemetry\Opt_In\Opt_In_Template;
 
 /**

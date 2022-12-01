@@ -100,7 +100,7 @@ class Template implements Template_Interface {
 	 * @return void
 	 */
 	public function render() {
-		load_template( dirname( __DIR__ ) . '/views/exit-interview.php', true, $this->get_args() );
+		load_template( dirname( dirname( __DIR__ ) ) . '/views/exit-interview.php', true, $this->get_args() );
 	}
 
 	/**

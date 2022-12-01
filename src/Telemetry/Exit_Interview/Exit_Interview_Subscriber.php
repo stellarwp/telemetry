@@ -9,6 +9,7 @@
 namespace StellarWP\Telemetry\Exit_Interview;
 
 use StellarWP\Telemetry\Contracts\Abstract_Subscriber;
+use StellarWP\Telemetry\Core;
 
 /**
  * A class that handles displaying an "Exit Interview" for users deactivating the plugin.
@@ -47,7 +48,7 @@ class Exit_Interview_Subscriber extends Abstract_Subscriber {
 		global $pagenow;
 
 		if ( $pagenow === 'plugins.php' ) {
-			$this->container->get( Exit_Interview_Template::class )->maybe_render();
+			$this->container->get( Template::class )->maybe_render();
 		}
 	}
 
