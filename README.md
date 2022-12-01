@@ -14,8 +14,6 @@ A library for Opt-in and Telemetry data to be sent to the StellarWP Telemetry se
 	- [Filter Reference](#filter-reference)
 		- [stellarwp/telemetry/should\_show\_optin](#stellarwptelemetryshould_show_optin)
 		- [stellarwp/telemetry/show\_optin\_option\_name](#stellarwptelemetryshow_optin_option_name)
-		- [stellarwp/telemetry/cron\_interval](#stellarwptelemetrycron_interval)
-		- [stellarwp/telemetry/cron\_hook\_name](#stellarwptelemetrycron_hook_name)
 		- [stellarwp/telemetry/option\_name](#stellarwptelemetryoption_name)
 		- [stellarwp/telemetry/optin\_status](#stellarwptelemetryoptin_status)
 		- [stellarwp/telemetry/optin\_status\_label](#stellarwptelemetryoptin_status_label)
@@ -124,26 +122,6 @@ Filters the option name used to store whether the opt-in should be shown.
 **Parameters**: _string_ `$option_name`
 
 **Default**: `stellarwp_telemetry_show_optin`
-
-### stellarwp/telemetry/cron_interval
-Filters how often data should be sent to the Telemetry server in seconds.
-
-**Parameters**: _integer_ `$interval`
-
-**Default**: `WEEK_IN_SECONDS`
-```php
-add_filter( 'stellarwp/telemetry/cron_interval', 'send_data_daily', 10, 1 );
-
-function send_data_daily( $interval ) {
-	return DAY_IN_SECONDS;
-}
-```
-### stellarwp/telemetry/cron_hook_name
-Filters the string used for the cron hook.
-
-**Parameters**: _string_ `$hook_name`
-
-**Default**: `stellarwp_telemetry_cron`
 
 ### stellarwp/telemetry/option_name
 Filter the option name used to store current users' optin status.
