@@ -9,6 +9,7 @@
 namespace StellarWP\Telemetry;
 
 use StellarWP\ContainerContract\ContainerInterface;
+use StellarWP\Telemetry\Admin\Resources;
 use StellarWP\Telemetry\Contracts\Template;
 
 /**
@@ -57,7 +58,7 @@ class Exit_Interview_Template implements Template {
 		 */
 		return apply_filters( 'stellarwp/telemetry/' . Config::get_hook_prefix() . 'exit_interview_args', [
 			'plugin_slug'        => $this->container->get( Core::PLUGIN_SLUG ),
-			'plugin_logo'        => Admin_Resources::get_asset_path() . 'resources/images/stellar-logo.svg',
+			'plugin_logo'        => Resources::get_asset_path() . 'resources/images/stellar-logo.svg',
 			'plugin_logo_width'  => 151,
 			'plugin_logo_height' => 32,
 			'plugin_logo_alt'    => 'StellarWP Logo',

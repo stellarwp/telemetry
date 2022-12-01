@@ -9,6 +9,7 @@
 namespace StellarWP\Telemetry;
 
 use StellarWP\ContainerContract\ContainerInterface;
+use StellarWP\Telemetry\Admin\Resources;
 use StellarWP\Telemetry\Contracts\Data_Provider;
 
 /**
@@ -137,8 +138,8 @@ class Core {
 		$container->bind( Telemetry::class, static function () use ( $container ) {
 			return new Telemetry( $container->get( Data_Provider::class ), 'stellarwp_telemetry' );
 		} );
-		$container->bind( Admin_Resources::class, static function () {
-			return new Admin_Resources();
+		$container->bind( Resources::class, static function () {
+			return new Resources();
 		} );
 
 		// Store the container for later use.

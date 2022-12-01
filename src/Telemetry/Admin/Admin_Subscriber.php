@@ -6,7 +6,7 @@
  *
  * @package StellarWP\Telemetry
  */
-namespace StellarWP\Telemetry;
+namespace StellarWP\Telemetry\Admin;
 
 use StellarWP\Telemetry\Contracts\Abstract_Subscriber;
 
@@ -42,7 +42,7 @@ class Admin_Subscriber extends Abstract_Subscriber {
 		global $pagenow;
 
 		if ( $pagenow === 'plugins.php' || $this->container->get( Opt_In_Template::class )->should_render() ) {
-			$this->container->get( Admin_Resources::class )->enqueue_admin_assets();
+			$this->container->get( Resources::class )->enqueue_admin_assets();
 		}
 	}
 

@@ -8,6 +8,7 @@
  */
 namespace StellarWP\Telemetry;
 
+use StellarWP\Telemetry\Admin\Resources;
 use StellarWP\Telemetry\Contracts\Template;
 
 /**
@@ -40,7 +41,7 @@ class Opt_In_Template implements Template {
 	protected function get_args() {
 
 		$optin_args = [
-			'plugin_logo'        => Admin_Resources::get_asset_path() . 'resources/images/stellar-logo.svg',
+			'plugin_logo'        => Resources::get_asset_path() . 'resources/images/stellar-logo.svg',
 			'plugin_logo_width'  => 151,
 			'plugin_logo_height' => 32,
 			'plugin_logo_alt'    => 'StellarWP Logo',
