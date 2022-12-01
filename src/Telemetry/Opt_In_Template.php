@@ -38,15 +38,9 @@ class Opt_In_Template implements Template {
 	 * @return array
 	 */
 	protected function get_args() {
-		/**
-		 * Filters the arguments for rendering the Opt-In modal.
-		 *
-		 * @since 1.0.0
-		 *
-		 * @param array $optin_args
-		 */
-		return apply_filters( 'stellarwp/telemetry/' . Config::get_hook_prefix() . 'optin_args', [
-			'plugin_logo'        => plugin_dir_url( __DIR__ ) . 'public/logo.png',
+
+		$optin_args = [
+			'plugin_logo'        => Admin_Resources::get_asset_path() . 'resources/images/stellar-logo.svg',
 			'plugin_logo_width'  => 151,
 			'plugin_logo_height' => 32,
 			'plugin_logo_alt'    => 'StellarWP Logo',
@@ -55,7 +49,28 @@ class Opt_In_Template implements Template {
 			'permissions_url'    => '#',
 			'tos_url'            => '#',
 			'privacy_url'        => '#',
-		] );
+		];
+
+		$optin_args['heading'] = sprintf( __( 'We hope you love %s.', 'stellarwp-telemetry' ), $optin_args['plugin_name'] );
+		$optin_args['intro']   = sprintf(
+			__(
+				'Hi, %s.! This is an invitation to help our StellarWP community.
+				If you opt-in, some data about your usage of %s and future StellarWP Products will be shared with our teams (so they can work their butts off to improve).
+				We will also share some helpful info on WordPress, and our products from time to time.
+				And if you skip this, that’s okay! Our products still work just fine.',
+			'stellarwp-telemetry' ),
+			$optin_args['user_name'],
+			$optin_args['plugin_name']
+		);
+
+		/**
+		 * Filters the arguments for rendering the Opt-In modal.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param array $optin_args
+		 */
+		return apply_filters( 'stellarwp/telemetry/' . Config::get_hook_prefix() . 'optin_args', $optin_args );
 	}
 
 	/**

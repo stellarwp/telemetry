@@ -32,10 +32,14 @@ class Core {
 	 */
 	private array $subscribers = [
 		Exit_Interview_Subscriber::class,
+<<<<<<< HEAD
 		Last_Send_Subscriber::class,
 		Opt_In_Subscriber::class,
 		Route_Subscriber::class,
 		Telemetry_Subscriber::class,
+=======
+		Admin_Subscriber::class,
+>>>>>>> main
 	];
 
 	/**
@@ -135,6 +139,9 @@ class Core {
 		} );
 		$container->bind( Telemetry::class, static function () use ( $container ) {
 			return new Telemetry( $container->get( Data_Provider::class ), 'stellarwp_telemetry' );
+		} );
+		$container->bind( Admin_Resources::class, static function () {
+			return new Admin_Resources();
 		} );
 
 		// Store the container for later use.
