@@ -1,17 +1,22 @@
 <?php
 /**
  * Handles hooking into the WordPress request lifecycle.
+ *
+ * @since 1.0.0
+ *
+ * @package StellarWP\Telemetry
  */
 namespace StellarWP\Telemetry;
 
 use DateTimeImmutable;
 use StellarWP\Telemetry\Contracts\Abstract_Subscriber;
-use StellarWP\Telemetry\Routes\Send;
 
 /**
  * Class Telemetry_Subscriber
  *
  * @since 1.0.0
+ *
+ * @package StellarWP\Telemetry
  */
 class Telemetry_Subscriber extends Abstract_Subscriber {
 
@@ -20,12 +25,40 @@ class Telemetry_Subscriber extends Abstract_Subscriber {
 	 *
 	 * @return void
 	 */
-	public function register() {
-		add_action( 'shutdown', [ $this, 'send_telemetry_data' ] );
+    public function register() {
+		add_action( 'shutdown', [ $this, 'send_async_request' ] );
+		add_action( 'wp_ajax_' . Telemetry::AJAX_ACTION, [ $this, 'send_telemetry_data' ], 10, 1 );
+		add_action( 'wp_ajax_nopriv_' . Telemetry::AJAX_ACTION, [ $this, 'send_telemetry_data' ], 10, 1 );
 	}
 
 	/**
-	 * Handles sending telemetry data during the 'shutdown' action.
+	 * Sends an async request during the 'shutdown' action.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
+	public function send_async_request() {
+		$last_send = $this->container->get( Last_Send::class );
+
+		// Bail if last send timestamp is not expired.
+		if ( ! $last_send->is_expired() ) {
+			return;
+		}
+
+		$url   = admin_url( 'admin-ajax.php' );
+
+		wp_remote_post( $url, [
+			'blocking' => false,
+			'timeout'  => 1,
+			'body'     => [
+				'action' => Telemetry::AJAX_ACTION,
+			],
+		] );
+	}
+
+	/**
+	 * Handles sending telemetry data during an ajax request.
 	 *
 	 * @since 1.0.0
 	 *
@@ -34,30 +67,17 @@ class Telemetry_Subscriber extends Abstract_Subscriber {
 	public function send_telemetry_data() {
 		$last_send = $this->container->get( Last_Send::class );
 
-		// Bail if last send timestamp is not expired.
-		if ( ! $last_send->is_expired() ) {
-			return;
-		}
-
 		// The last send is expired, set a new timestamp.
 		$timestamp = new DateTimeImmutable();
 		$rows_affected = $last_send->set_new_timestamp( $timestamp );
 
-		// We weren't able to update the timestamp, likely another process updated it first.
+		// We weren't able to update the timestamp, another process may have updated it first.
 		if ( $rows_affected === 0 ) {
 			return;
 		}
 
-		$nonce           = wp_create_nonce( Telemetry::NONCE );
-		$route_namespace = $this->container->get( Send::class )->get_namespace();
+		$this->container->get( Telemetry::class )->send_data();
 
-		try {
-			wp_remote_get( get_rest_url( null, $route_namespace . '/send?nonce=' . $nonce . '&timestamp=' . $timestamp ), [
-				'blocking' => false,
-				'timeout' => 1
-			] );
-		} catch ( \Error $e ) {
-			return;
-		}
+		exit();
 	}
 }
