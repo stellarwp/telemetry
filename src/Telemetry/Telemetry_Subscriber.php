@@ -46,6 +46,15 @@ class Telemetry_Subscriber extends Abstract_Subscriber {
 			return;
 		}
 
+		// The last send is expired, set a new timestamp.
+		$timestamp = new DateTimeImmutable();
+		$rows_affected = $last_send->set_new_timestamp( $timestamp );
+
+		// We weren't able to update the timestamp, another process may have updated it first.
+		if ( $rows_affected === 0 ) {
+			return;
+		}
+
 		$url   = admin_url( 'admin-ajax.php' );
 
 		wp_remote_post( $url, [
@@ -58,26 +67,14 @@ class Telemetry_Subscriber extends Abstract_Subscriber {
 	}
 
 	/**
-	 * Handles sending telemetry data during an ajax request.
+	 * Sends telemetry data to the server.
 	 *
 	 * @since 1.0.0
 	 *
 	 * @return void
 	 */
 	public function send_telemetry_data() {
-		$last_send = $this->container->get( Last_Send::class );
-
-		// The last send is expired, set a new timestamp.
-		$timestamp = new DateTimeImmutable();
-		$rows_affected = $last_send->set_new_timestamp( $timestamp );
-
-		// We weren't able to update the timestamp, another process may have updated it first.
-		if ( $rows_affected === 0 ) {
-			return;
-		}
-
 		$this->container->get( Telemetry::class )->send_data();
-
 		exit();
 	}
 }
