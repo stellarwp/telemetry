@@ -6,9 +6,11 @@
  *
  * @package StellarWP\Telemetry
  */
-namespace StellarWP\Telemetry;
+namespace StellarWP\Telemetry\Opt_In;
 
+use StellarWP\Telemetry\Config;
 use StellarWP\Telemetry\Contracts\Abstract_Subscriber;
+use StellarWP\Telemetry\Core;
 
 /**
  * Class to handle all actions/filters related to the opt-in.
