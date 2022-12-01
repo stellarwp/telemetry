@@ -10,7 +10,7 @@
 namespace StellarWP\Telemetry\Admin;
 
 use StellarWP\Telemetry\Config;
-use StellarWP\Telemetry\Exit_Interview_Subscriber;
+use StellarWP\Telemetry\Exit_Interview\Exit_Interview_Subscriber;
 
 /**
  * A class that enqueues and localizes admin assets.

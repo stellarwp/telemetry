@@ -132,8 +132,8 @@ class Core {
 		$container->bind( Opt_In_Template::class, static function () {
 			return new Opt_In_Template();
 		} );
-		$container->bind( Exit_Interview_Template::class, static function () use ( $container ) {
-			return new Exit_Interview_Template( $container );
+		$container->bind( Template::class, static function () use ( $container ) {
+			return new Template( $container );
 		} );
 		$container->bind( Telemetry::class, static function () use ( $container ) {
 			return new Telemetry( $container->get( Data_Provider::class ), 'stellarwp_telemetry' );
