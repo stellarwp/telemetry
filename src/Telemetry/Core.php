@@ -135,7 +135,7 @@ class Core {
 			return new Exit_Interview_Template( $container );
 		} );
 		$container->bind( Telemetry::class, static function () use ( $container ) {
-			return new Telemetry( $container->get( Data_Provider::class ), 'stellarwp_telemetry' );
+			return new Telemetry( $container->get( Data_Provider::class ), $container->get( Opt_In_Status::class ) );
 		} );
 		$container->bind( Admin_Resources::class, static function () {
 			return new Admin_Resources();

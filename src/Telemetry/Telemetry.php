@@ -30,23 +30,23 @@ class Telemetry {
 	protected $provider;
 
 	/**
-	 * The option name to use for storing telemetry server data.
+	 * The opt-in status object.
 	 *
 	 * @since 1.0.0
 	 *
-	 * @var string
+	 * @var Opt_In_Status
 	 */
-	protected $option_name;
+	protected $opt_in_status;
 
 	/**
 	 * The Telemetry constructor
 	 *
-	 * @param Data_Provider $provider    The provider that collects the site data.
-	 * @param string        $option_name The option name to store telemetry server data.
+	 * @param Data_Provider $provider      The provider that collects the site data.
+	 * @param Opt_In_Status $opt_in_status The opt-in status object.
 	 */
-	public function __construct( Data_Provider $provider, string $option_name ) {
-		$this->provider    = $provider;
-		$this->option_name = $option_name;
+	public function __construct( Data_Provider $provider, Opt_In_Status $opt_in_status ) {
+		$this->provider      = $provider;
+		$this->opt_in_status = $opt_in_status;
 	}
 
 	/**
@@ -243,7 +243,7 @@ class Telemetry {
 	 * @return array
 	 */
 	protected function get_option() {
-		return get_option( $this->option_name, [] );
+		return get_option( $this->opt_in_status->get_option_name(), [] );
 	}
 
 	/**
@@ -260,7 +260,7 @@ class Telemetry {
 			'token' => $token,
 		] );
 
-		return update_option( $this->option_name, $option );
+		return update_option( $this->opt_in_status->get_option_name(), $option );
 	}
 
 	/**
