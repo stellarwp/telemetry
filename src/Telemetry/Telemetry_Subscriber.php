@@ -20,7 +20,7 @@ class Telemetry_Subscriber extends Abstract_Subscriber {
 	 *
 	 * @return void
 	 */
-    public function register() {
+	public function register() {
 		add_action( 'shutdown', [ $this, 'send_telemetry_data' ] );
 	}
 

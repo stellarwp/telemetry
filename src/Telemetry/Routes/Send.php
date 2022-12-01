@@ -29,7 +29,7 @@ class Send extends Abstract_Route {
 	 *
 	 * @return void
 	 */
-    public function get_endpoint() {
+	public function get_endpoint() {
 		return '/send';
 	}
 
@@ -42,7 +42,7 @@ class Send extends Abstract_Route {
 	 *
 	 * @return void
 	 */
-    public function action( WP_REST_Request $request ) {
+	public function action( WP_REST_Request $request ) {
 		$timestamp   = new DateTimeImmutable( $request->get_param( 'timestamp' ) );
 		$now         = new DateTimeImmutable();
 		$interval    = date_diff( $timestamp, $now );

@@ -27,7 +27,7 @@ class Route_Subscriber extends Abstract_Subscriber {
 	 *
 	 * @return void
 	 */
-    public function register() {
+	public function register() {
 		add_action( 'rest_api_init', [ $this, 'register_routes' ] );
 	}
 
