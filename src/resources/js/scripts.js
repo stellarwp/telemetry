@@ -69,6 +69,7 @@
 				let data = {
 					action: stellarwpTelemetry.exit_interview.action,
 					nonce: stellarwpTelemetry.exit_interview.nonce,
+					plugin_slug: pluginSlug,
 				};
 
 				// Get uninstall_reason value
