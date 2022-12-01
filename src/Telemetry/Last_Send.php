@@ -45,9 +45,9 @@ class Last_Send {
 
 		$last_send = $this->get_timestamp();
 
-		// No timestamp exists.
+		// No timestamp exists, we'll assume that telemetry data needs to be sent.
 		if ( $last_send === '' ) {
-			return false;
+			return true;
 		}
 
 		$timestamp   = new DateTimeImmutable( $last_send );
