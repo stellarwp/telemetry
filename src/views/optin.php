@@ -37,13 +37,15 @@
 					<button class="stellarwp-telemetry-btn-text" data-js="other-plugins-toggle">
 						<?php echo __( 'Other plugins you have opted in:', 'stellarwp-telemetry' ); ?>
 					</button>
-					<ul class="stellarwp-telemetry-other-plugins__list">
-						<?php foreach ( $args['opted_in_plugins'] as $plugin ) { ?>
-							<li>
-								<?php echo esc_attr( $plugin ); ?>
-							</li>
-						<?php } ?>
-					</ul>
+					<div class="stellarwp-telemetry-other-plugins__list">
+						<ul>
+							<?php foreach ( $args['opted_in_plugins'] as $plugin ) { ?>
+								<li>
+									<?php echo esc_attr( $plugin ); ?>
+								</li>
+							<?php } ?>
+						</ul>
+					</div>
 				</div>
 			<?php } ?>
 		</main>

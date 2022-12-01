@@ -197,7 +197,7 @@
 	margin-left: 0.5rem;
 }
 
-.stellarwp-telemetry-other-plugins__list {
+.stellarwp-telemetry-other-plugins__list ul {
 	list-style: disc inside;
 	margin: 0.5rem 0 1rem;
 	display: none;
