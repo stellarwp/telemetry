@@ -11,6 +11,8 @@ namespace StellarWP\Telemetry\Opt_In;
 use StellarWP\Telemetry\Config;
 use StellarWP\Telemetry\Contracts\Abstract_Subscriber;
 use StellarWP\Telemetry\Core;
+use StellarWP\Telemetry\Cron_Job;
+use StellarWP\Telemetry\Telemetry;
 
 /**
  * Class to handle all actions/filters related to the opt-in.
