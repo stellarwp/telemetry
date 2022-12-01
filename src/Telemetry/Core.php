@@ -11,6 +11,8 @@ namespace StellarWP\Telemetry;
 use StellarWP\ContainerContract\ContainerInterface;
 use StellarWP\Telemetry\Admin\Resources;
 use StellarWP\Telemetry\Contracts\Data_Provider;
+use StellarWP\Telemetry\Exit_Interview\Template;
+use StellarWP\Telemetry\Opt_In\Opt_In_Template;
 
 /**
  * The core class of the library.

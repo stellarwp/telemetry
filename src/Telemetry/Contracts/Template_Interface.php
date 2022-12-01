@@ -11,7 +11,7 @@ namespace StellarWP\Telemetry\Contracts;
 /**
  * Interface that provides an API for rendering templates.
  */
-interface Template {
+interface Template_Interface {
 	/**
 	 * Renders the template.
 	 *

@@ -11,7 +11,7 @@ namespace StellarWP\Telemetry\Exit_Interview;
 use StellarWP\ContainerContract\ContainerInterface;
 use StellarWP\Telemetry\Admin\Resources;
 use StellarWP\Telemetry\Config;
-use StellarWP\Telemetry\Contracts\Template as View_Template;
+use StellarWP\Telemetry\Contracts\Template_Interface;
 use StellarWP\Telemetry\Core;
 
 /**
@@ -21,7 +21,7 @@ use StellarWP\Telemetry\Core;
  *
  * @package StellarWP\Telemetry
  */
-class Template implements View_Template {
+class Template implements Template_Interface {
 
 	/**
 	 * The plugin container.

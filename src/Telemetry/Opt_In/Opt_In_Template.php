@@ -6,10 +6,11 @@
  *
  * @package StellarWP\Telemetry
  */
-namespace StellarWP\Telemetry;
+namespace StellarWP\Telemetry\Opt_In;
 
 use StellarWP\Telemetry\Admin\Resources;
-use StellarWP\Telemetry\Contracts\Template;
+use StellarWP\Telemetry\Config;
+use StellarWP\Telemetry\Contracts\Template_Interface;
 
 /**
  * Handles all methods related to rendering the Opt-In template.
@@ -18,7 +19,7 @@ use StellarWP\Telemetry\Contracts\Template;
  *
  * @package StellarWP\Telemetry
  */
-class Opt_In_Template implements Template {
+class Opt_In_Template implements Template_Interface {
 	protected const YES = "1";
 	protected const NO = "-1";
 

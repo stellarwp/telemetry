@@ -6,7 +6,9 @@
  *
  * @package StellarWP\Telemetry
  */
-namespace StellarWP\Telemetry;
+namespace StellarWP\Telemetry\Opt_In;
+
+use StellarWP\Telemetry\Config;
 
 /**
  * Class for handling the Opt-in status for the site.
@@ -15,7 +17,7 @@ namespace StellarWP\Telemetry;
  *
  * @package StellarWP\Telemetry
  */
-class Opt_In_Status {
+class Status {
 	public const OPTION_NAME = 'stellarwp_telemetry';
 	public const STATUS_ACTIVE = 1;
 	public const STATUS_INACTIVE = 2;
