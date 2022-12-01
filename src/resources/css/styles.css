@@ -197,9 +197,14 @@
 	margin-left: 0.5rem;
 }
 
+.stellarwp-telemetry-other-plugins__list {
+	display: none;
+}
+
 .stellarwp-telemetry-other-plugins__list ul {
 	list-style: disc inside;
-	margin: 0.5rem 0 1rem;
-	display: none;
+	flex-direction: column;
+	margin: 0.5rem 0 0;
+	display: flex;
 	padding: 0;
 }
