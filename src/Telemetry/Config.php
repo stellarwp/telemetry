@@ -44,7 +44,7 @@ class Config {
 	 *
 	 * @var string
 	 */
-	protected static $server_url = '';
+	protected static $server_url = 'https://telemetry.stellarwp.com/api/v1';
 
 	/**
 	 * Get the container.
@@ -105,7 +105,7 @@ class Config {
 	 */
 	public static function reset() {
 		static::$hook_prefix = '';
-		static::$server_url  = '';
+		static::$server_url  = 'https://telemetry.stellarwp.com/api/v1';
 	}
 
 	/**
