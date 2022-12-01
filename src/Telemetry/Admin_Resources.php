@@ -52,7 +52,7 @@ class Admin_Resources {
 		$script_path = apply_filters( 'stellarwp/telemetry/' . Config::get_hook_prefix() . 'script_path', $this->get_asset_path() . 'resources/js/scripts.js' );
 
 		wp_enqueue_script(
-			Config::get_hook_prefix() . self::SCRIPT_HANDLE,
+			self::SCRIPT_HANDLE,
 			$script_path,
 			[ 'jquery' ],
 			self::SCRIPT_VERSION,
@@ -83,7 +83,7 @@ class Admin_Resources {
 		] );
 
 		wp_localize_script(
-			Config::get_hook_prefix() . self::SCRIPT_HANDLE,
+			self::SCRIPT_HANDLE,
 			'stellarwpTelemetry',
 			$script_data
 		);
@@ -107,7 +107,7 @@ class Admin_Resources {
 		$style_path = apply_filters( 'stellarwp/telemetry/' . Config::get_hook_prefix() . 'style_path', $this->get_asset_path() . 'resources/css/styles.css' );
 
 		wp_enqueue_style(
-			Config::get_hook_prefix() . self::SCRIPT_HANDLE,
+			self::SCRIPT_HANDLE,
 			$style_path,
 			[],
 			self::SCRIPT_VERSION
