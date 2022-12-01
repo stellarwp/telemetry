@@ -30,7 +30,7 @@ class Exit_Interview_Subscriber extends Abstract_Subscriber {
 	 */
 	public function register(): void {
 		add_action( 'admin_footer', [ $this, 'render_exit_interview' ] );
-		add_action( 'wp_ajax_' . Exit_Interview_Subscriber::AJAX_ACTION, [ $this, 'ajax_exit_interview' ] );
+		add_action( 'wp_ajax_' . self::AJAX_ACTION, [ $this, 'ajax_exit_interview' ] );
 
 		add_filter( 'network_admin_plugin_action_links_' . $this->container->get( Core::PLUGIN_BASENAME ), [ $this, 'plugin_action_links' ], 10, 1 );
 		add_filter( 'plugin_action_links_' . $this->container->get( Core::PLUGIN_BASENAME ), [ $this, 'plugin_action_links' ], 10, 1 );
@@ -79,7 +79,7 @@ class Exit_Interview_Subscriber extends Abstract_Subscriber {
 		$nonce = filter_input( INPUT_POST, 'nonce', FILTER_SANITIZE_STRING );
 		$nonce = ! empty( $nonce ) ? $nonce : '';
 
-		if ( ! wp_verify_nonce( $nonce, Exit_Interview_Subscriber::AJAX_ACTION ) ) {
+		if ( ! wp_verify_nonce( $nonce, self::AJAX_ACTION ) ) {
 			wp_send_json_error( 'Invalid nonce' );
 		}
 
