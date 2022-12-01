@@ -24,6 +24,7 @@ A library for Opt-in and Telemetry data to be sent to the StellarWP Telemetry se
 		- [stellarwp/telemetry/register\_site\_user\_details](#stellarwptelemetryregister_site_user_details)
 		- [stellarwp/telemetry/send\_data\_args](#stellarwptelemetrysend_data_args)
 		- [stellarwp/telemetry/send\_data\_url](#stellarwptelemetrysend_data_url)
+		- [stellarwp/telemetry/last\_send\_expire\_days](#stellarwptelemetrylast_send_expire_days)
 		- [stellarwp/telemetry/exit\_interview\_args](#stellarwptelemetryexit_interview_args)
 ## Installation
 
@@ -222,6 +223,13 @@ Filters the URL of the telemetry server used to send the site data.
 **Parameters**: _string_ `$url`
 
 **Default**: `https://telemetry-api.moderntribe.qa/api/v1/telemetry`
+
+### stellarwp/telemetry/last_send_expire_days
+Filters how often the library should send site health data to the telemetry server.
+
+**Parameters**: _integer_ `$days`
+
+**Default**: `7`
 
 ### stellarwp/telemetry/exit_interview_args
 Filters the arguments used in the plugin deactivation "exit interview" form.
