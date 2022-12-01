@@ -23,6 +23,24 @@ class Opt_In_Template implements Template {
 	protected const NO = "-1";
 
 	/**
+	 * The opt-in status object.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @var Opt_In_Status
+	 */
+	protected $opt_in_status;
+
+	/**
+	 * The Telemetry constructor
+	 *
+	 * @param Opt_In_Status $opt_in_status The opt-in status object.
+	 */
+	public function __construct( Opt_In_Status $opt_in_status ) {
+		$this->opt_in_status = $opt_in_status;
+	}
+
+	/**
 	 * @inheritDoc
 	 *
 	 * @return void
@@ -50,6 +68,7 @@ class Opt_In_Template implements Template {
 			'permissions_url'    => '#',
 			'tos_url'            => '#',
 			'privacy_url'        => '#',
+			'opted_in_plugins'   => $this->opt_in_status->get_opted_in_plugins(),
 		];
 
 		$optin_args['heading'] = sprintf( __( 'We hope you love %s.', 'stellarwp-telemetry' ), $optin_args['plugin_name'] );
