@@ -32,6 +32,20 @@
 					</a>
 				</li>
 			</ul>
+			<?php if ( $args['opted_in_plugins'] ) { ?>
+				<div class="stellarwp-telemetry-other-plugins">
+					<button class="stellarwp-telemetry-btn-text" data-js="other-plugins-toggle">
+						<?php echo __( 'Other plugins you have opted in:', 'stellarwp-telemetry' ); ?>
+					</button>
+					<ul class="stellarwp-telemetry-other-plugins__list">
+						<?php foreach ( $args['opted_in_plugins'] as $plugin ) { ?>
+							<li>
+								<?php echo esc_attr( $plugin ); ?>
+							</li>
+						<?php } ?>
+					</ul>
+				</div>
+			<?php } ?>
 		</main>
 		<footer>
 			<form method="post" action="">
@@ -40,7 +54,7 @@
 				<button class="stellarwp-telemetry-btn-primary" type="submit" name="optin-agreed" value="true">
 					<?php echo __( 'Allow &amp; Continue', 'stellarwp-telemetry' ); ?>
 				</button>
-				<button data-js="close-modal" class="stellarwp-telemetry-btn-text" type="submit" name="optin-agreed" value="false">
+				<button data-js="close-modal" class="stellarwp-telemetry-btn-text stellarwp-telemetry-btn-text--skip" type="submit" name="optin-agreed" value="false">
 					<?php echo __( 'Skip', 'stellarwp-telemetry' ); ?>
 				</button>
 			</form>

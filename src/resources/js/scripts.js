@@ -4,13 +4,21 @@
 	 * jQuery code to handle the opt-in modal.
 	 */
 	$('body').find('[data-js="optin-modal"]').each(function () {
-		let $optin = $(this);
-		let $close = $optin.find('[data-js="close-modal"]');
+		let $optin         = $(this);
+		let $close         = $optin.find('[data-js="close-modal"]');
+		let $other_plugins = $optin.find('[data-js="other-plugins-toggle"]');
 
 		$close.click(function (e) {
 			e.preventDefault();
 			$optin.remove();
 		});
+
+		if ( $other_plugins.length ) {
+			$other_plugins.click(function (e) {
+				let $this = $(this).closest('.stellarwp-telemetry-other-plugins');
+				$this.find('.stellarwp-telemetry-other-plugins__list').slideToggle();
+			});
+		}
 	});
 
 	/**
