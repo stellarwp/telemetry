@@ -36,10 +36,7 @@ class Opt_In_Status {
 		 *
 		 * @param bool $option_name
 		 */
-		return apply_filters(
-			'stellarwp/telemetry/' . Config::get_hook_prefix() . 'option_name',
-			Config::get_hook_prefix() . self::OPTION_NAME
-		);
+		return apply_filters( 'stellarwp/telemetry/' . Config::get_hook_prefix() . 'option_name', self::OPTION_NAME );
 	}
 
 	/**
