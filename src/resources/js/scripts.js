@@ -5,13 +5,7 @@
 	 */
 	$('body').find('[data-js="optin-modal"]').each(function () {
 		let $optin         = $(this);
-		let $close         = $optin.find('[data-js="close-modal"]');
 		let $other_plugins = $optin.find('[data-js="other-plugins-toggle"]');
-
-		$close.click(function (e) {
-			e.preventDefault();
-			$optin.remove();
-		});
 
 		if ( $other_plugins.length ) {
 			$other_plugins.click(function (e) {
