@@ -108,6 +108,11 @@ class Telemetry {
 	 */
 	protected function send( array $data, string $url ) {
 		$response = $this->request( $url, $data );
+
+		if ( is_wp_error( $response ) ) {
+			return null;
+		}
+
 		$response = $this->parse_response( $response );
 
 		if ( empty( $response['status'] ) ) {
