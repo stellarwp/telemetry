@@ -237,6 +237,7 @@ class Telemetry {
 		return apply_filters( 'stellarwp/telemetry/' . Config::get_hook_prefix() . 'register_site_user_details', [
 			'name'  => $user->display_name,
 			'email' => $user->user_email,
+			'plugin_slug' => Config::get_container()->get( Core::PLUGIN_SLUG ),
 		] );
 	}
 
