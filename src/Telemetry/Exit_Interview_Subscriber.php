@@ -96,10 +96,9 @@ class Exit_Interview_Subscriber extends Abstract_Subscriber {
 	 *
 	 * @param array $links
 	 *
-	 * @return array
-	 *
 	 * @since 1.0.0
 	 *
+	 * @return array
 	 */
 	public function plugin_action_links( $links ) {
 		$passed_deactivate = false;

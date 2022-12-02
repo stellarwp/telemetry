@@ -154,7 +154,7 @@ class Opt_In_Status {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @return array
+	 * @return string[]
 	 */
 	public function get_opted_in_plugins() {
 		$option = $this->get_option();
