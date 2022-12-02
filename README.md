@@ -179,7 +179,7 @@ Filters the url of the telemetry server that will store the site data when regis
 
 **Parameters**: _string_ `$url`
 
-**Default**: `https://telemetry-api.moderntribe.qa/api/v1/register-site`
+**Default**: `https://telemetry.example.com/api/v1/register-site`
 ### stellarwp/telemetry/register_site_data
 Filters the data that is sent to the telemetry server when registering a new site.
 
@@ -217,11 +217,11 @@ $data_args = [
 ```
 
 ### stellarwp/telemetry/send_data_url
-Filters the URL of the telemetry server used to send the site data.
+Filters the full url to use when sending data to the telemetry server.
 
 **Parameters**: _string_ `$url`
 
-**Default**: `https://telemetry-api.moderntribe.qa/api/v1/telemetry`
+**Default**: `https://telemetry.example.com/api/v1/telemetry`
 
 ### stellarwp/telemetry/last_send_expire_days
 Filters how often the library should send site health data to the telemetry server.
