@@ -57,15 +57,15 @@ class Last_Send {
 		$interval    = date_diff( $timestamp, $now );
 
 		/**
-		 * Filters the amount of days the last send timestamp is valid before it expires.
+		 * Filters the amount of seconds the last send timestamp is valid before it expires.
 		 *
 		 * @since 1.0.0
 		 *
 		 * @param integer $expire_days
 		 */
-		$expire_days = apply_filters( 'stellarwp/telemetry/' . Config::get_hook_prefix() . 'last_send_expire_days', 7 );
+		$expire_days = apply_filters( 'stellarwp/telemetry/' . Config::get_hook_prefix() . 'last_send_expire_seconds', 7 * DAY_IN_SECONDS );
 
-		return $interval->days >= $expire_days;
+		return $interval->s >= $expire_days;
 	}
 
 	/**
