@@ -29,6 +29,9 @@
     "codeception/module-cli": "^1.0",
     "codeception/util-universalframework": "^1.0",
     "lucatume/wp-browser": "^3.1",
-    "lucatume/di52": "3.0.0"
+    "lucatume/di52": "3.0.0",
+    "dealerdirect/phpcodesniffer-composer-installer": "^0.7.2",
+    "wp-coding-standards/wpcs": "^2.3",
+    "automattic/vipwpcs": "^2.3"
   }
 }
