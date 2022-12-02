@@ -66,6 +66,9 @@ function initialize_telemetry() {
 	$container = new Container();
 	Config::set_container( $container );
 
+	// Set the full URL for the Telemetry Server API.
+	Config::set_server_url( 'https://telemetry.example.com/api/v1' );
+
 	// Optional: Set a unique prefix for actions & filters.
 	Config::set_hook_prefix( 'my-custom-prefix' );
 
