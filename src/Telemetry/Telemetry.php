@@ -71,6 +71,13 @@ class Telemetry {
 		return $this->save_token( $response['token'] ?? '' );
 	}
 
+	public function register_user() {
+		try {
+			$this->send( $this->get_user_details(), Config::get_server_url() . '/opt-in' );
+		} catch ( \Error $e ) {}
+	}
+
+
 	/**
 	 * Sends the uninstall message to the telemetry server.
 	 *
@@ -212,7 +219,6 @@ class Telemetry {
 		 * @param array $register_site_data
 		 */
 		return apply_filters( 'stellarwp/telemetry/' . Config::get_hook_prefix() . 'register_site_data', [
-			'user'      => json_encode( $this->get_user_details() ),
 			'telemetry' => json_encode( $this->provider->get_data() ),
 		] );
 	}

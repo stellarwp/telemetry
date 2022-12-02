@@ -60,7 +60,7 @@ class Opt_In_Subscriber extends Abstract_Subscriber {
 
 			try {
 				$this->container->get( Telemetry::class )->register_site();
-				$this->container->get( Telemetry::class )->send_data();
+				$this->container->get( Telemetry::class )->register_user();
 			} catch ( \Error $e ) {}
 		}
 
