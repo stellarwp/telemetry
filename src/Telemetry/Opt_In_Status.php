@@ -150,6 +150,30 @@ class Opt_In_Status {
 	}
 
 	/**
+	 * Get an array of opted-in plugins.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return string[]
+	 */
+	public function get_opted_in_plugins() {
+		$option = $this->get_option();
+		$opted_in_plugins = [];
+
+		foreach ( $option as $plugin_slug => $plugin ) {
+			if ( 'token' === $plugin_slug ) {
+				continue;
+			}
+
+			if ( $plugin['optin'] === true ) {
+				$opted_in_plugins[] = $plugin_slug;
+			}
+		}
+
+		return $opted_in_plugins;
+	}
+
+	/**
 	 * Sets the opt-in status option for the site.
 	 *
 	 * @since 1.0.0

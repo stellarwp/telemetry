@@ -128,14 +128,14 @@ class Core {
 		$container->bind( Cron_Job::class, static function () use ( $container, $plugin_path ) {
 			return new Cron_Job( $container->get( Telemetry::class ), $plugin_path );
 		} );
-		$container->bind( Opt_In_Template::class, static function () {
-			return new Opt_In_Template();
+		$container->bind( Opt_In_Template::class, static function () use ( $container ) {
+			return new Opt_In_Template( $container->get( Opt_In_Status::class ) );
 		} );
 		$container->bind( Exit_Interview_Template::class, static function () use ( $container ) {
 			return new Exit_Interview_Template( $container );
 		} );
 		$container->bind( Telemetry::class, static function () use ( $container ) {
-			return new Telemetry( $container->get( Data_Provider::class ), 'stellarwp_telemetry' );
+			return new Telemetry( $container->get( Data_Provider::class ), $container->get( Opt_In_Status::class ) );
 		} );
 		$container->bind( Admin_Resources::class, static function () {
 			return new Admin_Resources();

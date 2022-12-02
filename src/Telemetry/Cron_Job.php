@@ -79,7 +79,10 @@ class Cron_Job implements Cron_Job_Interface {
 		 *
 		 * @param string $hook_name The name of the hook.
 		 */
-		return apply_filters( 'stellarwp/telemetry/' . Config::get_hook_prefix() . 'cron_hook_name', self::ACTION_NAME );
+		return apply_filters(
+			'stellarwp/telemetry/' . Config::get_hook_prefix() . 'cron_hook_name',
+			Config::get_hook_prefix() . self::ACTION_NAME
+		);
 	}
 
 	/**
