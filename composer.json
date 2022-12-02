@@ -32,6 +32,15 @@
     "lucatume/di52": "3.0.0",
     "dealerdirect/phpcodesniffer-composer-installer": "^0.7.2",
     "wp-coding-standards/wpcs": "^2.3",
-    "automattic/vipwpcs": "^2.3"
-  }
+    "automattic/vipwpcs": "^2.3",
+    "the-events-calendar/coding-standards": "dev-master"
+  },
+  "repositories": [
+    {
+      "name": "the-events-calendar/coding-standards",
+      "type": "github",
+      "url": "https://github.com/the-events-calendar/coding-standards",
+      "no-api": true
+    }
+  ]
 }
