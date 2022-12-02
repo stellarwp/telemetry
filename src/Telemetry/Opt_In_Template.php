@@ -27,7 +27,7 @@ class Opt_In_Template implements Template {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @var Opt_In_Status
+	 * @var StellarWP\Telemetry\Opt_In_Status
 	 */
 	protected $opt_in_status;
 
