@@ -65,7 +65,7 @@ class Opt_In_Subscriber extends Abstract_Subscriber {
 		}
 
 		// Don't show the opt-in modal again.
-		update_option( $this->container->get( Opt_In_Status::class )->get_show_optin_option_name(), "0" );
+		update_option( $this->container->get( Opt_In_Template::class )->get_option_name(), "0" );
 	}
 
 	/**
