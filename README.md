@@ -153,15 +153,19 @@ Filter the arguments passed to the opt-in modal.
 **Default**:
 ```php
 $args = [
-	'plugin_logo'        => plugin_dir_url( __DIR__ ) . 'public/logo.png',
-	'plugin_logo_width'  => 151,
-	'plugin_logo_height' => 32,
-	'plugin_logo_alt'    => 'StellarWP Logo',
-	'plugin_name'        => 'The Events Calendar',
-	'user_name'          => wp_get_current_user()->display_name,
-	'permissions_url'    => '#',
-	'tos_url'            => '#',
-	'privacy_url'        => '#',
+	'plugin_logo'           => Admin_Resources::get_asset_path() . 'resources/images/stellar-logo.svg',
+	'plugin_logo_width'     => 151,
+	'plugin_logo_height'    => 32,
+	'plugin_logo_alt'       => 'StellarWP Logo',
+	'plugin_name'           => 'The Events Calendar',
+	'plugin_slug'           => Config::get_container()->get( Core::PLUGIN_SLUG ),
+	'user_name'             => wp_get_current_user()->display_name,
+	'permissions_url'       => '#',
+	'tos_url'               => '#',
+	'privacy_url'           => '#',
+	'opted_in_plugins_text' => __( 'See which plugins you have opted in to tracking for', 'stellarwp-telemetry' ),
+	'heading'               => __( 'We hope you love {plugin_name}.', 'stellarwp-telemetry' ),
+	'intro'                 => __( 'Hi, {user_name}.! This is an invitation to help our StellarWP community. If you opt-in, some data about your usage of {plugin_name} and future StellarWP Products will be shared with our teams (so they can work their butts off to improve). We will also share some helpful info on WordPress, and our products from time to time. And if you skip this, that’s okay! Our products still work just fine.', 'stellarwp-telemetry' ),
 ];
 ```
 ### stellarwp/telemetry/show_optin_option_name
