@@ -18,7 +18,7 @@ use StellarWP\Telemetry\Contracts\Data_Provider;
  * @package StellarWP\Telemetry
  */
 class Telemetry {
-	public const SERVER_URL = 'https://telemetry-api.moderntribe.qa/api/v1';
+	public const SERVER_URL  = 'https://telemetry-api.moderntribe.qa/api/v1';
 	public const AJAX_ACTION = 'stellarwp_telemetry_send_data';
 
 	/**
