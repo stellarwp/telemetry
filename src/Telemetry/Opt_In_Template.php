@@ -117,7 +117,7 @@ class Opt_In_Template implements Template {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @return void
+	 * @return string
 	 */
 	public function get_option_name() {
 		$plugin_slug = Config::get_container()->get( Core::PLUGIN_SLUG );
