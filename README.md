@@ -46,8 +46,8 @@ composer require stellarwp/telemetry
     "override_autoload": {
       "stellarwp/telemetry": {
         "files": [
-          "src/Views",
-          "src/Resources"
+          "src/views",
+          "src/resources"
         ]
       }
     }
