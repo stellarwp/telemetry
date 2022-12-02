@@ -19,6 +19,8 @@ use DateTimeImmutable;
  */
 class Last_Send {
 
+	public const OPTION_NAME = 'stellarwp_telemetry_last_send';
+
 	/**
 	 * Initially sets the _last_send option in the options table.
 	 *
@@ -27,8 +29,8 @@ class Last_Send {
 	 * @return void
 	 */
 	public function initialize_option() {
-		if ( get_option( $this->get_option_name() ) === false ) {
-			update_option( $this->get_option_name(), '' );
+		if ( get_option( self::OPTION_NAME ) === false ) {
+			update_option( self::OPTION_NAME, '' );
 		}
 	}
 
@@ -77,7 +79,7 @@ class Last_Send {
 		global $wpdb;
 
 		$timestamp         = $time->format( "Y-m-d H:i:s" );
-		$option_name       = $this->get_option_name();
+		$option_name       = self::OPTION_NAME;
 		$current_timestamp = $this->get_timestamp();
 
 		/**
@@ -100,19 +102,6 @@ class Last_Send {
 	}
 
 	/**
-	 * Gets the key used to store the timestamp of the last time data was sent.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return string
-	 */
-	protected function get_option_name() {
-		$plugin_slug = Config::get_container()->get( Core::PLUGIN_SLUG );
-
-		return 'stellarwp_telemetry_' . $plugin_slug . '_last_send';
-	}
-
-	/**
 	 * Queries the database directly to get the timestamp.
 	 *
 	 * This avoids any filters being applied than are necessary.
@@ -126,7 +115,7 @@ class Last_Send {
 
 		$sql = $wpdb->prepare(
 			"SELECT option_value FROM {$wpdb->options} WHERE option_name = %s",
-			$this->get_option_name()
+			self::OPTION_NAME
 		);
 
 		return $wpdb->get_var( $sql ) ?? '';
