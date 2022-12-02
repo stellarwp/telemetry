@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "551e646e8bc815ff8a35cc2a73ea0fd9",
+    "content-hash": "6114b664eb02af26821d968eb268d32b",
     "packages": [
         {
             "name": "stellarwp/container-contract",
