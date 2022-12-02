@@ -30,11 +30,11 @@ class Core {
 	 * @var string[]
 	 */
 	private array $subscribers = [
+		Admin_Subscriber::class,
 		Exit_Interview_Subscriber::class,
 		Last_Send_Subscriber::class,
 		Opt_In_Subscriber::class,
 		Telemetry_Subscriber::class,
-		Admin_Subscriber::class,
 	];
 
 	/**
