@@ -18,7 +18,6 @@ use StellarWP\Telemetry\Contracts\Template;
  * @package StellarWP\Telemetry
  */
 class Opt_In_Template implements Template {
-	public const OPTION_NAME = 'stellarwp_telemetry_show_optin';
 	protected const YES = "1";
 	protected const NO = "-1";
 
@@ -64,6 +63,7 @@ class Opt_In_Template implements Template {
 			'plugin_logo_height'    => 32,
 			'plugin_logo_alt'       => 'StellarWP Logo',
 			'plugin_name'           => 'The Events Calendar',
+			'plugin_slug'           => Config::get_container()->get( Core::PLUGIN_SLUG ),
 			'user_name'             => wp_get_current_user()->display_name,
 			'permissions_url'       => '#',
 			'tos_url'               => '#',
@@ -120,6 +120,8 @@ class Opt_In_Template implements Template {
 	 * @return void
 	 */
 	public function get_option_name() {
+		$plugin_slug = Config::get_container()->get( Core::PLUGIN_SLUG );
+
 		/**
 		 * Filters if the Opt-In modal should be rendered.
 		 *
@@ -129,7 +131,7 @@ class Opt_In_Template implements Template {
 		 */
 		return apply_filters(
 			'stellarwp/telemetry/' . Config::get_hook_prefix() . 'show_optin_option_name',
-			Config::get_hook_prefix() . self::OPTION_NAME
+			'stellarwp_telemetry_' . $plugin_slug . '_show_optin'
 		);
 	}
 

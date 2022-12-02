@@ -14,8 +14,6 @@ A library for Opt-in and Telemetry data to be sent to the StellarWP Telemetry se
 	- [Filter Reference](#filter-reference)
 		- [stellarwp/telemetry/should\_show\_optin](#stellarwptelemetryshould_show_optin)
 		- [stellarwp/telemetry/show\_optin\_option\_name](#stellarwptelemetryshow_optin_option_name)
-		- [stellarwp/telemetry/cron\_interval](#stellarwptelemetrycron_interval)
-		- [stellarwp/telemetry/cron\_hook\_name](#stellarwptelemetrycron_hook_name)
 		- [stellarwp/telemetry/option\_name](#stellarwptelemetryoption_name)
 		- [stellarwp/telemetry/optin\_status](#stellarwptelemetryoptin_status)
 		- [stellarwp/telemetry/optin\_status\_label](#stellarwptelemetryoptin_status_label)
@@ -26,6 +24,7 @@ A library for Opt-in and Telemetry data to be sent to the StellarWP Telemetry se
 		- [stellarwp/telemetry/register\_site\_user\_details](#stellarwptelemetryregister_site_user_details)
 		- [stellarwp/telemetry/send\_data\_args](#stellarwptelemetrysend_data_args)
 		- [stellarwp/telemetry/send\_data\_url](#stellarwptelemetrysend_data_url)
+		- [stellarwp/telemetry/last\_send\_expire\_days](#stellarwptelemetrylast_send_expire_days)
 		- [stellarwp/telemetry/exit\_interview\_args](#stellarwptelemetryexit_interview_args)
 ## Installation
 
@@ -128,26 +127,6 @@ Filters the option name used to store whether the opt-in should be shown.
 
 **Default**: `stellarwp_telemetry_show_optin`
 
-### stellarwp/telemetry/cron_interval
-Filters how often data should be sent to the Telemetry server in seconds.
-
-**Parameters**: _integer_ `$interval`
-
-**Default**: `WEEK_IN_SECONDS`
-```php
-add_filter( 'stellarwp/telemetry/cron_interval', 'send_data_daily', 10, 1 );
-
-function send_data_daily( $interval ) {
-	return DAY_IN_SECONDS;
-}
-```
-### stellarwp/telemetry/cron_hook_name
-Filters the string used for the cron hook.
-
-**Parameters**: _string_ `$hook_name`
-
-**Default**: `stellarwp_telemetry_cron`
-
 ### stellarwp/telemetry/option_name
 Filter the option name used to store current users' optin status.
 
@@ -247,6 +226,13 @@ Filters the URL of the telemetry server used to send the site data.
 **Parameters**: _string_ `$url`
 
 **Default**: `https://telemetry-api.moderntribe.qa/api/v1/telemetry`
+
+### stellarwp/telemetry/last_send_expire_days
+Filters how often the library should send site health data to the telemetry server.
+
+**Parameters**: _integer_ `$days`
+
+**Default**: `7`
 
 ### stellarwp/telemetry/exit_interview_args
 Filters the arguments used in the plugin deactivation "exit interview" form.

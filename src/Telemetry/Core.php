@@ -30,10 +30,11 @@ class Core {
 	 * @var string[]
 	 */
 	private array $subscribers = [
-		Cron_Subscriber::class,
-		Opt_In_Subscriber::class,
-		Exit_Interview_Subscriber::class,
 		Admin_Subscriber::class,
+		Exit_Interview_Subscriber::class,
+		Last_Send_Subscriber::class,
+		Opt_In_Subscriber::class,
+		Telemetry_Subscriber::class,
 	];
 
 	/**
@@ -125,9 +126,6 @@ class Core {
 		$container->bind( self::PLUGIN_SLUG, dirname( plugin_basename( $plugin_path ) ) );
 		$container->bind( self::PLUGIN_BASENAME, plugin_basename( $plugin_path ) );
 		$container->bind( Data_Provider::class, Debug_Data_Provider::class );
-		$container->bind( Cron_Job::class, static function () use ( $container, $plugin_path ) {
-			return new Cron_Job( $container->get( Telemetry::class ), $plugin_path );
-		} );
 		$container->bind( Opt_In_Template::class, static function () use ( $container ) {
 			return new Opt_In_Template( $container->get( Opt_In_Status::class ) );
 		} );

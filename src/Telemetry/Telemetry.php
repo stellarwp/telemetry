@@ -18,6 +18,8 @@ use StellarWP\Telemetry\Contracts\Data_Provider;
  * @package StellarWP\Telemetry
  */
 class Telemetry {
+	public const AJAX_ACTION = 'stellarwp_telemetry_send_data';
+
 	/**
 	 * A data provider for gathering the data.
 	 *
@@ -106,6 +108,11 @@ class Telemetry {
 	 */
 	protected function send( array $data, string $url ) {
 		$response = $this->request( $url, $data );
+
+		if ( is_wp_error( $response ) ) {
+			return null;
+		}
+
 		$response = $this->parse_response( $response );
 
 		if ( empty( $response['status'] ) ) {

@@ -45,7 +45,7 @@ class Opt_In_Subscriber extends Abstract_Subscriber {
 		}
 
 		// We're not attempting a telemetry action.
-		if ( $_POST['action'] !== 'stellarwp-telemetry' ) {
+		if ( isset( $_POST['action'] ) && $_POST['action'] !== 'stellarwp-telemetry' ) {
 			return;
 		}
 
@@ -56,9 +56,12 @@ class Opt_In_Subscriber extends Abstract_Subscriber {
 
 		// User agreed to opt-in to Telemetry.
 		if ( 'true' === $_POST['optin-agreed'] ) {
-			$this->container->get( Telemetry::class )->register_site();
 			$this->container->get( Opt_In_Status::class )->set_status( true );
-			$this->container->get( Cron_Job::class )->schedule( time() );
+
+			try {
+				$this->container->get( Telemetry::class )->register_site();
+				$this->container->get( Telemetry::class )->send_data();
+			} catch ( \Error $e ) {}
 		}
 
 		// Don't show the opt-in modal again.
@@ -87,12 +90,15 @@ class Opt_In_Subscriber extends Abstract_Subscriber {
 	 * @return void
 	 */
 	public function initialize_optin_option() {
-		$opt_in_status = $this->container->get( Opt_In_Status::class );
-		// Check if plugin slug exists within array
-		if ( ! $opt_in_status->plugin_exists( $this->container->get( Core::PLUGIN_SLUG ) ) ) {
-			$opt_in_status->add_plugin( $this->container->get( Core::PLUGIN_SLUG ) );
+		$plugin_slug     = $this->container->get( Core::PLUGIN_SLUG );
+		$opt_in_template = $this->container->get( Opt_In_Template::class );
+		$opt_in_status   = $this->container->get( Opt_In_Status::class );
 
-			update_option( $opt_in_status->get_show_optin_option_name(), "1" );
+		// Check if plugin slug exists within array
+		if ( ! $opt_in_status->plugin_exists( $plugin_slug ) ) {
+			$opt_in_status->add_plugin( $plugin_slug );
+
+			update_option( $opt_in_template->get_option_name(), "1" );
 		}
 	}
 
