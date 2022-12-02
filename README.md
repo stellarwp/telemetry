@@ -13,12 +13,11 @@ A library for Opt-in and Telemetry data to be sent to the StellarWP Telemetry se
 	- [Server Authentication Flow](#server-authentication-flow)
 	- [Filter Reference](#filter-reference)
 		- [stellarwp/telemetry/should\_show\_optin](#stellarwptelemetryshould_show_optin)
-		- [stellarwp/telemetry/show\_optin\_option\_name](#stellarwptelemetryshow_optin_option_name)
 		- [stellarwp/telemetry/option\_name](#stellarwptelemetryoption_name)
 		- [stellarwp/telemetry/optin\_status](#stellarwptelemetryoptin_status)
 		- [stellarwp/telemetry/optin\_status\_label](#stellarwptelemetryoptin_status_label)
 		- [stellarwp/telemetry/optin\_args](#stellarwptelemetryoptin_args)
-		- [stellarwp/telemetry/show\_optin\_option\_name](#stellarwptelemetryshow_optin_option_name-1)
+		- [stellarwp/telemetry/show\_optin\_option\_name](#stellarwptelemetryshow_optin_option_name)
 		- [stellarwp/telemetry/register\_site\_url](#stellarwptelemetryregister_site_url)
 		- [stellarwp/telemetry/register\_site\_data](#stellarwptelemetryregister_site_data)
 		- [stellarwp/telemetry/register\_site\_user\_details](#stellarwptelemetryregister_site_user_details)
@@ -120,13 +119,6 @@ Filters whether the user should be shown the opt-in modal.
 
 **Default**: `true`
 
-### stellarwp/telemetry/show_optin_option_name
-Filters the option name used to store whether the opt-in should be shown.
-
-**Parameters**: _string_ `$option_name`
-
-**Default**: `stellarwp_telemetry_show_optin`
-
 ### stellarwp/telemetry/option_name
 Filter the option name used to store current users' optin status.
 
@@ -173,11 +165,11 @@ $args = [
 ];
 ```
 ### stellarwp/telemetry/show_optin_option_name
-Filter the string used for the option that determines whether the opt-in modal should be shown.
+Filters the string used for the option that determines whether the opt-in modal should be shown.
 
 **Parameters**: _string_ `$option_name`
 
-**Default**: `stellarwp_telemetry_show_optin`
+**Default**: `stellarwp_telemetry_{plugin_slug}_show_optin`
 ### stellarwp/telemetry/register_site_url
 Filters the url of the telemetry server that will store the site data when registering a new site.
 
