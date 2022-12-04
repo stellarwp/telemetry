@@ -52,20 +52,18 @@ class Last_Send {
 			return true;
 		}
 
-		$timestamp   = new DateTimeImmutable( $last_send );
-		$now         = new DateTimeImmutable();
-		$interval    = date_diff( $timestamp, $now );
-
 		/**
 		 * Filters the amount of seconds the last send timestamp is valid before it expires.
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param integer $expire_days
+		 * @param integer $expire_seconds
 		 */
-		$expire_days = apply_filters( 'stellarwp/telemetry/' . Config::get_hook_prefix() . 'last_send_expire_seconds', 7 * DAY_IN_SECONDS );
+		$expire_seconds = apply_filters( 'stellarwp/telemetry/' . Config::get_hook_prefix() . 'last_send_expire_seconds', 7 * DAY_IN_SECONDS );
 
-		return $interval->s >= $expire_days;
+		$last_run_time = new DateTimeImmutable( $last_send );
+		$next_run_time = $last_run_time->add( new \DateInterval("PT{$expire_seconds}S") );
+		return $next_run_time <= new DateTimeImmutable();
 	}
 
 	/**
