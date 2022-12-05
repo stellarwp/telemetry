@@ -138,7 +138,7 @@ do_action( 'stellarwp/telemetry/my-custom-prefix/optin', [ 'plugin_slug' => 'the
 ```
 
 ## How to Migrate Users Who Have Already Opted In
-If you have a system that users have already opted in to and you'd prefer not to have them opt in again, here's how you might go about it.
+If you have a system that users have already opted in to and you'd prefer not to have them opt in again, here's how you might go about it. The `opt_in()` method will set their opt-in status to `true` and send their telemetry data and user data to the telemetry server.
 
 ```php
 /**
@@ -151,15 +151,9 @@ function migrate_existing_opt_in() {
 
 	if ( $user_has_opted_in_already ) {
 
-		// Get the Opt_In_Status object.
-		$Opt_In_Status = Config::get_container()->get( Opt_In_Status::class );
-
-		/**
-		 * Constants can be used to set the status:
-		 * STATUS_ACTIVE = 1
-		 * STATUS_INACTIVE = 2
-		 */
-		$Opt_In_Status->set_status( Opt_In_Status::STATUS_ACTIVE );
+		// Get the Opt_In_Subscriber object.
+		$Opt_In_Subscriber = Config::get_container()->get( Opt_In_Subscriber::class );
+		$Opt_In_Subscriber->opt_in();
 	}
 }
 ```
