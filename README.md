@@ -8,6 +8,7 @@ A library for Opt-in and Telemetry data to be sent to the StellarWP Telemetry se
 	- [Installation](#installation)
 	- [Usage Prerequisites](#usage-prerequisites)
 	- [Integration](#integration)
+	- [Uninstall Hook](#uninstall-hook)
 	- [Opt-In Modal Usage](#opt-in-modal-usage)
 		- [Prompting Users on a Settings Page](#prompting-users-on-a-settings-page)
 	- [Server Authentication Flow](#server-authentication-flow)
@@ -95,6 +96,20 @@ function initialize_telemetry() {
 ```
 
 Using a custom hook prefix provides the ability to uniquely filter functionality of your plugin's specific instance of the library.
+
+## Uninstall Hook
+
+This library provides everything necessary to uninstall itself. Depending on when your plugin uninstalls itself and cleans up the database, you can include this static method to have the library purge the options table of the necessary rows:
+```php
+<?php// uninstall.php
+
+use YOUR_STRAUSS_PREFIX\StellarWP\Telemetry\Uninstall;
+
+require_once 'vendor/strauss/autoload.php';
+
+Uninstall::run( 'your-plugin-slug' );
+```
+When a user deletes the plugin, WordPress runs the method from `Uninstall` and cleans up the options table. The last plugin utilizing the library will remove all options.
 
 ## Opt-In Modal Usage
 
