@@ -6,6 +6,7 @@
  *
  * @package StellarWP\Telemetry
  */
+
 namespace StellarWP\Telemetry;
 
 use StellarWP\Telemetry\Contracts\Abstract_Subscriber;
@@ -45,7 +46,7 @@ class Opt_In_Subscriber extends Abstract_Subscriber {
 		}
 
 		// We're not attempting a telemetry action.
-		if ( isset( $_POST['action'] ) && $_POST['action'] !== 'stellarwp-telemetry' ) {
+		if ( isset( $_POST['action'] ) && 'stellarwp-telemetry' !== $_POST['action'] ) {
 			return;
 		}
 
@@ -61,11 +62,13 @@ class Opt_In_Subscriber extends Abstract_Subscriber {
 			try {
 				$this->container->get( Telemetry::class )->register_site();
 				$this->container->get( Telemetry::class )->register_user();
-			} catch ( \Error $e ) {}
+			} catch ( \Error $e ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch
+				// We don't want to throw errors if the server cannot be reached.
+			}
 		}
 
 		// Don't show the opt-in modal again.
-		update_option( $this->container->get( Opt_In_Template::class )->get_option_name(), "0" );
+		update_option( $this->container->get( Opt_In_Template::class )->get_option_name(), '0' );
 	}
 
 	/**
@@ -94,11 +97,11 @@ class Opt_In_Subscriber extends Abstract_Subscriber {
 		$opt_in_template = $this->container->get( Opt_In_Template::class );
 		$opt_in_status   = $this->container->get( Opt_In_Status::class );
 
-		// Check if plugin slug exists within array
+		// Check if plugin slug exists within array.
 		if ( ! $opt_in_status->plugin_exists( $plugin_slug ) ) {
 			$opt_in_status->add_plugin( $plugin_slug );
 
-			update_option( $opt_in_template->get_option_name(), "1" );
+			update_option( $opt_in_template->get_option_name(), '1' );
 		}
 	}
 

@@ -6,6 +6,7 @@
  *
  * @package StellarWP\Telemetry
  */
+
 namespace StellarWP\Telemetry;
 
 use DateTimeImmutable;
@@ -48,7 +49,7 @@ class Last_Send {
 		$last_send = $this->get_timestamp();
 
 		// No timestamp exists, we'll assume that telemetry data needs to be sent.
-		if ( $last_send === '' ) {
+		if ( '' === $last_send ) {
 			return true;
 		}
 
@@ -62,21 +63,21 @@ class Last_Send {
 		$expire_seconds = apply_filters( 'stellarwp/telemetry/' . Config::get_hook_prefix() . 'last_send_expire_seconds', 7 * DAY_IN_SECONDS );
 
 		$last_run_time = new DateTimeImmutable( $last_send );
-		$next_run_time = $last_run_time->add( new \DateInterval("PT{$expire_seconds}S") );
+		$next_run_time = $last_run_time->add( new \DateInterval( "PT{$expire_seconds}S" ) );
 		return $next_run_time <= new DateTimeImmutable();
 	}
 
 	/**
 	 * Sets a new timestamp for the last_send option.
 	 *
-	 * @param DateTimeImmutable $time
+	 * @param DateTimeImmutable $time The time to use for the timestamp.
 	 *
 	 * @return int Number of rows affected.
 	 */
 	public function set_new_timestamp( DateTimeImmutable $time ) {
 		global $wpdb;
 
-		$timestamp         = $time->format( "Y-m-d H:i:s" );
+		$timestamp         = $time->format( 'Y-m-d H:i:s' );
 		$option_name       = self::OPTION_NAME;
 		$current_timestamp = $this->get_timestamp();
 
@@ -111,12 +112,12 @@ class Last_Send {
 	private function get_timestamp() {
 		global $wpdb;
 
-		$sql = $wpdb->prepare(
-			"SELECT option_value FROM {$wpdb->options} WHERE option_name = %s",
-			self::OPTION_NAME
-		);
-
-		return $wpdb->get_var( $sql ) ?? '';
+		return $wpdb->get_var(
+			$wpdb->prepare(
+				"SELECT option_value FROM {$wpdb->options} WHERE option_name = %s",
+				self::OPTION_NAME
+			)
+		) ?? '';
 	}
 
 }

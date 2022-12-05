@@ -6,6 +6,7 @@
  *
  * @package StellarWP\Telemetry
  */
+
 namespace StellarWP\Telemetry;
 
 /**
@@ -16,10 +17,10 @@ namespace StellarWP\Telemetry;
  * @package StellarWP\Telemetry
  */
 class Opt_In_Status {
-	public const OPTION_NAME = 'stellarwp_telemetry';
-	public const STATUS_ACTIVE = 1;
+	public const OPTION_NAME     = 'stellarwp_telemetry';
+	public const STATUS_ACTIVE   = 1;
 	public const STATUS_INACTIVE = 2;
-	public const STATUS_MIXED = 3;
+	public const STATUS_MIXED    = 3;
 
 	/**
 	 * Gets the option name used to store the opt-in status.
@@ -72,13 +73,13 @@ class Opt_In_Status {
 			}
 
 			// If a plugin's status is false, we set the status as inactive.
-			if ( $plugin['optin'] === false ) {
+			if ( false === $plugin['optin'] ) {
 				$status = self::STATUS_INACTIVE;
 				continue;
 			}
 
 			// If another plugin's status is true and the status is already inactive, we set the status as mixed.
-			if ( $plugin['optin'] === true && $status === self::STATUS_INACTIVE ) {
+			if ( true === $plugin['optin'] && self::STATUS_INACTIVE === $status ) {
 				$status = self::STATUS_MIXED;
 				break;
 			}
@@ -119,7 +120,7 @@ class Opt_In_Status {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string $plugin_slug
+	 * @param string $plugin_slug The plugin's slug.
 	 *
 	 * @return boolean
 	 */
@@ -135,7 +136,7 @@ class Opt_In_Status {
 	 * @since 1.0.0
 	 *
 	 * @param string  $plugin_slug The slug to add to the option.
-	 * @param boolean $status      The opt-in status for the plugin slug
+	 * @param boolean $status      The opt-in status for the plugin slug.
 	 *
 	 * @return boolean
 	 */
@@ -157,7 +158,7 @@ class Opt_In_Status {
 	 * @return string[]
 	 */
 	public function get_opted_in_plugins() {
-		$option = $this->get_option();
+		$option           = $this->get_option();
 		$opted_in_plugins = [];
 
 		foreach ( $option as $plugin_slug => $plugin ) {
@@ -165,7 +166,7 @@ class Opt_In_Status {
 				continue;
 			}
 
-			if ( $plugin['optin'] === true ) {
+			if ( true === $plugin['optin'] ) {
 				$opted_in_plugins[] = $plugin_slug;
 			}
 		}
@@ -178,7 +179,7 @@ class Opt_In_Status {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param boolean $status
+	 * @param boolean $status The status to set (Active = 1, Inactive = 2, Mixed = 3).
 	 *
 	 * @return boolean
 	 */

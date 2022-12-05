@@ -6,6 +6,7 @@
  *
  * @package StellarWP\Telemetry
  */
+
 namespace StellarWP\Telemetry;
 
 use StellarWP\Telemetry\Contracts\Data_Provider;
@@ -61,7 +62,7 @@ class Telemetry {
 	public function register_site( bool $force = false ) {
 		// If site is already registered and we're not forcing a new registration, bail.
 		if ( $this->is_registered() ) {
-			if ( $force === false ) {
+			if ( false === $force ) {
 				return false;
 			}
 		}
@@ -81,7 +82,9 @@ class Telemetry {
 	public function register_user() {
 		try {
 			$this->send( $this->get_user_details(), Config::get_server_url() . '/opt-in' );
-		} catch ( \Error $e ) {}
+		} catch ( \Error $e ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch
+			// We don't want to throw errors if the server fails.
+		}
 	}
 
 	/**
@@ -114,8 +117,8 @@ class Telemetry {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param array  $data
-	 * @param string $url
+	 * @param array  $data The array of data to send.
+	 * @param string $url  The url of the telemetry server.
 	 *
 	 * @return array|null
 	 */
@@ -140,15 +143,18 @@ class Telemetry {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string $url
-	 * @param array  $data
+	 * @param string $url  The url of the telemetry server.
+	 * @param array  $data The data to send.
 	 *
 	 * @return array|\WP_Error
 	 */
 	protected function request( string $url, array $data ) {
-		return wp_remote_post( $url, [
-			'body' => $data,
-		] );
+		return wp_remote_post(
+			$url,
+			[
+				'body' => $data,
+			]
+		);
 	}
 
 	/**
@@ -156,7 +162,7 @@ class Telemetry {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param array $response
+	 * @param array $response The response from a request.
 	 *
 	 * @return array|null
 	 */
@@ -165,7 +171,7 @@ class Telemetry {
 
 		$data = json_decode( $body, true );
 
-		// If status is false, return null
+		// If status is false, return null.
 		if ( false === $data['status'] ?? false ) {
 			return null;
 		}
@@ -224,9 +230,12 @@ class Telemetry {
 		 *
 		 * @param array $register_site_data
 		 */
-		return apply_filters( 'stellarwp/telemetry/' . Config::get_hook_prefix() . 'register_site_data', [
-			'telemetry' => json_encode( $this->provider->get_data() ),
-		] );
+		return apply_filters(
+			'stellarwp/telemetry/' . Config::get_hook_prefix() . 'register_site_data',
+			[
+				'telemetry' => wp_json_encode( $this->provider->get_data() ),
+			]
+		);
 	}
 
 	/**
@@ -246,11 +255,14 @@ class Telemetry {
 		 *
 		 * @param array $site_user_details
 		 */
-		return apply_filters( 'stellarwp/telemetry/' . Config::get_hook_prefix() . 'register_site_user_details', [
-			'name'  => $user->display_name,
-			'email' => $user->user_email,
-			'plugin_slug' => Config::get_container()->get( Core::PLUGIN_SLUG ),
-		] );
+		return apply_filters(
+			'stellarwp/telemetry/' . Config::get_hook_prefix() . 'register_site_user_details',
+			[
+				'name'        => $user->display_name,
+				'email'       => $user->user_email,
+				'plugin_slug' => Config::get_container()->get( Core::PLUGIN_SLUG ),
+			]
+		);
 	}
 
 	/**
@@ -269,14 +281,17 @@ class Telemetry {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string $token
+	 * @param string $token The site token to authenticate the request with.
 	 *
 	 * @return bool
 	 */
 	public function save_token( string $token ) {
-		$option = array_merge( $this->get_option(), [
-			'token' => $token,
-		] );
+		$option = array_merge(
+			$this->get_option(),
+			[
+				'token' => $token,
+			]
+		);
 
 		return update_option( $this->opt_in_status->get_option_name(), $option );
 	}
@@ -320,10 +335,13 @@ class Telemetry {
 	 * @return array
 	 */
 	protected function get_send_data_args() {
-		return apply_filters( 'stellarwp/telemetry/' . Config::get_hook_prefix() . 'send_data_args', [
-			'token'     => $this->get_token(),
-			'telemetry' => json_encode( $this->provider->get_data() ),
-		] );
+		return apply_filters(
+			'stellarwp/telemetry/' . Config::get_hook_prefix() . 'send_data_args',
+			[
+				'token'     => $this->get_token(),
+				'telemetry' => wp_json_encode( $this->provider->get_data() ),
+			]
+		);
 	}
 
 	/**

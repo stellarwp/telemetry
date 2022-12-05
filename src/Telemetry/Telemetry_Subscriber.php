@@ -6,6 +6,7 @@
  *
  * @package StellarWP\Telemetry
  */
+
 namespace StellarWP\Telemetry;
 
 use DateTimeImmutable;
@@ -52,23 +53,26 @@ class Telemetry_Subscriber extends Abstract_Subscriber {
 		}
 
 		// The last send is expired, set a new timestamp.
-		$timestamp = new DateTimeImmutable();
+		$timestamp     = new DateTimeImmutable();
 		$rows_affected = $last_send->set_new_timestamp( $timestamp );
 
 		// We weren't able to update the timestamp, another process may have updated it first.
-		if ( $rows_affected === 0 ) {
+		if ( 0 === $rows_affected ) {
 			return;
 		}
 
-		$url   = admin_url( 'admin-ajax.php' );
+		$url = admin_url( 'admin-ajax.php' );
 
-		wp_remote_post( $url, [
-			'blocking' => false,
-			'timeout'  => 1,
-			'body'     => [
-				'action' => Telemetry::AJAX_ACTION,
-			],
-		] );
+		wp_remote_post(
+			$url,
+			[
+				'blocking' => false,
+				'timeout'  => 1,
+				'body'     => [
+					'action' => Telemetry::AJAX_ACTION,
+				],
+			]
+		);
 	}
 
 	/**
