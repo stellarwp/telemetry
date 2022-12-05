@@ -206,7 +206,6 @@ Filters the data that is sent to the telemetry server when registering a new sit
 **Default**:
 ```php
 $site_data = [
-	'user'      => json_encode( $this->get_user_details() ),
 	'telemetry' => json_encode( $this->provider->get_data() ),
 ];
 ```
@@ -220,6 +219,7 @@ Filters the user details that is sent to the telemetry server when registering a
 $user_details = [
 	'name'  => $user->display_name,
 	'email' => $user->user_email,
+	'plugin_slug' => Config::get_container()->get( Core::PLUGIN_SLUG ),
 ];
 ```
 ### stellarwp/telemetry/send_data_args
