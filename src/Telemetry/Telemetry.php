@@ -71,12 +71,18 @@ class Telemetry {
 		return $this->save_token( $response['token'] ?? '' );
 	}
 
+	/**
+	 * Registers the user with the telemetry server.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
 	public function register_user() {
 		try {
 			$this->send( $this->get_user_details(), Config::get_server_url() . '/opt-in' );
 		} catch ( \Error $e ) {}
 	}
-
 
 	/**
 	 * Sends the uninstall message to the telemetry server.
