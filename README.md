@@ -47,7 +47,8 @@ composer require stellarwp/telemetry
       "stellarwp/telemetry": {
         "files": [
           "src/views",
-          "src/resources"
+          "src/resources",
+          "src/Telemetry"
         ]
       }
     }
