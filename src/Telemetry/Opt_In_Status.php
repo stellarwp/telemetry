@@ -150,6 +150,52 @@ class Opt_In_Status {
 	}
 
 	/**
+	 * Removes a plugin slug from the opt-in option array.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string  $plugin_slug The slug to remove from the option.
+	 *
+	 * @return boolean
+	 */
+	public function remove_plugin( string $plugin_slug ) {
+		$option = $this->get_option();
+
+		// Bail early if the slug does not exist in the option.
+		if ( ! isset( $option[ $plugin_slug ] ) ) {
+			return false;
+		}
+
+		unset( $option[ $plugin_slug ] );
+
+		return update_option( $this->get_option_name(), $option );
+	}
+
+	/**
+	 * Get an array of opted-in plugins.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return string[]
+	 */
+	public function get_opted_in_plugins() {
+		$option = $this->get_option();
+		$opted_in_plugins = [];
+
+		foreach ( $option as $plugin_slug => $plugin ) {
+			if ( 'token' === $plugin_slug ) {
+				continue;
+			}
+
+			if ( $plugin['optin'] === true ) {
+				$opted_in_plugins[] = $plugin_slug;
+			}
+		}
+
+		return $opted_in_plugins;
+	}
+
+	/**
 	 * Sets the opt-in status option for the site.
 	 *
 	 * @since 1.0.0
@@ -211,48 +257,5 @@ class Opt_In_Status {
 	 */
 	public function is_active(): bool {
 		return $this->get() === self::STATUS_ACTIVE;
-	}
-
-	/**
-	 * Determines if the optin modal should be shown to the user.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return bool
-	 */
-	public function should_show_optin() {
-		$should_show = (bool) get_option( $this->get_show_optin_option_name(), false );
-
-		if ( $should_show ) {
-			// Update the option so we don't show the optin again unless something changes this again.
-			update_option( $this->get_show_optin_option_name(), false );
-		}
-
-		/**
-		 * Filters if the opt-in modal should be shown to the user.
-		 *
-		 * @since 1.0.0
-		 *
-		 * @param bool $should_show
-		 */
-		return apply_filters( 'stellarwp/telemetry/' . Config::get_hook_prefix() . 'should_show_optin', $should_show );
-	}
-
-	/**
-	 * Gets the optin option name.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return string
-	 */
-	public function get_show_optin_option_name() {
-		/**
-		 * Filters the opt-in option name.
-		 *
-		 * @since 1.0.0
-		 *
-		 * @param string $option_name
-		 */
-		return apply_filters( 'stellarwp/telemetry/' . Config::get_hook_prefix() . 'show_optin_option_name', $this->get_option_name() . '_show_optin' );
 	}
 }

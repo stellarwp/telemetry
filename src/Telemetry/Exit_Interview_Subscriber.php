@@ -56,22 +56,22 @@ class Exit_Interview_Subscriber extends Abstract_Subscriber {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @return void
+	 * @return string
 	 */
 	public function ajax_exit_interview() {
 		$uninstall_reason_id = filter_input( INPUT_POST, 'uninstall_reason_id', FILTER_SANITIZE_STRING );
 		$uninstall_reason_id = ! empty( $uninstall_reason_id ) ? $uninstall_reason_id : false;
-
 		if ( ! $uninstall_reason_id ) {
 			wp_send_json_error( 'No reason id provided' );
 		}
 
 		$uninstall_reason = filter_input( INPUT_POST, 'uninstall_reason', FILTER_SANITIZE_STRING );
 		$uninstall_reason = ! empty( $uninstall_reason ) ? $uninstall_reason : false;
-
 		if ( ! $uninstall_reason ) {
 			wp_send_json_error( 'No reason provided' );
 		}
+
+		$plugin_slug = filter_input( INPUT_POST, 'plugin_slug', FILTER_SANITIZE_STRING );
 
 		$comment = filter_input( INPUT_POST, 'comment', FILTER_SANITIZE_STRING );
 		$comment = ! empty( $comment ) ? $comment : '';
@@ -84,7 +84,7 @@ class Exit_Interview_Subscriber extends Abstract_Subscriber {
 		}
 
 		$telemetry = $this->container->get( Telemetry::class );
-		$telemetry->send_uninstall( $this->container->get( Core::PLUGIN_SLUG ), $uninstall_reason_id, $uninstall_reason, $comment );
+		$telemetry->send_uninstall( $plugin_slug, $uninstall_reason_id, $uninstall_reason, $comment );
 
 		wp_send_json_success();
 	}
@@ -94,11 +94,11 @@ class Exit_Interview_Subscriber extends Abstract_Subscriber {
 	 *
 	 * The deactivation is deferred to the modal displayed.
 	 *
-	 * @since 1.0.0
-	 *
 	 * @param array $links
 	 *
-	 * @return void
+	 * @since 1.0.0
+	 *
+	 * @return array
 	 */
 	public function plugin_action_links( $links ) {
 		$passed_deactivate = false;
