@@ -56,6 +56,7 @@ class Uninstall {
 		// All plugins have been removed, the token should be the only item in the array.
 		if ( array_key_exists( 'token', $optin ) ) {
 			delete_option( 'stellarwp_telemetry' );
+			delete_option( 'stellarwp_telemetry_last_send' );
 		}
 	}
 }
