@@ -100,7 +100,13 @@
 
 .stellarwp-telemetry-btn-text {
 	background: #fff;
-	color: #000;
+	color: #4E4E4E;
+	padding: 0;
+}
+
+.stellarwp-telemetry-btn-text--skip {
+	margin-left: 1rem;
+	color: #a7aaad;
 }
 
 .stellarwp-telemetry-btn-text:hover {
@@ -174,4 +180,31 @@
 .stellarwp-telemetry-error-message {
 	display: none;
 	margin-bottom: 1rem;
+}
+
+.stellarwp-telemetry-other-plugins {
+	margin-bottom: 22px;
+	font-size: 12px;
+}
+
+.stellarwp-telemetry-other-plugins .stellarwp-telemetry-btn-text:after {
+	content: "\f347";
+	font-family: "dashicons";
+	font-size: 12px;
+	font-weight: 400;
+	line-height: 1;
+	vertical-align: middle;
+	margin-left: 0.5rem;
+}
+
+.stellarwp-telemetry-other-plugins__list {
+	display: none;
+}
+
+.stellarwp-telemetry-other-plugins__list ul {
+	list-style: disc inside;
+	flex-direction: column;
+	margin: 0.5rem 0 0;
+	display: flex;
+	padding: 0;
 }

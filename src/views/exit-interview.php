@@ -3,7 +3,7 @@
 /** @var array $args */
 ?>
 
-<div class="stellarwp-telemetry stellarwp-telemetry-modal stellarwp-telemetry-modal--exit-interview" data-js="exit-interview-modal" data-plugin-slug="<?php echo esc_attr( $args['plugin_slug'] ); ?>">
+<div id="exit-interview-<?php echo esc_attr( $args['plugin_slug'] ); ?>" class="stellarwp-telemetry stellarwp-telemetry-modal stellarwp-telemetry-modal--exit-interview" data-js="exit-interview-modal" data-plugin-slug="<?php echo esc_attr( $args['plugin_slug'] ); ?>">
 	<div class="stellarwp-telemetry-modal__inner">
 		<img src="<?php echo esc_url( $args['plugin_logo'] ); ?>" width="<?php echo esc_attr( $args['plugin_logo_width'] ); ?>" height="<?php echo esc_attr( $args['plugin_logo_height'] ); ?>" alt="<?php echo esc_attr( $args['plugin_logo_alt'] ); ?>" class="stellarwp-telemetry-plugin-logo">
 		<h1 class="stellarwp-telemetry__title">
