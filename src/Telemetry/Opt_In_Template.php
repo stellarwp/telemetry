@@ -67,7 +67,7 @@ class Opt_In_Template implements Template {
 			'user_name'             => wp_get_current_user()->display_name,
 			'permissions_url'       => '#',
 			'tos_url'               => '#',
-			'privacy_url'           => '#',
+			'privacy_url'           => 'https://stellarwp.com/privacy-policy/',
 			'opted_in_plugins_text' => __( 'See which plugins you have opted in to tracking for', 'stellarwp-telemetry' ),
 		];
 
