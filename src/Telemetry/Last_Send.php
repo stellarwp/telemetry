@@ -85,7 +85,7 @@ class Last_Send {
 		 * Update the timestamp and use the current timestamp to make sure it
 		 * is only updated a single time.
 		 */
-		$result = $wpdb->update(
+		$result = $wpdb->update( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
 			$wpdb->options,
 			[
 				'option_name'  => $option_name,
@@ -97,7 +97,11 @@ class Last_Send {
 			]
 		);
 
-		return $result ?: 0;
+		if ( false === $result ) {
+			return 0;
+		}
+
+		return $result;
 	}
 
 	/**
@@ -112,12 +116,18 @@ class Last_Send {
 	private function get_timestamp() {
 		global $wpdb;
 
-		return $wpdb->get_var(
+		$result = $wpdb->get_var( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
 			$wpdb->prepare(
 				"SELECT option_value FROM {$wpdb->options} WHERE option_name = %s",
 				self::OPTION_NAME
 			)
-		) ?? '';
+		);
+
+		if ( is_null( $result ) ) {
+			return '';
+		}
+
+		return $result;
 	}
 
 }
