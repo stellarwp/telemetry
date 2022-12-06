@@ -40,6 +40,10 @@ class Opt_In_Subscriber extends Abstract_Subscriber {
 	 */
 	public function set_optin_status() {
 
+		if ( ! wp_verify_nonce( 'stellarwp-telemetry' ) ) {
+			return;
+		}
+
 		// We're not attempting an action.
 		if ( empty( $_POST ) ) {
 			return;

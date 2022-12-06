@@ -53,6 +53,7 @@
 			<form method="post" action="">
 				<input type="hidden" name="page" value="<?php echo esc_attr( $_GET['page'] ); ?>">
 				<input type="hidden" name="action" value="stellarwp-telemetry">
+				<?php wp_nonce_field( 'stellarwp-telemetry' ); ?>
 				<button class="stellarwp-telemetry-btn-primary" type="submit" name="optin-agreed" value="true">
 					<?php echo __( 'Allow &amp; Continue', 'stellarwp-telemetry' ); ?>
 				</button>
