@@ -246,11 +246,13 @@ class Telemetry {
 		 *
 		 * @param array $site_user_details
 		 */
-		return apply_filters( 'stellarwp/telemetry/' . Config::get_hook_prefix() . 'register_site_user_details', [
+		$user_info = apply_filters( 'stellarwp/telemetry/' . Config::get_hook_prefix() . 'register_site_user_details', [
 			'name'  => $user->display_name,
 			'email' => $user->user_email,
 			'plugin_slug' => Config::get_container()->get( Core::PLUGIN_SLUG ),
 		] );
+
+		return [ 'user' => wp_json_encode( $user_info ) ];
 	}
 
 	/**
