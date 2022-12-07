@@ -7,9 +7,10 @@
  * @package StellarWP\Telemetry
  */
 
-namespace StellarWP\Telemetry;
+namespace StellarWP\Telemetry\Last_Send;
 
 use DateTimeImmutable;
+use StellarWP\Telemetry\Config;
 
 /**
  * Handles all methods for determining when to send telemetry data.

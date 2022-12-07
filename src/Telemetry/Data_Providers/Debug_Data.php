@@ -7,7 +7,7 @@
  * @package StellarWP\Telemetry
  */
 
-namespace StellarWP\Telemetry;
+namespace StellarWP\Telemetry\Data_Providers;
 
 use StellarWP\Telemetry\Contracts\Data_Provider;
 use WP_Debug_Data;
@@ -19,7 +19,7 @@ use WP_Debug_Data;
  *
  * @package StellarWP\Telemetry
  */
-class Debug_Data_Provider implements Data_Provider {
+class Debug_Data implements Data_Provider {
 
 	/**
 	 * Gets the current site health data

@@ -7,9 +7,10 @@
  * @package StellarWP\Telemetry
  */
 
-namespace StellarWP\Telemetry;
+namespace StellarWP\Telemetry\Admin;
 
 use StellarWP\Telemetry\Contracts\Abstract_Subscriber;
+use StellarWP\Telemetry\Opt_In\Opt_In_Template;
 
 /**
  * Handles all hooks/filters related to the admin screens.
@@ -43,7 +44,7 @@ class Admin_Subscriber extends Abstract_Subscriber {
 		global $pagenow;
 
 		if ( 'plugins.php' === $pagenow || $this->container->get( Opt_In_Template::class )->should_render() ) {
-			$this->container->get( Admin_Resources::class )->enqueue_admin_assets();
+			$this->container->get( Resources::class )->enqueue_admin_assets();
 		}
 	}
 

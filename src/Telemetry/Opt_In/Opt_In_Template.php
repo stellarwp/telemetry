@@ -7,9 +7,12 @@
  * @package StellarWP\Telemetry
  */
 
-namespace StellarWP\Telemetry;
+namespace StellarWP\Telemetry\Opt_In;
 
-use StellarWP\Telemetry\Contracts\Template;
+use StellarWP\Telemetry\Admin\Resources;
+use StellarWP\Telemetry\Config;
+use StellarWP\Telemetry\Contracts\Template_Interface;
+use StellarWP\Telemetry\Core;
 
 /**
  * Handles all methods related to rendering the Opt-In template.
@@ -18,7 +21,7 @@ use StellarWP\Telemetry\Contracts\Template;
  *
  * @package StellarWP\Telemetry
  */
-class Opt_In_Template implements Template {
+class Opt_In_Template implements Template_Interface {
 	protected const YES = '1';
 	protected const NO  = '-1';
 
@@ -27,16 +30,16 @@ class Opt_In_Template implements Template {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @var StellarWP\Telemetry\Opt_In_Status
+	 * @var StellarWP\Telemetry\Opt_In\Status
 	 */
 	protected $opt_in_status;
 
 	/**
 	 * The Telemetry constructor
 	 *
-	 * @param Opt_In_Status $opt_in_status The opt-in status object.
+	 * @param Status $opt_in_status The opt-in status object.
 	 */
-	public function __construct( Opt_In_Status $opt_in_status ) {
+	public function __construct( Status $opt_in_status ) {
 		$this->opt_in_status = $opt_in_status;
 	}
 
@@ -59,7 +62,7 @@ class Opt_In_Template implements Template {
 	protected function get_args() {
 
 		$optin_args = [
-			'plugin_logo'           => Admin_Resources::get_asset_path() . 'resources/images/stellar-logo.svg',
+			'plugin_logo'           => Resources::get_asset_path() . 'resources/images/stellar-logo.svg',
 			'plugin_logo_width'     => 151,
 			'plugin_logo_height'    => 32,
 			'plugin_logo_alt'       => 'StellarWP Logo',
@@ -116,7 +119,7 @@ class Opt_In_Template implements Template {
 	 * @return void
 	 */
 	public function render() {
-		load_template( dirname( __DIR__ ) . '/views/optin.php', true, $this->get_args() );
+		load_template( dirname( dirname( __DIR__ ) ) . '/views/optin.php', true, $this->get_args() );
 	}
 
 	/**

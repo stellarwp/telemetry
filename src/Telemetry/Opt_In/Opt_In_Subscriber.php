@@ -7,9 +7,12 @@
  * @package StellarWP\Telemetry
  */
 
-namespace StellarWP\Telemetry;
+namespace StellarWP\Telemetry\Opt_In;
 
+use StellarWP\Telemetry\Config;
 use StellarWP\Telemetry\Contracts\Abstract_Subscriber;
+use StellarWP\Telemetry\Core;
+use StellarWP\Telemetry\Telemetry\Telemetry;
 
 /**
  * Class to handle all actions/filters related to the opt-in.
@@ -94,7 +97,7 @@ class Opt_In_Subscriber extends Abstract_Subscriber {
 	public function initialize_optin_option() {
 		$plugin_slug     = $this->container->get( Core::PLUGIN_SLUG );
 		$opt_in_template = $this->container->get( Opt_In_Template::class );
-		$opt_in_status   = $this->container->get( Opt_In_Status::class );
+		$opt_in_status   = $this->container->get( Status::class );
 
 		// Check if plugin slug exists within array.
 		if ( ! $opt_in_status->plugin_exists( $plugin_slug ) ) {
@@ -112,7 +115,7 @@ class Opt_In_Subscriber extends Abstract_Subscriber {
 	 * @return void
 	 */
 	public function opt_in() {
-		$this->container->get( Opt_In_Status::class )->set_status( true );
+		$this->container->get( Status::class )->set_status( true );
 
 		try {
 			$this->container->get( Telemetry::class )->register_site();

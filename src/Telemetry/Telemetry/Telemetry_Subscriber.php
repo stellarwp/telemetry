@@ -7,10 +7,12 @@
  * @package StellarWP\Telemetry
  */
 
-namespace StellarWP\Telemetry;
+namespace StellarWP\Telemetry\Telemetry;
 
 use DateTimeImmutable;
 use StellarWP\Telemetry\Contracts\Abstract_Subscriber;
+use StellarWP\Telemetry\Last_Send\Last_Send;
+use StellarWP\Telemetry\Opt_In\Status;
 
 /**
  * Class Telemetry_Subscriber
@@ -41,7 +43,7 @@ class Telemetry_Subscriber extends Abstract_Subscriber {
 	 */
 	public function send_async_request() {
 
-		if ( ! $this->container->get( Opt_In_Status::class )->is_active() ) {
+		if ( ! $this->container->get( Status::class )->is_active() ) {
 			return;
 		}
 

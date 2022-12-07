@@ -7,7 +7,10 @@
  * @package StellarWP\Telemetry
  */
 
-namespace StellarWP\Telemetry;
+namespace StellarWP\Telemetry\Admin;
+
+use StellarWP\Telemetry\Config;
+use StellarWP\Telemetry\Exit_Interview\Exit_Interview_Subscriber;
 
 /**
  * A class that enqueues and localizes admin assets.
@@ -16,7 +19,7 @@ namespace StellarWP\Telemetry;
  *
  * @package StellarWP\Telemetry
  */
-class Admin_Resources {
+class Resources {
 
 	const SCRIPT_HANDLE  = 'stellarwp-telemetry-admin';
 	const SCRIPT_VERSION = '1.0.0';
@@ -125,7 +128,7 @@ class Admin_Resources {
 	 * @return string
 	 */
 	public static function get_asset_path(): string {
-		return plugin_dir_url( __DIR__ );
+		return plugin_dir_url( dirname( __DIR__ ) );
 	}
 
 }

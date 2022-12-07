@@ -7,9 +7,12 @@
  * @package StellarWP\Telemetry
  */
 
-namespace StellarWP\Telemetry;
+namespace StellarWP\Telemetry\Telemetry;
 
+use StellarWP\Telemetry\Config;
 use StellarWP\Telemetry\Contracts\Data_Provider;
+use StellarWP\Telemetry\Core;
+use StellarWP\Telemetry\Opt_In\Status;
 
 /**
  * Handles all methods required for sending data to the telemetry server.
@@ -35,7 +38,7 @@ class Telemetry {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @var Opt_In_Status
+	 * @var Status
 	 */
 	protected $opt_in_status;
 
@@ -43,9 +46,9 @@ class Telemetry {
 	 * The Telemetry constructor
 	 *
 	 * @param Data_Provider $provider      The provider that collects the site data.
-	 * @param Opt_In_Status $opt_in_status The opt-in status object.
+	 * @param Status        $opt_in_status The opt-in status object.
 	 */
-	public function __construct( Data_Provider $provider, Opt_In_Status $opt_in_status ) {
+	public function __construct( Data_Provider $provider, Status $opt_in_status ) {
 		$this->provider      = $provider;
 		$this->opt_in_status = $opt_in_status;
 	}

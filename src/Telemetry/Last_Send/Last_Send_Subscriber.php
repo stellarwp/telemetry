@@ -7,7 +7,7 @@
  * @package StellarWP\Telemetry
  */
 
-namespace StellarWP\Telemetry;
+namespace StellarWP\Telemetry\Last_Send;
 
 use StellarWP\Telemetry\Contracts\Abstract_Subscriber;
 

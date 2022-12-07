@@ -10,7 +10,18 @@
 namespace StellarWP\Telemetry;
 
 use StellarWP\ContainerContract\ContainerInterface;
+use StellarWP\Telemetry\Admin\Admin_Subscriber;
+use StellarWP\Telemetry\Admin\Resources;
 use StellarWP\Telemetry\Contracts\Data_Provider;
+use StellarWP\Telemetry\Data_Providers\Debug_Data;
+use StellarWP\Telemetry\Exit_Interview\Exit_Interview_Subscriber;
+use StellarWP\Telemetry\Exit_Interview\Template;
+use StellarWP\Telemetry\Last_Send\Last_Send_Subscriber;
+use StellarWP\Telemetry\Opt_In\Opt_In_Subscriber;
+use StellarWP\Telemetry\Opt_In\Opt_In_Template;
+use StellarWP\Telemetry\Opt_In\Status;
+use StellarWP\Telemetry\Telemetry\Telemetry;
+use StellarWP\Telemetry\Telemetry\Telemetry_Subscriber;
 
 /**
  * The core class of the library.
@@ -126,29 +137,32 @@ class Core {
 
 		$container->bind( self::PLUGIN_SLUG, dirname( plugin_basename( $plugin_path ) ) );
 		$container->bind( self::PLUGIN_BASENAME, plugin_basename( $plugin_path ) );
-		$container->bind( Data_Provider::class, Debug_Data_Provider::class );
+		$container->bind( Data_Provider::class, Debug_Data::class );
 		$container->bind(
 			Opt_In_Template::class,
 			static function () use ( $container ) {
-				return new Opt_In_Template( $container->get( Opt_In_Status::class ) );
+				return new Opt_In_Template( $container->get( Status::class ) );
 			}
 		);
 		$container->bind(
-			Exit_Interview_Template::class,
+			Template::class,
 			static function () use ( $container ) {
-				return new Exit_Interview_Template( $container );
+				return new Template( $container );
 			}
 		);
 		$container->bind(
 			Telemetry::class,
 			static function () use ( $container ) {
-				return new Telemetry( $container->get( Data_Provider::class ), $container->get( Opt_In_Status::class ) );
+				return new Telemetry(
+					$container->get( Data_Provider::class ),
+					$container->get( Status::class ),
+				);
 			}
 		);
 		$container->bind(
-			Admin_Resources::class,
+			Resources::class,
 			static function () {
-				return new Admin_Resources();
+				return new Resources();
 			}
 		);
 
