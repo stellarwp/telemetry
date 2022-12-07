@@ -151,6 +151,28 @@ class Opt_In_Status {
 	}
 
 	/**
+	 * Removes a plugin slug from the opt-in option array.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string  $plugin_slug The slug to remove from the option.
+	 *
+	 * @return boolean
+	 */
+	public function remove_plugin( string $plugin_slug ) {
+		$option = $this->get_option();
+
+		// Bail early if the slug does not exist in the option.
+		if ( ! isset( $option[ $plugin_slug ] ) ) {
+			return false;
+		}
+
+		unset( $option[ $plugin_slug ] );
+
+		return update_option( $this->get_option_name(), $option );
+	}
+
+	/**
 	 * Get an array of opted-in plugins.
 	 *
 	 * @since 1.0.0

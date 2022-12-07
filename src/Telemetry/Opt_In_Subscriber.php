@@ -63,14 +63,7 @@ class Opt_In_Subscriber extends Abstract_Subscriber {
 
 		// User agreed to opt-in to Telemetry.
 		if ( 'true' === $_POST['optin-agreed'] ) {
-			$this->container->get( Opt_In_Status::class )->set_status( true );
-
-			try {
-				$this->container->get( Telemetry::class )->register_site();
-				$this->container->get( Telemetry::class )->register_user();
-			} catch ( \Error $e ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch
-				// We don't want to throw errors if the server cannot be reached.
-			}
+			$this->opt_in();
 		}
 
 		// Don't show the opt-in modal again.
@@ -111,4 +104,21 @@ class Opt_In_Subscriber extends Abstract_Subscriber {
 		}
 	}
 
+	/**
+	 * Registers the site/user with the telemetry server and sets the opt-in status.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
+	public function opt_in() {
+		$this->container->get( Opt_In_Status::class )->set_status( true );
+
+		try {
+			$this->container->get( Telemetry::class )->register_site();
+			$this->container->get( Telemetry::class )->register_user();
+		} catch ( \Error $e ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch
+			// We don't want to throw errors if the server cannot be reached.
+		}
+	}
 }
