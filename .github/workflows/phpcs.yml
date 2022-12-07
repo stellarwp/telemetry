@@ -17,4 +17,4 @@ jobs:
         with:
           composer-options: "--ignore-platform-reqs --optimize-autoloader"
       - name: Run PHPCS
-        run: vendor/bin/phpcs --standard=./phpcs.xml
+        run: ./vendor/bin/phpcs --standard=phpcs.xml
