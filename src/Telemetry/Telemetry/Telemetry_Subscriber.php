@@ -7,7 +7,7 @@
  * @package StellarWP\Telemetry
  */
 
-namespace StellarWP\Telemetry;
+namespace StellarWP\Telemetry\Telemetry;
 
 use DateTimeImmutable;
 use StellarWP\Telemetry\Contracts\Abstract_Subscriber;

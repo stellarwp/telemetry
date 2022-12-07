@@ -7,9 +7,11 @@
  * @package StellarWP\Telemetry
  */
 
-namespace StellarWP\Telemetry;
+namespace StellarWP\Telemetry\Telemetry;
 
+use StellarWP\Telemetry\Config;
 use StellarWP\Telemetry\Contracts\Data_Provider;
+use StellarWP\Telemetry\Core;
 use StellarWP\Telemetry\Opt_In\Status;
 
 /**
