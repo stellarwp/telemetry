@@ -27,7 +27,7 @@ A library for Opt-in and Telemetry data to be sent to the StellarWP Telemetry se
 		- [stellarwp/telemetry/send\_data\_url](#stellarwptelemetrysend_data_url)
 		- [stellarwp/telemetry/last\_send\_expire\_seconds](#stellarwptelemetrylast_send_expire_seconds)
 		- [stellarwp/telemetry/exit\_interview\_args](#stellarwptelemetryexit_interview_args)
-	- [Site Health](#adding-plugin-data-to-site-health)
+	- [Adding Plugin Data to Site Health](#adding-plugin-data-to-site-health)
 ## Installation
 
 It's recommended that you install Telemetry as a project dependency via [Composer](https://getcomposer.org/):
@@ -209,7 +209,7 @@ Filter the arguments passed to the opt-in modal.
 **Default**:
 ```php
 $args = [
-	'plugin_logo'           => Admin_Resources::get_asset_path() . 'resources/images/stellar-logo.svg',
+	'plugin_logo'           => Resources::get_asset_path() . 'resources/images/stellar-logo.svg',
 	'plugin_logo_width'     => 151,
 	'plugin_logo_height'    => 32,
 	'plugin_logo_alt'       => 'StellarWP Logo',
