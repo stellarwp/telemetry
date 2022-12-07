@@ -15,9 +15,11 @@ use StellarWP\Telemetry\Admin\Resources;
 use StellarWP\Telemetry\Contracts\Data_Provider;
 use StellarWP\Telemetry\Exit_Interview\Exit_Interview_Subscriber;
 use StellarWP\Telemetry\Exit_Interview\Template;
+use StellarWP\Telemetry\Last_Send\Last_Send_Subscriber;
 use StellarWP\Telemetry\Opt_In\Opt_In_Subscriber;
 use StellarWP\Telemetry\Opt_In\Opt_In_Template;
 use StellarWP\Telemetry\Opt_In\Status;
+use StellarWP\Telemetry\Telemetry\Telemetry_Subscriber;
 
 /**
  * The core class of the library.
