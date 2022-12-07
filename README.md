@@ -335,27 +335,27 @@ We do have some requirements so that we can grab the correct data from Site Heal
 ``` php
 function add_summary_to_telemtry( $info ) {
 	$info[ 'stellarwp' ] = [
-			'label' => __( 'StellarWP Plugin Section', 'text-domain' ),
-			'description' => __( 'There are some key things here... Everything should be output in key value pairs. Follow the translation instructions in the codex (do not translate debug). Plugin Slug should be the main key.', 'text-domain' ),
+			'label' => esc_html__( 'StellarWP Plugin Section', 'text-domain' ),
+			'description' => esc_html__( 'There are some key things here... Everything should be output in key value pairs. Follow the translation instructions in the codex (do not translate debug). Plugin Slug should be the main key.', 'text-domain' ),
 			'fields' => [
 				'field_key_one' => [
-					'label' => __( 'This is the field text', 'text-domain' ),
-					'value' =>  __( 'value', 'text-domain' ),
+					'label' => esc_html__( 'This is the field text', 'text-domain' ),
+					'value' =>  esc_html__( 'value', 'text-domain' ),
 					'debug' => 'value'
 				],
 				'field_key_two' => [
-					'label' => __( 'Field Two', 'text-domain' ),
-					'value' => __( 'yes', 'text-domain' ),
+					'label' => esc_html__( 'Field Two', 'text-domain' ),
+					'value' => esc_html__( 'yes', 'text-domain' ),
 					'debug' => true,
 				],
 				'field_key_three' => [
-					'label'   => __( 'Three', 'text-domain' ),
-					'value'   => __( 'Tempus pellentesque id hac', 'text-domain' ),
+					'label'   => esc_html__( 'Three', 'text-domain' ),
+					'value'   => esc_html__( 'Tempus pellentesque id hac', 'text-domain' ),
 					'debug'   => 'Tempus pellentesque id hac',
 				],
 				'field_key_four' => [
-					'label'   => __( 'Option Four', 'text-domain' ),
-					'value'   => __( 'on', 'text-domain' ),
+					'label'   => esc_html__( 'Option Four', 'text-domain' ),
+					'value'   => esc_html__( 'on', 'text-domain' ),
 					'debug'   => true,
 				],
 			],
