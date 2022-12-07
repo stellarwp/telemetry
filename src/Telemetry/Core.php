@@ -19,6 +19,7 @@ use StellarWP\Telemetry\Last_Send\Last_Send_Subscriber;
 use StellarWP\Telemetry\Opt_In\Opt_In_Subscriber;
 use StellarWP\Telemetry\Opt_In\Opt_In_Template;
 use StellarWP\Telemetry\Opt_In\Status;
+use StellarWP\Telemetry\Telemetry\Telemetry;
 use StellarWP\Telemetry\Telemetry\Telemetry_Subscriber;
 
 /**
