@@ -1,8 +1,11 @@
 <?php
-// $args comes from load_template() in OptinTemplate.php
-/** @var array $args */
-?>
+/**
+ * $args comes from load_template() in OptinTemplate.php
+ *
+ * @var array $args
+ */
 
+?>
 <div id="exit-interview-<?php echo esc_attr( $args['plugin_slug'] ); ?>" class="stellarwp-telemetry stellarwp-telemetry-modal stellarwp-telemetry-modal--exit-interview" data-js="exit-interview-modal" data-plugin-slug="<?php echo esc_attr( $args['plugin_slug'] ); ?>">
 	<div class="stellarwp-telemetry-modal__inner">
 		<img src="<?php echo esc_url( $args['plugin_logo'] ); ?>" width="<?php echo esc_attr( $args['plugin_logo_width'] ); ?>" height="<?php echo esc_attr( $args['plugin_logo_height'] ); ?>" alt="<?php echo esc_attr( $args['plugin_logo_alt'] ); ?>" class="stellarwp-telemetry-plugin-logo">
@@ -20,21 +23,21 @@
 						<label for="reason-<?php echo esc_attr( $key ); ?>">
 							<?php echo esc_attr( $item['uninstall_reason'] ); ?>
 							<?php if ( isset( $item['show_comment'] ) && $item['show_comment'] ) { ?>
-								<textarea name="comment" placeholder="<?php echo __( 'Tell us more...', 'stellarwp-telemetry' ); ?>"></textarea>
+								<textarea name="comment" placeholder="<?php echo esc_attr__( 'Tell us more...', 'stellarwp-telemetry' ); ?>"></textarea>
 							<?php } ?>
 						</label>
 					</li>
 				<?php endforeach; ?>
 			</ul>
 			<div class="error-message stellarwp-telemetry-error-message">
-				<?php echo __( 'Please select a reason', 'stellarwp-telemetry' ); ?>
+				<?php echo esc_html__( 'Please select a reason', 'stellarwp-telemetry' ); ?>
 			</div>
 			<footer>
 				<button data-js="skip-interview" class="stellarwp-telemetry-btn-grey" type="button">
-					<?php echo __( 'Skip', 'stellarwp-telemetry' ); ?>
+					<?php echo esc_html__( 'Skip', 'stellarwp-telemetry' ); ?>
 				</button>
 				<button data-js="submit-telemetry" class="stellarwp-telemetry-btn-primary" type="submit" name="deactivate" value="true">
-					<?php echo __( 'Deactivate', 'stellarwp-telemetry' ); ?>
+					<?php echo esc_html__( 'Deactivate', 'stellarwp-telemetry' ); ?>
 				</button>
 			</footer>
 		</form>

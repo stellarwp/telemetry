@@ -24,7 +24,7 @@ abstract class Abstract_Subscriber implements Subscriber_Interface {
 	/**
 	 * Constructor for the class.
 	 *
-	 * @param ContainerInterface $container
+	 * @param ContainerInterface $container The container.
 	 */
 	public function __construct( ContainerInterface $container ) {
 		$this->container = $container;

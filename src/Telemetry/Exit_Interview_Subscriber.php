@@ -6,6 +6,7 @@
  *
  * @package StellarWP\Telemetry
  */
+
 namespace StellarWP\Telemetry;
 
 use StellarWP\Telemetry\Contracts\Abstract_Subscriber;
@@ -46,7 +47,7 @@ class Exit_Interview_Subscriber extends Abstract_Subscriber {
 	public function render_exit_interview() {
 		global $pagenow;
 
-		if ( $pagenow === 'plugins.php' ) {
+		if ( 'plugins.php' === $pagenow ) {
 			$this->container->get( Exit_Interview_Template::class )->maybe_render();
 		}
 	}
@@ -56,7 +57,7 @@ class Exit_Interview_Subscriber extends Abstract_Subscriber {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @return string
+	 * @return void
 	 */
 	public function ajax_exit_interview() {
 		$uninstall_reason_id = filter_input( INPUT_POST, 'uninstall_reason_id', FILTER_SANITIZE_STRING );
@@ -94,7 +95,7 @@ class Exit_Interview_Subscriber extends Abstract_Subscriber {
 	 *
 	 * The deactivation is deferred to the modal displayed.
 	 *
-	 * @param array $links
+	 * @param array $links The links of the plugin in the plugin list.
 	 *
 	 * @since 1.0.0
 	 *

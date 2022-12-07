@@ -6,6 +6,7 @@
  *
  * @package StellarWP\Telemetry
  */
+
 namespace StellarWP\Telemetry;
 
 use StellarWP\Telemetry\Contracts\Abstract_Subscriber;
@@ -38,6 +39,6 @@ class Last_Send_Subscriber extends Abstract_Subscriber {
 	 * @return void
 	 */
 	public function initialize_last_send_option() {
-		return $this->container->get( Last_Send::class )->initialize_option();
+		$this->container->get( Last_Send::class )->initialize_option();
 	}
 }

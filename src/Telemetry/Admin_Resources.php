@@ -75,12 +75,15 @@ class Admin_Resources {
 		 *
 		 * @param array $data The data to pass to the script.
 		 */
-		$script_data = apply_filters( 'stellarwp/telemetry/' . Config::get_hook_prefix() . 'script_data', [
-			'exit_interview' => [
-				'action' => Exit_Interview_Subscriber::AJAX_ACTION,
-				'nonce'  => wp_create_nonce( Exit_Interview_Subscriber::AJAX_ACTION ),
-			],
-		] );
+		$script_data = apply_filters(
+			'stellarwp/telemetry/' . Config::get_hook_prefix() . 'script_data',
+			[
+				'exit_interview' => [
+					'action' => Exit_Interview_Subscriber::AJAX_ACTION,
+					'nonce'  => wp_create_nonce( Exit_Interview_Subscriber::AJAX_ACTION ),
+				],
+			]
+		);
 
 		wp_localize_script(
 			self::SCRIPT_HANDLE,
@@ -121,7 +124,7 @@ class Admin_Resources {
 	 *
 	 * @return string
 	 */
-	static public function get_asset_path(): string {
+	public static function get_asset_path(): string {
 		return plugin_dir_url( __DIR__ );
 	}
 

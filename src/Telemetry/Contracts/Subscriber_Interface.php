@@ -4,6 +4,7 @@
  *
  * @package StellarWP\Telemetry\Contracts
  */
+
 namespace StellarWP\Telemetry\Contracts;
 
 /**

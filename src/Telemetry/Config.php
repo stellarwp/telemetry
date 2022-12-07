@@ -6,6 +6,7 @@
  *
  * @package StellarWP\Telemetry
  */
+
 namespace StellarWP\Telemetry;
 
 use StellarWP\ContainerContract\ContainerInterface;
@@ -51,12 +52,12 @@ class Config {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @throws \RuntimeException
+	 * @throws \RuntimeException Throws exception if container is not set.
 	 *
 	 * @return \StellarWP\ContainerContract\ContainerInterface
 	 */
 	public static function get_container() {
-		if ( self::$container === null ) {
+		if ( null === self::$container ) {
 			throw new \RuntimeException( 'You must provide a container via StellarWP\Telemetry\Config::set_container() before attempting to fetch it.' );
 		}
 
@@ -93,7 +94,7 @@ class Config {
 	 * @return bool
 	 */
 	public static function has_container() {
-		return self::$container !== null;
+		return null !== self::$container;
 	}
 
 	/**
@@ -126,7 +127,7 @@ class Config {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string $prefix
+	 * @param string $prefix The prefix to use for hooks.
 	 *
 	 * @return void
 	 */
@@ -144,7 +145,7 @@ class Config {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string $url
+	 * @param string $url The url of the telemetry server.
 	 *
 	 * @return void
 	 */

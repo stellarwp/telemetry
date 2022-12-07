@@ -6,6 +6,7 @@
  *
  * @package StellarWP\Telemetry
  */
+
 namespace StellarWP\Telemetry;
 
 use StellarWP\ContainerContract\ContainerInterface;
@@ -53,7 +54,7 @@ class Core {
 	 *
 	 * @var self
 	 */
-	private static self $instance;
+	private static Core $instance;
 
 	/**
 	 * Returns the current instance or creates one to return.
@@ -77,7 +78,7 @@ class Core {
 	 *
 	 * @param string $plugin_path The path to the main plugin file.
 	 *
-	 * @throws \RuntimeException
+	 * @throws \RuntimeException Throws exception if container is not set.
 	 *
 	 * @return void
 	 */
@@ -126,18 +127,30 @@ class Core {
 		$container->bind( self::PLUGIN_SLUG, dirname( plugin_basename( $plugin_path ) ) );
 		$container->bind( self::PLUGIN_BASENAME, plugin_basename( $plugin_path ) );
 		$container->bind( Data_Provider::class, Debug_Data_Provider::class );
-		$container->bind( Opt_In_Template::class, static function () use ( $container ) {
-			return new Opt_In_Template( $container->get( Opt_In_Status::class ) );
-		} );
-		$container->bind( Exit_Interview_Template::class, static function () use ( $container ) {
-			return new Exit_Interview_Template( $container );
-		} );
-		$container->bind( Telemetry::class, static function () use ( $container ) {
-			return new Telemetry( $container->get( Data_Provider::class ), $container->get( Opt_In_Status::class ) );
-		} );
-		$container->bind( Admin_Resources::class, static function () {
-			return new Admin_Resources();
-		} );
+		$container->bind(
+			Opt_In_Template::class,
+			static function () use ( $container ) {
+				return new Opt_In_Template( $container->get( Opt_In_Status::class ) );
+			}
+		);
+		$container->bind(
+			Exit_Interview_Template::class,
+			static function () use ( $container ) {
+				return new Exit_Interview_Template( $container );
+			}
+		);
+		$container->bind(
+			Telemetry::class,
+			static function () use ( $container ) {
+				return new Telemetry( $container->get( Data_Provider::class ), $container->get( Opt_In_Status::class ) );
+			}
+		);
+		$container->bind(
+			Admin_Resources::class,
+			static function () {
+				return new Admin_Resources();
+			}
+		);
 
 		// Store the container for later use.
 		$this->container = $container;

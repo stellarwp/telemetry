@@ -6,6 +6,7 @@
  *
  * @package StellarWP\Telemetry
  */
+
 namespace StellarWP\Telemetry;
 
 use StellarWP\Telemetry\Contracts\Template;
@@ -18,8 +19,8 @@ use StellarWP\Telemetry\Contracts\Template;
  * @package StellarWP\Telemetry
  */
 class Opt_In_Template implements Template {
-	protected const YES = "1";
-	protected const NO = "-1";
+	protected const YES = '1';
+	protected const NO  = '-1';
 
 	/**
 	 * The opt-in status object.
@@ -79,14 +80,20 @@ class Opt_In_Template implements Template {
 			$this->opt_in_status->get_opted_in_plugins()
 		);
 
-		$optin_args['heading'] = sprintf( __( 'We hope you love %s.', 'stellarwp-telemetry' ), $optin_args['plugin_name'] );
-		$optin_args['intro']   = sprintf(
+		$optin_args['heading'] = sprintf(
+			// Translators: The plugin name.
+			__( 'We hope you love %s.', 'stellarwp-telemetry' ),
+			$optin_args['plugin_name']
+		);
+		$optin_args['intro'] = sprintf(
+			// Translators: The user name and the plugin name.
 			__(
-				'Hi, %s.! This is an invitation to help our StellarWP community.
-				If you opt-in, some data about your usage of %s and future StellarWP Products will be shared with our teams (so they can work their butts off to improve).
+				'Hi, %1$s.! This is an invitation to help our StellarWP community.
+				If you opt-in, some data about your usage of %2$s and future StellarWP Products will be shared with our teams (so they can work their butts off to improve).
 				We will also share some helpful info on WordPress, and our products from time to time.
 				And if you skip this, that’s okay! Our products still work just fine.',
-			'stellarwp-telemetry' ),
+				'stellarwp-telemetry'
+			),
 			$optin_args['user_name'],
 			$optin_args['plugin_name']
 		);
