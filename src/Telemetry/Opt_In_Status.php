@@ -155,7 +155,7 @@ class Opt_In_Status {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string  $plugin_slug The slug to remove from the option.
+	 * @param string $plugin_slug The slug to remove from the option.
 	 *
 	 * @return boolean
 	 */
