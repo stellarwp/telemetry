@@ -13,6 +13,7 @@ use StellarWP\ContainerContract\ContainerInterface;
 use StellarWP\Telemetry\Admin\Admin_Subscriber;
 use StellarWP\Telemetry\Admin\Resources;
 use StellarWP\Telemetry\Contracts\Data_Provider;
+use StellarWP\Telemetry\Data_Providers\Debug_Data;
 use StellarWP\Telemetry\Exit_Interview\Exit_Interview_Subscriber;
 use StellarWP\Telemetry\Exit_Interview\Template;
 use StellarWP\Telemetry\Last_Send\Last_Send_Subscriber;
@@ -136,7 +137,7 @@ class Core {
 
 		$container->bind( self::PLUGIN_SLUG, dirname( plugin_basename( $plugin_path ) ) );
 		$container->bind( self::PLUGIN_BASENAME, plugin_basename( $plugin_path ) );
-		$container->bind( Data_Provider::class, Debug_Data_Provider::class );
+		$container->bind( Data_Provider::class, Debug_Data::class );
 		$container->bind(
 			Opt_In_Template::class,
 			static function () use ( $container ) {

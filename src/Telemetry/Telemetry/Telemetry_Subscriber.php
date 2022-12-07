@@ -11,6 +11,7 @@ namespace StellarWP\Telemetry\Telemetry;
 
 use DateTimeImmutable;
 use StellarWP\Telemetry\Contracts\Abstract_Subscriber;
+use StellarWP\Telemetry\Last_Send\Last_Send;
 use StellarWP\Telemetry\Opt_In\Status;
 
 /**
