@@ -63,12 +63,12 @@ class Opt_In_Template implements Template {
 			'plugin_logo_width'     => 151,
 			'plugin_logo_height'    => 32,
 			'plugin_logo_alt'       => 'StellarWP Logo',
-			'plugin_name'           => 'The Events Calendar',
+			'plugin_name'           => 'StellarWP',
 			'plugin_slug'           => Config::get_container()->get( Core::PLUGIN_SLUG ),
 			'user_name'             => wp_get_current_user()->display_name,
 			'permissions_url'       => '#',
 			'tos_url'               => '#',
-			'privacy_url'           => '#',
+			'privacy_url'           => 'https://stellarwp.com/privacy-policy/',
 			'opted_in_plugins_text' => __( 'See which plugins you have opted in to tracking for', 'stellarwp-telemetry' ),
 		];
 
@@ -88,7 +88,7 @@ class Opt_In_Template implements Template {
 		$optin_args['intro'] = sprintf(
 			// Translators: The user name and the plugin name.
 			__(
-				'Hi, %1$s.! This is an invitation to help our StellarWP community.
+				'Hi, %1$s! This is an invitation to help our StellarWP community.
 				If you opt-in, some data about your usage of %2$s and future StellarWP Products will be shared with our teams (so they can work their butts off to improve).
 				We will also share some helpful info on WordPress, and our products from time to time.
 				And if you skip this, that’s okay! Our products still work just fine.',
