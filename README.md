@@ -27,6 +27,7 @@ A library for Opt-in and Telemetry data to be sent to the StellarWP Telemetry se
 		- [stellarwp/telemetry/send\_data\_url](#stellarwptelemetrysend_data_url)
 		- [stellarwp/telemetry/last\_send\_expire\_seconds](#stellarwptelemetrylast_send_expire_seconds)
 		- [stellarwp/telemetry/exit\_interview\_args](#stellarwptelemetryexit_interview_args)
+	- [Site Health](#adding-plugin-data-to-site-health)
 ## Installation
 
 It's recommended that you install Telemetry as a project dependency via [Composer](https://getcomposer.org/):
@@ -323,4 +324,44 @@ $args = [
 		]
 	],
 ];
+```
+
+## Adding Plugin Data to Site Health
+
+We collect the Site Health data as json on the server.  In order to pass additional plugin specific items that can be reported on, you will need to add a section to the Site Health Data. The process for adding a section is documented on [developer.wordpress.org](https://developer.wordpress.org/reference/hooks/debug_information/).
+
+We do have some requirements so that we can grab the correct data from Site Health. When setting the key to the plugins site health section, use the plugin slug. Do not nest your settings in a single line, use one line per option. Do not translate the debug value. This will help make sure that the data is reportable on the Telemetry Server.
+
+``` php
+function add_summary_to_telemtry( $info ) {
+	$info[ 'stellarwp' ] = [
+			'label' => __( 'StellarWP Plugin Section', 'text-domain' ),
+			'description' => __( 'There are some key things here... Everything should be output in key value pairs. Follow the translation instructions in the codex (do not translate debug). Plugin Slug should be the main key.', 'text-domain' ),
+			'fields' => [
+				'field_key_one' => [
+					'label' => __( 'This is the field text', 'text-domain' ),
+					'value' =>  __( 'value', 'text-domain' ),
+					'debug' => 'value'
+				],
+				'field_key_two' => [
+					'label' => __( 'Field Two', 'text-domain' ),
+					'value' => __( 'yes', 'text-domain' ),
+					'debug' => true,
+				],
+				'field_key_three' => [
+					'label'   => __( 'Three', 'text-domain' ),
+					'value'   => __( 'Tempus pellentesque id hac', 'text-domain' ),
+					'debug'   => 'Tempus pellentesque id hac',
+				],
+				'field_key_four' => [
+					'label'   => __( 'Option Four', 'text-domain' ),
+					'value'   => __( 'on', 'text-domain' ),
+					'debug'   => true,
+				],
+			],
+		];
+	return $info;
+}
+
+add_filter( 'debug_information', 'add_summary_to_telemetry', 10, 1) ;
 ```
