@@ -11,6 +11,7 @@ A library for Opt-in and Telemetry data to be sent to the StellarWP Telemetry se
 	- [Uninstall Hook](#uninstall-hook)
 	- [Opt-In Modal Usage](#opt-in-modal-usage)
 		- [Prompting Users on a Settings Page](#prompting-users-on-a-settings-page)
+	- [How to Migrate Users Who Have Already Opted In](#how-to-migrate-users-who-have-already-opted-in)
 	- [Server Authentication Flow](#server-authentication-flow)
 	- [Filter Reference](#filter-reference)
 		- [stellarwp/telemetry/should\_show\_optin](#stellarwptelemetryshould_show_optin)
@@ -134,6 +135,27 @@ function my_options_page() {
 _Note: When adding the `do_action`, you may pass additional arguments to the library with an array. There is no functionality at the moment, but we expect to expand the library to accept configuration through the passed array._
 ```php
 do_action( 'stellarwp/telemetry/my-custom-prefix/optin', [ 'plugin_slug' => 'the-events-calendar' ] );
+```
+
+## How to Migrate Users Who Have Already Opted In
+If you have a system that users have already opted in to and you'd prefer not to have them opt in again, here's how you might go about it. The `opt_in()` method will set their opt-in status to `true` and send their telemetry data and user data to the telemetry server.
+
+```php
+/**
+ * The library attempts to set the opt-in status for a site during 'admin_init'. Use the hook with a priority higher
+ * than 10 to make sure you're setting the status after it initializes the option in the options table.
+ */
+add_action( 'admin_init', 'migrate_existing_opt_in', 11 );
+
+function migrate_existing_opt_in() {
+
+	if ( $user_has_opted_in_already ) {
+
+		// Get the Opt_In_Subscriber object.
+		$Opt_In_Subscriber = Config::get_container()->get( Opt_In_Subscriber::class );
+		$Opt_In_Subscriber->opt_in();
+	}
+}
 ```
 
 ## Server Authentication Flow

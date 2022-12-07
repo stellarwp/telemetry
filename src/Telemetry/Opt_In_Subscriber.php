@@ -6,6 +6,7 @@
  *
  * @package StellarWP\Telemetry
  */
+
 namespace StellarWP\Telemetry;
 
 use StellarWP\Telemetry\Contracts\Abstract_Subscriber;
@@ -40,12 +41,18 @@ class Opt_In_Subscriber extends Abstract_Subscriber {
 	public function set_optin_status() {
 
 		// We're not attempting an action.
-		if ( empty( $_POST ) ) {
+		if ( empty( $_POST['_wpnonce'] ) ) {
+			return;
+		}
+
+		$nonce = sanitize_text_field( $_POST['_wpnonce'] );
+
+		if ( ! wp_verify_nonce( $nonce, 'stellarwp-telemetry' ) ) {
 			return;
 		}
 
 		// We're not attempting a telemetry action.
-		if ( isset( $_POST['action'] ) && $_POST['action'] !== 'stellarwp-telemetry' ) {
+		if ( isset( $_POST['action'] ) && 'stellarwp-telemetry' !== $_POST['action'] ) {
 			return;
 		}
 
@@ -89,7 +96,7 @@ class Opt_In_Subscriber extends Abstract_Subscriber {
 		$opt_in_template = $this->container->get( Opt_In_Template::class );
 		$opt_in_status   = $this->container->get( Opt_In_Status::class );
 
-		// Check if plugin slug exists within array
+		// Check if plugin slug exists within array.
 		if ( ! $opt_in_status->plugin_exists( $plugin_slug ) ) {
 			$opt_in_status->add_plugin( $plugin_slug );
 

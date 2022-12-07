@@ -23,7 +23,7 @@ class Uninstall {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string $plugin_slug
+	 * @param string $plugin_slug The slug for the plugin being deleted.
 	 *
 	 * @return void
 	 */
@@ -45,6 +45,13 @@ class Uninstall {
 		self::maybe_remove_optin_option();
 	}
 
+	/**
+	 * Removes the main telemetry option if the current plugin is the last one to use it.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
 	public static function maybe_remove_optin_option() {
 		$optin = get_option( 'stellarwp_telemetry' );
 
