@@ -6,12 +6,12 @@
  *
  * @package StellarWP\Telemetry
  */
+
 namespace StellarWP\Telemetry\Opt_In;
 
 use StellarWP\Telemetry\Config;
 use StellarWP\Telemetry\Contracts\Abstract_Subscriber;
 use StellarWP\Telemetry\Core;
-use StellarWP\Telemetry\Cron_Job;
 use StellarWP\Telemetry\Telemetry;
 
 /**
@@ -44,12 +44,18 @@ class Opt_In_Subscriber extends Abstract_Subscriber {
 	public function set_optin_status() {
 
 		// We're not attempting an action.
-		if ( empty( $_POST ) ) {
+		if ( empty( $_POST['_wpnonce'] ) ) {
+			return;
+		}
+
+		$nonce = sanitize_text_field( $_POST['_wpnonce'] );
+
+		if ( ! wp_verify_nonce( $nonce, 'stellarwp-telemetry' ) ) {
 			return;
 		}
 
 		// We're not attempting a telemetry action.
-		if ( $_POST['action'] !== 'stellarwp-telemetry' ) {
+		if ( isset( $_POST['action'] ) && 'stellarwp-telemetry' !== $_POST['action'] ) {
 			return;
 		}
 
@@ -60,13 +66,11 @@ class Opt_In_Subscriber extends Abstract_Subscriber {
 
 		// User agreed to opt-in to Telemetry.
 		if ( 'true' === $_POST['optin-agreed'] ) {
-			$this->container->get( Telemetry::class )->register_site();
-			$this->container->get( Status::class )->set_status( true );
-			$this->container->get( Cron_Job::class )->schedule( time() );
+			$this->opt_in();
 		}
 
 		// Don't show the opt-in modal again.
-		update_option( $this->container->get( Status::class )->get_show_optin_option_name(), "0" );
+		update_option( $this->container->get( Opt_In_Template::class )->get_option_name(), '0' );
 	}
 
 	/**
@@ -91,13 +95,33 @@ class Opt_In_Subscriber extends Abstract_Subscriber {
 	 * @return void
 	 */
 	public function initialize_optin_option() {
-		$opt_in_status = $this->container->get( Status::class );
-		// Check if plugin slug exists within array
-		if ( ! $opt_in_status->plugin_exists( $this->container->get( Core::PLUGIN_SLUG ) ) ) {
-			$opt_in_status->add_plugin( $this->container->get( Core::PLUGIN_SLUG ) );
+		$plugin_slug     = $this->container->get( Core::PLUGIN_SLUG );
+		$opt_in_template = $this->container->get( Opt_In_Template::class );
+		$opt_in_status   = $this->container->get( Status::class );
 
-			update_option( $opt_in_status->get_show_optin_option_name(), "1" );
+		// Check if plugin slug exists within array.
+		if ( ! $opt_in_status->plugin_exists( $plugin_slug ) ) {
+			$opt_in_status->add_plugin( $plugin_slug );
+
+			update_option( $opt_in_template->get_option_name(), '1' );
 		}
 	}
 
+	/**
+	 * Registers the site/user with the telemetry server and sets the opt-in status.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
+	public function opt_in() {
+		$this->container->get( Status::class )->set_status( true );
+
+		try {
+			$this->container->get( Telemetry::class )->register_site();
+			$this->container->get( Telemetry::class )->register_user();
+		} catch ( \Error $e ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch
+			// We don't want to throw errors if the server cannot be reached.
+		}
+	}
 }

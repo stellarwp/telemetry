@@ -6,6 +6,7 @@
  *
  * @package StellarWP\Telemetry
  */
+
 namespace StellarWP\Telemetry;
 
 use StellarWP\ContainerContract\ContainerInterface;
@@ -16,6 +17,7 @@ use StellarWP\Telemetry\Exit_Interview\Exit_Interview_Subscriber;
 use StellarWP\Telemetry\Exit_Interview\Template;
 use StellarWP\Telemetry\Opt_In\Opt_In_Subscriber;
 use StellarWP\Telemetry\Opt_In\Opt_In_Template;
+use StellarWP\Telemetry\Opt_In\Status;
 
 /**
  * The core class of the library.
@@ -36,10 +38,11 @@ class Core {
 	 * @var string[]
 	 */
 	private array $subscribers = [
-		Cron_Subscriber::class,
-		Opt_In_Subscriber::class,
-		Exit_Interview_Subscriber::class,
 		Admin_Subscriber::class,
+		Exit_Interview_Subscriber::class,
+		Last_Send_Subscriber::class,
+		Opt_In_Subscriber::class,
+		Telemetry_Subscriber::class,
 	];
 
 	/**
@@ -58,7 +61,7 @@ class Core {
 	 *
 	 * @var self
 	 */
-	private static self $instance;
+	private static Core $instance;
 
 	/**
 	 * Returns the current instance or creates one to return.
@@ -82,7 +85,7 @@ class Core {
 	 *
 	 * @param string $plugin_path The path to the main plugin file.
 	 *
-	 * @throws \RuntimeException
+	 * @throws \RuntimeException Throws exception if container is not set.
 	 *
 	 * @return void
 	 */
@@ -131,21 +134,33 @@ class Core {
 		$container->bind( self::PLUGIN_SLUG, dirname( plugin_basename( $plugin_path ) ) );
 		$container->bind( self::PLUGIN_BASENAME, plugin_basename( $plugin_path ) );
 		$container->bind( Data_Provider::class, Debug_Data_Provider::class );
-		$container->bind( Cron_Job::class, static function () use ( $container, $plugin_path ) {
-			return new Cron_Job( $container->get( Telemetry::class ), $plugin_path );
-		} );
-		$container->bind( Opt_In_Template::class, static function () {
-			return new Opt_In_Template();
-		} );
-		$container->bind( Template::class, static function () use ( $container ) {
-			return new Template( $container );
-		} );
-		$container->bind( Telemetry::class, static function () use ( $container ) {
-			return new Telemetry( $container->get( Data_Provider::class ), 'stellarwp_telemetry' );
-		} );
-		$container->bind( Resources::class, static function () {
-			return new Resources();
-		} );
+		$container->bind(
+			Opt_In_Template::class,
+			static function () use ( $container ) {
+				return new Opt_In_Template( $container->get( Status::class ) );
+			}
+		);
+		$container->bind(
+			Template::class,
+			static function () use ( $container ) {
+				return new Template( $container );
+			}
+		);
+		$container->bind(
+			Telemetry::class,
+			static function () use ( $container ) {
+				return new Telemetry(
+					$container->get( Data_Provider::class ),
+					$container->get( Status::class ),
+				);
+			}
+		);
+		$container->bind(
+			Resources::class,
+			static function () {
+				return new Resources();
+			}
+		);
 
 		// Store the container for later use.
 		$this->container = $container;

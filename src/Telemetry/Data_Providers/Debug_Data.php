@@ -6,7 +6,8 @@
  *
  * @package StellarWP\Telemetry
  */
-namespace StellarWP\Telemetry;
+
+namespace StellarWP\Telemetry\Data_Providers;
 
 use StellarWP\Telemetry\Contracts\Data_Provider;
 use WP_Debug_Data;
@@ -18,7 +19,7 @@ use WP_Debug_Data;
  *
  * @package StellarWP\Telemetry
  */
-class Debug_Data_Provider implements Data_Provider {
+class Debug_Data implements Data_Provider {
 
 	/**
 	 * Gets the current site health data
@@ -35,17 +36,17 @@ class Debug_Data_Provider implements Data_Provider {
 		}
 		$info = WP_Debug_Data::debug_data();
 
-		$active_plugins = get_option('active_plugins');
+		$active_plugins = get_option( 'active_plugins' );
 		$plugins        = get_plugins();
 		$active         = [];
 
-		foreach ( $active_plugins as $active_plugin ){
+		foreach ( $active_plugins as $active_plugin ) {
 			if ( isset( $plugins[ $active_plugin ] ) ) {
 				$active[ $active_plugin ] = $plugins[ $active_plugin ];
 				unset( $plugins[ $active_plugin ] );
 			}
 		}
-		$info['telemetry-active-plugins']['fields'] = $active;
+		$info['telemetry-active-plugins']['fields']   = $active;
 		$info['telemetry-inactive-plugins']['fields'] = $plugins;
 
 		return $info;

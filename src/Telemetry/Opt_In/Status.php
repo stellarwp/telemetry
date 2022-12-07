@@ -6,6 +6,7 @@
  *
  * @package StellarWP\Telemetry
  */
+
 namespace StellarWP\Telemetry\Opt_In;
 
 use StellarWP\Telemetry\Config;
@@ -18,10 +19,10 @@ use StellarWP\Telemetry\Config;
  * @package StellarWP\Telemetry
  */
 class Status {
-	public const OPTION_NAME = 'stellarwp_telemetry';
-	public const STATUS_ACTIVE = 1;
+	public const OPTION_NAME     = 'stellarwp_telemetry';
+	public const STATUS_ACTIVE   = 1;
 	public const STATUS_INACTIVE = 2;
-	public const STATUS_MIXED = 3;
+	public const STATUS_MIXED    = 3;
 
 	/**
 	 * Gets the option name used to store the opt-in status.
@@ -74,13 +75,13 @@ class Status {
 			}
 
 			// If a plugin's status is false, we set the status as inactive.
-			if ( $plugin['optin'] === false ) {
+			if ( false === $plugin['optin'] ) {
 				$status = self::STATUS_INACTIVE;
 				continue;
 			}
 
 			// If another plugin's status is true and the status is already inactive, we set the status as mixed.
-			if ( $plugin['optin'] === true && $status === self::STATUS_INACTIVE ) {
+			if ( true === $plugin['optin'] && self::STATUS_INACTIVE === $status ) {
 				$status = self::STATUS_MIXED;
 				break;
 			}
@@ -121,7 +122,7 @@ class Status {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string $plugin_slug
+	 * @param string $plugin_slug The plugin's slug.
 	 *
 	 * @return boolean
 	 */
@@ -137,7 +138,7 @@ class Status {
 	 * @since 1.0.0
 	 *
 	 * @param string  $plugin_slug The slug to add to the option.
-	 * @param boolean $status      The opt-in status for the plugin slug
+	 * @param boolean $status      The opt-in status for the plugin slug.
 	 *
 	 * @return boolean
 	 */
@@ -152,11 +153,57 @@ class Status {
 	}
 
 	/**
+	 * Removes a plugin slug from the opt-in option array.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $plugin_slug The slug to remove from the option.
+	 *
+	 * @return boolean
+	 */
+	public function remove_plugin( string $plugin_slug ) {
+		$option = $this->get_option();
+
+		// Bail early if the slug does not exist in the option.
+		if ( ! isset( $option[ $plugin_slug ] ) ) {
+			return false;
+		}
+
+		unset( $option[ $plugin_slug ] );
+
+		return update_option( $this->get_option_name(), $option );
+	}
+
+	/**
+	 * Get an array of opted-in plugins.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return string[]
+	 */
+	public function get_opted_in_plugins() {
+		$option           = $this->get_option();
+		$opted_in_plugins = [];
+
+		foreach ( $option as $plugin_slug => $plugin ) {
+			if ( 'token' === $plugin_slug ) {
+				continue;
+			}
+
+			if ( true === $plugin['optin'] ) {
+				$opted_in_plugins[] = $plugin_slug;
+			}
+		}
+
+		return $opted_in_plugins;
+	}
+
+	/**
 	 * Sets the opt-in status option for the site.
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param boolean $status
+	 * @param boolean $status The status to set (Active = 1, Inactive = 2, Mixed = 3).
 	 *
 	 * @return boolean
 	 */
@@ -213,48 +260,5 @@ class Status {
 	 */
 	public function is_active(): bool {
 		return $this->get() === self::STATUS_ACTIVE;
-	}
-
-	/**
-	 * Determines if the optin modal should be shown to the user.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return bool
-	 */
-	public function should_show_optin() {
-		$should_show = (bool) get_option( $this->get_show_optin_option_name(), false );
-
-		if ( $should_show ) {
-			// Update the option so we don't show the optin again unless something changes this again.
-			update_option( $this->get_show_optin_option_name(), false );
-		}
-
-		/**
-		 * Filters if the opt-in modal should be shown to the user.
-		 *
-		 * @since 1.0.0
-		 *
-		 * @param bool $should_show
-		 */
-		return apply_filters( 'stellarwp/telemetry/' . Config::get_hook_prefix() . 'should_show_optin', $should_show );
-	}
-
-	/**
-	 * Gets the optin option name.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return string
-	 */
-	public function get_show_optin_option_name() {
-		/**
-		 * Filters the opt-in option name.
-		 *
-		 * @since 1.0.0
-		 *
-		 * @param string $option_name
-		 */
-		return apply_filters( 'stellarwp/telemetry/' . Config::get_hook_prefix() . 'show_optin_option_name', $this->get_option_name() . '_show_optin' );
 	}
 }

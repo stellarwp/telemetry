@@ -6,9 +6,11 @@
  *
  * @package StellarWP\Telemetry
  */
+
 namespace StellarWP\Telemetry;
 
 use StellarWP\Telemetry\Contracts\Data_Provider;
+use StellarWP\Telemetry\Opt_In\Status;
 
 /**
  * Handles all methods required for sending data to the telemetry server.
@@ -18,7 +20,7 @@ use StellarWP\Telemetry\Contracts\Data_Provider;
  * @package StellarWP\Telemetry
  */
 class Telemetry {
-	public const SERVER_URL = 'https://telemetry-api.moderntribe.qa/api/v1';
+	public const AJAX_ACTION = 'stellarwp_telemetry_send_data';
 
 	/**
 	 * A data provider for gathering the data.
@@ -30,23 +32,23 @@ class Telemetry {
 	protected $provider;
 
 	/**
-	 * The option name to use for storing telemetry server data.
+	 * The opt-in status object.
 	 *
 	 * @since 1.0.0
 	 *
-	 * @var string
+	 * @var Status
 	 */
-	protected $option_name;
+	protected $opt_in_status;
 
 	/**
 	 * The Telemetry constructor
 	 *
-	 * @param Data_Provider $provider    The provider that collects the site data.
-	 * @param string        $option_name The option name to store telemetry server data.
+	 * @param Data_Provider $provider      The provider that collects the site data.
+	 * @param Status        $opt_in_status The opt-in status object.
 	 */
-	public function __construct( Data_Provider $provider, string $option_name ) {
-		$this->provider    = $provider;
-		$this->option_name = $option_name;
+	public function __construct( Data_Provider $provider, Status $opt_in_status ) {
+		$this->provider      = $provider;
+		$this->opt_in_status = $opt_in_status;
 	}
 
 	/**
@@ -61,7 +63,7 @@ class Telemetry {
 	public function register_site( bool $force = false ) {
 		// If site is already registered and we're not forcing a new registration, bail.
 		if ( $this->is_registered() ) {
-			if ( $force === false ) {
+			if ( false === $force ) {
 				return false;
 			}
 		}
@@ -69,6 +71,21 @@ class Telemetry {
 		$response = $this->send( $this->get_register_site_data(), $this->get_register_site_url() );
 
 		return $this->save_token( $response['token'] ?? '' );
+	}
+
+	/**
+	 * Registers the user with the telemetry server.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
+	public function register_user() {
+		try {
+			$this->send( $this->get_user_details(), Config::get_server_url() . '/opt-in' );
+		} catch ( \Error $e ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch
+			// We don't want to throw errors if the server fails.
+		}
 	}
 
 	/**
@@ -101,13 +118,18 @@ class Telemetry {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param array  $data
-	 * @param string $url
+	 * @param array  $data The array of data to send.
+	 * @param string $url  The url of the telemetry server.
 	 *
 	 * @return array|null
 	 */
 	protected function send( array $data, string $url ) {
 		$response = $this->request( $url, $data );
+
+		if ( is_wp_error( $response ) ) {
+			return null;
+		}
+
 		$response = $this->parse_response( $response );
 
 		if ( empty( $response['status'] ) ) {
@@ -122,15 +144,18 @@ class Telemetry {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string $url
-	 * @param array  $data
+	 * @param string $url  The url of the telemetry server.
+	 * @param array  $data The data to send.
 	 *
 	 * @return array|\WP_Error
 	 */
 	protected function request( string $url, array $data ) {
-		return wp_remote_post( $url, [
-			'body' => $data,
-		] );
+		return wp_remote_post(
+			$url,
+			[
+				'body' => $data,
+			]
+		);
 	}
 
 	/**
@@ -138,7 +163,7 @@ class Telemetry {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param array $response
+	 * @param array $response The response from a request.
 	 *
 	 * @return array|null
 	 */
@@ -147,7 +172,7 @@ class Telemetry {
 
 		$data = json_decode( $body, true );
 
-		// If status is false, return null
+		// If status is false, return null.
 		if ( false === $data['status'] ?? false ) {
 			return null;
 		}
@@ -170,7 +195,7 @@ class Telemetry {
 		 *
 		 * @param string $site_url
 		 */
-		return apply_filters( 'stellarwp/telemetry/' . Config::get_hook_prefix() . 'register_site_url', self::SERVER_URL . '/register-site' );
+		return apply_filters( 'stellarwp/telemetry/' . Config::get_hook_prefix() . 'register_site_url', Config::get_server_url() . '/register-site' );
 	}
 
 	/**
@@ -188,7 +213,7 @@ class Telemetry {
 		 *
 		 * @param string $uninstall_url
 		 */
-		return apply_filters( 'stellarwp/telemetry/' . Config::get_hook_prefix() . 'uninstall_url', self::SERVER_URL . '/uninstall' );
+		return apply_filters( 'stellarwp/telemetry/' . Config::get_hook_prefix() . 'uninstall_url', Config::get_server_url() . '/uninstall' );
 	}
 
 	/**
@@ -206,10 +231,12 @@ class Telemetry {
 		 *
 		 * @param array $register_site_data
 		 */
-		return apply_filters( 'stellarwp/telemetry/' . Config::get_hook_prefix() . 'register_site_data', [
-			'user'      => json_encode( $this->get_user_details() ),
-			'telemetry' => json_encode( $this->provider->get_data() ),
-		] );
+		return apply_filters(
+			'stellarwp/telemetry/' . Config::get_hook_prefix() . 'register_site_data',
+			[
+				'telemetry' => wp_json_encode( $this->provider->get_data() ),
+			]
+		);
 	}
 
 	/**
@@ -229,10 +256,16 @@ class Telemetry {
 		 *
 		 * @param array $site_user_details
 		 */
-		return apply_filters( 'stellarwp/telemetry/' . Config::get_hook_prefix() . 'register_site_user_details', [
-			'name'  => $user->display_name,
-			'email' => $user->user_email,
-		] );
+		$user_info = apply_filters(
+			'stellarwp/telemetry/' . Config::get_hook_prefix() . 'register_site_user_details',
+			[
+				'name'        => $user->display_name,
+				'email'       => $user->user_email,
+				'plugin_slug' => Config::get_container()->get( Core::PLUGIN_SLUG ),
+			]
+		);
+
+		return [ 'user' => wp_json_encode( $user_info ) ];
 	}
 
 	/**
@@ -243,7 +276,7 @@ class Telemetry {
 	 * @return array
 	 */
 	protected function get_option() {
-		return get_option( $this->option_name, [] );
+		return get_option( $this->opt_in_status->get_option_name(), [] );
 	}
 
 	/**
@@ -251,16 +284,19 @@ class Telemetry {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string $token
+	 * @param string $token The site token to authenticate the request with.
 	 *
 	 * @return bool
 	 */
 	public function save_token( string $token ) {
-		$option = array_merge( $this->get_option(), [
-			'token' => $token,
-		] );
+		$option = array_merge(
+			$this->get_option(),
+			[
+				'token' => $token,
+			]
+		);
 
-		return update_option( $this->option_name, $option );
+		return update_option( $this->opt_in_status->get_option_name(), $option );
 	}
 
 	/**
@@ -302,10 +338,13 @@ class Telemetry {
 	 * @return array
 	 */
 	protected function get_send_data_args() {
-		return apply_filters( 'stellarwp/telemetry/' . Config::get_hook_prefix() . 'send_data_args', [
-			'token'     => $this->get_token(),
-			'telemetry' => json_encode( $this->provider->get_data() ),
-		] );
+		return apply_filters(
+			'stellarwp/telemetry/' . Config::get_hook_prefix() . 'send_data_args',
+			[
+				'token'     => $this->get_token(),
+				'telemetry' => wp_json_encode( $this->provider->get_data() ),
+			]
+		);
 	}
 
 	/**
@@ -323,7 +362,7 @@ class Telemetry {
 		 *
 		 * @param string $data_url
 		 */
-		return apply_filters( 'stellarwp/telemetry/' . Config::get_hook_prefix() . 'send_data_url', self::SERVER_URL . '/telemetry' );
+		return apply_filters( 'stellarwp/telemetry/' . Config::get_hook_prefix() . 'send_data_url', Config::get_server_url() . '/telemetry' );
 	}
 
 	/**

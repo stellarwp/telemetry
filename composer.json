@@ -2,6 +2,9 @@
   "name": "stellarwp/telemetry",
   "description": "Telemetry library for StellarWP plugins.",
   "type": "library",
+  "config": {
+    "sort-packages": true
+  },
   "autoload": {
     "psr-4": {
       "StellarWP\\Telemetry\\": "src/Telemetry"
@@ -17,18 +20,29 @@
   "require": {
     "ext-json": "*",
     "php": ">=7.2",
-    "woocommerce/action-scheduler": "^3.5",
     "stellarwp/container-contract": "^1.0"
   },
   "require-dev": {
+    "automattic/vipwpcs": "^2.3",
     "codeception/module-asserts": "^1.0",
-    "codeception/module-phpbrowser": "^1.0",
-    "codeception/module-webdriver": "^1.0",
+    "codeception/module-cli": "^1.0",
     "codeception/module-db": "^1.0",
     "codeception/module-filesystem": "^1.0",
-    "codeception/module-cli": "^1.0",
+    "codeception/module-phpbrowser": "^1.0",
+    "codeception/module-webdriver": "^1.0",
     "codeception/util-universalframework": "^1.0",
+    "dealerdirect/phpcodesniffer-composer-installer": "^0.7.2",
+    "lucatume/di52": "3.0.0",
     "lucatume/wp-browser": "^3.1",
-    "lucatume/di52": "3.0.0"
-  }
+    "the-events-calendar/coding-standards": "dev-master",
+    "wp-coding-standards/wpcs": "^2.3"
+  },
+  "repositories": [
+    {
+      "name": "the-events-calendar/coding-standards",
+      "type": "github",
+      "url": "https://github.com/the-events-calendar/coding-standards",
+      "no-api": true
+    }
+  ]
 }

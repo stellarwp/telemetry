@@ -8,24 +8,24 @@ A library for Opt-in and Telemetry data to be sent to the StellarWP Telemetry se
 	- [Installation](#installation)
 	- [Usage Prerequisites](#usage-prerequisites)
 	- [Integration](#integration)
+	- [Uninstall Hook](#uninstall-hook)
 	- [Opt-In Modal Usage](#opt-in-modal-usage)
 		- [Prompting Users on a Settings Page](#prompting-users-on-a-settings-page)
+	- [How to Migrate Users Who Have Already Opted In](#how-to-migrate-users-who-have-already-opted-in)
 	- [Server Authentication Flow](#server-authentication-flow)
 	- [Filter Reference](#filter-reference)
 		- [stellarwp/telemetry/should\_show\_optin](#stellarwptelemetryshould_show_optin)
-		- [stellarwp/telemetry/show\_optin\_option\_name](#stellarwptelemetryshow_optin_option_name)
-		- [stellarwp/telemetry/cron\_interval](#stellarwptelemetrycron_interval)
-		- [stellarwp/telemetry/cron\_hook\_name](#stellarwptelemetrycron_hook_name)
 		- [stellarwp/telemetry/option\_name](#stellarwptelemetryoption_name)
 		- [stellarwp/telemetry/optin\_status](#stellarwptelemetryoptin_status)
 		- [stellarwp/telemetry/optin\_status\_label](#stellarwptelemetryoptin_status_label)
 		- [stellarwp/telemetry/optin\_args](#stellarwptelemetryoptin_args)
-		- [stellarwp/telemetry/show\_optin\_option\_name](#stellarwptelemetryshow_optin_option_name-1)
+		- [stellarwp/telemetry/show\_optin\_option\_name](#stellarwptelemetryshow_optin_option_name)
 		- [stellarwp/telemetry/register\_site\_url](#stellarwptelemetryregister_site_url)
 		- [stellarwp/telemetry/register\_site\_data](#stellarwptelemetryregister_site_data)
 		- [stellarwp/telemetry/register\_site\_user\_details](#stellarwptelemetryregister_site_user_details)
 		- [stellarwp/telemetry/send\_data\_args](#stellarwptelemetrysend_data_args)
 		- [stellarwp/telemetry/send\_data\_url](#stellarwptelemetrysend_data_url)
+		- [stellarwp/telemetry/last\_send\_expire\_seconds](#stellarwptelemetrylast_send_expire_seconds)
 		- [stellarwp/telemetry/exit\_interview\_args](#stellarwptelemetryexit_interview_args)
 ## Installation
 
@@ -39,6 +39,24 @@ composer require stellarwp/telemetry
 > We _actually_ recommend that this library gets included in your project using [Strauss](https://github.com/BrianHenryIE/strauss).
 >
 > Luckily, adding Strauss to your `composer.json` is only slightly more complicated than adding a typical dependency, so checkout our [strauss docs](https://github.com/stellarwp/global-docs/blob/main/docs/strauss-setup.md).
+
+*Note: When including this with Strauss, additional directories need to be copied. Add the following to your Strauss config:*
+```
+"extra": {
+  "strauss": {
+	[...]
+    "override_autoload": {
+      "stellarwp/telemetry": {
+        "files": [
+          "src/views",
+          "src/resources",
+          "src/Telemetry"
+        ]
+      }
+    }
+  }
+}
+```
 
 ## Usage Prerequisites
 To actually _use_ the telemetry library, you must have a Dependency Injection Container (DI Container) that is compatible with [di52](https://github.com/lucatume/di52) (_We recommend using di52_).
@@ -67,6 +85,9 @@ function initialize_telemetry() {
 	$container = new Container();
 	Config::set_container( $container );
 
+	// Set the full URL for the Telemetry Server API.
+	Config::set_server_url( 'https://telemetry.example.com/api/v1' );
+
 	// Optional: Set a unique prefix for actions & filters.
 	Config::set_hook_prefix( 'my-custom-prefix' );
 
@@ -76,6 +97,20 @@ function initialize_telemetry() {
 ```
 
 Using a custom hook prefix provides the ability to uniquely filter functionality of your plugin's specific instance of the library.
+
+## Uninstall Hook
+
+This library provides everything necessary to uninstall itself. Depending on when your plugin uninstalls itself and cleans up the database, you can include this static method to have the library purge the options table of the necessary rows:
+```php
+<?php// uninstall.php
+
+use YOUR_STRAUSS_PREFIX\StellarWP\Telemetry\Uninstall;
+
+require_once 'vendor/strauss/autoload.php';
+
+Uninstall::run( 'your-plugin-slug' );
+```
+When a user deletes the plugin, WordPress runs the method from `Uninstall` and cleans up the options table. The last plugin utilizing the library will remove all options.
 
 ## Opt-In Modal Usage
 
@@ -102,6 +137,27 @@ _Note: When adding the `do_action`, you may pass additional arguments to the lib
 do_action( 'stellarwp/telemetry/my-custom-prefix/optin', [ 'plugin_slug' => 'the-events-calendar' ] );
 ```
 
+## How to Migrate Users Who Have Already Opted In
+If you have a system that users have already opted in to and you'd prefer not to have them opt in again, here's how you might go about it. The `opt_in()` method will set their opt-in status to `true` and send their telemetry data and user data to the telemetry server.
+
+```php
+/**
+ * The library attempts to set the opt-in status for a site during 'admin_init'. Use the hook with a priority higher
+ * than 10 to make sure you're setting the status after it initializes the option in the options table.
+ */
+add_action( 'admin_init', 'migrate_existing_opt_in', 11 );
+
+function migrate_existing_opt_in() {
+
+	if ( $user_has_opted_in_already ) {
+
+		// Get the Opt_In_Subscriber object.
+		$Opt_In_Subscriber = Config::get_container()->get( Opt_In_Subscriber::class );
+		$Opt_In_Subscriber->opt_in();
+	}
+}
+```
+
 ## Server Authentication Flow
 TBD
 
@@ -117,33 +173,6 @@ Filters whether the user should be shown the opt-in modal.
 **Parameters**: _bool_ `$should_show`
 
 **Default**: `true`
-
-### stellarwp/telemetry/show_optin_option_name
-Filters the option name used to store whether the opt-in should be shown.
-
-**Parameters**: _string_ `$option_name`
-
-**Default**: `stellarwp_telemetry_show_optin`
-
-### stellarwp/telemetry/cron_interval
-Filters how often data should be sent to the Telemetry server in seconds.
-
-**Parameters**: _integer_ `$interval`
-
-**Default**: `WEEK_IN_SECONDS`
-```php
-add_filter( 'stellarwp/telemetry/cron_interval', 'send_data_daily', 10, 1 );
-
-function send_data_daily( $interval ) {
-	return DAY_IN_SECONDS;
-}
-```
-### stellarwp/telemetry/cron_hook_name
-Filters the string used for the cron hook.
-
-**Parameters**: _string_ `$hook_name`
-
-**Default**: `stellarwp_telemetry_cron`
 
 ### stellarwp/telemetry/option_name
 Filter the option name used to store current users' optin status.
@@ -179,29 +208,33 @@ Filter the arguments passed to the opt-in modal.
 **Default**:
 ```php
 $args = [
-	'plugin_logo'        => plugin_dir_url( __DIR__ ) . 'public/logo.png',
-	'plugin_logo_width'  => 151,
-	'plugin_logo_height' => 32,
-	'plugin_logo_alt'    => 'StellarWP Logo',
-	'plugin_name'        => 'The Events Calendar',
-	'user_name'          => wp_get_current_user()->display_name,
-	'permissions_url'    => '#',
-	'tos_url'            => '#',
-	'privacy_url'        => '#',
+	'plugin_logo'           => Admin_Resources::get_asset_path() . 'resources/images/stellar-logo.svg',
+	'plugin_logo_width'     => 151,
+	'plugin_logo_height'    => 32,
+	'plugin_logo_alt'       => 'StellarWP Logo',
+	'plugin_name'           => 'The Events Calendar',
+	'plugin_slug'           => Config::get_container()->get( Core::PLUGIN_SLUG ),
+	'user_name'             => wp_get_current_user()->display_name,
+	'permissions_url'       => '#',
+	'tos_url'               => '#',
+	'privacy_url'           => '#',
+	'opted_in_plugins_text' => __( 'See which plugins you have opted in to tracking for', 'stellarwp-telemetry' ),
+	'heading'               => __( 'We hope you love {plugin_name}.', 'stellarwp-telemetry' ),
+	'intro'                 => __( 'Hi, {user_name}.! This is an invitation to help our StellarWP community. If you opt-in, some data about your usage of {plugin_name} and future StellarWP Products will be shared with our teams (so they can work their butts off to improve). We will also share some helpful info on WordPress, and our products from time to time. And if you skip this, that’s okay! Our products still work just fine.', 'stellarwp-telemetry' ),
 ];
 ```
 ### stellarwp/telemetry/show_optin_option_name
-Filter the string used for the option that determines whether the opt-in modal should be shown.
+Filters the string used for the option that determines whether the opt-in modal should be shown.
 
 **Parameters**: _string_ `$option_name`
 
-**Default**: `stellarwp_telemetry_show_optin`
+**Default**: `stellarwp_telemetry_{plugin_slug}_show_optin`
 ### stellarwp/telemetry/register_site_url
 Filters the url of the telemetry server that will store the site data when registering a new site.
 
 **Parameters**: _string_ `$url`
 
-**Default**: `https://telemetry-api.moderntribe.qa/api/v1/register-site`
+**Default**: `https://telemetry.example.com/api/v1/register-site`
 ### stellarwp/telemetry/register_site_data
 Filters the data that is sent to the telemetry server when registering a new site.
 
@@ -210,7 +243,6 @@ Filters the data that is sent to the telemetry server when registering a new sit
 **Default**:
 ```php
 $site_data = [
-	'user'      => json_encode( $this->get_user_details() ),
 	'telemetry' => json_encode( $this->provider->get_data() ),
 ];
 ```
@@ -224,6 +256,7 @@ Filters the user details that is sent to the telemetry server when registering a
 $user_details = [
 	'name'  => $user->display_name,
 	'email' => $user->user_email,
+	'plugin_slug' => Config::get_container()->get( Core::PLUGIN_SLUG ),
 ];
 ```
 ### stellarwp/telemetry/send_data_args
@@ -239,11 +272,18 @@ $data_args = [
 ```
 
 ### stellarwp/telemetry/send_data_url
-Filters the URL of the telemetry server used to send the site data.
+Filters the full url to use when sending data to the telemetry server.
 
 **Parameters**: _string_ `$url`
 
-**Default**: `https://telemetry-api.moderntribe.qa/api/v1/telemetry`
+**Default**: `https://telemetry.example.com/api/v1/telemetry`
+
+### stellarwp/telemetry/last_send_expire_seconds
+Filters how often the library should send site health data to the telemetry server.
+
+**Parameters**: _integer_ `$seconds`
+
+**Default**: `7 * DAY_IN_SECONDS`
 
 ### stellarwp/telemetry/exit_interview_args
 Filters the arguments used in the plugin deactivation "exit interview" form.

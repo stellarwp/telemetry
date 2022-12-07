@@ -6,11 +6,13 @@
  *
  * @package StellarWP\Telemetry
  */
+
 namespace StellarWP\Telemetry\Opt_In;
 
 use StellarWP\Telemetry\Admin\Resources;
 use StellarWP\Telemetry\Config;
 use StellarWP\Telemetry\Contracts\Template_Interface;
+use StellarWP\Telemetry\Core;
 
 /**
  * Handles all methods related to rendering the Opt-In template.
@@ -20,8 +22,26 @@ use StellarWP\Telemetry\Contracts\Template_Interface;
  * @package StellarWP\Telemetry
  */
 class Opt_In_Template implements Template_Interface {
-	protected const YES = "1";
-	protected const NO = "-1";
+	protected const YES = '1';
+	protected const NO  = '-1';
+
+	/**
+	 * The opt-in status object.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @var StellarWP\Telemetry\Opt_In\Status
+	 */
+	protected $opt_in_status;
+
+	/**
+	 * The Telemetry constructor
+	 *
+	 * @param Status $opt_in_status The opt-in status object.
+	 */
+	public function __construct( Status $opt_in_status ) {
+		$this->opt_in_status = $opt_in_status;
+	}
 
 	/**
 	 * @inheritDoc
@@ -42,25 +62,41 @@ class Opt_In_Template implements Template_Interface {
 	protected function get_args() {
 
 		$optin_args = [
-			'plugin_logo'        => Resources::get_asset_path() . 'resources/images/stellar-logo.svg',
-			'plugin_logo_width'  => 151,
-			'plugin_logo_height' => 32,
-			'plugin_logo_alt'    => 'StellarWP Logo',
-			'plugin_name'        => 'The Events Calendar',
-			'user_name'          => wp_get_current_user()->display_name,
-			'permissions_url'    => '#',
-			'tos_url'            => '#',
-			'privacy_url'        => '#',
+			'plugin_logo'           => Resources::get_asset_path() . 'resources/images/stellar-logo.svg',
+			'plugin_logo_width'     => 151,
+			'plugin_logo_height'    => 32,
+			'plugin_logo_alt'       => 'StellarWP Logo',
+			'plugin_name'           => 'StellarWP',
+			'plugin_slug'           => Config::get_container()->get( Core::PLUGIN_SLUG ),
+			'user_name'             => wp_get_current_user()->display_name,
+			'permissions_url'       => '#',
+			'tos_url'               => '#',
+			'privacy_url'           => 'https://stellarwp.com/privacy-policy/',
+			'opted_in_plugins_text' => __( 'See which plugins you have opted in to tracking for', 'stellarwp-telemetry' ),
 		];
 
-		$optin_args['heading'] = sprintf( __( 'We hope you love %s.', 'stellarwp-telemetry' ), $optin_args['plugin_name'] );
-		$optin_args['intro']   = sprintf(
+		$optin_args['opted_in_plugins'] = array_map(
+			function( $plugin ) {
+				$plugin_data = get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin . '/' . $plugin . '.php' );
+				return $plugin_data['Name'] ?? $plugin;
+			},
+			$this->opt_in_status->get_opted_in_plugins()
+		);
+
+		$optin_args['heading'] = sprintf(
+			// Translators: The plugin name.
+			__( 'We hope you love %s.', 'stellarwp-telemetry' ),
+			$optin_args['plugin_name']
+		);
+		$optin_args['intro'] = sprintf(
+			// Translators: The user name and the plugin name.
 			__(
-				'Hi, %s.! This is an invitation to help our StellarWP community.
-				If you opt-in, some data about your usage of %s and future StellarWP Products will be shared with our teams (so they can work their butts off to improve).
+				'Hi, %1$s! This is an invitation to help our StellarWP community.
+				If you opt-in, some data about your usage of %2$s and future StellarWP Products will be shared with our teams (so they can work their butts off to improve).
 				We will also share some helpful info on WordPress, and our products from time to time.
 				And if you skip this, that’s okay! Our products still work just fine.',
-			'stellarwp-telemetry' ),
+				'stellarwp-telemetry'
+			),
 			$optin_args['user_name'],
 			$optin_args['plugin_name']
 		);
@@ -91,9 +127,11 @@ class Opt_In_Template implements Template_Interface {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @return void
+	 * @return string
 	 */
-	protected function get_option_name() {
+	public function get_option_name() {
+		$plugin_slug = Config::get_container()->get( Core::PLUGIN_SLUG );
+
 		/**
 		 * Filters if the Opt-In modal should be rendered.
 		 *
@@ -101,7 +139,10 @@ class Opt_In_Template implements Template_Interface {
 		 *
 		 * @param bool $show_optin
 		 */
-		return apply_filters( 'stellarwp/telemetry/' . Config::get_hook_prefix() . 'show_optin_option_name', 'stellarwp_telemetry_show_optin' );
+		return apply_filters(
+			'stellarwp/telemetry/' . Config::get_hook_prefix() . 'show_optin_option_name',
+			'stellarwp_telemetry_' . $plugin_slug . '_show_optin'
+		);
 	}
 
 	/**
