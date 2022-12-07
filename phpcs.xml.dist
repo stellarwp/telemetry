@@ -14,5 +14,5 @@
 	<exclude-pattern>*/vendor/*</exclude-pattern>
 
 	<file>./src/Telemetry</file>
-	<file>./src/Views</file>
+	<file>./src/views</file>
 </ruleset>
