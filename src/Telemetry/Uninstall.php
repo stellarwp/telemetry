@@ -28,7 +28,7 @@ class Uninstall {
 	 * @return void
 	 */
 	public static function run( string $plugin_slug ) {
-		require_once dirname( __FILE__ ) . '/Opt_In_Status.php';
+		require_once dirname( __FILE__ ) . '/Opt_In/Status.php';
 		$opt_in_status = new Status();
 
 		if ( $opt_in_status->plugin_exists( $plugin_slug ) ) {
