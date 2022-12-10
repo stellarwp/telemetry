@@ -114,7 +114,7 @@ class Last_Send {
 	 *
 	 * @return string The timestamp of the last send.
 	 */
-	private function get_timestamp() {
+	public function get_timestamp() {
 		global $wpdb;
 
 		$result = $wpdb->get_var( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
