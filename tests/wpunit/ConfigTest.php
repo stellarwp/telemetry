@@ -15,4 +15,16 @@ class ConfigTest extends WPTestCase {
 
 		$this->assertEquals( 'some-prefix/', Config::get_hook_prefix() );
 	}
+
+	public function test_it_should_set_server_url() {
+		Config::set_server_url( 'https://www.example.com' );
+
+		$this->assertEquals( 'https://www.example.com', Config::get_server_url() );
+	}
+
+	public function test_it_should_throw_exception_without_container() {
+		$this->expectException( RuntimeException::class );
+
+		Config::get_container();
+	}
 }
