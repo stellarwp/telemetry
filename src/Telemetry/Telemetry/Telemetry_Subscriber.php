@@ -68,9 +68,9 @@ class Telemetry_Subscriber extends Abstract_Subscriber {
 		wp_remote_post(
 			$url,
 			[
-				'blocking' => false,
-				'timeout'  => 1,
-				'body'     => [
+				'blocking'  => false,
+				'sslverify' => false,
+				'body'      => [
 					'action' => Telemetry::AJAX_ACTION,
 				],
 			]
