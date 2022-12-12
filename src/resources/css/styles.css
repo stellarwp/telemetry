@@ -89,6 +89,10 @@
 	background: #0032b7;
 }
 
+.stellarwp-telemetry-btn-primary:disabled {
+	background:rgba(0, 71, 255, 0.5);
+}
+
 .stellarwp-telemetry-btn-grey {
 	background: #eee;
 	color: #000;
