@@ -18,5 +18,3 @@ modules:
             domain: "%TEST_SITE_WP_DOMAIN%"
             adminEmail: "%TEST_SITE_ADMIN_EMAIL%"
             title: "Test"
-            plugins: ['telemetry/index.php']
-            activatePlugins: ['telemetry/index.php']
