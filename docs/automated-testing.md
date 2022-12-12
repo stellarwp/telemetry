@@ -4,7 +4,7 @@ This repository uses Codeception for automated testing and is configured to use 
 
 ## Running the Tests
 
-Once Slic has been clone and is running on your machine, go to the parent directory of the telemetry library and run `slic here`. To use the telemetry library, run `slic use telemetry`.
+Once Slic is running on your machine, go to the parent directory of the telemetry library and run `slic here`. To use the telemetry library, run `slic use telemetry`.
 
 ## Run the tests
 
