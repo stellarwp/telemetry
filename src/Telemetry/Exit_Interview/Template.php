@@ -62,7 +62,7 @@ class Template implements Template_Interface {
 		return apply_filters(
 			'stellarwp/telemetry/' . Config::get_hook_prefix() . 'exit_interview_args',
 			[
-				'plugin_slug'        => $this->container->get( Core::PLUGIN_SLUG ),
+				'plugin_slug'        => Config::get_stellar_slug(),
 				'plugin_logo'        => Resources::get_asset_path() . 'resources/images/stellar-logo.svg',
 				'plugin_logo_width'  => 151,
 				'plugin_logo_height' => 32,

@@ -263,7 +263,7 @@ class Telemetry {
 			[
 				'name'        => $user->display_name,
 				'email'       => $user->user_email,
-				'plugin_slug' => Config::get_container()->get( Core::PLUGIN_SLUG ),
+				'plugin_slug' => Config::get_stellar_slug(),
 			]
 		);
 

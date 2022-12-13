@@ -67,7 +67,7 @@ class Opt_In_Template implements Template_Interface {
 			'plugin_logo_height'    => 32,
 			'plugin_logo_alt'       => 'StellarWP Logo',
 			'plugin_name'           => 'StellarWP',
-			'plugin_slug'           => Config::get_container()->get( Core::PLUGIN_SLUG ),
+			'plugin_slug'           => Config::get_stellar_slug(),
 			'user_name'             => wp_get_current_user()->display_name,
 			'permissions_url'       => '#',
 			'tos_url'               => '#',
@@ -130,8 +130,6 @@ class Opt_In_Template implements Template_Interface {
 	 * @return string
 	 */
 	public function get_option_name() {
-		$plugin_slug = Config::get_container()->get( Core::PLUGIN_SLUG );
-
 		/**
 		 * Filters if the Opt-In modal should be rendered.
 		 *
@@ -141,7 +139,7 @@ class Opt_In_Template implements Template_Interface {
 		 */
 		return apply_filters(
 			'stellarwp/telemetry/' . Config::get_hook_prefix() . 'show_optin_option_name',
-			'stellarwp_telemetry_' . $plugin_slug . '_show_optin'
+			'stellarwp_telemetry_' . Config::get_stellar_slug() . '_show_optin'
 		);
 	}
 

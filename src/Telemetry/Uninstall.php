@@ -25,18 +25,18 @@ class Uninstall {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string $plugin_slug The slug for the plugin being deleted.
+	 * @param string $stellar_slug The slug for the plugin being deleted.
 	 *
 	 * @return void
 	 */
-	public static function run( string $plugin_slug ) {
+	public static function run( string $stellar_slug ) {
 		$opt_in_status = new Status();
 
-		if ( $opt_in_status->plugin_exists( $plugin_slug ) ) {
-			$opt_in_status->remove_plugin( $plugin_slug );
+		if ( $opt_in_status->plugin_exists( $stellar_slug ) ) {
+			$opt_in_status->remove_plugin( $stellar_slug );
 		}
 
-		$optin_option_name = 'stellarwp_telemetry_' . $plugin_slug . '_show_optin';
+		$optin_option_name = 'stellarwp_telemetry_' . $stellar_slug . '_show_optin';
 
 		if ( get_option( $optin_option_name ) !== false ) {
 			delete_option( $optin_option_name );
