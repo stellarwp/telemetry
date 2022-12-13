@@ -89,8 +89,12 @@ function initialize_telemetry() {
 	// Set the full URL for the Telemetry Server API.
 	Config::set_server_url( 'https://telemetry.example.com/api/v1' );
 
+	// Set the unique slug for the integrating plugin.
+	Config::set_stellar_slug( 'stellarwp-slug' );
+
 	// Optional: Set a unique prefix for actions & filters.
 	Config::set_hook_prefix( 'my-custom-prefix' );
+
 
     // Initialize the library.
     Telemetry::instance()->init( __FILE__ );
@@ -109,7 +113,7 @@ use YOUR_STRAUSS_PREFIX\StellarWP\Telemetry\Uninstall;
 
 require_once 'vendor/strauss/autoload.php';
 
-Uninstall::run( 'your-plugin-slug' );
+Uninstall::run( '{the stellar slug}' );
 ```
 When a user deletes the plugin, WordPress runs the method from `Uninstall` and cleans up the options table. The last plugin utilizing the library will remove all options.
 
@@ -214,7 +218,7 @@ $args = [
 	'plugin_logo_height'    => 32,
 	'plugin_logo_alt'       => 'StellarWP Logo',
 	'plugin_name'           => 'The Events Calendar',
-	'plugin_slug'           => Config::get_container()->get( Core::PLUGIN_SLUG ),
+	'plugin_slug'           => Config::get_plugin_slug(),
 	'user_name'             => wp_get_current_user()->display_name,
 	'permissions_url'       => '#',
 	'tos_url'               => '#',
@@ -257,7 +261,7 @@ Filters the user details that is sent to the telemetry server when registering a
 $user_details = [
 	'name'  => $user->display_name,
 	'email' => $user->user_email,
-	'plugin_slug' => Config::get_container()->get( Core::PLUGIN_SLUG ),
+	'plugin_slug' => Config::get_stellar_slug(),
 ];
 ```
 ### stellarwp/telemetry/send_data_args
@@ -267,8 +271,9 @@ $user_details = [
 **Default**:
 ```php
 $data_args = [
-	'token'     => $this->get_token(),
-	'telemetry' => json_encode( $this->provider->get_data() ),
+	'token'         => $this->get_token(),
+	'telemetry'     => json_encode( $this->provider->get_data() ),
+	'stellar_slugs' => json_encode( $this->opt_in_status->get_opted_in_plugins() ),
 ];
 ```
 
@@ -294,7 +299,7 @@ Filters the arguments used in the plugin deactivation "exit interview" form.
 **Default**:
 ```php
 $args = [
-	'plugin_slug'        => $this->container->get( Core::PLUGIN_SLUG ),
+	'plugin_slug'        => Config::get_stellar_slug(),
 	'plugin_logo'        => plugin_dir_url( __DIR__ ) . 'public/logo.png',
 	'plugin_logo_width'  => 151,
 	'plugin_logo_height' => 32,
@@ -330,11 +335,11 @@ $args = [
 
 We collect the Site Health data as json on the server.  In order to pass additional plugin specific items that can be reported on, you will need to add a section to the Site Health Data. The process for adding a section is documented on [developer.wordpress.org](https://developer.wordpress.org/reference/hooks/debug_information/).
 
-We do have some requirements so that we can grab the correct data from Site Health. When setting the key to the plugins site health section, use the plugin slug. Do not nest your settings in a single line, use one line per option. Do not translate the debug value. This will help make sure that the data is reportable on the Telemetry Server.
+We do have some requirements so that we can grab the correct data from Site Health. When setting the key to the plugins site health section, use the stellar slug. Do not nest your settings in a single line, use one line per option. Do not translate the debug value. This will help make sure that the data is reportable on the Telemetry Server.
 
 ``` php
 function add_summary_to_telemtry( $info ) {
-	$info[ 'stellarwp' ] = [
+	$info[ '{stellar_slug}' ] = [
 			'label'       => esc_html__( 'StellarWP Plugin Section', 'text-domain' ),
 			'description' => esc_html__( 'There are some key things here... Everything should be output in key value pairs. Follow the translation instructions in the codex (do not translate debug). Plugin Slug should be the main key.', 'text-domain' ),
 			'fields'      => [
