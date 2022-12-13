@@ -327,7 +327,7 @@ class Telemetry {
 			return false;
 		}
 
-		if (! $this->status->is_active() ) {
+		if (! $this->opt_in_status->is_active() ) {
 			return false;
 		}
 
@@ -349,7 +349,7 @@ class Telemetry {
 			[
 				'token'     => $this->get_token(),
 				'telemetry' => wp_json_encode( $this->provider->get_data() ),
-				'stellar_slugs' => wp_json_encode( $this->status->get_opted_in_plugins() ),
+				'stellar_slugs' => wp_json_encode( $this->opt_in_status->get_opted_in_plugins() ),
 			]
 		);
 	}
