@@ -327,6 +327,10 @@ class Telemetry {
 			return false;
 		}
 
+		if (! $this->status->is_active() ) {
+			return false;
+		}
+
 		$response = $this->send( $this->get_send_data_args(), $this->get_send_data_url() );
 
 		return $response['status'] ?? false;
@@ -345,6 +349,7 @@ class Telemetry {
 			[
 				'token'     => $this->get_token(),
 				'telemetry' => wp_json_encode( $this->provider->get_data() ),
+				'stellar_slugs' => wp_json_encode( $this->status->get_opted_in_plugins() ),
 			]
 		);
 	}
