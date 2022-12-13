@@ -327,7 +327,7 @@ class Telemetry {
 			return false;
 		}
 
-		if (! $this->opt_in_status->is_active() ) {
+		if ( ! $this->opt_in_status->is_active() ) {
 			return false;
 		}
 
