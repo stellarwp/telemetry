@@ -11,6 +11,7 @@ namespace StellarWP\Telemetry\Exit_Interview;
 
 use StellarWP\Telemetry\Contracts\Abstract_Subscriber;
 use StellarWP\Telemetry\Core;
+use StellarWP\Telemetry\Opt_In\Status;
 use StellarWP\Telemetry\Telemetry\Telemetry;
 
 /**
@@ -32,6 +33,12 @@ class Exit_Interview_Subscriber extends Abstract_Subscriber {
 	 * @return void
 	 */
 	public function register(): void {
+
+		// If the site is not opted in, don't enqueue the Exit Interview modal.
+		if ( ! $this->container->get( Status::class )->is_active() ) {
+			return;
+		}
+
 		add_action( 'admin_footer', [ $this, 'render_exit_interview' ] );
 		add_action( 'wp_ajax_' . self::AJAX_ACTION, [ $this, 'ajax_exit_interview' ] );
 

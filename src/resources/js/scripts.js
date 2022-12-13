@@ -65,6 +65,7 @@
 			// Submit Button
 			$exitInterview.on( 'click', '[data-js="submit-telemetry"]', function ( e ) {
 				e.preventDefault();
+				this.disabled = true;
 
 				let $form = $('[data-js="exit-interview-form"]');
 
