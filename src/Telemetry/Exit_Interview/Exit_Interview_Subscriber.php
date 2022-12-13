@@ -11,6 +11,7 @@ namespace StellarWP\Telemetry\Exit_Interview;
 
 use StellarWP\Telemetry\Contracts\Abstract_Subscriber;
 use StellarWP\Telemetry\Config;
+use StellarWP\Telemetry\Core;
 use StellarWP\Telemetry\Telemetry\Telemetry;
 
 /**
