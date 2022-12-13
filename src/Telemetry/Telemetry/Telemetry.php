@@ -347,8 +347,8 @@ class Telemetry {
 		return apply_filters(
 			'stellarwp/telemetry/' . Config::get_hook_prefix() . 'send_data_args',
 			[
-				'token'     => $this->get_token(),
-				'telemetry' => wp_json_encode( $this->provider->get_data() ),
+				'token'         => $this->get_token(),
+				'telemetry'     => wp_json_encode( $this->provider->get_data() ),
 				'stellar_slugs' => wp_json_encode( $this->opt_in_status->get_opted_in_plugins() ),
 			]
 		);
