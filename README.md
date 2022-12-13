@@ -113,7 +113,7 @@ use YOUR_STRAUSS_PREFIX\StellarWP\Telemetry\Uninstall;
 
 require_once 'vendor/strauss/autoload.php';
 
-Uninstall::run( '{the stellar slug}' );
+Uninstall::run( '{stellarwp-slug}' );
 ```
 When a user deletes the plugin, WordPress runs the method from `Uninstall` and cleans up the options table. The last plugin utilizing the library will remove all options.
 
@@ -233,7 +233,7 @@ Filters the string used for the option that determines whether the opt-in modal 
 
 **Parameters**: _string_ `$option_name`
 
-**Default**: `stellarwp_telemetry_{plugin_slug}_show_optin`
+**Default**: `stellarwp_telemetry_{stellarwp-slug}_show_optin`
 ### stellarwp/telemetry/register_site_url
 Filters the url of the telemetry server that will store the site data when registering a new site.
 
@@ -259,8 +259,8 @@ Filters the user details that is sent to the telemetry server when registering a
 **Default**:
 ```php
 $user_details = [
-	'name'  => $user->display_name,
-	'email' => $user->user_email,
+	'name'        => $user->display_name,
+	'email'       => $user->user_email,
 	'plugin_slug' => Config::get_stellar_slug(),
 ];
 ```
@@ -339,7 +339,7 @@ We do have some requirements so that we can grab the correct data from Site Heal
 
 ``` php
 function add_summary_to_telemtry( $info ) {
-	$info[ '{stellar_slug}' ] = [
+	$info[ '{stellarwp-slug}' ] = [
 			'label'       => esc_html__( 'StellarWP Plugin Section', 'text-domain' ),
 			'description' => esc_html__( 'There are some key things here... Everything should be output in key value pairs. Follow the translation instructions in the codex (do not translate debug). Plugin Slug should be the main key.', 'text-domain' ),
 			'fields'      => [
