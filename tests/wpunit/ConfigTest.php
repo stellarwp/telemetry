@@ -27,4 +27,10 @@ class ConfigTest extends WPTestCase {
 
 		Config::get_container();
 	}
+
+	public function test_it_should_set_stellar_slug() {
+		Config::set_stellar_slug( 'unique_slug' );
+
+		$this->assertEquals( 'unique_slug', Config::get_stellar_slug() );
+	}
 }

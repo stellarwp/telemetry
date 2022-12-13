@@ -10,6 +10,7 @@
 namespace StellarWP\Telemetry\Exit_Interview;
 
 use StellarWP\Telemetry\Contracts\Abstract_Subscriber;
+use StellarWP\Telemetry\Config;
 use StellarWP\Telemetry\Core;
 use StellarWP\Telemetry\Opt_In\Status;
 use StellarWP\Telemetry\Telemetry\Telemetry;
@@ -131,7 +132,7 @@ class Exit_Interview_Subscriber extends Abstract_Subscriber {
 		}
 
 		if ( ! empty( $deactivate_link ) ) {
-			$deactivate_link .= '<i class="telemetry-plugin-slug" data-plugin-slug="' . $this->container->get( Core::PLUGIN_SLUG ) . '"></i>';
+			$deactivate_link .= '<i class="telemetry-plugin-slug" data-plugin-slug="' . Config::get_stellar_slug() . '"></i>';
 
 			// Append deactivation link.
 			$before_deactivate['deactivate'] = $deactivate_link;

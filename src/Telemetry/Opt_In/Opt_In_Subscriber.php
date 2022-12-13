@@ -95,7 +95,7 @@ class Opt_In_Subscriber extends Abstract_Subscriber {
 	 * @return void
 	 */
 	public function initialize_optin_option() {
-		$plugin_slug     = $this->container->get( Core::PLUGIN_SLUG );
+		$plugin_slug     = Config::get_stellar_slug();
 		$opt_in_template = $this->container->get( Opt_In_Template::class );
 		$opt_in_status   = $this->container->get( Status::class );
 

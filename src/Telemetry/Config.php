@@ -39,6 +39,15 @@ class Config {
 	protected static $hook_prefix = '';
 
 	/**
+	 * Unique ID for the stellarwp slug.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @var string
+	 */
+	protected static $stellar_slug = '';
+
+	/**
 	 * The url of the telemetry server.
 	 *
 	 * @since 1.0.0
@@ -87,6 +96,17 @@ class Config {
 	}
 
 	/**
+	 * Gets the stellar slug server url.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return string
+	 */
+	public static function get_stellar_slug() {
+		return static::$stellar_slug;
+	}
+
+	/**
 	 * Returns whether the container has been set.
 	 *
 	 * @since 1.0.0
@@ -105,8 +125,9 @@ class Config {
 	 * @return void
 	 */
 	public static function reset() {
-		static::$hook_prefix = '';
-		static::$server_url  = 'https://telemetry.stellarwp.com/api/v1';
+		static::$hook_prefix  = '';
+		static::$server_url   = 'https://telemetry.stellarwp.com/api/v1';
+		static::$stellar_slug = '';
 	}
 
 	/**
@@ -138,6 +159,20 @@ class Config {
 		}
 
 		static::$hook_prefix = $prefix;
+	}
+
+
+	/**
+	 * Sets the stellar slug.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $stellar_slug The unique slug to identify the plugin with the server.
+	 *
+	 * @return void
+	 */
+	public static function set_stellar_slug( string $stellar_slug ) {
+		static::$stellar_slug = $stellar_slug;
 	}
 
 	/**

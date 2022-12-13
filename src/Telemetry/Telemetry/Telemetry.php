@@ -263,7 +263,7 @@ class Telemetry {
 			[
 				'name'        => $user->display_name,
 				'email'       => $user->user_email,
-				'plugin_slug' => Config::get_container()->get( Core::PLUGIN_SLUG ),
+				'plugin_slug' => Config::get_stellar_slug(),
 			]
 		);
 
@@ -327,6 +327,10 @@ class Telemetry {
 			return false;
 		}
 
+		if ( ! $this->opt_in_status->is_active() ) {
+			return false;
+		}
+
 		$response = $this->send( $this->get_send_data_args(), $this->get_send_data_url() );
 
 		return $response['status'] ?? false;
@@ -343,8 +347,9 @@ class Telemetry {
 		return apply_filters(
 			'stellarwp/telemetry/' . Config::get_hook_prefix() . 'send_data_args',
 			[
-				'token'     => $this->get_token(),
-				'telemetry' => wp_json_encode( $this->provider->get_data() ),
+				'token'         => $this->get_token(),
+				'telemetry'     => wp_json_encode( $this->provider->get_data() ),
+				'stellar_slugs' => wp_json_encode( $this->opt_in_status->get_opted_in_plugins() ),
 			]
 		);
 	}
