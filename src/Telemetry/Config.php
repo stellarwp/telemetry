@@ -172,11 +172,6 @@ class Config {
 	 * @return void
 	 */
 	public static function set_stellar_slug( string $stellar_slug ) {
-		// Make sure the prefix always ends with a separator.
-		if ( substr( $stellar_slug, -1 ) !== '/' ) {
-			$stellar_slug = $stellar_slug . '/';
-		}
-
 		static::$stellar_slug = $stellar_slug;
 	}
 
