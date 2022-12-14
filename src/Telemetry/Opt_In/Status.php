@@ -137,16 +137,18 @@ class Status {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string  $plugin_slug The slug to add to the option.
-	 * @param boolean $status      The opt-in status for the plugin slug.
+	 * @param string  $stellar_slug The unique slug identifier for the plugin.
+	 * @param string  $plugin_slug  The standard plugin slug for the plugin.
+	 * @param boolean $status       The opt-in status for the plugin.
 	 *
 	 * @return boolean
 	 */
-	public function add_plugin( string $plugin_slug, bool $status = false ) {
+	public function add_plugin( string $stellar_slug, string $plugin_slug, bool $status = false ) {
 		$option = $this->get_option();
 
-		$option[ $plugin_slug ] = [
-			'optin' => $status,
+		$option['plugins'][ $stellar_slug ] = [
+			'wp_slug' => $plugin_slug,
+			'optin'   => $status,
 		];
 
 		return update_option( $this->get_option_name(), $option );
