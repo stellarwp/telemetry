@@ -125,9 +125,10 @@ class Status {
 	 * @return boolean
 	 */
 	public function plugin_exists( string $stellar_slug ) {
-		$option = $this->get_option();
+		$option  = $this->get_option();
+		$plugins = $option['plugins'] ?? [];
 
-		return array_key_exists( $stellar_slug, $option['plugins'] );
+		return array_key_exists( $stellar_slug, $plugins );
 	}
 
 	/**
