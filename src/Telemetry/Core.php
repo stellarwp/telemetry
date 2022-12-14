@@ -33,6 +33,7 @@ use StellarWP\Telemetry\Telemetry\Telemetry_Subscriber;
 class Core {
 	public const PLUGIN_SLUG     = 'plugin.slug';
 	public const PLUGIN_BASENAME = 'plugin.basename';
+	public const PLUGIN_DATA     = 'plugin.data';
 
 	/**
 	 * The subscriber class names that should be registered in the container.
@@ -126,6 +127,7 @@ class Core {
 
 		$container->bind( self::PLUGIN_SLUG, dirname( plugin_basename( $plugin_path ) ) );
 		$container->bind( self::PLUGIN_BASENAME, plugin_basename( $plugin_path ) );
+		$container->bind( self::PLUGIN_DATA, get_plugin_data( $plugin_path ) );
 		$container->bind( Data_Provider::class, Debug_Data::class );
 		$container->bind(
 			Opt_In_Template::class,
