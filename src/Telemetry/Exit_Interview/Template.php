@@ -60,7 +60,7 @@ class Template implements Template_Interface {
 		 * @param array $args The arguments used to configure the modal.
 		 */
 		return apply_filters(
-			'stellarwp/telemetry/' . Config::get_hook_prefix() . 'exit_interview_args',
+			'stellarwp/telemetry/' . Config::get_stellar_slug() . '/exit_interview_args',
 			[
 				'plugin_slug'        => Config::get_stellar_slug(),
 				'plugin_logo'        => Resources::get_asset_path() . 'resources/images/stellar-logo.svg',
