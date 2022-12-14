@@ -69,13 +69,10 @@ class Status {
 		$status = self::STATUS_ACTIVE;
 		$option = $this->get_option();
 
-		foreach ( $option as $plugin_slug => $plugin ) {
-			if ( 'token' === $plugin_slug ) {
-				continue;
-			}
+		foreach ( $option['plugins'] as $plugin ) {
 
 			// If a plugin's status is false, we set the status as inactive.
-			if ( false === $plugin['optin'] ) {
+			if ( false === (bool) $plugin['optin'] ) {
 				$status = self::STATUS_INACTIVE;
 				continue;
 			}
@@ -122,14 +119,14 @@ class Status {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string $plugin_slug The plugin's slug.
+	 * @param string $stellar_slug The plugin's unique slug.
 	 *
 	 * @return boolean
 	 */
-	public function plugin_exists( string $plugin_slug ) {
+	public function plugin_exists( string $stellar_slug ) {
 		$option = $this->get_option();
 
-		return array_key_exists( $plugin_slug, $option );
+		return array_key_exists( $stellar_slug, $option['plugins'] );
 	}
 
 	/**
@@ -159,19 +156,19 @@ class Status {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string $plugin_slug The slug to remove from the option.
+	 * @param string $stellar_slug The slug to remove from the option.
 	 *
 	 * @return boolean
 	 */
-	public function remove_plugin( string $plugin_slug ) {
+	public function remove_plugin( string $stellar_slug ) {
 		$option = $this->get_option();
 
 		// Bail early if the slug does not exist in the option.
-		if ( ! isset( $option[ $plugin_slug ] ) ) {
+		if ( ! isset( $option['plugins'][ $stellar_slug ] ) ) {
 			return false;
 		}
 
-		unset( $option[ $plugin_slug ] );
+		unset( $option['plugins'][ $stellar_slug ] );
 
 		return update_option( $this->get_option_name(), $option );
 	}
@@ -187,13 +184,10 @@ class Status {
 		$option           = $this->get_option();
 		$opted_in_plugins = [];
 
-		foreach ( $option as $plugin_slug => $plugin ) {
-			if ( 'token' === $plugin_slug ) {
-				continue;
-			}
+		foreach ( $option['plugins'] as $stellar_slug => $plugin ) {
 
 			if ( true === $plugin['optin'] ) {
-				$opted_in_plugins[] = $plugin_slug;
+				$opted_in_plugins[] = $stellar_slug;
 			}
 		}
 
@@ -212,13 +206,7 @@ class Status {
 	public function set_status( bool $status ) {
 		$option = $this->get_option();
 
-		foreach ( $option as $plugin_slug => &$plugin ) {
-			if ( 'token' === $plugin_slug ) {
-				continue;
-			}
-
-			$plugin['optin'] = $status;
-		}
+		$option['plugins'][ Config::get_stellar_slug() ]['optin'] = $status;
 
 		return update_option( $this->get_option_name(), $option );
 	}
