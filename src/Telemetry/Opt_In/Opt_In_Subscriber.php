@@ -101,7 +101,7 @@ class Opt_In_Subscriber extends Abstract_Subscriber {
 		$opt_in_status   = $this->container->get( Status::class );
 
 		// Check if plugin slug exists within array.
-		if ( ! $opt_in_status->plugin_exists( $plugin_slug ) ) {
+		if ( ! $opt_in_status->plugin_exists( $stellar_slug ) ) {
 			$opt_in_status->add_plugin( $stellar_slug, $plugin_slug );
 
 			update_option( $opt_in_template->get_option_name(), '1' );
