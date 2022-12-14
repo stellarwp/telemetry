@@ -144,7 +144,7 @@ class Status {
 	 */
 	public function add_plugin( string $stellar_slug, string $plugin_slug, bool $status = false ) {
 		$option         = $this->get_option();
-		$plugin_version = Config::get_container()->get( Core::PLUGIN_DATA )['Version'];
+		$plugin_version = get_plugin_data( Config::get_container()->get( Core::PLUGIN_FILE ) )['Version'];
 
 		$option['plugins'][ $stellar_slug ] = [
 			'wp_slug' => $plugin_slug,
