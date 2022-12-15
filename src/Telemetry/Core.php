@@ -31,7 +31,6 @@ use StellarWP\Telemetry\Telemetry\Telemetry_Subscriber;
  * @package StellarWP\Telemetry
  */
 class Core {
-	public const PLUGIN_SLUG     = 'plugin.slug';
 	public const PLUGIN_BASENAME = 'plugin.basename';
 	public const PLUGIN_FILE     = 'plugin.file';
 
@@ -125,7 +124,6 @@ class Core {
 	private function init_container( string $plugin_path ): void {
 		$container = Config::get_container();
 
-		$container->bind( self::PLUGIN_SLUG, dirname( plugin_basename( $plugin_path ) ) );
 		$container->bind( self::PLUGIN_BASENAME, plugin_basename( $plugin_path ) );
 		$container->bind( self::PLUGIN_FILE, $plugin_path );
 		$container->bind( Data_Provider::class, Debug_Data::class );
