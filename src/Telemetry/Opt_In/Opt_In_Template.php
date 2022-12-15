@@ -172,16 +172,9 @@ class Opt_In_Template implements Template_Interface {
 		$option           = Config::get_container()->get( Status::class )->get_option();
 		$opted_in_plugins = [];
 
-		foreach ( $option['plugins'] as $stellar_slug => $plugin ) {
-			$plugin_path = sprintf(
-				'1%$s/2%$s/2%$s.php',
-				WP_PLUGIN_DIR,
-				$plugin['wp_slug']
-			);
-
+		foreach ( $option['plugins'] as $plugin ) {
 			if ( true === $plugin['optin'] ) {
-				$plugin_name        = get_plugin_data( $plugin_path )['Name'];
-				$opted_in_plugins[] = $plugin_name;
+				$opted_in_plugins[] = $plugin['name'];
 			}
 		}
 

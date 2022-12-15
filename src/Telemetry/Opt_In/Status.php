@@ -143,12 +143,13 @@ class Status {
 	 * @return boolean
 	 */
 	public function add_plugin( string $stellar_slug, string $plugin_slug, bool $status = false ) {
-		$option         = $this->get_option();
-		$plugin_version = get_plugin_data( Config::get_container()->get( Core::PLUGIN_FILE ) )['Version'];
+		$option      = $this->get_option();
+		$plugin_data = get_plugin_data( Config::get_container()->get( Core::PLUGIN_FILE ) );
 
 		$option['plugins'][ $stellar_slug ] = [
+			'name'    => $plugin_data['Name'],
 			'wp_slug' => $plugin_slug,
-			'version' => $plugin_version,
+			'version' => $plugin_data['Version'],
 			'optin'   => $status,
 		];
 
