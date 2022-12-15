@@ -191,7 +191,7 @@ class Status {
 			if ( true === $plugin['optin'] ) {
 				$opted_in_plugins[] = [
 					'slug'    => $stellar_slug,
-					'version' => $plugin_data['version'],
+					'version' => $plugin_data['Version'],
 				];
 			}
 		}
