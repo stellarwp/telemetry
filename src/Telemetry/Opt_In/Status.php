@@ -10,6 +10,7 @@
 namespace StellarWP\Telemetry\Opt_In;
 
 use StellarWP\Telemetry\Config;
+use StellarWP\Telemetry\Core;
 
 /**
  * Class for handling the Opt-in status for the site.
@@ -69,13 +70,10 @@ class Status {
 		$status = self::STATUS_ACTIVE;
 		$option = $this->get_option();
 
-		foreach ( $option as $plugin_slug => $plugin ) {
-			if ( 'token' === $plugin_slug ) {
-				continue;
-			}
+		foreach ( $option['plugins'] as $plugin ) {
 
 			// If a plugin's status is false, we set the status as inactive.
-			if ( false === $plugin['optin'] ) {
+			if ( false === (bool) $plugin['optin'] ) {
 				$status = self::STATUS_INACTIVE;
 				continue;
 			}
@@ -122,14 +120,15 @@ class Status {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string $plugin_slug The plugin's slug.
+	 * @param string $stellar_slug The plugin's unique slug.
 	 *
 	 * @return boolean
 	 */
-	public function plugin_exists( string $plugin_slug ) {
-		$option = $this->get_option();
+	public function plugin_exists( string $stellar_slug ) {
+		$option  = $this->get_option();
+		$plugins = $option['plugins'] ?? [];
 
-		return array_key_exists( $plugin_slug, $option );
+		return array_key_exists( $stellar_slug, $plugins );
 	}
 
 	/**
@@ -137,16 +136,17 @@ class Status {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string  $plugin_slug The slug to add to the option.
-	 * @param boolean $status      The opt-in status for the plugin slug.
+	 * @param string  $stellar_slug The unique slug identifier for the plugin.
+	 * @param boolean $status       The opt-in status for the plugin.
 	 *
 	 * @return boolean
 	 */
-	public function add_plugin( string $plugin_slug, bool $status = false ) {
+	public function add_plugin( string $stellar_slug, bool $status = false ) {
 		$option = $this->get_option();
 
-		$option[ $plugin_slug ] = [
-			'optin' => $status,
+		$option['plugins'][ $stellar_slug ] = [
+			'wp_slug' => Config::get_container()->get( Core::PLUGIN_BASENAME ),
+			'optin'   => $status,
 		];
 
 		return update_option( $this->get_option_name(), $option );
@@ -157,19 +157,19 @@ class Status {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string $plugin_slug The slug to remove from the option.
+	 * @param string $stellar_slug The slug to remove from the option.
 	 *
 	 * @return boolean
 	 */
-	public function remove_plugin( string $plugin_slug ) {
+	public function remove_plugin( string $stellar_slug ) {
 		$option = $this->get_option();
 
 		// Bail early if the slug does not exist in the option.
-		if ( ! isset( $option[ $plugin_slug ] ) ) {
+		if ( ! isset( $option['plugins'][ $stellar_slug ] ) ) {
 			return false;
 		}
 
-		unset( $option[ $plugin_slug ] );
+		unset( $option['plugins'][ $stellar_slug ] );
 
 		return update_option( $this->get_option_name(), $option );
 	}
@@ -185,13 +185,14 @@ class Status {
 		$option           = $this->get_option();
 		$opted_in_plugins = [];
 
-		foreach ( $option as $plugin_slug => $plugin ) {
-			if ( 'token' === $plugin_slug ) {
-				continue;
-			}
+		foreach ( $option['plugins'] as $stellar_slug => $plugin ) {
+			$plugin_data = get_plugin_data( trailingslashit( WP_PLUGIN_DIR ) . $plugin['wp_slug'] );
 
 			if ( true === $plugin['optin'] ) {
-				$opted_in_plugins[] = $plugin_slug;
+				$opted_in_plugins[] = [
+					'slug'    => $stellar_slug,
+					'version' => $plugin_data['Version'],
+				];
 			}
 		}
 
@@ -210,13 +211,7 @@ class Status {
 	public function set_status( bool $status ) {
 		$option = $this->get_option();
 
-		foreach ( $option as $plugin_slug => &$plugin ) {
-			if ( 'token' === $plugin_slug ) {
-				continue;
-			}
-
-			$plugin['optin'] = $status;
-		}
+		$option['plugins'][ Config::get_stellar_slug() ]['optin'] = $status;
 
 		return update_option( $this->get_option_name(), $option );
 	}

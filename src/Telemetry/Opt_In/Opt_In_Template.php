@@ -75,13 +75,7 @@ class Opt_In_Template implements Template_Interface {
 			'opted_in_plugins_text' => __( 'See which plugins you have opted in to tracking for', 'stellarwp-telemetry' ),
 		];
 
-		$optin_args['opted_in_plugins'] = array_map(
-			function( $plugin ) {
-				$plugin_data = get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin . '/' . $plugin . '.php' );
-				return $plugin_data['Name'] ?? $plugin;
-			},
-			$this->opt_in_status->get_opted_in_plugins()
-		);
+		$optin_args['opted_in_plugins'] = $this->get_opted_in_plugin_names();
 
 		$optin_args['heading'] = sprintf(
 			// Translators: The plugin name.
@@ -165,5 +159,26 @@ class Opt_In_Template implements Template_Interface {
 		if ( $this->should_render() ) {
 			$this->render();
 		}
+	}
+
+	/**
+	 * Gets an array of opted-in plugin names.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return string[]
+	 */
+	public function get_opted_in_plugin_names() {
+		$option           = Config::get_container()->get( Status::class )->get_option();
+		$opted_in_plugins = [];
+
+		foreach ( $option['plugins'] as $plugin ) {
+			$plugin_data = get_plugin_data( trailingslashit( WP_PLUGIN_DIR ) . $plugin['wp_slug'] );
+			if ( true === $plugin['optin'] ) {
+				$opted_in_plugins[] = $plugin_data['Name'];
+			}
+		}
+
+		return $opted_in_plugins;
 	}
 }
