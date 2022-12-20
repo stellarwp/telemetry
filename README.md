@@ -64,7 +64,7 @@ To actually _use_ the telemetry library, you must have a Dependency Injection Co
 In order to keep this library as light as possible, a container is not included in the library itself. To avoid version compatibility issues, it is also not included as a Composer dependency. Instead, you must include it in your project. We recommend including it via composer [using Strauss](https://github.com/stellarwp/global-docs/blob/main/docs/strauss-setup.md), just like you have done with this library.
 
 ## Integration
-Initialize the library within your main plugin file after plugins are loaded (or anywhere else you see fit). Optionally, you can configure a unique prefix (we suggest you use your plugin slug) so that hooks can be uniquely called for your specific instance of the library.
+Initialize the library within your main plugin file after plugins are loaded (or anywhere else you see fit). You can configure a unique prefix (we suggest you use your plugin slug) so that hooks can be uniquely called for your specific instance of the library.
 
 ```php
 use StellarWP\Telemetry\Core as Telemetry;
@@ -100,6 +100,8 @@ function initialize_telemetry() {
 ```
 
 Using a custom hook prefix provides the ability to uniquely filter functionality of your plugin's specific instance of the library.
+
+The unique plugin slug is used by the telemetry server to identify the plugin regardless of the plugin's directory structure or slug.
 
 ## Uninstall Hook
 
