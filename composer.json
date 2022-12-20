@@ -3,7 +3,10 @@
   "description": "Telemetry library for StellarWP plugins.",
   "type": "library",
   "config": {
-    "sort-packages": true
+    "sort-packages": true,
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true
+    }
   },
   "autoload": {
     "psr-4": {
@@ -34,6 +37,7 @@
     "dealerdirect/phpcodesniffer-composer-installer": "^0.7.2",
     "lucatume/di52": "3.0.0",
     "lucatume/wp-browser": "^3.1",
+    "szepeviktor/phpstan-wordpress": "^1.1",
     "the-events-calendar/coding-standards": "dev-master",
     "wp-coding-standards/wpcs": "^2.3"
   },
@@ -44,5 +48,13 @@
       "url": "https://github.com/the-events-calendar/coding-standards",
       "no-api": true
     }
-  ]
+  ],
+  "scripts": {
+    "test:analysis": [
+      "phpstan analyse -c phpstan.neon.dist --memory-limit=512M"
+    ]
+  },
+  "scripts-descriptions": {
+    "test:analysis": "Run static code analysis."
+  }
 }
