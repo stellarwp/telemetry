@@ -51,7 +51,7 @@
   ],
   "scripts": {
     "test:analysis": [
-      "phpstan analyse -c phpstan.neon.dist --memory-limit=512M"
+      "phpstan analyse --memory-limit=512M"
     ]
   },
   "scripts-descriptions": {
