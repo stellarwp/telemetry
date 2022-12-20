@@ -4,24 +4,24 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "15f538732047d5302d3276580c5df41a",
+    "content-hash": "f7d80b5b39bdbcb061e0ced4e4722669",
     "packages": [
         {
             "name": "stellarwp/container-contract",
-            "version": "1.0.3",
+            "version": "1.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stellarwp/container-contract.git",
-                "reference": "65262f5b98538b56f0d20269b0deb55f5d366e3a"
+                "reference": "37becc9edbecb0ff95556048337600dd9cc888f0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stellarwp/container-contract/zipball/65262f5b98538b56f0d20269b0deb55f5d366e3a",
-                "reference": "65262f5b98538b56f0d20269b0deb55f5d366e3a",
+                "url": "https://api.github.com/repos/stellarwp/container-contract/zipball/37becc9edbecb0ff95556048337600dd9cc888f0",
+                "reference": "37becc9edbecb0ff95556048337600dd9cc888f0",
                 "shasum": ""
             },
             "require": {
-                "php": ">=7.4.0"
+                "php": ">=7.0.0"
             },
             "type": "library",
             "autoload": {
@@ -49,9 +49,9 @@
             ],
             "support": {
                 "issues": "https://github.com/stellarwp/container-contract/issues",
-                "source": "https://github.com/stellarwp/container-contract/tree/1.0.3"
+                "source": "https://github.com/stellarwp/container-contract/tree/1.0.4"
             },
-            "time": "2022-09-23T02:59:52+00:00"
+            "time": "2022-12-20T21:29:17+00:00"
         }
     ],
     "packages-dev": [
