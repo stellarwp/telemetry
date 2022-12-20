@@ -38,7 +38,7 @@ class Status {
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param bool $option_name
+		 * @param string $option_name
 		 */
 		return apply_filters( 'stellarwp/telemetry/' . Config::get_hook_prefix() . 'option_name', self::OPTION_NAME );
 	}
@@ -179,14 +179,15 @@ class Status {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @return string[]
+	 * @return array<int, array<string, string>>
 	 */
 	public function get_opted_in_plugins() {
 		$option           = $this->get_option();
+		$site_plugins_dir = plugin_dir_path( Config::get_container()->get( Core::PLUGIN_FILE ) );
 		$opted_in_plugins = [];
 
 		foreach ( $option['plugins'] as $stellar_slug => $plugin ) {
-			$plugin_data = get_plugin_data( trailingslashit( WP_PLUGIN_DIR ) . $plugin['wp_slug'] );
+			$plugin_data = get_plugin_data( trailingslashit( $site_plugins_dir ) . $plugin['wp_slug'] );
 
 			if ( true === $plugin['optin'] ) {
 				$opted_in_plugins[] = [
@@ -224,6 +225,8 @@ class Status {
 	 * @return string
 	 */
 	public function get_status() {
+		$optin_label = '';
+
 		switch ( $this->get() ) {
 			case self::STATUS_ACTIVE:
 				$optin_label = __( 'Active', 'stellarwp-telemetry-starter' );
