@@ -183,7 +183,7 @@ class Status {
 	 */
 	public function get_opted_in_plugins() {
 		$option           = $this->get_option();
-		$site_plugins_dir = plugin_dir_path( Config::get_container()->get( Core::PLUGIN_FILE ) );
+		$site_plugins_dir = Config::get_container()->get( Core::SITE_PLUGIN_DIR );
 		$opted_in_plugins = [];
 
 		foreach ( $option['plugins'] as $stellar_slug => $plugin ) {

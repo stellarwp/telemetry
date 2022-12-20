@@ -170,7 +170,7 @@ class Opt_In_Template implements Template_Interface {
 	 */
 	public function get_opted_in_plugin_names() {
 		$option           = Config::get_container()->get( Status::class )->get_option();
-		$site_plugins_dir = plugin_dir_path( Config::get_container()->get( Core::PLUGIN_FILE ) );
+		$site_plugins_dir = Config::get_container()->get( Core::SITE_PLUGIN_DIR );
 		$opted_in_plugins = [];
 
 		foreach ( $option['plugins'] as $plugin ) {
