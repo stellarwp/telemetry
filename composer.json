@@ -3,7 +3,10 @@
   "description": "Telemetry library for StellarWP plugins.",
   "type": "library",
   "config": {
-    "sort-packages": true
+    "sort-packages": true,
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true
+    }
   },
   "autoload": {
     "psr-4": {
@@ -34,6 +37,7 @@
     "dealerdirect/phpcodesniffer-composer-installer": "^0.7.2",
     "lucatume/di52": "3.0.0",
     "lucatume/wp-browser": "^3.1",
+    "phpcompatibility/phpcompatibility-wp": "*",
     "the-events-calendar/coding-standards": "dev-master",
     "wp-coding-standards/wpcs": "^2.3"
   },
@@ -44,5 +48,25 @@
       "url": "https://github.com/the-events-calendar/coding-standards",
       "no-api": true
     }
-  ]
+  ],
+  "scripts": {
+    "compatibility:php-7.0": "phpcs ./src -s --standard=PHPCompatibilityWP --runtime-set testVersion 7.0",
+    "compatibility:php-7.1": "phpcs ./src -s --standard=PHPCompatibilityWP --runtime-set testVersion 7.1",
+    "compatibility:php-7.2": "phpcs ./src -s --standard=PHPCompatibilityWP --runtime-set testVersion 7.2",
+    "compatibility:php-7.3": "phpcs ./src -s --standard=PHPCompatibilityWP --runtime-set testVersion 7.3",
+    "compatibility:php-7.4": "phpcs ./src -s --standard=PHPCompatibilityWP --runtime-set testVersion 7.4",
+    "compatibility:php-8.0": "phpcs ./src -s --standard=PHPCompatibilityWP --runtime-set testVersion 8.0",
+    "compatibility:php-8.1": "phpcs ./src -s --standard=PHPCompatibilityWP --runtime-set testVersion 8.1",
+    "compatibility:php-8.2": "phpcs ./src -s --standard=PHPCompatibilityWP --runtime-set testVersion 8.2",
+    "compatibility": [
+      "@compatibility:php-7.0",
+      "@compatibility:php-7.1",
+      "@compatibility:php-7.2",
+      "@compatibility:php-7.3",
+      "@compatibility:php-7.4",
+      "@compatibility:php-8.0",
+      "@compatibility:php-8.1",
+      "@compatibility:php-8.2"
+    ]
+  }
 }
