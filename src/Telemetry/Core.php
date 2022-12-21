@@ -33,6 +33,7 @@ use StellarWP\Telemetry\Telemetry\Telemetry_Subscriber;
 class Core {
 	const PLUGIN_BASENAME = 'plugin.basename';
 	const PLUGIN_FILE     = 'plugin.file';
+	const SITE_PLUGIN_DIR = 'site.plugin_dir';
 
 	/**
 	 * The subscriber class names that should be registered in the container.
@@ -65,7 +66,7 @@ class Core {
 	 *
 	 * @var self
 	 */
-	private static $instance;
+	private static $instance = null;
 
 	/**
 	 * Returns the current instance or creates one to return.
@@ -75,7 +76,7 @@ class Core {
 	 * @return self
 	 */
 	public static function instance() {
-		if ( ! isset( self::$instance ) ) {
+		if ( null === self::$instance ) {
 			self::$instance = new self();
 		}
 
@@ -126,6 +127,7 @@ class Core {
 
 		$container->bind( self::PLUGIN_BASENAME, plugin_basename( $plugin_path ) );
 		$container->bind( self::PLUGIN_FILE, $plugin_path );
+		$container->bind( self::SITE_PLUGIN_DIR, dirname( plugin_dir_path( $plugin_path ) ) );
 		$container->bind( Data_Provider::class, Debug_Data::class );
 		$container->bind(
 			Opt_In_Template::class,

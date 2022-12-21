@@ -30,7 +30,7 @@ class Opt_In_Template implements Template_Interface {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @var StellarWP\Telemetry\Opt_In\Status
+	 * @var Status
 	 */
 	protected $opt_in_status;
 
@@ -125,11 +125,11 @@ class Opt_In_Template implements Template_Interface {
 	 */
 	public function get_option_name() {
 		/**
-		 * Filters if the Opt-In modal should be rendered.
+		 * Filters the name of the option stored in the options table.
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param bool $show_optin
+		 * @param string $show_optin_option_name
 		 */
 		return apply_filters(
 			'stellarwp/telemetry/' . Config::get_hook_prefix() . 'show_optin_option_name',
@@ -170,10 +170,11 @@ class Opt_In_Template implements Template_Interface {
 	 */
 	public function get_opted_in_plugin_names() {
 		$option           = Config::get_container()->get( Status::class )->get_option();
+		$site_plugins_dir = Config::get_container()->get( Core::SITE_PLUGIN_DIR );
 		$opted_in_plugins = [];
 
 		foreach ( $option['plugins'] as $plugin ) {
-			$plugin_data = get_plugin_data( trailingslashit( WP_PLUGIN_DIR ) . $plugin['wp_slug'] );
+			$plugin_data = get_plugin_data( trailingslashit( $site_plugins_dir ) . $plugin['wp_slug'] );
 			if ( true === $plugin['optin'] ) {
 				$opted_in_plugins[] = $plugin_data['Name'];
 			}

@@ -175,7 +175,7 @@ class Telemetry {
 		$data = json_decode( $body, true );
 
 		// If status is false, return null.
-		if ( false === $data['status'] ?? false ) {
+		if ( false === ( $data['status'] ?? false ) ) {
 			return null;
 		}
 
