@@ -66,7 +66,7 @@ class Core {
 	 *
 	 * @var self
 	 */
-	private static $instance;
+	private static $instance = null;
 
 	/**
 	 * Returns the current instance or creates one to return.
@@ -76,7 +76,7 @@ class Core {
 	 * @return self
 	 */
 	public static function instance() {
-		if ( ! isset( self::$instance ) ) {
+		if ( null === self::$instance ) {
 			self::$instance = new self();
 		}
 
