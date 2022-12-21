@@ -32,7 +32,7 @@ class Opt_In_Template implements Template_Interface {
 	 *
 	 * @var Status
 	 */
-	protected Status $opt_in_status;
+	protected $opt_in_status;
 
 	/**
 	 * The Telemetry constructor
