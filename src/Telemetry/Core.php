@@ -31,9 +31,9 @@ use StellarWP\Telemetry\Telemetry\Telemetry_Subscriber;
  * @package StellarWP\Telemetry
  */
 class Core {
-	public const PLUGIN_BASENAME = 'plugin.basename';
-	public const PLUGIN_FILE     = 'plugin.file';
-	public const SITE_PLUGIN_DIR = 'site.plugin_dir';
+	const PLUGIN_BASENAME = 'plugin.basename';
+	const PLUGIN_FILE     = 'plugin.file';
+	const SITE_PLUGIN_DIR = 'site.plugin_dir';
 
 	/**
 	 * The subscriber class names that should be registered in the container.
@@ -42,7 +42,7 @@ class Core {
 	 *
 	 * @var string[]
 	 */
-	private array $subscribers = [
+	private $subscribers = [
 		Admin_Subscriber::class,
 		Exit_Interview_Subscriber::class,
 		Last_Send_Subscriber::class,
@@ -57,7 +57,7 @@ class Core {
 	 *
 	 * @var ContainerInterface
 	 */
-	private ContainerInterface $container;
+	private $container;
 
 	/**
 	 * The current instance of the library.
@@ -66,7 +66,7 @@ class Core {
 	 *
 	 * @var self
 	 */
-	private static Core $instance;
+	private static $instance;
 
 	/**
 	 * Returns the current instance or creates one to return.
@@ -122,7 +122,7 @@ class Core {
 	 *
 	 * @return void
 	 */
-	private function init_container( string $plugin_path ): void {
+	private function init_container( string $plugin_path ) {
 		$container = Config::get_container();
 
 		$container->bind( self::PLUGIN_BASENAME, plugin_basename( $plugin_path ) );
@@ -146,7 +146,7 @@ class Core {
 			static function () use ( $container ) {
 				return new Telemetry(
 					$container->get( Data_Provider::class ),
-					$container->get( Status::class ),
+					$container->get( Status::class )
 				);
 			}
 		);
