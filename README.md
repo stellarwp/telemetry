@@ -12,20 +12,19 @@ A library for Opt-in and Telemetry data to be sent to the StellarWP Telemetry se
 	- [Opt-In Modal Usage](#opt-in-modal-usage)
 		- [Prompting Users on a Settings Page](#prompting-users-on-a-settings-page)
 	- [How to Migrate Users Who Have Already Opted In](#how-to-migrate-users-who-have-already-opted-in)
-	- [Server Authentication Flow](#server-authentication-flow)
 	- [Filter Reference](#filter-reference)
-		- [stellarwp/telemetry/should\_show\_optin](#stellarwptelemetryshould_show_optin)
-		- [stellarwp/telemetry/option\_name](#stellarwptelemetryoption_name)
-		- [stellarwp/telemetry/optin\_status](#stellarwptelemetryoptin_status)
-		- [stellarwp/telemetry/optin\_status\_label](#stellarwptelemetryoptin_status_label)
+		- [stellarwp/telemetry/{hook-prefix}/should\_show\_optin](#stellarwptelemetryhook-prefixshould_show_optin)
+		- [stellarwp/telemetry/{hook-prefix}/option\_name](#stellarwptelemetryhook-prefixoption_name)
+		- [stellarwp/telemetry/{hook-prefix}/optin\_status](#stellarwptelemetryhook-prefixoptin_status)
+		- [stellarwp/telemetry/{hook-prefix}/optin\_status\_label](#stellarwptelemetryhook-prefixoptin_status_label)
 		- [stellarwp/telemetry/{stellar\_slug}/optin\_args](#stellarwptelemetrystellar_slugoptin_args)
-		- [stellarwp/telemetry/show\_optin\_option\_name](#stellarwptelemetryshow_optin_option_name)
-		- [stellarwp/telemetry/register\_site\_url](#stellarwptelemetryregister_site_url)
-		- [stellarwp/telemetry/register\_site\_data](#stellarwptelemetryregister_site_data)
-		- [stellarwp/telemetry/register\_site\_user\_details](#stellarwptelemetryregister_site_user_details)
-		- [stellarwp/telemetry/send\_data\_args](#stellarwptelemetrysend_data_args)
-		- [stellarwp/telemetry/send\_data\_url](#stellarwptelemetrysend_data_url)
-		- [stellarwp/telemetry/last\_send\_expire\_seconds](#stellarwptelemetrylast_send_expire_seconds)
+		- [stellarwp/telemetry/{hook-prefix}/show\_optin\_option\_name](#stellarwptelemetryhook-prefixshow_optin_option_name)
+		- [stellarwp/telemetry/{hook-prefix}/register\_site\_url](#stellarwptelemetryhook-prefixregister_site_url)
+		- [stellarwp/telemetry/{hook-prefix}/register\_site\_data](#stellarwptelemetryhook-prefixregister_site_data)
+		- [stellarwp/telemetry/{hook-prefix}/register\_site\_user\_details](#stellarwptelemetryhook-prefixregister_site_user_details)
+		- [stellarwp/telemetry/{hook-prefix}/send\_data\_args](#stellarwptelemetryhook-prefixsend_data_args)
+		- [stellarwp/telemetry/{hook-prefix}/send\_data\_url](#stellarwptelemetryhook-prefixsend_data_url)
+		- [stellarwp/telemetry/{hook-prefix}/last\_send\_expire\_seconds](#stellarwptelemetryhook-prefixlast_send_expire_seconds)
 		- [stellarwp/telemetry/{stellar\_slug}/exit\_interview\_args](#stellarwptelemetrystellar_slugexit_interview_args)
 	- [Adding Plugin Data to Site Health](#adding-plugin-data-to-site-health)
 ## Installation
@@ -65,7 +64,7 @@ To actually _use_ the telemetry library, you must have a Dependency Injection Co
 In order to keep this library as light as possible, a container is not included in the library itself. To avoid version compatibility issues, it is also not included as a Composer dependency. Instead, you must include it in your project. We recommend including it via composer [using Strauss](https://github.com/stellarwp/global-docs/blob/main/docs/strauss-setup.md), just like you have done with this library.
 
 ## Integration
-Initialize the library within your main plugin file after plugins are loaded (or anywhere else you see fit). Optionally, you can configure a unique prefix (we suggest you use your plugin slug) so that hooks can be uniquely called for your specific instance of the library.
+Initialize the library within your main plugin file after plugins are loaded (or anywhere else you see fit). You can configure a unique prefix (we suggest you use your plugin slug) so that hooks can be uniquely called for your specific instance of the library.
 
 ```php
 use StellarWP\Telemetry\Core as Telemetry;
@@ -101,6 +100,8 @@ function initialize_telemetry() {
 ```
 
 Using a custom hook prefix provides the ability to uniquely filter functionality of your plugin's specific instance of the library.
+
+The unique plugin slug is used by the telemetry server to identify the plugin regardless of the plugin's directory structure or slug.
 
 ## Uninstall Hook
 
@@ -162,30 +163,27 @@ function migrate_existing_opt_in() {
 }
 ```
 
-## Server Authentication Flow
-TBD
-
 ## Filter Reference
 
 If you configured this library to use a hook prefix, note that all hooks will now use this prefix. For example:
 ```php
 add_filter( 'stellarwp/telemetry/my-custom-prefix/should_show_optin', 'my-custom-filter', 10, 1 );
 ```
-### stellarwp/telemetry/should_show_optin
+### stellarwp/telemetry/{hook-prefix}/should_show_optin
 Filters whether the user should be shown the opt-in modal.
 
 **Parameters**: _bool_ `$should_show`
 
 **Default**: `true`
 
-### stellarwp/telemetry/option_name
+### stellarwp/telemetry/{hook-prefix}/option_name
 Filter the option name used to store current users' optin status.
 
 **Parameters**: _string_ `$option_name`
 
 **Default**: `stellarwp_telemetry`
 
-### stellarwp/telemetry/optin_status
+### stellarwp/telemetry/{hook-prefix}/optin_status
 Filter the optin status of the current site.
 
 **Parameters**: _integer_ `$status`
@@ -198,7 +196,7 @@ Each status corresponds with an integer:
 2 = 'Inactive',
 3 = 'Mixed',
 ```
-### stellarwp/telemetry/optin_status_label
+### stellarwp/telemetry/{hook-prefix}/optin_status_label
 Filter the label used to show the current opt-in status of the site.
 
 **Parameters**: _string_ `$optin_label`
@@ -227,19 +225,19 @@ $args = [
 	'intro'                 => __( 'Hi, {user_name}.! This is an invitation to help our StellarWP community. If you opt-in, some data about your usage of {plugin_name} and future StellarWP Products will be shared with our teams (so they can work their butts off to improve). We will also share some helpful info on WordPress, and our products from time to time. And if you skip this, that’s okay! Our products still work just fine.', 'stellarwp-telemetry' ),
 ];
 ```
-### stellarwp/telemetry/show_optin_option_name
+### stellarwp/telemetry/{hook-prefix}/show_optin_option_name
 Filters the string used for the option that determines whether the opt-in modal should be shown.
 
 **Parameters**: _string_ `$option_name`
 
 **Default**: `stellarwp_telemetry_{plugin_slug}_show_optin`
-### stellarwp/telemetry/register_site_url
+### stellarwp/telemetry/{hook-prefix}/register_site_url
 Filters the url of the telemetry server that will store the site data when registering a new site.
 
 **Parameters**: _string_ `$url`
 
 **Default**: `https://telemetry.example.com/api/v1/register-site`
-### stellarwp/telemetry/register_site_data
+### stellarwp/telemetry/{hook-prefix}/register_site_data
 Filters the data that is sent to the telemetry server when registering a new site.
 
 **Parameters**: _array_ `$site_data`
@@ -250,7 +248,7 @@ $site_data = [
 	'telemetry' => json_encode( $this->provider->get_data() ),
 ];
 ```
-### stellarwp/telemetry/register_site_user_details
+### stellarwp/telemetry/{hook-prefix}/register_site_user_details
 Filters the user details that is sent to the telemetry server when registering a new site.
 
 **Parameters**: _array_ `$user_details`
@@ -263,7 +261,7 @@ $user_details = [
 	'plugin_slug' => Config::get_container()->get( Core::PLUGIN_SLUG ),
 ];
 ```
-### stellarwp/telemetry/send_data_args
+### stellarwp/telemetry/{hook-prefix}/send_data_args
 
 **Parameters**: _array_ $data_args
 
@@ -275,14 +273,14 @@ $data_args = [
 ];
 ```
 
-### stellarwp/telemetry/send_data_url
+### stellarwp/telemetry/{hook-prefix}/send_data_url
 Filters the full url to use when sending data to the telemetry server.
 
 **Parameters**: _string_ `$url`
 
 **Default**: `https://telemetry.example.com/api/v1/telemetry`
 
-### stellarwp/telemetry/last_send_expire_seconds
+### stellarwp/telemetry/{hook-prefix}/last_send_expire_seconds
 Filters how often the library should send site health data to the telemetry server.
 
 **Parameters**: _integer_ `$seconds`
