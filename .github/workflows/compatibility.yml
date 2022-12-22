@@ -17,8 +17,18 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Detect File Changes
+        uses: dorny/paths-filter@v2
+        id: filter
+        with:
+          list-files: shell
+          filters: |
+            src:
+              - added|modified: 'src/**/*.php'
+
       - name: Configure PHP environment
         uses: shivammathur/setup-php@v2
+        if: ${{ steps.filter.outputs.src == 'true' }}
         with:
           php-version: 7.4
           extensions: mbstring, intl
@@ -29,14 +39,17 @@ jobs:
         run: |
           echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
       - uses: actions/cache@v3
+        if: ${{ steps.filter.outputs.src == 'true' }}
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
             ${{ runner.os }}-composer-
       - uses: ramsey/composer-install@v2
+        if: ${{ steps.filter.outputs.src == 'true' }}
         with:
           dependency-versions: highest
 
       - name: Run PHP Compatibility
-        run: composer compatibility:php-${{ matrix.php-version }}
+        if: ${{ steps.filter.outputs.src == 'true' }}
+        run: phpcs ${{ steps.filter.outputs.wpcontent_files }} -s --standard=PHPCompatibilityWP --runtime-set testVersion ${{ matrix.php-version }}
