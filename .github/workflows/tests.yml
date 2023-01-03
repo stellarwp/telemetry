@@ -1,6 +1,9 @@
 name: 'Tests'
 on:
   push:
+    paths:
+      - 'src/**/*.php'
+      - 'tests/**/*.php'
   pull_request:
     paths:
       - 'src/**/*.php'
