@@ -28,7 +28,7 @@ class Last_Send_Subscriber extends Abstract_Subscriber {
 	 * @return void
 	 */
 	public function register() {
-		add_action( 'admin_init', [ $this, 'initialize_last_send_option' ] );
+		add_action( 'init', [ $this, 'initialize_last_send_option' ] );
 	}
 
 	/**
