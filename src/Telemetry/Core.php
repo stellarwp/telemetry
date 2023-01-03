@@ -5,8 +5,6 @@
  * @since 1.0.0
  *
  * @package StellarWP\Telemetry
- *
- * test
  */
 
 namespace StellarWP\Telemetry;
