@@ -11,7 +11,6 @@ namespace StellarWP\Telemetry\Opt_In;
 
 use StellarWP\Telemetry\Config;
 use StellarWP\Telemetry\Contracts\Abstract_Subscriber;
-use StellarWP\Telemetry\Core;
 use StellarWP\Telemetry\Telemetry\Telemetry;
 
 /**
