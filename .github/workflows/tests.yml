@@ -1,6 +1,13 @@
 name: 'Tests'
 on:
   push:
+    branches:
+      - 'main'
+  pull_request:
+    paths:
+      - 'src/**/*.php'
+      - 'tests/**/*.php'
+
 jobs:
   test:
     strategy:

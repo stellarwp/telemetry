@@ -5,6 +5,8 @@ on:
     branches:
       - main
   pull_request:
+    paths:
+      - 'src/**/*.php'
 
 jobs:
   php-compatibility:
@@ -28,15 +30,17 @@ jobs:
         id: composer-cache
         run: |
           echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
       - uses: actions/cache@v3
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
             ${{ runner.os }}-composer-
+
       - uses: ramsey/composer-install@v2
         with:
           dependency-versions: highest
 
       - name: Run PHP Compatibility
-        run: composer compatibility:php-${{ matrix.php-version }}
+        run: phpcs ${{ steps.filter.outputs.wpcontent_files }} -s --standard=PHPCompatibilityWP --runtime-set testVersion ${{ matrix.php-version }}
