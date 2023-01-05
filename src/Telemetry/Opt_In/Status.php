@@ -71,7 +71,7 @@ class Status {
 		$option = $this->get_option();
 
 		// If the status option is not an option, default to inactive.
-		if ( ! isset( $options['plugins'] ) ) {
+		if ( ! isset( $option['plugins'] ) ) {
 			return self::STATUS_INACTIVE;
 		}
 
