@@ -70,6 +70,11 @@ class Status {
 		$status = self::STATUS_ACTIVE;
 		$option = $this->get_option();
 
+		// If the status option is not an option, default to inactive.
+		if ( ! isset( $options['plugins'] ) ) {
+			return self::STATUS_INACTIVE;
+		}
+
 		foreach ( $option['plugins'] as $plugin ) {
 
 			// If a plugin's status is false, we set the status as inactive.
@@ -185,6 +190,11 @@ class Status {
 		$option           = $this->get_option();
 		$site_plugins_dir = Config::get_container()->get( Core::SITE_PLUGIN_DIR );
 		$opted_in_plugins = [];
+
+		// If the opt-in option is not an option, return early.
+		if ( ! isset( $option['plugins'] ) ) {
+			return $opted_in_plugins;
+		}
 
 		foreach ( $option['plugins'] as $stellar_slug => $plugin ) {
 			$plugin_data = get_plugin_data( trailingslashit( $site_plugins_dir ) . $plugin['wp_slug'] );
