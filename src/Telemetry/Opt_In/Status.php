@@ -191,7 +191,7 @@ class Status {
 		$site_plugins_dir = Config::get_container()->get( Core::SITE_PLUGIN_DIR );
 		$opted_in_plugins = [];
 
-		// If the opt-in option is not an option, return early.
+		// If the status option is not an option, return early.
 		if ( ! isset( $option['plugins'] ) ) {
 			return $opted_in_plugins;
 		}
