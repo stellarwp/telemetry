@@ -144,7 +144,7 @@ do_action( 'stellarwp/telemetry/{stellar_slug}/optin', [ 'plugin_slug' => 'the-e
 ```
 
 ## Saving Opt-In Status on a Settings Page
-When implementing the library, settings should be available for site administrators to change their opt-in status any time. The value saved must be `1` or `2` for active and inactive statuses respectively.
+When implementing the library, settings should be available for site administrators to change their opt-in status at any time. The value passed to `set_status()` should be a boolean.
 
 ```php
 add_action( 'admin_init', 'save_opt_in_setting_field' );
@@ -155,14 +155,17 @@ add_action( 'admin_init', 'save_opt_in_setting_field' );
  * @return void
  */
 public function save_opt_in_setting_field() {
-	$Status = Config::get_container()->get( Status::class );
-
 	// Return early if not saving the Opt In Status field.
 	if ( ! isset( $_POST[ 'opt-in-status' ] ) ) {
 		return;
 	}
 
-	$value = (int) filter_input( INPUT_POST, 'opt-in-status' );
+	// Get an instance of the Status class.
+	$Status = Config::get_container()->get( Status::class );
+
+	// Get the value submitted on the settings page as a boolean.
+	$value = filter_input( INPUT_POST, 'opt-in-status', FILTER_VALIDATE_BOOL );
+
 	$Status->set_status( $value );
 }
 ```
