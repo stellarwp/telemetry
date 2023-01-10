@@ -11,6 +11,7 @@ A library for Opt-in and Telemetry data to be sent to the StellarWP Telemetry se
 	- [Uninstall Hook](#uninstall-hook)
 	- [Opt-In Modal Usage](#opt-in-modal-usage)
 		- [Prompting Users on a Settings Page](#prompting-users-on-a-settings-page)
+	- [Saving Opt-In Status on a Settings Page](#saving-opt-in-status-on-a-settings-page)
 	- [How to Migrate Users Who Have Already Opted In](#how-to-migrate-users-who-have-already-opted-in)
 	- [Filter Reference](#filter-reference)
 		- [stellarwp/telemetry/{hook-prefix}/should\_show\_optin](#stellarwptelemetryhook-prefixshould_show_optin)
@@ -140,6 +141,30 @@ function my_options_page() {
 _Note: When adding the `do_action`, you may pass additional arguments to the library with an array. There is no functionality at the moment, but we expect to expand the library to accept configuration through the passed array._
 ```php
 do_action( 'stellarwp/telemetry/{stellar_slug}/optin', [ 'plugin_slug' => 'the-events-calendar' ] );
+```
+
+## Saving Opt-In Status on a Settings Page
+When implementing the library, settings should be available for site administrators to change their opt-in status any time. The value saved must be `1` or `2` for active and inactive statuses respectively.
+
+```php
+add_action( 'admin_init', 'save_opt_in_setting_field' );
+
+/**
+ * Saves the "Opt In Status" setting.
+ *
+ * @return void
+ */
+public function save_opt_in_setting_field() {
+	$Status = Config::get_container()->get( Status::class );
+
+	// Return early if not saving the Opt In Status field.
+	if ( ! isset( $_POST[ 'opt-in-status' ] ) ) {
+		return;
+	}
+
+	$value = (int) filter_input( INPUT_POST, 'opt-in-status' );
+	$Status->set_status( $value );
+}
 ```
 
 ## How to Migrate Users Who Have Already Opted In
