@@ -5,9 +5,9 @@ A library for Opt-in and Telemetry data to be sent to the StellarWP Telemetry se
 ## Table of Contents
 - [Telemetry Library](#telemetry-library)
 	- [Table of Contents](#table-of-contents)
-	- [Installation](#installation)
 	- [Usage Prerequisites](#usage-prerequisites)
 	- [Getting Started](#getting-started)
+		- [Installation](#installation)
 		- [Initialize Library](#initialize-library)
 		- [Customize Opt-In Modal](#customize-opt-in-modal)
 		- [Post Integration Checklist](#post-integration-checklist)
@@ -31,7 +31,15 @@ A library for Opt-in and Telemetry data to be sent to the StellarWP Telemetry se
 		- [stellarwp/telemetry/{hook-prefix}/last\_send\_expire\_seconds](#stellarwptelemetryhook-prefixlast_send_expire_seconds)
 		- [stellarwp/telemetry/{stellar\_slug}/exit\_interview\_args](#stellarwptelemetrystellar_slugexit_interview_args)
 	- [Adding Plugin Data to Site Health](#adding-plugin-data-to-site-health)
-## Installation
+
+## Usage Prerequisites
+To actually _use_ the telemetry library, you must have a Dependency Injection Container (DI Container) that is compatible with [di52](https://github.com/lucatume/di52) (_We recommend using di52_).
+
+In order to keep this library as light as possible, a container is not included in the library itself. To avoid version compatibility issues, it is also not included as a Composer dependency. Instead, you must include it in your project. We recommend including it via composer [using Strauss](https://github.com/stellarwp/global-docs/blob/main/docs/strauss-setup.md), just like you have done with this library.
+
+## Getting Started
+
+### Installation
 
 It's recommended that you install Telemetry as a project dependency via [Composer](https://getcomposer.org/):
 
@@ -61,13 +69,6 @@ composer require stellarwp/telemetry
   }
 }
 ```
-
-## Usage Prerequisites
-To actually _use_ the telemetry library, you must have a Dependency Injection Container (DI Container) that is compatible with [di52](https://github.com/lucatume/di52) (_We recommend using di52_).
-
-In order to keep this library as light as possible, a container is not included in the library itself. To avoid version compatibility issues, it is also not included as a Composer dependency. Instead, you must include it in your project. We recommend including it via composer [using Strauss](https://github.com/stellarwp/global-docs/blob/main/docs/strauss-setup.md), just like you have done with this library.
-
-## Getting Started
 
 ### Initialize Library
 Initialize the library within your main plugin file after plugins are loaded (or anywhere else you see fit). You can configure a unique prefix (we suggest you use your plugin slug) so that hooks can be uniquely called for your specific instance of the library.
