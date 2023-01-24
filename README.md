@@ -7,7 +7,10 @@ A library for Opt-in and Telemetry data to be sent to the StellarWP Telemetry se
 	- [Table of Contents](#table-of-contents)
 	- [Installation](#installation)
 	- [Usage Prerequisites](#usage-prerequisites)
-	- [Integration](#integration)
+	- [Getting Started](#getting-started)
+		- [Initialize Library](#initialize-library)
+		- [Customize Opt-In Modal](#customize-opt-in-modal)
+		- [Post Integration Checklist](#post-integration-checklist)
 	- [Uninstall Hook](#uninstall-hook)
 	- [Opt-In Modal Usage](#opt-in-modal-usage)
 		- [Prompting Users on a Settings Page](#prompting-users-on-a-settings-page)
@@ -64,7 +67,9 @@ To actually _use_ the telemetry library, you must have a Dependency Injection Co
 
 In order to keep this library as light as possible, a container is not included in the library itself. To avoid version compatibility issues, it is also not included as a Composer dependency. Instead, you must include it in your project. We recommend including it via composer [using Strauss](https://github.com/stellarwp/global-docs/blob/main/docs/strauss-setup.md), just like you have done with this library.
 
-## Integration
+## Getting Started
+
+### Initialize Library
 Initialize the library within your main plugin file after plugins are loaded (or anywhere else you see fit). You can configure a unique prefix (we suggest you use your plugin slug) so that hooks can be uniquely called for your specific instance of the library.
 
 ```php
@@ -103,6 +108,42 @@ function initialize_telemetry() {
 Using a custom hook prefix provides the ability to uniquely filter functionality of your plugin's specific instance of the library.
 
 The unique plugin slug is used by the telemetry server to identify the plugin regardless of the plugin's directory structure or slug.
+
+### Customize Opt-In Modal
+
+<img src="docs/modal.png" width="100%">
+
+The Opt-In modal contains plugin specific content including links for permissions, terms of service, and privacy policy which should be customized by using the [stellarwp/telemetry/{stellar_slug}/optin_args](#stellarwptelemetrystellar_slugoptin_args):
+```php
+add_filter( 'stellarwp/telemetry/my_stellar_slug/optin_args', 10, 1 );
+
+function my_custom_plugin_modal( $args ) {
+	// Customize all applicable arguments for the opt-in modal.
+	$args = [
+		'plugin_logo'           => Resources::get_asset_path() . 'resources/images/stellar-logo.svg',
+		'plugin_logo_width'     => 151,
+		'plugin_logo_height'    => 32,
+		'plugin_logo_alt'       => 'StellarWP Logo',
+		'plugin_name'           => 'The Events Calendar',
+		'plugin_slug'           => Config::get_container()->get( Core::PLUGIN_SLUG ),
+		'user_name'             => wp_get_current_user()->display_name,
+		'permissions_url'       => '#',
+		'tos_url'               => '#',
+		'privacy_url'           => '#',
+		'opted_in_plugins_text' => __( 'See which plugins you have opted in to tracking for', 'stellarwp-telemetry' ),
+		'heading'               => __( 'We hope you love {plugin_name}.', 'stellarwp-telemetry' ),
+		'intro'                 => __( 'Hi, {user_name}.! This is an invitation to help our StellarWP community. If you opt-in, some data about your usage of {plugin_name} and future StellarWP Products will be shared with our teams (so they can work their butts off to improve). We will also share some helpful info on WordPress, and our products from time to time. And if you skip this, that’s okay! Our products still work just fine.', 'stellarwp-telemetry' ),
+	];
+
+	return $args;
+}
+```
+
+### Post Integration Checklist
+
+- [ ] TBD
+- [ ] TBD
+- [ ] TBD
 
 ## Uninstall Hook
 
