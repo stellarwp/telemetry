@@ -22,7 +22,7 @@
   "license": "GPL-2.0-or-later",
   "require": {
     "ext-json": "*",
-    "php": ">=7.2",
+    "php": ">=7.1",
     "stellarwp/container-contract": "^1.0"
   },
   "require-dev": {
