@@ -10,7 +10,9 @@
   },
   "autoload": {
     "psr-4": {
-      "StellarWP\\Telemetry\\": "src/Telemetry"
+      "StellarWP\\Telemetry\\": "src/Telemetry",
+      "StellarWP\\Telemetry\\Views_Dir\\": "src/views",
+      "StellarWP\\Telemetry\\Assets_Dir\\": "src/resources"
     }
   },
   "autoload-dev": {
