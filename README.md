@@ -41,24 +41,6 @@ composer require stellarwp/telemetry
 >
 > Luckily, adding Strauss to your `composer.json` is only slightly more complicated than adding a typical dependency, so checkout our [strauss docs](https://github.com/stellarwp/global-docs/blob/main/docs/strauss-setup.md).
 
-*Note: When including this with Strauss, additional directories need to be copied. Add the following to your Strauss config:*
-```
-"extra": {
-  "strauss": {
-	[...]
-    "override_autoload": {
-      "stellarwp/telemetry": {
-        "files": [
-          "src/views",
-          "src/resources",
-          "src/Telemetry"
-        ]
-      }
-    }
-  }
-}
-```
-
 ## Usage Prerequisites
 To actually _use_ the telemetry library, you must have a Dependency Injection Container (DI Container) that is compatible with [di52](https://github.com/lucatume/di52) (_We recommend using di52_).
 
