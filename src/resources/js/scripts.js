@@ -80,6 +80,7 @@
 
 				if ( ! $reason.length ) {
 					$exitInterview.find('.stellarwp-telemetry-error-message').show();
+					this.disabled = false;
 					return;
 				}
 
@@ -92,6 +93,7 @@
 				if ( $comment.length ) {
 					if ( ! $comment.val() ) {
 						$exitInterview.find('.stellarwp-telemetry-error-message').show();
+						this.disabled = false;
 						return;
 					}
 
