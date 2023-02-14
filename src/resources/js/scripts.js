@@ -18,7 +18,7 @@
 
 		// Disabling the submit button to prevent multiple submissions.
 		$optin.find('[data-js="optin-form"]').submit(function () {
-			$(this).find('[data-js="form-submit"]').prop('disabled', true);
+			$(this).find('[data-js="form-submit"]').addClass('disabled');
 		});
 	});
 
