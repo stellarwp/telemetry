@@ -57,10 +57,10 @@
 				<input type="hidden" name="page" value="<?php echo esc_attr( $_GET['page'] ); // phpcs:ignore WordPress.Security ?>">
 				<input type="hidden" name="action" value="stellarwp-telemetry">
 				<?php wp_nonce_field( 'stellarwp-telemetry' ); ?>
-				<button class="stellarwp-telemetry-btn-primary" data-js="form-submit">
+				<button class="stellarwp-telemetry-btn-primary" data-js="form-submit" type="submit" name="optin-agreed" value="true">
 					<?php echo esc_html__( 'Allow & Continue', 'stellarwp-telemetry' ); ?>
 				</button>
-				<button data-js="close-modal" class="stellarwp-telemetry-btn-text stellarwp-telemetry-btn-text--skip">
+				<button data-js="close-modal" class="stellarwp-telemetry-btn-text stellarwp-telemetry-btn-text--skip" type="submit" name="optin-agreed" value="false">
 					<?php echo esc_html__( 'Skip', 'stellarwp-telemetry' ); ?>
 				</button>
 			</form>
