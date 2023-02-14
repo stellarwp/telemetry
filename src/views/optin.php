@@ -53,14 +53,14 @@
 			<?php } ?>
 		</main>
 		<footer>
-			<form method="post" action="">
+			<form method="post" action="" data-js="optin-form">
 				<input type="hidden" name="page" value="<?php echo esc_attr( $_GET['page'] ); // phpcs:ignore WordPress.Security ?>">
 				<input type="hidden" name="action" value="stellarwp-telemetry">
 				<?php wp_nonce_field( 'stellarwp-telemetry' ); ?>
-				<button class="stellarwp-telemetry-btn-primary" type="submit" name="optin-agreed" value="true">
+				<button class="stellarwp-telemetry-btn-primary" data-js="form-submit">
 					<?php echo esc_html__( 'Allow & Continue', 'stellarwp-telemetry' ); ?>
 				</button>
-				<button data-js="close-modal" class="stellarwp-telemetry-btn-text stellarwp-telemetry-btn-text--skip" type="submit" name="optin-agreed" value="false">
+				<button data-js="close-modal" class="stellarwp-telemetry-btn-text stellarwp-telemetry-btn-text--skip">
 					<?php echo esc_html__( 'Skip', 'stellarwp-telemetry' ); ?>
 				</button>
 			</form>
