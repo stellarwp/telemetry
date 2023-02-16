@@ -161,7 +161,8 @@ class Core {
 		$this->container = $container;
 
 		foreach ( $this->subscribers as $subscriber_class ) {
-			( new $subscriber_class( $this->container ) )->register();
+			$this->container->bind( $subscriber_class, new $subscriber_class( $this->container ) );
+			$this->container->get( $subscriber_class )->register();
 		}
 	}
 }
