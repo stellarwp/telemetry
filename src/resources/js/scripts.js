@@ -1,9 +1,11 @@
 (function ( $ ) {
 
+	let $body = $('body');
+
 	/**
 	 * jQuery code to handle the opt-in modal.
 	 */
-	$('body').find('[data-js="optin-modal"]').each(function () {
+	$body.find('[data-js="optin-modal"]').each(function () {
 		let $optin         = $(this);
 		let $other_plugins = $optin.find('[data-js="other-plugins-toggle"]');
 
@@ -13,18 +15,23 @@
 				$this.find('.stellarwp-telemetry-other-plugins__list').slideToggle();
 			});
 		}
+
+		// Disabling the submit button to prevent multiple submissions.
+		$optin.find('[data-js="optin-form"]').submit(function () {
+			$(this).find('[data-js="form-submit"]').addClass('disabled');
+		});
 	});
 
 	/**
 	 * jQuery code to handle the exit interview modal.
 	 */
-	$('body').find('[data-js="exit-interview-modal"]').each( function () {
+	$body.find('[data-js="exit-interview-modal"]').each( function () {
 		let $exitInterview = $(this);
 		let pluginSlug     = $exitInterview.data('plugin-slug');
 		let redirectLink   = null;
 
 		// Deactivate Button
-		$('body').on( 'click', '#the-list .deactivate > a', function ( e ) {
+		$body.on( 'click', '#the-list .deactivate > a', function ( e ) {
 			if ( 0 === $( this ).next( '[data-plugin-slug].telemetry-plugin-slug' ).length ) {
 				return true;
 			}
