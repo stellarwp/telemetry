@@ -54,7 +54,6 @@
 		</main>
 		<footer>
 			<form method="post" action="" data-js="optin-form">
-				<input type="hidden" name="page" value="<?php echo esc_attr( isset( $_GET['page'] ) ? $_GET['page'] : '' ); // phpcs:ignore WordPress.Security ?>">
 				<input type="hidden" name="action" value="stellarwp-telemetry">
 				<?php wp_nonce_field( 'stellarwp-telemetry' ); ?>
 				<button class="stellarwp-telemetry-btn-primary" data-js="form-submit" type="submit" name="optin-agreed" value="true">
