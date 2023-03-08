@@ -132,7 +132,7 @@ class Opt_In_Template implements Template_Interface {
 		 * @param string $show_optin_option_name
 		 */
 		return apply_filters(
-			'stellarwp/telemetry/' . Config::get_hook_prefix() . 'show_optin_option_name',
+			'stellarwp/telemetry/' . Config::get_hook_prefix() . '/show_optin_option_name',
 			'stellarwp_telemetry_' . Config::get_stellar_slug() . '_show_optin'
 		);
 	}

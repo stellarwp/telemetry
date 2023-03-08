@@ -197,7 +197,7 @@ class Telemetry {
 		 *
 		 * @param string $site_url
 		 */
-		return apply_filters( 'stellarwp/telemetry/' . Config::get_hook_prefix() . 'register_site_url', Config::get_server_url() . '/register-site' );
+		return apply_filters( 'stellarwp/telemetry/' . Config::get_hook_prefix() . '/register_site_url', Config::get_server_url() . '/register-site' );
 	}
 
 	/**
@@ -215,7 +215,7 @@ class Telemetry {
 		 *
 		 * @param string $uninstall_url
 		 */
-		return apply_filters( 'stellarwp/telemetry/' . Config::get_hook_prefix() . 'uninstall_url', Config::get_server_url() . '/uninstall' );
+		return apply_filters( 'stellarwp/telemetry/' . Config::get_hook_prefix() . '/uninstall_url', Config::get_server_url() . '/uninstall' );
 	}
 
 	/**
@@ -234,7 +234,7 @@ class Telemetry {
 		 * @param array $register_site_data
 		 */
 		return apply_filters(
-			'stellarwp/telemetry/' . Config::get_hook_prefix() . 'register_site_data',
+			'stellarwp/telemetry/' . Config::get_hook_prefix() . '/register_site_data',
 			[
 				'telemetry'     => wp_json_encode( $this->provider->get_data() ),
 				'stellar_slugs' => wp_json_encode( $this->opt_in_status->get_opted_in_plugins() ),
@@ -260,7 +260,7 @@ class Telemetry {
 		 * @param array $site_user_details
 		 */
 		$user_info = apply_filters(
-			'stellarwp/telemetry/' . Config::get_hook_prefix() . 'register_site_user_details',
+			'stellarwp/telemetry/' . Config::get_hook_prefix() . '/register_site_user_details',
 			[
 				'name'        => $user->display_name,
 				'email'       => $user->user_email,
@@ -346,7 +346,7 @@ class Telemetry {
 	 */
 	protected function get_send_data_args() {
 		return apply_filters(
-			'stellarwp/telemetry/' . Config::get_hook_prefix() . 'send_data_args',
+			'stellarwp/telemetry/' . Config::get_hook_prefix() . '/send_data_args',
 			[
 				'token'         => $this->get_token(),
 				'telemetry'     => wp_json_encode( $this->provider->get_data() ),
@@ -370,7 +370,7 @@ class Telemetry {
 		 *
 		 * @param string $data_url
 		 */
-		return apply_filters( 'stellarwp/telemetry/' . Config::get_hook_prefix() . 'send_data_url', Config::get_server_url() . '/telemetry' );
+		return apply_filters( 'stellarwp/telemetry/' . Config::get_hook_prefix() . '/send_data_url', Config::get_server_url() . '/telemetry' );
 	}
 
 	/**

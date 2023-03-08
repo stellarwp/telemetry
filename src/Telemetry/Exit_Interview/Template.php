@@ -133,7 +133,7 @@ class Template implements Template_Interface {
 		 *
 		 * @param bool $should_render Whether the modal should render.
 		 */
-		return apply_filters( 'stellarwp/telemetry/' . Config::get_hook_prefix() . 'exit_interview_should_render', true );
+		return apply_filters( 'stellarwp/telemetry/' . Config::get_hook_prefix() . '/exit_interview_should_render', true );
 	}
 
 	/**

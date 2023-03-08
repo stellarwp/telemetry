@@ -52,7 +52,7 @@ class Resources {
 		 *
 		 * @param string $path The path to the admin JS script.
 		 */
-		$script_path = apply_filters( 'stellarwp/telemetry/' . Config::get_hook_prefix() . 'script_path', $this->get_asset_path() . 'resources/js/scripts.js' );
+		$script_path = apply_filters( 'stellarwp/telemetry/' . Config::get_hook_prefix() . '/script_path', $this->get_asset_path() . 'resources/js/scripts.js' );
 
 		wp_enqueue_script(
 			self::SCRIPT_HANDLE,
@@ -79,7 +79,7 @@ class Resources {
 		 * @param array $data The data to pass to the script.
 		 */
 		$script_data = apply_filters(
-			'stellarwp/telemetry/' . Config::get_hook_prefix() . 'script_data',
+			'stellarwp/telemetry/' . Config::get_hook_prefix() . '/script_data',
 			[
 				'exit_interview' => [
 					'action' => Exit_Interview_Subscriber::AJAX_ACTION,
@@ -110,7 +110,7 @@ class Resources {
 		 *
 		 * @param string $path The path to the CSS file.
 		 */
-		$style_path = apply_filters( 'stellarwp/telemetry/' . Config::get_hook_prefix() . 'style_path', $this->get_asset_path() . 'resources/css/styles.css' );
+		$style_path = apply_filters( 'stellarwp/telemetry/' . Config::get_hook_prefix() . '/style_path', $this->get_asset_path() . 'resources/css/styles.css' );
 
 		wp_enqueue_style(
 			self::SCRIPT_HANDLE,

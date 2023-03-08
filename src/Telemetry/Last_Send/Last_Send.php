@@ -61,7 +61,7 @@ class Last_Send {
 		 *
 		 * @param integer $expire_seconds
 		 */
-		$expire_seconds = apply_filters( 'stellarwp/telemetry/' . Config::get_hook_prefix() . 'last_send_expire_seconds', 7 * DAY_IN_SECONDS );
+		$expire_seconds = apply_filters( 'stellarwp/telemetry/' . Config::get_hook_prefix() . '/last_send_expire_seconds', 7 * DAY_IN_SECONDS );
 
 		$last_run_time = new DateTimeImmutable( $last_send );
 		$next_run_time = $last_run_time->add( new \DateInterval( "PT{$expire_seconds}S" ) );

@@ -40,7 +40,7 @@ class Status {
 		 *
 		 * @param string $option_name
 		 */
-		return apply_filters( 'stellarwp/telemetry/' . Config::get_hook_prefix() . 'option_name', self::OPTION_NAME );
+		return apply_filters( 'stellarwp/telemetry/' . Config::get_hook_prefix() . '/option_name', self::OPTION_NAME );
 	}
 
 	/**
@@ -97,7 +97,7 @@ class Status {
 		 *
 		 * @param integer $status The opt-in status value.
 		 */
-		return apply_filters( 'stellarwp/telemetry/' . Config::get_hook_prefix() . 'optin_status', $status );
+		return apply_filters( 'stellarwp/telemetry/' . Config::get_hook_prefix() . '/optin_status', $status );
 	}
 
 	/**
@@ -117,7 +117,7 @@ class Status {
 		 *
 		 * @param string $token The site's auth token.
 		 */
-		return apply_filters( 'stellarwp/telemetry/' . Config::get_hook_prefix() . 'token', $option['token'] ?? '' );
+		return apply_filters( 'stellarwp/telemetry/' . Config::get_hook_prefix() . '/token', $option['token'] ?? '' );
 	}
 
 	/**
@@ -256,7 +256,7 @@ class Status {
 		 *
 		 * @param string $optin-Label
 		 */
-		return apply_filters( 'stellarwp/telemetry/' . Config::get_hook_prefix() . 'optin_status_label', $optin_label );
+		return apply_filters( 'stellarwp/telemetry/' . Config::get_hook_prefix() . '/optin_status_label', $optin_label );
 	}
 
 	/**
