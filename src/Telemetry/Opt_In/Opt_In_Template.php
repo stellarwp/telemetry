@@ -124,16 +124,34 @@ class Opt_In_Template implements Template_Interface {
 	 * @return string
 	 */
 	public function get_option_name() {
+		$show_optin_option_name = 'stellarwp_telemetry_' . Config::get_stellar_slug() . '_show_optin';
+
 		/**
 		 * Filters the name of the option stored in the options table.
 		 *
 		 * @since 1.0.0
+		 * @deprecated TBD Correct a typo in the handle.
+		 *
+		 * @param string $show_optin_option_name
+		 */
+		$show_optin_option_name = apply_filters_deprecated(
+			'stellarwp/telemetry/' . Config::get_hook_prefix() . 'show_optin_option_name',
+			$show_optin_option_name,
+			'TBD',
+			'stellarwp/telemetry/' . Config::get_hook_prefix() . '/show_optin_option_name',
+			'Replace missing `/` in handle'
+		);
+
+		/**
+		 * Filters the name of the option stored in the options table.
+		 *
+		 * @since TBD
 		 *
 		 * @param string $show_optin_option_name
 		 */
 		return apply_filters(
 			'stellarwp/telemetry/' . Config::get_hook_prefix() . '/show_optin_option_name',
-			'stellarwp_telemetry_' . Config::get_stellar_slug() . '_show_optin'
+			$show_optin_option_name
 		);
 	}
 

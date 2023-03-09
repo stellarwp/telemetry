@@ -45,14 +45,35 @@ class Resources {
 	 * @return void
 	 */
 	public function enqueue_scripts() {
+		$script_path = $this->get_asset_path() . 'resources/js/scripts.js';
+
 		/**
 		 * Filters the path to the admin JS script.
 		 *
 		 * @since 1.0.0
+		 * @deprecated TBD Correct a typo in the handle.
 		 *
-		 * @param string $path The path to the admin JS script.
+		 * @param string $script_path The path to the admin JS script.
 		 */
-		$script_path = apply_filters( 'stellarwp/telemetry/' . Config::get_hook_prefix() . '/script_path', $this->get_asset_path() . 'resources/js/scripts.js' );
+		$script_path = apply_filters_deprecated(
+			'stellarwp/telemetry/' . Config::get_hook_prefix() . 'script_path',
+			$script_path,
+			'TBD',
+			'stellarwp/telemetry/' . Config::get_hook_prefix() . '/script_path',
+			'Replace missing `/` in handle'
+		);
+
+		/**
+		 * Filters the path to the admin JS script.
+		 *
+		 * @since TBD
+		 *
+		 * @param string $script_path The path to the admin JS script.
+		 */
+		$script_path = apply_filters(
+			'stellarwp/telemetry/' . Config::get_hook_prefix() . '/script_path',
+			$script_path
+		);
 
 		wp_enqueue_script(
 			self::SCRIPT_HANDLE,
@@ -71,21 +92,39 @@ class Resources {
 	 * @return void
 	 */
 	public function localize_script() {
+		$script_data = [
+			'exit_interview' => [
+				'action' => Exit_Interview_Subscriber::AJAX_ACTION,
+				'nonce'  => wp_create_nonce( Exit_Interview_Subscriber::AJAX_ACTION ),
+			],
+		];
+
 		/**
 		 * Filters the data that is passed to the admin JS script.
 		 *
 		 * @since 1.0.0
+		 * @deprecated TBD Correct a typo in the handle.
 		 *
-		 * @param array $data The data to pass to the script.
+		 * @param array $script_data The data to pass to the script.
+		 */
+		$script_data = apply_filters_deprecated(
+			'stellarwp/telemetry/' . Config::get_hook_prefix() . 'script_data',
+			$script_data,
+			'TBD',
+			'stellarwp/telemetry/' . Config::get_hook_prefix() . '/script_data',
+			'Replace missing `/` in handle'
+		);
+
+		/**
+		 * Filters the data that is passed to the admin JS script.
+		 *
+		 * @since TBD
+		 *
+		 * @param array $script_data The data to pass to the script.
 		 */
 		$script_data = apply_filters(
 			'stellarwp/telemetry/' . Config::get_hook_prefix() . '/script_data',
-			[
-				'exit_interview' => [
-					'action' => Exit_Interview_Subscriber::AJAX_ACTION,
-					'nonce'  => wp_create_nonce( Exit_Interview_Subscriber::AJAX_ACTION ),
-				],
-			]
+			$script_data
 		);
 
 		wp_localize_script(
@@ -103,14 +142,35 @@ class Resources {
 	 * @return void
 	 */
 	public function enqueue_styles() {
+		$style_path = $this->get_asset_path() . 'resources/css/styles.css';
+
 		/**
 		 * Filters the path to the admin CSS styles.
 		 *
 		 * @since 1.0.0
+		 * @deprecated TBD Correct a typo in the handle.
 		 *
-		 * @param string $path The path to the CSS file.
+		 * @param string $style_path The path to the CSS file.
 		 */
-		$style_path = apply_filters( 'stellarwp/telemetry/' . Config::get_hook_prefix() . '/style_path', $this->get_asset_path() . 'resources/css/styles.css' );
+		$style_path = apply_filters_deprecated(
+			'stellarwp/telemetry/' . Config::get_hook_prefix() . 'style_path',
+			$style_path,
+			'TBD',
+			'stellarwp/telemetry/' . Config::get_hook_prefix() . '/style_path',
+			'Replace missing `/` in handle'
+		);
+
+		/**
+		 * Filters the path to the admin CSS styles.
+		 *
+		 * @since TBD
+		 *
+		 * @param string $style_path The path to the CSS file.
+		 */
+		$style_path = apply_filters(
+			'stellarwp/telemetry/' . Config::get_hook_prefix() . '/style_path',
+			$style_path
+		);
 
 		wp_enqueue_style(
 			self::SCRIPT_HANDLE,
