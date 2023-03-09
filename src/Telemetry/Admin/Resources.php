@@ -57,7 +57,7 @@ class Resources {
 		 */
 		$script_path = apply_filters_deprecated(
 			'stellarwp/telemetry/' . Config::get_hook_prefix() . 'script_path',
-			$script_path,
+			(array) $script_path,
 			'1.0.7',
 			'stellarwp/telemetry/' . Config::get_hook_prefix() . '/script_path',
 			'Replace missing `/` in handle'
@@ -109,7 +109,7 @@ class Resources {
 		 */
 		$script_data = apply_filters_deprecated(
 			'stellarwp/telemetry/' . Config::get_hook_prefix() . 'script_data',
-			$script_data,
+			(array) $script_data,
 			'1.0.7',
 			'stellarwp/telemetry/' . Config::get_hook_prefix() . '/script_data',
 			'Replace missing `/` in handle'

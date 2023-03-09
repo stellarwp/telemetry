@@ -239,7 +239,7 @@ class Telemetry {
 		 *
 		 * @param string $uninstall_url
 		 */
-		$uninstall_url = apply_filters(
+		$uninstall_url = apply_filters_deprecated(
 			'stellarwp/telemetry/' . Config::get_hook_prefix() . 'uninstall_url',
 			(array) $uninstall_url,
 			'1.0.7',
@@ -282,7 +282,7 @@ class Telemetry {
 		 *
 		 * @param array $register_site_data
 		 */
-		$register_site_data = apply_filters(
+		$register_site_data = apply_filters_deprecated(
 			'stellarwp/telemetry/' . Config::get_hook_prefix() . 'register_site_data',
 			(array) $register_site_data,
 			'1.0.7',
@@ -326,7 +326,7 @@ class Telemetry {
 		 *
 		 * @param array $site_user_details
 		 */
-		$user_info = apply_filters(
+		$user_info = apply_filters_deprecated(
 			'stellarwp/telemetry/' . Config::get_hook_prefix() . 'register_site_user_details',
 			(array) $user_info,
 			'1.0.7',

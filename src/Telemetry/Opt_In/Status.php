@@ -45,7 +45,7 @@ class Status {
 		 */
 		$option_name = apply_filters_deprecated(
 			'stellarwp/telemetry/' . Config::get_hook_prefix() . 'option_name',
-			$option_name,
+			(array) $option_name,
 			'1.0.7',
 			'stellarwp/telemetry/' . Config::get_hook_prefix() . '/option_name',
 			'Replace missing `/` in handle'
