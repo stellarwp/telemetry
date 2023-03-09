@@ -196,14 +196,14 @@ class Telemetry {
 		 * Filters the registered site url.
 		 *
 		 * @since 1.0.0
-		 * @deprecated TBD Correct a typo in the handle.
+		 * @deprecated 1.0.7 Correct a typo in the handle.
 		 *
 		 * @param string $site_url
 		 */
 		$site_url = apply_filters_deprecated(
 			'stellarwp/telemetry/' . Config::get_hook_prefix() . 'register_site_url',
-			$site_url,
-			'TBD',
+			(array) $site_url,
+			'1.0.7',
 			'stellarwp/telemetry/' . Config::get_hook_prefix() . '/register_site_url',
 			'Replace missing `/` in handle'
 		);
@@ -211,7 +211,7 @@ class Telemetry {
 		/**
 		 * Filters the registered site url.
 		 *
-		 * @since TBD
+		 * @since 1.0.7
 		 *
 		 * @param string $site_url
 		 */
@@ -235,14 +235,14 @@ class Telemetry {
 		 * Filters the uninstall url.
 		 *
 		 * @since 1.0.0
-		 * @deprecated TBD Correct a typo in the handle.
+		 * @deprecated 1.0.7 Correct a typo in the handle.
 		 *
 		 * @param string $uninstall_url
 		 */
 		$uninstall_url = apply_filters(
 			'stellarwp/telemetry/' . Config::get_hook_prefix() . 'uninstall_url',
-			$uninstall_url,
-			'TBD',
+			(array) $uninstall_url,
+			'1.0.7',
 			'stellarwp/telemetry/' . Config::get_hook_prefix() . '/uninstall_url',
 			'Replace missing `/` in handle'
 		);
@@ -251,7 +251,7 @@ class Telemetry {
 		/**
 		 * Filters the uninstall url.
 		 *
-		 * @since TBD
+		 * @since 1.0.7
 		 *
 		 * @param string $uninstall_url
 		 */
@@ -278,14 +278,14 @@ class Telemetry {
 		 * Filters the register site data.
 		 *
 		 * @since 1.0.0
-		 * @deprecated TBD Correct a typo in the handle.
+		 * @deprecated 1.0.7 Correct a typo in the handle.
 		 *
 		 * @param array $register_site_data
 		 */
 		$register_site_data = apply_filters(
 			'stellarwp/telemetry/' . Config::get_hook_prefix() . 'register_site_data',
-			$register_site_data,
-			'TBD',
+			(array) $register_site_data,
+			'1.0.7',
 			'stellarwp/telemetry/' . Config::get_hook_prefix() . '/register_site_data',
 			'Replace missing `/` in handle'
 		);
@@ -293,7 +293,7 @@ class Telemetry {
 		/**
 		 * Filters the register site data.
 		 *
-		 * @since TBD
+		 * @since 1.0.7
 		 *
 		 * @param array $register_site_data
 		 */
@@ -322,14 +322,14 @@ class Telemetry {
 		 * Filters the site user details.
 		 *
 		 * @since 1.0.0
-		 * @deprecated TBD Correct a typo in the handle.
+		 * @deprecated 1.0.7 Correct a typo in the handle.
 		 *
 		 * @param array $site_user_details
 		 */
 		$user_info = apply_filters(
 			'stellarwp/telemetry/' . Config::get_hook_prefix() . 'register_site_user_details',
-			$user_info,
-			'TBD',
+			(array) $user_info,
+			'1.0.7',
 			'stellarwp/telemetry/' . Config::get_hook_prefix() . '/register_site_user_details',
 			'Replace missing `/` in handle'
 		);
@@ -337,7 +337,7 @@ class Telemetry {
 		/**
 		 * Filters the site user details.
 		 *
-		 * @since TBD
+		 * @since 1.0.7
 		 *
 		 * @param array $site_user_details
 		 */
@@ -433,14 +433,14 @@ class Telemetry {
 		 * Filter the args for sending data to the telemetry server.
 		 *
 		 * @since 1.0.0
-		 * @deprecated TBD Correct a typo in the handle.
+		 * @deprecated 1.0.7 Correct a typo in the handle.
 		 *
 		 * @param array $send_data_args
 		 */
 		$send_data_args = apply_filters_deprecated(
 			'stellarwp/telemetry/' . Config::get_hook_prefix() . 'send_data_args',
-			$send_data_args,
-			'TBD',
+			(array) $send_data_args,
+			'1.0.7',
 			'stellarwp/telemetry/' . Config::get_hook_prefix() . '/send_data_args',
 			'Replace missing `/` in handle'
 		);
@@ -448,7 +448,7 @@ class Telemetry {
 		/**
 		 * Filter the args for sending data to the telemetry server.
 		 *
-		 * @since TBD
+		 * @since 1.0.7
 		 *
 		 * @param array $send_data_args
 		 */
@@ -472,14 +472,14 @@ class Telemetry {
 		 * Filter the url for sending data to the telemetry server.
 		 *
 		 * @since 1.0.0
-		 * @deprecated TBD Correct a typo in the handle.
+		 * @deprecated 1.0.7 Correct a typo in the handle.
 		 *
 		 * @param string $data_url
 		 */
 		$data_url = apply_filters_deprecated(
 			'stellarwp/telemetry/' . Config::get_hook_prefix() . 'send_data_url',
-			$data_url,
-			'TBD',
+			(array) $data_url,
+			'1.0.7',
 			'stellarwp/telemetry/' . Config::get_hook_prefix() . '/send_data_url',
 			'Replace missing `/` in handle'
 		);
@@ -487,7 +487,7 @@ class Telemetry {
 		/**
 		 * Filter the url for sending data to the telemetry server.
 		 *
-		 * @since TBD
+		 * @since 1.0.7
 		 *
 		 * @param string $data_url
 		 */

@@ -59,14 +59,14 @@ class Last_Send {
 		 * Filters the amount of seconds the last send timestamp is valid before it expires.
 		 *
 		 * @since 1.0.0
-		 * @deprecated TBD Correct a typo in the handle.
+		 * @deprecated 1.0.7 Correct a typo in the handle.
 		 *
 		 * @param integer $expire_seconds
 		 */
 		$expire_seconds = apply_filters_deprecated(
 			'stellarwp/telemetry/' . Config::get_hook_prefix() . 'last_send_expire_seconds',
-			$expire_seconds,
-			'TBD',
+			(array) $expire_seconds,
+			'1.0.7',
 			'stellarwp/telemetry/' . Config::get_hook_prefix() . '/last_send_expire_seconds',
 			'Replace missing `/` in handle'
 		);
@@ -74,7 +74,7 @@ class Last_Send {
 		/**
 		 * Filters the amount of seconds the last send timestamp is valid before it expires.
 		 *
-		 * @since TBD
+		 * @since 1.0.7
 		 *
 		 * @param integer $expire_seconds
 		 */

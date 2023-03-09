@@ -132,14 +132,14 @@ class Template implements Template_Interface {
 		 * Filters whether the "Exit Interview" modal should render.
 		 *
 		 * @since 1.0.0
-		 * @deprecated TBD Correct a typo in the handle.
+		 * @deprecated 1.0.7 Correct a typo in the handle.
 		 *
 		 * @param bool $should_render Whether the modal should render.
 		 */
 		$should_render = apply_filters_deprecated(
 			'stellarwp/telemetry/' . Config::get_hook_prefix() . 'exit_interview_should_render',
-			$should_render,
-			'TBD',
+			(array) $should_render,
+			'1.0.7',
 			'stellarwp/telemetry/' . Config::get_hook_prefix() . '/exit_interview_should_render',
 			'Replace missing `/` in handle'
 		);
@@ -147,7 +147,7 @@ class Template implements Template_Interface {
 		/**
 		 * Filters whether the "Exit Interview" modal should render.
 		 *
-		 * @since TBD
+		 * @since 1.0.7
 		 *
 		 * @param bool $should_render Whether the modal should render.
 		 */

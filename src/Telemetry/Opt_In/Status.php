@@ -39,14 +39,14 @@ class Status {
 		 * Filters the option name used to store the opt-in status.
 		 *
 		 * @since 1.0.0
-		 * @deprecated TBD Correct a typo in the handle.
+		 * @deprecated 1.0.7 Correct a typo in the handle.
 		 *
 		 * @param string $option_name
 		 */
 		$option_name = apply_filters_deprecated(
 			'stellarwp/telemetry/' . Config::get_hook_prefix() . 'option_name',
 			$option_name,
-			'TBD',
+			'1.0.7',
 			'stellarwp/telemetry/' . Config::get_hook_prefix() . '/option_name',
 			'Replace missing `/` in handle'
 		);
@@ -54,7 +54,7 @@ class Status {
 		/**
 		 * Filters the option name used to store the opt-in status.
 		 *
-		 * @since TBD
+		 * @since 1.0.7
 		 *
 		 * @param string $option_name
 		 */
@@ -115,14 +115,14 @@ class Status {
 		 * Filters the opt-in status value.
 		 *
 		 * @since 1.0.0
-		 * @deprecated TBD Correct a typo in the handle.
+		 * @deprecated 1.0.7 Correct a typo in the handle.
 		 *
 		 * @param integer $status The opt-in status value.
 		 */
 		$status = apply_filters_deprecated(
 			'stellarwp/telemetry/' . Config::get_hook_prefix() . 'optin_status',
-			$status,
-			'TBD',
+			(array) $status,
+			'1.0.7',
 			'stellarwp/telemetry/' . Config::get_hook_prefix() . '/optin_status',
 			'Replace missing `/` in handle'
 		);
@@ -130,7 +130,7 @@ class Status {
 		/**
 		 * Filters the opt-in status value.
 		 *
-		 * @since TBD
+		 * @since 1.0.7
 		 *
 		 * @param integer $status The opt-in status value.
 		 */
@@ -155,14 +155,14 @@ class Status {
 		 * Filters the site auth token.
 		 *
 		 * @since 1.0.0
-		 * @deprecated TBD Correct a typo in the handle.
+		 * @deprecated 1.0.7 Correct a typo in the handle.
 		 *
 		 * @param string $token The site's auth token.
 		 */
 		$token = apply_filters_deprecated(
 			'stellarwp/telemetry/' . Config::get_hook_prefix() . 'token',
-			$token,
-			'TBD',
+			(array) $token,
+			'1.0.7',
 			'stellarwp/telemetry/' . Config::get_hook_prefix() . '/token',
 			'Replace missing `/` in handle'
 		);
@@ -170,7 +170,7 @@ class Status {
 		/**
 		 * Filters the site auth token.
 		 *
-		 * @since TBD
+		 * @since 1.0.7
 		 *
 		 * @param string $token The site's auth token.
 		 */
@@ -313,14 +313,14 @@ class Status {
 		 * Filters the opt-in status label.
 		 *
 		 * @since 1.0.0
-		 * @deprecated TBD Correct a typo in the handle.
+		 * @deprecated 1.0.7 Correct a typo in the handle.
 		 *
 		 * @param string $optin_label
 		 */
 		$optin_label = apply_filters_deprecated(
 			'stellarwp/telemetry/' . Config::get_hook_prefix() . 'optin_status_label',
-			$optin_label,
-			'TBD',
+			(array) $optin_label,
+			'1.0.7',
 			'stellarwp/telemetry/' . Config::get_hook_prefix() . '/optin_status_label',
 			'Replace missing `/` in handle'
 		);
@@ -328,7 +328,7 @@ class Status {
 		/**
 		 * Filters the opt-in status label.
 		 *
-		 * @since TBD
+		 * @since 1.0.7
 		 *
 		 * @param string $optin_label
 		 */

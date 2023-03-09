@@ -51,14 +51,14 @@ class Resources {
 		 * Filters the path to the admin JS script.
 		 *
 		 * @since 1.0.0
-		 * @deprecated TBD Correct a typo in the handle.
+		 * @deprecated 1.0.7 Correct a typo in the handle.
 		 *
 		 * @param string $script_path The path to the admin JS script.
 		 */
 		$script_path = apply_filters_deprecated(
 			'stellarwp/telemetry/' . Config::get_hook_prefix() . 'script_path',
 			$script_path,
-			'TBD',
+			'1.0.7',
 			'stellarwp/telemetry/' . Config::get_hook_prefix() . '/script_path',
 			'Replace missing `/` in handle'
 		);
@@ -66,7 +66,7 @@ class Resources {
 		/**
 		 * Filters the path to the admin JS script.
 		 *
-		 * @since TBD
+		 * @since 1.0.7
 		 *
 		 * @param string $script_path The path to the admin JS script.
 		 */
@@ -103,14 +103,14 @@ class Resources {
 		 * Filters the data that is passed to the admin JS script.
 		 *
 		 * @since 1.0.0
-		 * @deprecated TBD Correct a typo in the handle.
+		 * @deprecated 1.0.7 Correct a typo in the handle.
 		 *
 		 * @param array $script_data The data to pass to the script.
 		 */
 		$script_data = apply_filters_deprecated(
 			'stellarwp/telemetry/' . Config::get_hook_prefix() . 'script_data',
 			$script_data,
-			'TBD',
+			'1.0.7',
 			'stellarwp/telemetry/' . Config::get_hook_prefix() . '/script_data',
 			'Replace missing `/` in handle'
 		);
@@ -118,7 +118,7 @@ class Resources {
 		/**
 		 * Filters the data that is passed to the admin JS script.
 		 *
-		 * @since TBD
+		 * @since 1.0.7
 		 *
 		 * @param array $script_data The data to pass to the script.
 		 */
@@ -148,14 +148,14 @@ class Resources {
 		 * Filters the path to the admin CSS styles.
 		 *
 		 * @since 1.0.0
-		 * @deprecated TBD Correct a typo in the handle.
+		 * @deprecated 1.0.7 Correct a typo in the handle.
 		 *
 		 * @param string $style_path The path to the CSS file.
 		 */
 		$style_path = apply_filters_deprecated(
 			'stellarwp/telemetry/' . Config::get_hook_prefix() . 'style_path',
-			$style_path,
-			'TBD',
+			(array) $style_path,
+			'1.0.7',
 			'stellarwp/telemetry/' . Config::get_hook_prefix() . '/style_path',
 			'Replace missing `/` in handle'
 		);
@@ -163,7 +163,7 @@ class Resources {
 		/**
 		 * Filters the path to the admin CSS styles.
 		 *
-		 * @since TBD
+		 * @since 1.0.7
 		 *
 		 * @param string $style_path The path to the CSS file.
 		 */
