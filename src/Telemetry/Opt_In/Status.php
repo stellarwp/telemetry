@@ -45,7 +45,7 @@ class Status {
 		 */
 		$option_name = apply_filters_deprecated(
 			'stellarwp/telemetry/' . Config::get_hook_prefix() . 'option_name',
-			(array) $option_name,
+			[ $option_name ],
 			'1.0.7',
 			'stellarwp/telemetry/' . Config::get_hook_prefix() . '/option_name',
 			'Replace missing `/` in handle'
@@ -121,7 +121,7 @@ class Status {
 		 */
 		$status = apply_filters_deprecated(
 			'stellarwp/telemetry/' . Config::get_hook_prefix() . 'optin_status',
-			(array) $status,
+			[ $status ],
 			'1.0.7',
 			'stellarwp/telemetry/' . Config::get_hook_prefix() . '/optin_status',
 			'Replace missing `/` in handle'
@@ -161,7 +161,7 @@ class Status {
 		 */
 		$token = apply_filters_deprecated(
 			'stellarwp/telemetry/' . Config::get_hook_prefix() . 'token',
-			(array) $token,
+			[ $token ],
 			'1.0.7',
 			'stellarwp/telemetry/' . Config::get_hook_prefix() . '/token',
 			'Replace missing `/` in handle'
@@ -319,7 +319,7 @@ class Status {
 		 */
 		$optin_label = apply_filters_deprecated(
 			'stellarwp/telemetry/' . Config::get_hook_prefix() . 'optin_status_label',
-			(array) $optin_label,
+			[ $optin_label ],
 			'1.0.7',
 			'stellarwp/telemetry/' . Config::get_hook_prefix() . '/optin_status_label',
 			'Replace missing `/` in handle'

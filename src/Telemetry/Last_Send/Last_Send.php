@@ -65,7 +65,7 @@ class Last_Send {
 		 */
 		$expire_seconds = apply_filters_deprecated(
 			'stellarwp/telemetry/' . Config::get_hook_prefix() . 'last_send_expire_seconds',
-			(array) $expire_seconds,
+			[ $expire_seconds ],
 			'1.0.7',
 			'stellarwp/telemetry/' . Config::get_hook_prefix() . '/last_send_expire_seconds',
 			'Replace missing `/` in handle'

@@ -136,7 +136,7 @@ class Opt_In_Template implements Template_Interface {
 		 */
 		$show_optin_option_name = apply_filters_deprecated(
 			'stellarwp/telemetry/' . Config::get_hook_prefix() . 'show_optin_option_name',
-			(array) $show_optin_option_name,
+			[ $show_optin_option_name ],
 			'1.0.7',
 			'stellarwp/telemetry/' . Config::get_hook_prefix() . '/show_optin_option_name',
 			'Replace missing `/` in handle'

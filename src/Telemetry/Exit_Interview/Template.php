@@ -138,7 +138,7 @@ class Template implements Template_Interface {
 		 */
 		$should_render = apply_filters_deprecated(
 			'stellarwp/telemetry/' . Config::get_hook_prefix() . 'exit_interview_should_render',
-			(array) $should_render,
+			[ $should_render ],
 			'1.0.7',
 			'stellarwp/telemetry/' . Config::get_hook_prefix() . '/exit_interview_should_render',
 			'Replace missing `/` in handle'

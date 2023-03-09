@@ -202,7 +202,7 @@ class Telemetry {
 		 */
 		$site_url = apply_filters_deprecated(
 			'stellarwp/telemetry/' . Config::get_hook_prefix() . 'register_site_url',
-			(array) $site_url,
+			[ $site_url ],
 			'1.0.7',
 			'stellarwp/telemetry/' . Config::get_hook_prefix() . '/register_site_url',
 			'Replace missing `/` in handle'
@@ -241,7 +241,7 @@ class Telemetry {
 		 */
 		$uninstall_url = apply_filters_deprecated(
 			'stellarwp/telemetry/' . Config::get_hook_prefix() . 'uninstall_url',
-			(array) $uninstall_url,
+			[ $uninstall_url ],
 			'1.0.7',
 			'stellarwp/telemetry/' . Config::get_hook_prefix() . '/uninstall_url',
 			'Replace missing `/` in handle'
@@ -284,7 +284,7 @@ class Telemetry {
 		 */
 		$register_site_data = apply_filters_deprecated(
 			'stellarwp/telemetry/' . Config::get_hook_prefix() . 'register_site_data',
-			(array) $register_site_data,
+			[ $register_site_data ],
 			'1.0.7',
 			'stellarwp/telemetry/' . Config::get_hook_prefix() . '/register_site_data',
 			'Replace missing `/` in handle'
@@ -328,7 +328,7 @@ class Telemetry {
 		 */
 		$user_info = apply_filters_deprecated(
 			'stellarwp/telemetry/' . Config::get_hook_prefix() . 'register_site_user_details',
-			(array) $user_info,
+			[ $user_info ],
 			'1.0.7',
 			'stellarwp/telemetry/' . Config::get_hook_prefix() . '/register_site_user_details',
 			'Replace missing `/` in handle'
@@ -439,7 +439,7 @@ class Telemetry {
 		 */
 		$send_data_args = apply_filters_deprecated(
 			'stellarwp/telemetry/' . Config::get_hook_prefix() . 'send_data_args',
-			(array) $send_data_args,
+			[ $send_data_args ],
 			'1.0.7',
 			'stellarwp/telemetry/' . Config::get_hook_prefix() . '/send_data_args',
 			'Replace missing `/` in handle'
@@ -478,7 +478,7 @@ class Telemetry {
 		 */
 		$data_url = apply_filters_deprecated(
 			'stellarwp/telemetry/' . Config::get_hook_prefix() . 'send_data_url',
-			(array) $data_url,
+			[ $data_url ],
 			'1.0.7',
 			'stellarwp/telemetry/' . Config::get_hook_prefix() . '/send_data_url',
 			'Replace missing `/` in handle'
