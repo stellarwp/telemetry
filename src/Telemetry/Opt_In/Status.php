@@ -149,7 +149,7 @@ class Status {
 	 */
 	public function get_token() {
 		$option = $this->get_option();
-		$token = $option['token'] ?? '';
+		$token  = $option['token'] ?? '';
 
 		/**
 		 * Filters the site auth token.
