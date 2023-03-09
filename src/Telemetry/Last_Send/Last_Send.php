@@ -46,7 +46,6 @@ class Last_Send {
 	 * @return bool
 	 */
 	public function is_expired() {
-
 		$last_send = $this->get_timestamp();
 
 		// No timestamp exists, we'll assume that telemetry data needs to be sent.
@@ -54,14 +53,35 @@ class Last_Send {
 			return true;
 		}
 
+		$expire_seconds = 7 * DAY_IN_SECONDS;
+
 		/**
 		 * Filters the amount of seconds the last send timestamp is valid before it expires.
 		 *
 		 * @since 1.0.0
+		 * @deprecated TBD Correct a typo in the handle.
 		 *
 		 * @param integer $expire_seconds
 		 */
-		$expire_seconds = apply_filters( 'stellarwp/telemetry/' . Config::get_hook_prefix() . 'last_send_expire_seconds', 7 * DAY_IN_SECONDS );
+		$expire_seconds = apply_filters_deprecated(
+			'stellarwp/telemetry/' . Config::get_hook_prefix() . 'last_send_expire_seconds',
+			$expire_seconds,
+			'TBD',
+			'stellarwp/telemetry/' . Config::get_hook_prefix() . '/last_send_expire_seconds',
+			'Replace missing `/` in handle'
+		);
+
+		/**
+		 * Filters the amount of seconds the last send timestamp is valid before it expires.
+		 *
+		 * @since TBD
+		 *
+		 * @param integer $expire_seconds
+		 */
+		$expire_seconds = apply_filters(
+			'stellarwp/telemetry/' . Config::get_hook_prefix() . '/last_send_expire_seconds',
+			$expire_seconds
+		);
 
 		$last_run_time = new DateTimeImmutable( $last_send );
 		$next_run_time = $last_run_time->add( new \DateInterval( "PT{$expire_seconds}S" ) );
