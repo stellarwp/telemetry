@@ -149,6 +149,10 @@ class Status {
 	public function add_plugin( string $stellar_slug, bool $status = false ) {
 		$option = $this->get_option();
 
+		if ( ! isset( $option['plugins'] ) ) {
+			$option['plugins'] = [];
+		}
+
 		$option['plugins'][ $stellar_slug ] = [
 			'wp_slug' => Config::get_container()->get( Core::PLUGIN_BASENAME ),
 			'optin'   => $status,
