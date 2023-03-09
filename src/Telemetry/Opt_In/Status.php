@@ -299,13 +299,13 @@ class Status {
 
 		switch ( $this->get() ) {
 			case self::STATUS_ACTIVE:
-				$optin_label = __( 'Active', 'stellarwp-telemetry-starter' );
+				$optin_label = __( 'Active', 'stellarwp-telemetry' );
 				break;
 			case self::STATUS_INACTIVE:
-				$optin_label = __( 'Inactive', 'stellarwp-telemetry-starter' );
+				$optin_label = __( 'Inactive', 'stellarwp-telemetry' );
 				break;
 			case self::STATUS_MIXED:
-				$optin_label = __( 'Mixed', 'stellarwp-telemetry-starter' );
+				$optin_label = __( 'Mixed', 'stellarwp-telemetry' );
 				break;
 		}
 
