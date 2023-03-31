@@ -97,15 +97,17 @@ class Opt_In_Subscriber extends Abstract_Subscriber {
 	 * @return void
 	 */
 	public function initialize_optin_option() {
-		$stellar_slug    = Config::get_stellar_slug();
 		$opt_in_template = $this->container->get( Opt_In_Template::class );
 		$opt_in_status   = $this->container->get( Status::class );
 
-		// Check if plugin slug exists within array.
-		if ( ! $opt_in_status->plugin_exists( $stellar_slug ) ) {
-			$opt_in_status->add_plugin( $stellar_slug );
+		// Loop through all registered stellar slugs and add them to the optin option.
+		foreach ( Config::get_all_stellar_slugs() as $stellar_slug ) {
+			// Check if plugin slug exists within array.
+			if ( ! $opt_in_status->plugin_exists( $stellar_slug ) ) {
+				$opt_in_status->add_plugin( $stellar_slug );
 
-			update_option( $opt_in_template->get_option_name(), '1' );
+				update_option( $opt_in_template->get_option_name(), '1' );
+			}
 		}
 	}
 
