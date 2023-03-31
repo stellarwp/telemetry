@@ -28,7 +28,10 @@ class Opt_In_Subscriber extends Abstract_Subscriber {
 	 * @return void
 	 */
 	public function register(): void {
-		add_action( 'stellarwp/telemetry/' . Config::get_stellar_slug() . '/optin', [ $this, 'maybe_render_optin' ] );
+		foreach ( Config::get_all_stellar_slugs() as $slug ) {
+			add_action( 'stellarwp/telemetry/' . $slug . '/optin', [ $this, 'maybe_render_optin' ] );
+		}
+
 		add_action( 'admin_init', [ $this, 'set_optin_status' ] );
 		add_action( 'init', [ $this, 'initialize_optin_option' ] );
 	}
