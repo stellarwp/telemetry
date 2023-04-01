@@ -71,8 +71,14 @@ class Opt_In_Subscriber extends Abstract_Subscriber {
 			$this->opt_in();
 		}
 
+		$stellar_slug = Config::get_stellar_slug();
+
+		if ( isset( $_POST['stellar_slug'] ) ) {
+			$stellar_slug = sanitize_text_field( $_POST['stellar_slug'] );
+		}
+
 		// Don't show the opt-in modal again.
-		update_option( $this->container->get( Opt_In_Template::class )->get_option_name(), '0' );
+		update_option( $this->container->get( Opt_In_Template::class )->get_option_name( $stellar_slug ), '0' );
 	}
 
 	/**
@@ -106,7 +112,7 @@ class Opt_In_Subscriber extends Abstract_Subscriber {
 			if ( ! $opt_in_status->plugin_exists( $stellar_slug ) ) {
 				$opt_in_status->add_plugin( $stellar_slug );
 
-				update_option( $opt_in_template->get_option_name(), '1' );
+				update_option( $opt_in_template->get_option_name( $stellar_slug ), '1' );
 			}
 		}
 	}
