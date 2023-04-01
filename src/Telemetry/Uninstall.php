@@ -24,22 +24,25 @@ class Uninstall {
 	 * Removes necessary items from the options table.
 	 *
 	 * @since 1.0.0
+	 * @since 2.0.0 - Update to handle multiple stellar_slugs.
 	 *
-	 * @param string $stellar_slug The slug for the plugin being deleted.
+	 * @param string[] $stellar_slugs The slugs for the plugin being deleted.
 	 *
 	 * @return void
 	 */
-	public static function run( string $stellar_slug ) {
+	public static function run( array $stellar_slugs ) {
 		$opt_in_status = new Status();
 
-		if ( $opt_in_status->plugin_exists( $stellar_slug ) ) {
-			$opt_in_status->remove_plugin( $stellar_slug );
-		}
+		foreach ( $stellar_slugs as $slug ) {
+			if ( $opt_in_status->plugin_exists( $slug ) ) {
+				$opt_in_status->remove_plugin( $slug );
+			}
 
-		$optin_option_name = 'stellarwp_telemetry_' . $stellar_slug . '_show_optin';
+			$optin_option_name = 'stellarwp_telemetry_' . $slug . '_show_optin';
 
-		if ( get_option( $optin_option_name ) !== false ) {
-			delete_option( $optin_option_name );
+			if ( get_option( $optin_option_name ) !== false ) {
+				delete_option( $optin_option_name );
+			}
 		}
 
 		// If this is the last plugin in the optin option, let's remove the option entirely.
