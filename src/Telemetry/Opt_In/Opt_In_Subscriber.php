@@ -66,15 +66,15 @@ class Opt_In_Subscriber extends Abstract_Subscriber {
 			return;
 		}
 
-		// User agreed to opt-in to Telemetry.
-		if ( 'true' === $_POST['optin-agreed'] ) {
-			$this->opt_in();
-		}
-
 		$stellar_slug = Config::get_stellar_slug();
 
 		if ( isset( $_POST['stellar_slug'] ) ) {
 			$stellar_slug = sanitize_text_field( $_POST['stellar_slug'] );
+		}
+
+		// User agreed to opt-in to Telemetry.
+		if ( 'true' === $_POST['optin-agreed'] ) {
+			$this->opt_in( $stellar_slug );
 		}
 
 		// Don't show the opt-in modal again.
@@ -121,11 +121,14 @@ class Opt_In_Subscriber extends Abstract_Subscriber {
 	 * Registers the site/user with the telemetry server and sets the opt-in status.
 	 *
 	 * @since 1.0.0
+	 * @since 2.0.0 - Updated to allow specifying the stellar slug.
+	 *
+	 * @param string $stellar_slug The slug to use when opting in.
 	 *
 	 * @return void
 	 */
-	public function opt_in() {
-		$this->container->get( Status::class )->set_status( true );
+	public function opt_in( string $stellar_slug ) {
+		$this->container->get( Status::class )->set_status( true, $stellar_slug );
 
 		try {
 			$this->container->get( Telemetry::class )->register_site();
