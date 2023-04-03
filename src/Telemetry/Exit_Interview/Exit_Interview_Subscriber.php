@@ -58,7 +58,9 @@ class Exit_Interview_Subscriber extends Abstract_Subscriber {
 		global $pagenow;
 
 		if ( 'plugins.php' === $pagenow ) {
-			$this->container->get( Template::class )->maybe_render();
+			foreach ( Config::get_all_stellar_slugs() as $stellar_slug ) {
+				$this->container->get( Template::class )->maybe_render( $stellar_slug );
+			}
 		}
 	}
 

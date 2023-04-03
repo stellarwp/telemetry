@@ -101,10 +101,12 @@ class Template implements Template_Interface {
 	 *
 	 * @since 1.0.0
 	 *
+	 * @param string $stellar_slug The stellar slug to be referenced when the modal is rendered.
+	 *
 	 * @return void
 	 */
-	public function render() {
-		load_template( dirname( dirname( __DIR__ ) ) . '/views/exit-interview.php', true, $this->get_args() );
+	public function render( string $stellar_slug ) {
+		load_template( dirname( dirname( __DIR__ ) ) . '/views/exit-interview.php', true, $this->get_args( $stellar_slug ) );
 	}
 
 	/**
@@ -123,17 +125,21 @@ class Template implements Template_Interface {
 	 *
 	 * @since 1.0.0
 	 *
+	 * @param string $stellar_slug The stellar slug for which the modal should be rendered.
+	 *
 	 * @return boolean
 	 */
-	public function should_render() {
+	public function should_render( string $stellar_slug ) {
 		/**
 		 * Filters whether the "Exit Interview" modal should render.
 		 *
 		 * @since 1.0.0
+		 * @since 2.0.0 - Update to include current stellar slug.
 		 *
-		 * @param bool $should_render Whether the modal should render.
+		 * @param bool   $should_render  Whether the modal should render.
+		 * @param string $stellar_slug The current stellar slug of the plugin for which the modal is shown.
 		 */
-		return apply_filters( 'stellarwp/telemetry/' . Config::get_hook_prefix() . 'exit_interview_should_render', true );
+		return apply_filters( 'stellarwp/telemetry/' . Config::get_hook_prefix() . 'exit_interview_should_render', true, $stellar_slug );
 	}
 
 	/**
@@ -141,11 +147,13 @@ class Template implements Template_Interface {
 	 *
 	 * @since 1.0.0
 	 *
+	 * @param string $stellar_slug The stellar slug that could be rendered.
+	 *
 	 * @return void
 	 */
-	public function maybe_render() {
-		if ( $this->should_render() ) {
-			$this->render();
+	public function maybe_render( string $stellar_slug ) {
+		if ( $this->should_render( $stellar_slug ) ) {
+			$this->render( $stellar_slug );
 		}
 	}
 }
