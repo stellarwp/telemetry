@@ -214,15 +214,22 @@ class Status {
 	 * Sets the opt-in status option for the site.
 	 *
 	 * @since 1.0.0
+	 * @since 2.0.0 - Updated to allow defined stellar_slug.
 	 *
-	 * @param boolean $status The status to set (Active = 1, Inactive = 2, Mixed = 3).
+	 * @param boolean $status       The status to set (Active = 1, Inactive = 2, Mixed = 3).
+	 * @param string  $stellar_slug The stellar_slug to set the status of.
 	 *
 	 * @return boolean
 	 */
-	public function set_status( bool $status ) {
+	public function set_status( bool $status, string $stellar_slug = '' ) {
+		// If no stellar slug is passed, use the singular value.
+		if ( '' === $stellar_slug ) {
+			$stellar_slug = Config::get_stellar_slug();
+		}
+
 		$option = $this->get_option();
 
-		$option['plugins'][ Config::get_stellar_slug() ]['optin'] = $status;
+		$option['plugins'][ $stellar_slug ]['optin'] = $status;
 
 		return update_option( $this->get_option_name(), $option );
 	}
