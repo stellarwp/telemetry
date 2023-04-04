@@ -194,9 +194,7 @@ class Config {
 		static::$stellar_slug = $stellar_slug;
 
 		// Also add the stellar slug to the array of all registered stellar slugs.
-		static::$stellar_slugs[] = [
-			$stellar_slug => '',
-		];
+		static::$stellar_slugs[ $stellar_slug ] = '';
 	}
 
 	/**
