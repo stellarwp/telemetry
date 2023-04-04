@@ -43,8 +43,11 @@ class Exit_Interview_Subscriber extends Abstract_Subscriber {
 		add_action( 'admin_footer', [ $this, 'render_exit_interview' ] );
 		add_action( 'wp_ajax_' . self::AJAX_ACTION, [ $this, 'ajax_exit_interview' ] );
 
-		add_filter( 'network_admin_plugin_action_links_' . $this->container->get( Core::PLUGIN_BASENAME ), [ $this, 'plugin_action_links' ], 10, 1 );
-		add_filter( 'plugin_action_links_' . $this->container->get( Core::PLUGIN_BASENAME ), [ $this, 'plugin_action_links' ], 10, 2 );
+		// Implement the exit interview trigger for each registerred plugin.
+		foreach ( Config::get_all_stellar_slugs() as $basename ) {
+			add_filter( 'network_admin_plugin_action_links_' . $basename, [ $this, 'plugin_action_links' ], 10, 2 );
+			add_filter( 'plugin_action_links_' . $basename, [ $this, 'plugin_action_links' ], 10, 2 );
+		}
 	}
 
 	/**
@@ -58,8 +61,13 @@ class Exit_Interview_Subscriber extends Abstract_Subscriber {
 		global $pagenow;
 
 		if ( 'plugins.php' === $pagenow ) {
-			foreach ( Config::get_all_stellar_slugs() as $stellar_slug ) {
-				$this->container->get( Template::class )->maybe_render( $stellar_slug );
+			// Swap key/values since we need to map stellar slugs by plugin basename.
+			$stellar_slugs = array_flip( Config::get_all_stellar_slugs() );
+			$plugins       = get_plugins();
+			foreach ( $plugins as $slug => $data ) {
+				if ( key_exists( $slug, $stellar_slugs ) ) {
+					$this->container->get( Template::class )->maybe_render( $stellar_slugs[ $slug ] );
+				}
 			}
 		}
 	}

@@ -125,7 +125,7 @@ class Template implements Template_Interface {
 	 * @return void
 	 */
 	public function render( string $stellar_slug ) {
-		load_template( dirname( dirname( __DIR__ ) ) . '/views/exit-interview.php', true, $this->get_args( $stellar_slug ) );
+		load_template( dirname( dirname( __DIR__ ) ) . '/views/exit-interview.php', false, $this->get_args( $stellar_slug ) );
 	}
 
 	/**

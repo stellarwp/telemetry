@@ -47,7 +47,7 @@ class Admin_Subscriber extends Abstract_Subscriber {
 
 		$should_render = false;
 
-		foreach ( Config::get_all_stellar_slugs() as $stellar_slug ) {
+		foreach ( Config::get_all_stellar_slugs() as $stellar_slug => $wp_slug ) {
 			$should_render = $this->container->get( Opt_In_Template::class )->should_render( $stellar_slug );
 
 			if ( $should_render ) {
