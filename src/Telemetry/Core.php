@@ -125,6 +125,15 @@ class Core {
 	private function init_container( string $plugin_path ) {
 		$container = Config::get_container();
 
+		// For all registered stellar slugs, use the plugin basename for those that do not have a wp_slug set.
+		foreach ( Config::get_all_stellar_slugs() as $stellar_slug => $wp_slug ) {
+			if ( '' !== $wp_slug ) {
+				continue;
+			}
+
+			Config::add_stellar_slug( $stellar_slug, plugin_basename( $plugin_path ) );
+		}
+
 		$container->bind( self::PLUGIN_BASENAME, plugin_basename( $plugin_path ) );
 		$container->bind( self::PLUGIN_FILE, $plugin_path );
 		$container->bind( self::SITE_PLUGIN_DIR, dirname( plugin_dir_path( $plugin_path ) ) );

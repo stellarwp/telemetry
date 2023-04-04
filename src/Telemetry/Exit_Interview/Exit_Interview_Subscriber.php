@@ -44,7 +44,7 @@ class Exit_Interview_Subscriber extends Abstract_Subscriber {
 		add_action( 'wp_ajax_' . self::AJAX_ACTION, [ $this, 'ajax_exit_interview' ] );
 
 		add_filter( 'network_admin_plugin_action_links_' . $this->container->get( Core::PLUGIN_BASENAME ), [ $this, 'plugin_action_links' ], 10, 1 );
-		add_filter( 'plugin_action_links_' . $this->container->get( Core::PLUGIN_BASENAME ), [ $this, 'plugin_action_links' ], 10, 1 );
+		add_filter( 'plugin_action_links_' . $this->container->get( Core::PLUGIN_BASENAME ), [ $this, 'plugin_action_links' ], 10, 2 );
 	}
 
 	/**
@@ -107,13 +107,24 @@ class Exit_Interview_Subscriber extends Abstract_Subscriber {
 	 *
 	 * The deactivation is deferred to the modal displayed.
 	 *
-	 * @param array $links The links of the plugin in the plugin list.
+	 * @param array  $links        The links of the plugin in the plugin list.
+	 * @param string $plugin_file The plugin file of the current plugin in the list.
 	 *
 	 * @since 1.0.0
 	 *
 	 * @return array
 	 */
-	public function plugin_action_links( $links ) {
+	public function plugin_action_links( $links, $plugin_file ) {
+
+		$stellar_slug = '';
+
+		foreach ( Config::get_all_stellar_slugs() as $slug => $basename ) {
+			if ( plugin_basename( $plugin_file ) === $basename ) {
+				$stellar_slug = $slug;
+				continue;
+			}
+		}
+
 		$passed_deactivate = false;
 		$deactivate_link   = '';
 		$before_deactivate = [];
@@ -134,7 +145,7 @@ class Exit_Interview_Subscriber extends Abstract_Subscriber {
 		}
 
 		if ( ! empty( $deactivate_link ) ) {
-			$deactivate_link .= '<i class="telemetry-plugin-slug" data-plugin-slug="' . Config::get_stellar_slug() . '"></i>';
+			$deactivate_link .= '<i class="telemetry-plugin-slug" data-plugin-slug="' . $stellar_slug . '"></i>';
 
 			// Append deactivation link.
 			$before_deactivate['deactivate'] = $deactivate_link;

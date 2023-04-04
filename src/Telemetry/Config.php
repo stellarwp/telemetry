@@ -48,7 +48,7 @@ class Config {
 	protected static $stellar_slug = '';
 
 	/**
-	 * Unique IDs for the StellarWP slugs.
+	 * Unique IDs and optional plugin slugs for StellarWP slugs.
 	 *
 	 * @since 2.0.0
 	 *
@@ -120,7 +120,7 @@ class Config {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @return array
+	 * @return array<string,string>
 	 */
 	public static function get_all_stellar_slugs() {
 		return static::$stellar_slugs;
@@ -207,11 +207,12 @@ class Config {
 	 * @since 2.0.0
 	 *
 	 * @param string $stellar_slug A unique slug to add to the config.
+	 * @param string $wp_slug      The plugin's basename (used for capturing deactivation "Exit Interview" info).
 	 *
 	 * @return void
 	 */
-	public static function add_stellar_slug( string $stellar_slug ) {
-		static::$stellar_slugs[] = $stellar_slug;
+	public static function add_stellar_slug( string $stellar_slug, string $wp_slug = '' ) {
+		static::$stellar_slugs[ $stellar_slug ] = $wp_slug;
 	}
 
 	/**
