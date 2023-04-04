@@ -107,7 +107,7 @@ class Opt_In_Subscriber extends Abstract_Subscriber {
 		$opt_in_status   = $this->container->get( Status::class );
 
 		// Loop through all registered stellar slugs and add them to the optin option.
-		foreach ( Config::get_all_stellar_slugs() as $stellar_slug ) {
+		foreach ( Config::get_all_stellar_slugs() as $stellar_slug => $wp_slug ) {
 			// Check if plugin slug exists within array.
 			if ( ! $opt_in_status->plugin_exists( $stellar_slug ) ) {
 				$opt_in_status->add_plugin( $stellar_slug );
