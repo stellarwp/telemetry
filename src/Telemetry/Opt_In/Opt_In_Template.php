@@ -131,7 +131,7 @@ class Opt_In_Template implements Template_Interface {
 	 * @return void
 	 */
 	public function render( string $stellar_slug ) {
-		load_template( dirname( dirname( __DIR__ ) ) . '/views/optin.php', true, $this->get_args( $stellar_slug ) );
+		load_template( dirname( dirname( __DIR__ ) ) . '/views/optin.php', false, $this->get_args( $stellar_slug ) );
 	}
 
 	/**
@@ -184,14 +184,15 @@ class Opt_In_Template implements Template_Interface {
 	 * Renders the modal if it should be rendered.
 	 *
 	 * @since 1.0.0
+	 * @since 2.0.0 - Add ability to render multiple modals.
+	 *
+	 * @param string $stellar_slug The stellar slug for which the modal should be rendered.
 	 *
 	 * @return void
 	 */
-	public function maybe_render() {
-		foreach ( Config::get_all_stellar_slugs() as $stellar_slug => $wp_slug ) {
-			if ( $this->should_render( $stellar_slug ) ) {
-				$this->render( $stellar_slug );
-			}
+	public function maybe_render( string $stellar_slug ) {
+		if ( $this->should_render( $stellar_slug ) ) {
+			$this->render( $stellar_slug );
 		}
 	}
 

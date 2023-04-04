@@ -105,14 +105,14 @@ When a user deletes the plugin, WordPress runs the method from `Uninstall` and c
 ### Prompting Users on a Settings Page
 On each settings page you'd like to prompt the user to opt-in, add a `do_action()`. _Be sure to include your defined stellar\_slug if you are using one_.
 ```php
-do_action( 'stellarwp/telemetry/{stellar_slug}/optin' );
+do_action( 'stellarwp/telemetry/optin', '{stellar_slug}' );
 ```
 The library calls this action to handle registering the required resources needed to render the modal. It will only display the modal for users who haven't yet opted in.
 
 To show the modal on a settings page, add the `do_action()` to the top of your rendered page content:
 ```php
 function my_options_page() {
-    do_action( 'stellarwp/telemetry/{stellar_slug}/optin' );
+    do_action( 'stellarwp/telemetry/optin', '{stellar_slug}' );
     ?>
     <div>
         <h2>My Plugin Settings Page</h2>
@@ -122,7 +122,7 @@ function my_options_page() {
 ```
 _Note: When adding the `do_action`, you may pass additional arguments to the library with an array. There is no functionality at the moment, but we expect to expand the library to accept configuration through the passed array._
 ```php
-do_action( 'stellarwp/telemetry/{stellar_slug}/optin', [ 'plugin_slug' => 'the-events-calendar' ] );
+do_action( 'stellarwp/telemetry/optin', '{stellar_slug}', [ 'plugin_slug' => 'the-events-calendar' ] );
 ```
 
 ## Saving Opt-In Status on a Settings Page

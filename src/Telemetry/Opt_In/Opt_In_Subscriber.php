@@ -28,9 +28,7 @@ class Opt_In_Subscriber extends Abstract_Subscriber {
 	 * @return void
 	 */
 	public function register(): void {
-		foreach ( Config::get_all_stellar_slugs() as $slug ) {
-			add_action( 'stellarwp/telemetry/' . $slug . '/optin', [ $this, 'maybe_render_optin' ] );
-		}
+		add_action( 'stellarwp/telemetry/optin', [ $this, 'maybe_render_optin' ], 10, 1 );
 
 		add_action( 'admin_init', [ $this, 'set_optin_status' ] );
 		add_action( 'init', [ $this, 'initialize_optin_option' ] );
@@ -85,11 +83,14 @@ class Opt_In_Subscriber extends Abstract_Subscriber {
 	 * Renders the opt-in modal if it should be rendered.
 	 *
 	 * @since 1.0.0
+	 * @since 2.0.0 - Update to handle rendering multiple modals.
+	 *
+	 * @param string $stellar_slug The stellar slug to use in determining when and how the modal is displayed.
 	 *
 	 * @return void
 	 */
-	public function maybe_render_optin() {
-		$this->container->get( Opt_In_Template::class )->maybe_render();
+	public function maybe_render_optin( string $stellar_slug ) {
+		$this->container->get( Opt_In_Template::class )->maybe_render( $stellar_slug );
 	}
 
 	/**
