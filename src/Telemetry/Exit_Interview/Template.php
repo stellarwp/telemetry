@@ -93,6 +93,7 @@ class Template implements Template_Interface {
 		 * Filters the "Exit Interview" modal arguments.
 		 *
 		 * Planned deprecation: 3.0.0
+		 * Use stellarwp/telemetry/exit_interview_args filter instead.
 		 *
 		 * @since 1.0.0
 		 * @since 2.0.0 - Added the current stellar slug.
