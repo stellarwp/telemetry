@@ -141,16 +141,21 @@ class Status {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string  $stellar_slug The unique slug identifier for the plugin.
-	 * @param boolean $status       The opt-in status for the plugin.
+	 * @param string  $stellar_slug    The unique slug identifier for the plugin.
+	 * @param boolean $status          The opt-in status for the plugin.
+	 * @param string  $plugin_basename The specific basename for the plugin.
 	 *
 	 * @return boolean
 	 */
-	public function add_plugin( string $stellar_slug, bool $status = false ) {
+	public function add_plugin( string $stellar_slug, bool $status = false, string $plugin_basename = '' ) {
 		$option = $this->get_option();
 
+		if ( '' === $plugin_basename ) {
+			$plugin_basename = Config::get_container()->get( Core::PLUGIN_BASENAME );
+		}
+
 		$option['plugins'][ $stellar_slug ] = [
-			'wp_slug' => Config::get_container()->get( Core::PLUGIN_BASENAME ),
+			'wp_slug' => $plugin_basename,
 			'optin'   => $status,
 		];
 
