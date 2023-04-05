@@ -79,12 +79,19 @@ class Telemetry {
 	 * Registers the user with the telemetry server.
 	 *
 	 * @since 1.0.0
+	 * @since 2.0.0 - Add support for setting the stellar slug.
+	 *
+	 * @param string $stellar_slug The slug to pass to the server when registering the site user.
 	 *
 	 * @return void
 	 */
-	public function register_user() {
+	public function register_user( string $stellar_slug = '' ) {
+		if ( '' === $stellar_slug ) {
+			$stellar_slug = Config::get_stellar_slug();
+		}
+
 		try {
-			$this->send( $this->get_user_details(), Config::get_server_url() . '/opt-in' );
+			$this->send( $this->get_user_details( $stellar_slug ), Config::get_server_url() . '/opt-in' );
 		} catch ( \Error $e ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch
 			// We don't want to throw errors if the server fails.
 		}
@@ -246,27 +253,35 @@ class Telemetry {
 	 * Gets the current user's details.
 	 *
 	 * @since 1.0.0
+	 * @since 2.0.0 - Add support for passing stellar_slug directly.
+	 *
+	 * @param string $stellar_slug The plugin slug to pass to the server when registering a site user.
 	 *
 	 * @return array
 	 */
-	protected function get_user_details() {
+	protected function get_user_details( string $stellar_slug = '' ) {
+		if ( '' == $stellar_slug ) {
+			$stellar_slug = Config::get_stellar_slug();
+		}
+
 		$user = wp_get_current_user();
+
+		$args = [
+			'name'        => $user->display_name,
+			'email'       => $user->user_email,
+			'plugin_slug' => $stellar_slug,
+		];
 
 		/**
 		 * Filters the site user details.
 		 *
 		 * @since 1.0.0
+		 * @since 2.0.0 - Add parameter for the current stellar_slug.
 		 *
-		 * @param array $site_user_details
+		 * @param array  $site_user_details The details passed to the telemetry server for registering a new site user.
+		 * @param string $stellar_slug      The current stellar slug passed with the user.
 		 */
-		$user_info = apply_filters(
-			'stellarwp/telemetry/' . Config::get_hook_prefix() . 'register_site_user_details',
-			[
-				'name'        => $user->display_name,
-				'email'       => $user->user_email,
-				'plugin_slug' => Config::get_stellar_slug(),
-			]
-		);
+		$user_info = apply_filters( 'stellarwp/telemetry/' . Config::get_hook_prefix() . 'register_site_user_details', $args, $stellar_slug );
 
 		return [ 'user' => wp_json_encode( $user_info ) ];
 	}

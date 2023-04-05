@@ -133,7 +133,7 @@ class Opt_In_Subscriber extends Abstract_Subscriber {
 
 		try {
 			$this->container->get( Telemetry::class )->register_site();
-			$this->container->get( Telemetry::class )->register_user();
+			$this->container->get( Telemetry::class )->register_user( $stellar_slug );
 		} catch ( \Error $e ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch
 			// We don't want to throw errors if the server cannot be reached.
 		}
