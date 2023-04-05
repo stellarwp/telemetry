@@ -48,7 +48,7 @@ class Template implements Template_Interface {
 	 * Gets the arguments for configuring the "Exit Interview" modal.
 	 *
 	 * @since 1.0.0
-	 * @since 2.0.0
+	 * @since 2.0.0 - Updated to accept a passed stellar slug.
 	 *
 	 * @param string $stellar_slug The stellar slug used when outputting the modal.
 	 *

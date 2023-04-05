@@ -18,6 +18,7 @@ A library for Opt-in and Telemetry data to be sent to the StellarWP Telemetry se
 		- [stellarwp/telemetry/{hook-prefix}/option\_name](#stellarwptelemetryhook-prefixoption_name)
 		- [stellarwp/telemetry/{hook-prefix}/optin\_status](#stellarwptelemetryhook-prefixoptin_status)
 		- [stellarwp/telemetry/{hook-prefix}/optin\_status\_label](#stellarwptelemetryhook-prefixoptin_status_label)
+		- [stellarwp/telemetry/optin\_args](#stellarwptelemetryoptin_args)
 		- [stellarwp/telemetry/{stellar\_slug}/optin\_args](#stellarwptelemetrystellar_slugoptin_args)
 		- [stellarwp/telemetry/{hook-prefix}/show\_optin\_option\_name](#stellarwptelemetryhook-prefixshow_optin_option_name)
 		- [stellarwp/telemetry/{hook-prefix}/register\_site\_url](#stellarwptelemetryhook-prefixregister_site_url)
@@ -26,6 +27,7 @@ A library for Opt-in and Telemetry data to be sent to the StellarWP Telemetry se
 		- [stellarwp/telemetry/{hook-prefix}/send\_data\_args](#stellarwptelemetryhook-prefixsend_data_args)
 		- [stellarwp/telemetry/{hook-prefix}/send\_data\_url](#stellarwptelemetryhook-prefixsend_data_url)
 		- [stellarwp/telemetry/{hook-prefix}/last\_send\_expire\_seconds](#stellarwptelemetryhook-prefixlast_send_expire_seconds)
+		- [stellarwp/telemetry/exit\_interview\_args](#stellarwptelemetryexit_interview_args)
 		- [stellarwp/telemetry/{stellar\_slug}/exit\_interview\_args](#stellarwptelemetrystellar_slugexit_interview_args)
 	- [Adding Plugin Data to Site Health](#adding-plugin-data-to-site-health)
 ## Installation
@@ -85,6 +87,21 @@ function initialize_telemetry() {
 Using a custom hook prefix provides the ability to uniquely filter functionality of your plugin's specific instance of the library.
 
 The unique plugin slug is used by the telemetry server to identify the plugin regardless of the plugin's directory structure or slug.
+
+If you need to hook into an existing instance of the library, you can add your plugin's stellar slug with:
+```php
+add_action( 'plugins_loaded', 'hook_into_existing_telemetry' );
+
+function hook_into_existing_telemetry() {
+	// Check to make sure that the Telemetry library is already instantiated.
+	if ( ! class_exists( Telemetry::class ) ) {
+		return;
+	}
+
+	// Register the current plugin with an already instantiated library.
+	Config::add_stellar_slug( 'my-custom-stellar-slug', 'custom-plugin/custom-plugin.php' );
+}
+```
 
 ## Uninstall Hook
 
@@ -212,10 +229,10 @@ Filter the label used to show the current opt-in status of the site.
 **Parameters**: _string_ `$optin_label`
 
 **Default**: see: [stellarwp/telemetry/optin_status](#stellarwptelemetryoptin_status)
-### stellarwp/telemetry/{stellar_slug}/optin_args
+### stellarwp/telemetry/optin_args
 Filter the arguments passed to the opt-in modal.
 
-**Parameters**: _array_ `$args`
+**Parameters**: _array_ `$args`, _string_ `$stellar_slug`
 
 **Default**:
 ```php
@@ -225,7 +242,7 @@ $args = [
 	'plugin_logo_height'    => 32,
 	'plugin_logo_alt'       => 'StellarWP Logo',
 	'plugin_name'           => 'The Events Calendar',
-	'plugin_slug'           => Config::get_container()->get( Core::PLUGIN_SLUG ),
+	'plugin_slug'           => $stellar_slug,
 	'user_name'             => wp_get_current_user()->display_name,
 	'permissions_url'       => '#',
 	'tos_url'               => '#',
@@ -235,6 +252,9 @@ $args = [
 	'intro'                 => __( 'Hi, {user_name}.! This is an invitation to help our StellarWP community. If you opt-in, some data about your usage of {plugin_name} and future StellarWP Products will be shared with our teams (so they can work their butts off to improve). We will also share some helpful info on WordPress, and our products from time to time. And if you skip this, that’s okay! Our products still work just fine.', 'stellarwp-telemetry' ),
 ];
 ```
+### stellarwp/telemetry/{stellar_slug}/optin_args
+This filter will be deprecated in future versions. Use [stellarwp/telemetry/optin_args](#stellarwptelemetrystellar_slugoptin_args) instead.
+
 ### stellarwp/telemetry/{hook-prefix}/show_optin_option_name
 Filters the string used for the option that determines whether the opt-in modal should be shown.
 
@@ -297,15 +317,15 @@ Filters how often the library should send site health data to the telemetry serv
 
 **Default**: `7 * DAY_IN_SECONDS`
 
-### stellarwp/telemetry/{stellar_slug}/exit_interview_args
+### stellarwp/telemetry/exit_interview_args
 Filters the arguments used in the plugin deactivation "exit interview" form.
 
-**Parameters**: _array_ `$args`
+**Parameters**: _array_ `$args`, _string_ `$stellar_slug`
 
 **Default**:
 ```php
 $args = [
-	'plugin_slug'        => $this->container->get( Core::PLUGIN_SLUG ),
+	'plugin_slug'        => $stellar_slug,
 	'plugin_logo'        => plugin_dir_url( __DIR__ ) . 'public/logo.png',
 	'plugin_logo_width'  => 151,
 	'plugin_logo_height' => 32,
@@ -336,6 +356,9 @@ $args = [
 	],
 ];
 ```
+
+### stellarwp/telemetry/{stellar_slug}/exit_interview_args
+This filter will be deprecated in future versions. Use [stellarwp/telemetry/exit_interview_args](#stellarwptelemetrystellar_slugexit_interview_args) instead.
 
 ## Adding Plugin Data to Site Health
 

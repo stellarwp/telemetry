@@ -111,6 +111,8 @@ class Opt_In_Template implements Template_Interface {
 		/**
 		 * Filters the arguments for rendering the Opt-In modal.
 		 *
+		 * Planned Deprecation: 3.0.0
+		 *
 		 * @since 1.0.0
 		 *
 		 * @param array $optin_args
