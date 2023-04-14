@@ -121,9 +121,19 @@ When a user deletes the plugin, WordPress runs the method from `Uninstall` and c
 ## Opt-In Modal Usage
 
 ### Prompting Users on a Settings Page
-On each settings page you'd like to prompt the user to opt-in, add a `do_action()`. _Be sure to include your defined stellar\_slug if you are using one_.
+On each settings page you'd like to prompt the user to opt-in, add a `do_action()`. _Be sure to include your defined stellar\_slug_.
 ```php
 do_action( 'stellarwp/telemetry/optin', '{stellar_slug}' );
+```
+
+Or, if you're implementing the library prior to version 3.0.0:
+```php
+/**
+ * Planned Deprecation: 3.0.0
+ *
+ * Please use 'stellarwp/telemetry/optin' action instead.
+ */
+do_action( 'stellarwp/telemetry/{stellar_slug}/optin' );
 ```
 The library calls this action to handle registering the required resources needed to render the modal. It will only display the modal for users who haven't yet opted in.
 
