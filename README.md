@@ -13,6 +13,7 @@ A library for Opt-in and Telemetry data to be sent to the StellarWP Telemetry se
 		- [Prompting Users on a Settings Page](#prompting-users-on-a-settings-page)
 	- [Saving Opt-In Status on a Settings Page](#saving-opt-in-status-on-a-settings-page)
 	- [How to Migrate Users Who Have Already Opted In](#how-to-migrate-users-who-have-already-opted-in)
+	- [Utilizing a Shared Telemetry Instance](#utilizing-a-shared-telemetry-instance)
 	- [Filter Reference](#filter-reference)
 		- [stellarwp/telemetry/{hook-prefix}/should\_show\_optin](#stellarwptelemetryhook-prefixshould_show_optin)
 		- [stellarwp/telemetry/{hook-prefix}/option\_name](#stellarwptelemetryhook-prefixoption_name)
@@ -120,9 +121,19 @@ When a user deletes the plugin, WordPress runs the method from `Uninstall` and c
 ## Opt-In Modal Usage
 
 ### Prompting Users on a Settings Page
-On each settings page you'd like to prompt the user to opt-in, add a `do_action()`. _Be sure to include your defined stellar\_slug if you are using one_.
+On each settings page you'd like to prompt the user to opt-in, add a `do_action()`. _Be sure to include your defined stellar\_slug_.
 ```php
 do_action( 'stellarwp/telemetry/optin', '{stellar_slug}' );
+```
+
+Or, if you're implementing the library prior to version 3.0.0:
+```php
+/**
+ * Planned Deprecation: 3.0.0
+ *
+ * Please use 'stellarwp/telemetry/optin' action instead.
+ */
+do_action( 'stellarwp/telemetry/{stellar_slug}/optin' );
 ```
 The library calls this action to handle registering the required resources needed to render the modal. It will only display the modal for users who haven't yet opted in.
 
@@ -187,6 +198,30 @@ function migrate_existing_opt_in() {
 		$Opt_In_Subscriber = Config::get_container()->get( Opt_In_Subscriber::class );
 		$Opt_In_Subscriber->opt_in();
 	}
+}
+```
+
+## Utilizing a Shared Telemetry Instance
+
+There are cases where a plugin may want to use a shared instance of the library.
+
+The best example of this would be an add-on plugin connecting and using the Telemetry instance of its parent plugin.
+
+In this case, all that the plugin needs to do to implement the parent Telemetry instance is use `Config::add_stellar_slug()`.
+```php
+use STRAUSS_PREFIX\StellarWP\Telemetry\Config;
+
+add_action( 'plugins_loaded', 'add_plugin_to_telemetry' );
+
+function add_plugin_to_telemetry() {
+
+	// Verify that Telemetry is available.
+	if ( ! class_exists( Config::class ) ) {
+        return;
+    }
+
+	// Set a unique plugin slug and include the plugin basename.
+	Config::add_stellar_slug( 'my-custom-stellar-slug', 'my-custom-stellar-slug/my-custom-stellar-slug.php' );
 }
 ```
 
