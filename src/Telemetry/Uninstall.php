@@ -29,7 +29,7 @@ class Uninstall {
 	 *
 	 * @return void
 	 */
-	public static function run( string $stellar_slug ) {
+	public static function run( $stellar_slug ) {
 		$opt_in_status = new Status();
 
 		if ( $opt_in_status->plugin_exists( $stellar_slug ) ) {

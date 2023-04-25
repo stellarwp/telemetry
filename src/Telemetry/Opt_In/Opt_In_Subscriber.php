@@ -28,7 +28,15 @@ class Opt_In_Subscriber extends Abstract_Subscriber {
 	 * @return void
 	 */
 	public function register(): void {
-		add_action( 'stellarwp/telemetry/' . Config::get_stellar_slug() . '/optin', [ $this, 'maybe_render_optin' ] );
+		/**
+		 * Planned deprecation: 3.0.0
+		 *
+		 * Use stellarwp/telemetry/optin filter instead.
+		 */
+		add_action( 'stellarwp/telemetry/' . Config::get_stellar_slug() . '/optin', [ $this, 'maybe_render_optin' ], 10, 1 );
+
+		add_action( 'stellarwp/telemetry/optin', [ $this, 'maybe_render_optin' ], 10, 1 );
+
 		add_action( 'admin_init', [ $this, 'set_optin_status' ] );
 		add_action( 'init', [ $this, 'initialize_optin_option' ] );
 	}
@@ -63,24 +71,37 @@ class Opt_In_Subscriber extends Abstract_Subscriber {
 			return;
 		}
 
+		$stellar_slug = Config::get_stellar_slug();
+
+		if ( isset( $_POST['stellar_slug'] ) ) {
+			$stellar_slug = sanitize_text_field( $_POST['stellar_slug'] );
+		}
+
 		// User agreed to opt-in to Telemetry.
 		if ( 'true' === $_POST['optin-agreed'] ) {
-			$this->opt_in();
+			$this->opt_in( $stellar_slug );
 		}
 
 		// Don't show the opt-in modal again.
-		update_option( $this->container->get( Opt_In_Template::class )->get_option_name(), '0' );
+		update_option( $this->container->get( Opt_In_Template::class )->get_option_name( $stellar_slug ), '0' );
 	}
 
 	/**
 	 * Renders the opt-in modal if it should be rendered.
 	 *
 	 * @since 1.0.0
+	 * @since 2.0.0 - Update to handle rendering multiple modals.
+	 *
+	 * @param string $stellar_slug The stellar slug to use in determining when and how the modal is displayed.
 	 *
 	 * @return void
 	 */
-	public function maybe_render_optin() {
-		$this->container->get( Opt_In_Template::class )->maybe_render();
+	public function maybe_render_optin( string $stellar_slug = '' ) {
+		if ( '' === $stellar_slug ) {
+			$stellar_slug = Config::get_stellar_slug();
+		}
+
+		$this->container->get( Opt_In_Template::class )->maybe_render( $stellar_slug );
 	}
 
 	/**
@@ -94,15 +115,17 @@ class Opt_In_Subscriber extends Abstract_Subscriber {
 	 * @return void
 	 */
 	public function initialize_optin_option() {
-		$stellar_slug    = Config::get_stellar_slug();
 		$opt_in_template = $this->container->get( Opt_In_Template::class );
 		$opt_in_status   = $this->container->get( Status::class );
 
-		// Check if plugin slug exists within array.
-		if ( ! $opt_in_status->plugin_exists( $stellar_slug ) ) {
-			$opt_in_status->add_plugin( $stellar_slug );
+		// Loop through all registered stellar slugs and add them to the optin option.
+		foreach ( Config::get_all_stellar_slugs() as $stellar_slug => $wp_slug ) {
+			// Check if plugin slug exists within array.
+			if ( ! $opt_in_status->plugin_exists( $stellar_slug ) ) {
+				$opt_in_status->add_plugin( $stellar_slug, false, $wp_slug );
 
-			update_option( $opt_in_template->get_option_name(), '1' );
+				update_option( $opt_in_template->get_option_name( $stellar_slug ), '1' );
+			}
 		}
 	}
 
@@ -110,15 +133,18 @@ class Opt_In_Subscriber extends Abstract_Subscriber {
 	 * Registers the site/user with the telemetry server and sets the opt-in status.
 	 *
 	 * @since 1.0.0
+	 * @since 2.0.0 - Updated to allow specifying the stellar slug.
+	 *
+	 * @param string $stellar_slug The slug to use when opting in.
 	 *
 	 * @return void
 	 */
-	public function opt_in() {
-		$this->container->get( Status::class )->set_status( true );
+	public function opt_in( string $stellar_slug ) {
+		$this->container->get( Status::class )->set_status( true, $stellar_slug );
 
 		try {
 			$this->container->get( Telemetry::class )->register_site();
-			$this->container->get( Telemetry::class )->register_user();
+			$this->container->get( Telemetry::class )->register_user( $stellar_slug );
 		} catch ( \Error $e ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch
 			// We don't want to throw errors if the server cannot be reached.
 		}
