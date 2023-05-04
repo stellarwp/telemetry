@@ -211,7 +211,7 @@ class Opt_In_Template implements Template_Interface {
 		$opted_in_plugins = [];
 
 		foreach ( $option['plugins'] as $plugin ) {
-			if ( $plugin['optin'] !== true ) {
+			if ( true !== $plugin['optin'] ) {
 				continue;
 			}
 
