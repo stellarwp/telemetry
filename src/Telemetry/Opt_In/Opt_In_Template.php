@@ -211,10 +211,21 @@ class Opt_In_Template implements Template_Interface {
 		$opted_in_plugins = [];
 
 		foreach ( $option['plugins'] as $plugin ) {
-			$plugin_data = get_plugin_data( trailingslashit( $site_plugins_dir ) . $plugin['wp_slug'] );
-			if ( true === $plugin['optin'] ) {
-				$opted_in_plugins[] = $plugin_data['Name'];
+			if ( $plugin['optin'] !== true ) {
+				continue;
 			}
+
+			$plugin_path = trailingslashit( $site_plugins_dir ) . $plugin['wp_slug'];
+			if ( ! file_exists( $plugin_path ) ) {
+				continue;
+			}
+
+			$plugin_data = get_plugin_data( $plugin_path );
+			if ( empty( $plugin_data['Name'] ) ) {
+				continue;
+			}
+
+			$opted_in_plugins[] = $plugin_data['Name'];
 		}
 
 		return $opted_in_plugins;
