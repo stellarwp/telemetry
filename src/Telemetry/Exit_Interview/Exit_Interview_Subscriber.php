@@ -80,24 +80,24 @@ class Exit_Interview_Subscriber extends Abstract_Subscriber {
 	 * @return void
 	 */
 	public function ajax_exit_interview() {
-		$uninstall_reason_id = filter_input( INPUT_POST, 'uninstall_reason_id' );
+		$uninstall_reason_id = filter_input( INPUT_POST, 'uninstall_reason_id', FILTER_UNSAFE_RAW );
 		$uninstall_reason_id = ! empty( $uninstall_reason_id ) ? $uninstall_reason_id : false;
 		if ( ! $uninstall_reason_id ) {
 			wp_send_json_error( 'No reason id provided' );
 		}
 
-		$uninstall_reason = filter_input( INPUT_POST, 'uninstall_reason' );
+		$uninstall_reason = filter_input( INPUT_POST, 'uninstall_reason', FILTER_UNSAFE_RAW );
 		$uninstall_reason = ! empty( $uninstall_reason ) ? $uninstall_reason : false;
 		if ( ! $uninstall_reason ) {
 			wp_send_json_error( 'No reason provided' );
 		}
 
-		$plugin_slug = filter_input( INPUT_POST, 'plugin_slug' );
+		$plugin_slug = filter_input( INPUT_POST, 'plugin_slug', FILTER_UNSAFE_RAW );
 
-		$comment = filter_input( INPUT_POST, 'comment' );
+		$comment = filter_input( INPUT_POST, 'comment', FILTER_UNSAFE_RAW );
 		$comment = ! empty( $comment ) ? $comment : '';
 
-		$nonce = filter_input( INPUT_POST, 'nonce' );
+		$nonce = filter_input( INPUT_POST, 'nonce', FILTER_UNSAFE_RAW );
 		$nonce = ! empty( $nonce ) ? $nonce : '';
 
 		if ( ! wp_verify_nonce( $nonce, self::AJAX_ACTION ) ) {
