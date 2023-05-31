@@ -67,7 +67,6 @@ class Status {
 	 * @return integer The status value.
 	 */
 	public function get() {
-		$status = self::STATUS_ACTIVE;
 		$option = $this->get_option();
 
 		// If the status option is not an option, default to inactive.
@@ -78,10 +77,23 @@ class Status {
 		$status = array_reduce(
 			$option['plugins'],
 			function( $carry, $item ) {
-				return (bool) $carry || (bool) $item['optin'];
-			},
-			$status
+				// First run, ignore the default STATUS_ACTIVE
+				if ( empty( $carry ) ) {
+					return (int) $item['optin'];
+				}
+
+				// As long as they are the same, we keep returning the same.
+				if ( $carry === $item['optin'] ) {
+					return (int) $item['optin'];
+				}
+
+				return self::STATUS_MIXED;
+			}
 		);
+
+		if ( 0 === $status ) {
+			$status = self::STATUS_INACTIVE;
+		}
 
 		/**
 		 * Filters the opt-in status value.
