@@ -77,7 +77,7 @@ class Status {
 		$status = array_reduce(
 			$option['plugins'],
 			function( $carry, $item ) {
-				// First run, ignore the default STATUS_ACTIVE
+				// First run, ignore the default STATUS_ACTIVE.
 				if ( empty( $carry ) ) {
 					return (int) $item['optin'];
 				}
