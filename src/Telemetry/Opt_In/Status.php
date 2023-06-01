@@ -63,11 +63,11 @@ class Status {
 	 * 3 = Mixed
 	 *
 	 * @since 1.0.0
+	 * @since 2.0.1 Correct logic so it is not subject to the order of the plugins.
 	 *
 	 * @return integer The status value.
 	 */
 	public function get() {
-		$status = self::STATUS_ACTIVE;
 		$option = $this->get_option();
 
 		// If the status option is not an option, default to inactive.
@@ -75,19 +75,25 @@ class Status {
 			return self::STATUS_INACTIVE;
 		}
 
-		foreach ( $option['plugins'] as $plugin ) {
+		$status = array_reduce(
+			$option['plugins'],
+			function( $carry, $item ) {
+				// First run, ignore the default STATUS_ACTIVE.
+				if ( empty( $carry ) ) {
+					return (int) $item['optin'];
+				}
 
-			// If a plugin's status is false, we set the status as inactive.
-			if ( false === (bool) $plugin['optin'] ) {
-				$status = self::STATUS_INACTIVE;
-				continue;
-			}
+				// As long as they are the same, we keep returning the same.
+				if ( $carry === $item['optin'] ) {
+					return (int) $item['optin'];
+				}
 
-			// If another plugin's status is true and the status is already inactive, we set the status as mixed.
-			if ( true === $plugin['optin'] && self::STATUS_INACTIVE === $status ) {
-				$status = self::STATUS_MIXED;
-				break;
+				return self::STATUS_MIXED;
 			}
+		);
+
+		if ( 0 === $status ) {
+			$status = self::STATUS_INACTIVE;
 		}
 
 		/**
