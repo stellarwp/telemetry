@@ -51,7 +51,9 @@ class Status {
 	 * @return array
 	 */
 	public function get_option() {
-		return get_option( $this->get_option_name(), [] );
+		$option = get_option( $this->get_option_name(), [] );
+
+		return is_array( $option ) ? $option : [];
 	}
 
 	/**
@@ -208,9 +210,13 @@ class Status {
 		}
 
 		foreach ( $option['plugins'] as $stellar_slug => $plugin ) {
+			if ( ! isset( $plugin['wp_slug'] ) ) {
+				continue;
+			}
+
 			$plugin_data = get_plugin_data( trailingslashit( $site_plugins_dir ) . $plugin['wp_slug'] );
 
-			if ( true === $plugin['optin'] ) {
+			if ( isset( $plugin['optin'] ) && true === $plugin['optin'] ) {
 				$opted_in_plugins[] = [
 					'slug'    => $stellar_slug,
 					'version' => $plugin_data['Version'],
