@@ -1,0 +1,42 @@
+name: telemetry-library
+recipe: wordpress
+env_file:
+  - dev/lando/.env
+
+excludes:
+  - vendor
+  - .vscode
+  - .github
+
+config:
+  php: '8.1'
+  via: nginx
+  database: mysql
+  webroot: dev/public
+
+proxy:
+  appserver_nginx:
+    - telemetry-library.lndo.site
+
+services:
+  appserver:
+    xdebug: true
+    overrides:
+      volumes:
+        - './:/app/dev/public/wp-content/plugins/library-testing/lib'
+      environment:
+        PHP_IDE_CONFIG: "serverName=telemetry-library"
+        XDEBUG_SESSION_START: lando
+
+  mailhog:
+    type: mailhog
+    portforward: true
+    hogfrom:
+      - appserver
+
+events:
+  post-start:
+    - appserver: composer install
+    - appserver: /app/dev/lando/install-wp.sh
+  post-destroy:
+    - appserver: rm -rf /app/dev/public/wp
