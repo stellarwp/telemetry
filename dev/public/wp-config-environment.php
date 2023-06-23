@@ -41,6 +41,7 @@ define( 'WP_HOME', app_env( 'WP_HOME', 'https://telemetry-library.lndo.site' ) )
 define( 'WP_SITEURL', app_env( 'WP_SITEURL', 'https://telemetry-library.lndo.site/wp' ) );
 define( 'WP_CONTENT_URL', sprintf( '%s/wp-content', WP_HOME ) );
 define( 'WP_CONTENT_DIR', __DIR__ . '/wp-content' );
+define( 'TELEMETRY_SERVER_URL', app_env( 'TELEMETRY_SERVER_URL', 'https://telemetry-dev.stellarwp.com/api/v1' ) );
 
 $table_prefix = app_env( 'DB_PREFIX', 'wp_' );  // phpcs:ignore
 
