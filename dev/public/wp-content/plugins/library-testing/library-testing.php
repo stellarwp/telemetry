@@ -23,3 +23,11 @@ add_action(
 		Telemetry::instance()->init( __FILE__ );
 	}
 );
+
+// Trigger the optin modal on every page load.
+add_action(
+	'plugins_loaded',
+	function () {
+		do_action( 'stellarwp/telemetry/optin', 'telemetry-library' );
+	}
+);
