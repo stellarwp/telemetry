@@ -128,10 +128,10 @@ class Telemetry {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param array  $data The array of data to send.
-	 * @param string $url  The url of the telemetry server.
+	 * @param array  $data     The array of data to send.
+	 * @param string $url      The url of the telemetry server.
 	 * @param bool   $blocking Whether the request should be blocking or not.
-	 * @param float $timeout The timeout for the request, `0` for no timeout.
+	 * @param float  $timeout  The timeout for the request, `0` for no timeout.
 	 *
 	 * @return array|null
 	 */
@@ -168,8 +168,8 @@ class Telemetry {
 			$url,
 			[
 				'blocking' => $blocking,
-				'timeout' => $timeout,
-				'body' => $data,
+				'timeout'  => $timeout,
+				'body'     => $data,
 			]
 		);
 	}
