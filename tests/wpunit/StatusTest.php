@@ -5,9 +5,12 @@ use StellarWP\Telemetry\Config;
 use StellarWP\Telemetry\Core;
 use StellarWP\Telemetry\Opt_In\Status;
 use StellarWP\Telemetry\Tests\Container;
+use StellarWP\Telemetry\Tests\Support\Traits\With_Test_Container;
+use StellarWP\Telemetry\Tests\Support\Traits\With_Uopz;
 
 class StatusTest extends WPTestCase {
-	private $uopz_set_fn_returns = [];
+	use With_Test_Container;
+	use With_Uopz;
 
 	public function get_option_data_provider(): array {
 		return [
@@ -78,7 +81,7 @@ class StatusTest extends WPTestCase {
 					]
 				]
 			],
-			'one plugin is missing opt-in key'   => [
+			'one plugin is missing opt-in key'  => [
 				[
 					'plugins' => [
 						'acme-commerce' => [
@@ -97,7 +100,7 @@ class StatusTest extends WPTestCase {
 					]
 				]
 			],
-			'not all plugins opt-in'             => [
+			'not all plugins opt-in'            => [
 				[
 					'plugins' => [
 						'acme-commerce' => [
@@ -125,7 +128,7 @@ class StatusTest extends WPTestCase {
 					]
 				],
 			],
-			'all plugins opt-out' => [
+			'all plugins opt-out'               => [
 				[
 					'plugins' => [
 						'acme-commerce' => [
@@ -144,7 +147,7 @@ class StatusTest extends WPTestCase {
 				],
 				[],
 			],
-			'all plugins opt-in' => [
+			'all plugins opt-in'                => [
 				[
 					'plugins' => [
 						'acme-commerce' => [
@@ -183,8 +186,7 @@ class StatusTest extends WPTestCase {
 	 * @dataProvider get_opted_in_plugins_data_provider
 	 */
 	public function test_get_opted_in_plugins( $option_value, $expected ): void {
-		$this->uopz_set_fn_returns[] = 'get_pougin_data';
-		uopz_set_return( 'get_plugin_data', static function ( string $plugin ) {
+		$this->set_fn_return( 'get_plugin_data', static function ( string $plugin ) {
 			if ( strpos( $plugin, 'acme-commerce', true ) ) {
 				return [
 					'Name'    => 'Acme Commerce',
@@ -204,32 +206,11 @@ class StatusTest extends WPTestCase {
 				'Version' => '5.6.7',
 			];
 		}, true );
-		$test_container = new Container();
-		$test_container->setVar( Core::SITE_PLUGIN_DIR, '/app/public/wp-content/plugins/' );
-		Config::set_container( $test_container );
 		$status = new Status();
 
 		update_option( $status->get_option_name(), $option_value );
 
 		$this->assertIsArray( $status->get_opted_in_plugins() );
 		$this->assertEquals( $expected, $status->get_opted_in_plugins() );
-	}
-
-	/**
-	 * @before
-	 * @after
-	 */
-	public function reset_config(): void {
-		Config::reset();
-	}
-
-	/**
-	 * @after
-	 */
-	public function cleanup_uopz(): void {
-		foreach ( $this->uopz_set_fn_returns as $fn ) {
-			uopz_unset_return( $fn );
-		}
-		$this->uopzuopz_set_fn_returns = [];
 	}
 }
