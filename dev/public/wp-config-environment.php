@@ -1,10 +1,10 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * @param string $name
  * @param mixed  $default
  */
-function app_env( string $name, mixed $default = null ): mixed {
+function app_env( string $name, $default = null ) {
 	$env = getenv( $name );
 	if ( $env === false ) {
 		return $default;
