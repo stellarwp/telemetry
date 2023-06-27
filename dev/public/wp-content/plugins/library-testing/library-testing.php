@@ -16,7 +16,7 @@ add_action(
 	'plugins_loaded',
 	static function (): void {
 		$container = new Container();
-		Config::set_hook_prefix( 'telemetry-library' );
+		Config::set_hook_prefix( 'telemetry-prefix' );
 		Config::set_stellar_slug( 'telemetry-library' );
 		Config::set_server_url( defined( 'TELEMETRY_SERVER_URL' ) ? TELEMETRY_SERVER_URL : 'https://telemetry-dev.stellarwp.com/api/v1' );
 		Config::set_container( $container );
