@@ -38,11 +38,9 @@ class Event_Subscriber extends Abstract_Subscriber {
 	 *
 	 * @param string $name The name of the event to send.
 	 * @param array  $data Additional information to send with the event.
-	 *
-	 * @return bool True if the event was sent successfully, false otherwise.
 	 */
 	public function send_event( string $name, array $data = [] ) {
-		return $this->container->get( Event::class )->send( $name, $data );
+		$this->container->get( Event::class )->send( $name, $data );
 	}
 
 }

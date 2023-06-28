@@ -25,7 +25,7 @@ class Event {
 	 *
 	 * @since TBD
 	 *
-	 * @var StellarWP\Telemetry\Telemetry\Telemetry
+	 * @var \StellarWP\Telemetry\Telemetry\Telemetry
 	 */
 	private Telemetry $telemetry;
 
