@@ -27,7 +27,7 @@ class Event {
 	 *
 	 * @var \StellarWP\Telemetry\Telemetry\Telemetry
 	 */
-	private Telemetry $telemetry;
+	private $telemetry;
 
 	/**
 	 * The class constructor.
