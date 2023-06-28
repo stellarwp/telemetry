@@ -1,0 +1,15 @@
+{
+  "name": "telemetry/library-testing",
+  "autoload": {
+    "psr-4": {
+      "StellarWP\\TelemetryLibraryTesting\\": "src/",
+      "StellarWP\\Telemetry\\": "lib/src/Telemetry/",
+      "StellarWP\\Telemetry\\Views_Dir\\": "lib/src/views/",
+      "StellarWP\\Telemetry\\Assets_Dir\\": "lib/src/resources/"
+    }
+  },
+  "require": {
+    "lucatume/di52": "^3.3",
+    "stellarwp/container-contract": "^1.1"
+  }
+}
