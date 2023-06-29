@@ -69,7 +69,6 @@ class Telemetry_Test extends WPTestCase {
 		$telemetry = new Telemetry( new Null_Data_Provider(), new Status() );
 		$telemetry->register_site();
 
-		codecept_debug( $telemetry->get_token() );
 		$this->assertEmpty( $telemetry->get_token() );
 	}
 
