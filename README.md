@@ -31,6 +31,7 @@ A library for Opt-in and Telemetry data to be sent to the StellarWP Telemetry se
 		- [stellarwp/telemetry/exit\_interview\_args](#stellarwptelemetryexit_interview_args)
 		- [stellarwp/telemetry/{stellar\_slug}/exit\_interview\_args](#stellarwptelemetrystellar_slugexit_interview_args)
 	- [Adding Plugin Data to Site Health](#adding-plugin-data-to-site-health)
+	- [Capturing User Events](#capturing-user-events)
 ## Installation
 
 It's recommended that you install Telemetry as a project dependency via [Composer](https://getcomposer.org/):
@@ -433,4 +434,62 @@ function add_summary_to_telemtry( $info ) {
 }
 
 add_filter( 'debug_information', 'add_summary_to_telemetry', 10, 1) ;
+```
+
+## Capturing User Events
+
+When a user completes an action, an event can be captured with the telemetry server for a specific site. These events take `name` and `data` (array) parameters to capture any specific information necessary for the event.
+
+Some examples of actions you may want to capture:
+- User creates their first post
+- A plugin feature is used for the first time (but not completed or utilized)
+- X days have passed and a feature has not yet been utilized
+
+**NOTE: All plugins should trigger an event when a user opts out of telemetry for a site.**
+
+To create an event, set up a do_action with the necessary details wherever you'd like to capture it:
+```php
+// Event data is sent to the telemetry server as JSON.
+$data = [
+	'one'   => 1,
+	'two'   => 2,
+	'three' => 3,
+];
+do_action( 'stellarwp/telemetry/event', 'your-event-name', $data );
+```
+
+Here is how you might log events when a user creates a new post:
+```php
+/**
+ * Log event when a user creates a new post.
+ *
+ * @action save_post
+ *
+ * @param int     $post_id The ID of the post being saved.
+ * @param WP_Post $post    The post object being saved.
+ * @param bool    $update  If this is an update to a pre-existing post.
+ *
+ * @return void
+ */
+function user_creates_post( $post_id, $post, $update ) {
+	// Only send events for new posts.
+	if ( $update ) {
+		return;
+	}
+
+	// Only send event for posts, avoid everything else.
+	if ( $post->post_type !== 'post' ) {
+		return;
+	}
+
+	// Add any data to the event that needs to be captured.
+	$event_data = [
+		'title'   => $post->post_title,
+		'content' => $post->post_content,
+		'some-other-data' => 'use the array to capture anything else that might be necessary for context'
+	];
+
+	// Log the event with the telemetry server.
+	do_action( 'stellarwp/telemetry/event', 'new_post', $event_data );
+}
 ```
