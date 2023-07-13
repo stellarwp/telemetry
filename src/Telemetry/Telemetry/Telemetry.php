@@ -58,9 +58,9 @@ class Telemetry {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param boolean $force Force the creation of the site on the server.
+	 * @param bool $force Force the creation of the site on the server.
 	 *
-	 * @return boolean
+	 * @return bool True if the site was registered, false otherwise.
 	 */
 	public function register_site( bool $force = false ) {
 		// If site is already registered and we're not forcing a new registration, bail.
@@ -91,7 +91,7 @@ class Telemetry {
 		}
 
 		try {
-			$this->send( $this->get_user_details( $stellar_slug ), Config::get_server_url() . '/opt-in' );
+			$this->send( $this->get_user_details( $stellar_slug ), Config::get_server_url() . '/opt-in', false );
 		} catch ( \Error $e ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch
 			// We don't want to throw errors if the server fails.
 		}
@@ -110,7 +110,7 @@ class Telemetry {
 	 * @return void
 	 */
 	public function send_uninstall( string $plugin_slug, string $uninstall_reason_id, string $uninstall_reason, string $comment = '' ) {
-		$response = $this->send(
+		$this->send(
 			[
 				'access_token'        => $this->get_token(),
 				'plugin_slug'         => $plugin_slug,
@@ -118,7 +118,8 @@ class Telemetry {
 				'uninstall_reason'    => $uninstall_reason,
 				'comment'             => $comment,
 			],
-			$this->get_uninstall_url()
+			$this->get_uninstall_url(),
+			false
 		);
 	}
 
@@ -127,13 +128,15 @@ class Telemetry {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param array  $data The array of data to send.
-	 * @param string $url  The url of the telemetry server.
+	 * @param array  $data     The array of data to send.
+	 * @param string $url      The url of the telemetry server.
+	 * @param bool   $blocking Whether the request should be blocking or not.
+	 * @param float  $timeout  The timeout for the request, `0` for no timeout.
 	 *
 	 * @return array|null
 	 */
-	protected function send( array $data, string $url ) {
-		$response = $this->request( $url, $data );
+	protected function send( array $data, string $url, bool $blocking = true, float $timeout = 5.0 ) {
+		$response = $this->request( $url, $data, $blocking, $timeout );
 
 		if ( is_wp_error( $response ) ) {
 			return null;
@@ -153,16 +156,20 @@ class Telemetry {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string $url  The url of the telemetry server.
-	 * @param array  $data The data to send.
+	 * @param string $url      The url of the telemetry server.
+	 * @param array  $data     The data to send.
+	 * @param bool   $blocking Whether the request should be blocking or not.
+	 * @param float  $timeout  The timeout for the request, `0` for no timeout.
 	 *
 	 * @return array|\WP_Error
 	 */
-	protected function request( string $url, array $data ) {
+	protected function request( string $url, array $data, bool $blocking = true, float $timeout = 5.0 ) {
 		return wp_remote_post(
 			$url,
 			[
-				'body' => $data,
+				'blocking' => $blocking,
+				'timeout'  => $timeout,
+				'body'     => $data,
 			]
 		);
 	}
@@ -322,7 +329,7 @@ class Telemetry {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
 	public function is_registered() {
 		// Check if the site is registered by checking if the token is set.
@@ -336,7 +343,7 @@ class Telemetry {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
 	public function send_data() {
 		if ( ! $this->is_registered() ) {
@@ -349,7 +356,7 @@ class Telemetry {
 
 		$response = $this->send( $this->get_send_data_args(), $this->get_send_data_url() );
 
-		return $response['status'] ?? false;
+		return isset( $response['status'] );
 	}
 
 	/**
@@ -395,7 +402,7 @@ class Telemetry {
 	 *
 	 * @return string
 	 */
-	protected function get_token() {
+	public function get_token() {
 		$option = $this->get_option();
 
 		return $option['token'] ?? '';
