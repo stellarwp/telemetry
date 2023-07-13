@@ -21,10 +21,12 @@ class Telemetry_Test extends WPTestCase {
 	public function should_register_site_with_blocking_request(): void {
 		$mock_response = [
 			'headers'       => [],
-			'body'          => json_encode( [
-				'status' => 'success',
-				'token'  => '1234567890',
-			] ),
+			'body'          => json_encode(
+				[
+					'status' => 'success',
+					'token'  => '1234567890',
+				]
+			),
 			'response'      => [
 				'code'    => false,
 				'message' => false,
@@ -34,12 +36,16 @@ class Telemetry_Test extends WPTestCase {
 		];
 		$call_url      = null;
 		$call_args     = null;
-		$this->set_fn_return( 'wp_remote_post', static function ( string $url, array $args ) use ( $mock_response, &$call_url, &$call_args ) {
-			$call_url  = $url;
-			$call_args = $args;
+		$this->set_fn_return(
+			'wp_remote_post',
+			static function ( string $url, array $args ) use ( $mock_response, &$call_url, &$call_args ) {
+				$call_url  = $url;
+				$call_args = $args;
 
-			return $mock_response;
-		}, true );
+				return $mock_response;
+			},
+			true
+		);
 
 		$telemetry = new Telemetry( new Null_Data_Provider(), new Status() );
 		$telemetry->register_site();
@@ -59,12 +65,16 @@ class Telemetry_Test extends WPTestCase {
 		$mock_response = new \WP_Error( 'for reasons' );
 		$call_url      = null;
 		$call_args     = null;
-		$this->set_fn_return( 'wp_remote_post', static function ( string $url, array $args ) use ( $mock_response, &$call_url, &$call_args ) {
-			$call_url  = $url;
-			$call_args = $args;
+		$this->set_fn_return(
+			'wp_remote_post',
+			static function ( string $url, array $args ) use ( $mock_response, &$call_url, &$call_args ) {
+				$call_url  = $url;
+				$call_args = $args;
 
-			return $mock_response;
-		}, true );
+				return $mock_response;
+			},
+			true
+		);
 
 		$telemetry = new Telemetry( new Null_Data_Provider(), new Status() );
 		$telemetry->register_site();
@@ -80,10 +90,12 @@ class Telemetry_Test extends WPTestCase {
 	public function should_register_user_with_non_blocking_request(): void {
 		$mock_response = [
 			'headers'       => [],
-			'body'          => json_encode( [
-				'status' => 'success',
-				'token'  => '1234567890',
-			] ),
+			'body'          => json_encode(
+				[
+					'status' => 'success',
+					'token'  => '1234567890',
+				]
+			),
 			'response'      => [
 				'code'    => false,
 				'message' => false,
@@ -93,12 +105,16 @@ class Telemetry_Test extends WPTestCase {
 		];
 		$call_url      = null;
 		$call_args     = null;
-		$this->set_fn_return( 'wp_remote_post', static function ( string $url, array $args ) use ( $mock_response, &$call_url, &$call_args ) {
-			$call_url  = $url;
-			$call_args = $args;
+		$this->set_fn_return(
+			'wp_remote_post',
+			static function ( string $url, array $args ) use ( $mock_response, &$call_url, &$call_args ) {
+				$call_url  = $url;
+				$call_args = $args;
 
-			return $mock_response;
-		}, true );
+				return $mock_response;
+			},
+			true
+		);
 
 		$telemetry = new Telemetry( new Null_Data_Provider(), new Status() );
 		$telemetry->register_user();
@@ -126,12 +142,16 @@ class Telemetry_Test extends WPTestCase {
 		];
 		$call_url      = null;
 		$call_args     = null;
-		$this->set_fn_return( 'wp_remote_post', static function ( string $url, array $args ) use ( $mock_response, &$call_url, &$call_args ) {
-			$call_url  = $url;
-			$call_args = $args;
+		$this->set_fn_return(
+			'wp_remote_post',
+			static function ( string $url, array $args ) use ( $mock_response, &$call_url, &$call_args ) {
+				$call_url  = $url;
+				$call_args = $args;
 
-			return $mock_response;
-		}, true );
+				return $mock_response;
+			},
+			true
+		);
 
 		$telemetry = new Telemetry( new Null_Data_Provider(), new Status() );
 		$telemetry->send_uninstall( 'acme-tickets', 'reasons', 'For reasons' );
@@ -149,10 +169,12 @@ class Telemetry_Test extends WPTestCase {
 	public function should_send_data_with_blocking_request(): void {
 		$mock_response = [
 			'headers'       => [],
-			'body'          => json_encode( [
-				'status' => 'success',
-				'token'  => '1234567890',
-			] ),
+			'body'          => json_encode(
+				[
+					'status' => 'success',
+					'token'  => '1234567890',
+				]
+			),
 			'response'      => [
 				'code'    => false,
 				'message' => false,
@@ -162,12 +184,16 @@ class Telemetry_Test extends WPTestCase {
 		];
 		$call_url      = null;
 		$call_args     = null;
-		$this->set_fn_return( 'wp_remote_post', static function ( string $url, array $args ) use ( $mock_response, &$call_url, &$call_args ) {
-			$call_url  = $url;
-			$call_args = $args;
+		$this->set_fn_return(
+			'wp_remote_post',
+			static function ( string $url, array $args ) use ( $mock_response, &$call_url, &$call_args ) {
+				$call_url  = $url;
+				$call_args = $args;
 
-			return $mock_response;
-		}, true );
+				return $mock_response;
+			},
+			true
+		);
 
 		$status = new Status();
 		$status->set_status( true );
