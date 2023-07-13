@@ -9,6 +9,7 @@
 
 namespace StellarWP\Telemetry\Events;
 
+use StellarWP\Telemetry\Config;
 use StellarWP\Telemetry\Telemetry\Telemetry;
 
 /**
@@ -41,17 +42,59 @@ class Event {
 	}
 
 	/**
-	 * Sends an event request to the Telemetry server.
+	 * Sends an event to the telemetry server.
 	 *
 	 * @since TBD
 	 *
-	 * @param string $name The name of the event to send.
-	 * @param array  $data Additional information to send with the event.
+	 * @param string $name The name of the event.
+	 * @param array  $data Additional information to include with the event.
 	 *
-	 * @return void
+	 * @return bool
 	 */
 	public function send( string $name, array $data = [] ) {
-		$this->telemetry->send_event( $name, $data );
+		$data = [
+			'token'        => $this->telemetry->get_token(),
+			'stellar_slug' => Config::get_stellar_slug(),
+			'event'        => $name,
+			'event_data'   => wp_json_encode( $data ),
+		];
+
+		/**
+		 * Provides the ability to filter event data before it is sent to the telemetry server.
+		 *
+		 * @since TBD
+		 *
+		 * @param array $data The data about to be sent.
+		 */
+		$data = apply_filters( 'stellarwp/telemetry/events_data', $data );
+
+		$response = $this->telemetry->send( $data, $this->get_url() );
+
+		if ( ! isset( $response['status'] ) ) {
+			return false;
+		}
+
+		return boolval( $response['status'] );
+	}
+
+	/**
+	 * Gets the url used for sending events.
+	 *
+	 * @since TBD
+	 *
+	 * @return string
+	 */
+	protected function get_url() {
+		$events_url = Config::get_server_url() . '/events';
+
+		/**
+		 * Filters the url used to send events to the telemetry server.
+		 *
+		 * @since TBD
+		 *
+		 * @param string $event_url The events endpoint url.
+		 */
+		return apply_filters( 'stellarwp/telemetry/' . Config::get_hook_prefix() . 'events_url', $events_url );
 	}
 
 }
