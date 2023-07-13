@@ -21,7 +21,7 @@ class Telemetry_Test extends WPTestCase {
 	public function should_register_site_with_blocking_request(): void {
 		$mock_response = [
 			'headers'       => [],
-			'body'          => json_encode(
+			'body'          => json_encode( // phpcs:ignore WordPress.WP.AlternativeFunctions.json_encode_json_encode
 				[
 					'status' => 'success',
 					'token'  => '1234567890',
@@ -90,7 +90,7 @@ class Telemetry_Test extends WPTestCase {
 	public function should_register_user_with_non_blocking_request(): void {
 		$mock_response = [
 			'headers'       => [],
-			'body'          => json_encode(
+			'body'          => json_encode( // phpcs:ignore WordPress.WP.AlternativeFunctions.json_encode_json_encode
 				[
 					'status' => 'success',
 					'token'  => '1234567890',
@@ -169,7 +169,7 @@ class Telemetry_Test extends WPTestCase {
 	public function should_send_data_with_blocking_request(): void {
 		$mock_response = [
 			'headers'       => [],
-			'body'          => json_encode(
+			'body'          => json_encode( // phpcs:ignore WordPress.WP.AlternativeFunctions.json_encode_json_encode
 				[
 					'status' => 'success',
 					'token'  => '1234567890',
