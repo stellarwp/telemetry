@@ -166,6 +166,11 @@ class Telemetry {
 	 * @return array|null
 	 */
 	protected function send( array $data, string $url, bool $blocking = true, float $timeout = 5.0 ) {
+
+		if ( ! $this->opt_in_status->is_active() ) {
+			return null;
+		}
+
 		$response = $this->request( $url, $data, $blocking, $timeout );
 
 		if ( is_wp_error( $response ) ) {
@@ -397,10 +402,6 @@ class Telemetry {
 	 */
 	public function send_data() {
 		if ( ! $this->is_registered() ) {
-			return false;
-		}
-
-		if ( ! $this->opt_in_status->is_active() ) {
 			return false;
 		}
 

@@ -47,7 +47,11 @@ class Telemetry_Test extends WPTestCase {
 			true
 		);
 
-		$telemetry = new Telemetry( new Null_Data_Provider(), new Status() );
+		$opt_in_status = new Status();
+		$telemetry     = new Telemetry( new Null_Data_Provider(), $opt_in_status );
+
+		$opt_in_status->set_status( true );
+
 		$telemetry->register_site();
 
 		$this->assertEquals( Config::get_server_url() . '/register-site', $call_url );
@@ -76,7 +80,11 @@ class Telemetry_Test extends WPTestCase {
 			true
 		);
 
-		$telemetry = new Telemetry( new Null_Data_Provider(), new Status() );
+		$opt_in_status = new Status();
+		$telemetry     = new Telemetry( new Null_Data_Provider(), $opt_in_status );
+
+		$opt_in_status->set_status( true );
+
 		$telemetry->register_site();
 
 		$this->assertEmpty( $telemetry->get_token() );
@@ -116,7 +124,11 @@ class Telemetry_Test extends WPTestCase {
 			true
 		);
 
-		$telemetry = new Telemetry( new Null_Data_Provider(), new Status() );
+		$opt_in_status = new Status();
+		$telemetry     = new Telemetry( new Null_Data_Provider(), $opt_in_status );
+
+		$opt_in_status->set_status( true );
+
 		$telemetry->register_user();
 
 		$this->assertEquals( Config::get_server_url() . '/opt-in', $call_url );
@@ -153,7 +165,11 @@ class Telemetry_Test extends WPTestCase {
 			true
 		);
 
-		$telemetry = new Telemetry( new Null_Data_Provider(), new Status() );
+		$opt_in_status = new Status();
+		$telemetry     = new Telemetry( new Null_Data_Provider(), $opt_in_status );
+
+		$opt_in_status->set_status( true );
+
 		$telemetry->send_uninstall( 'acme-tickets', 'reasons', 'For reasons' );
 
 		$this->assertEquals( Config::get_server_url() . '/uninstall', $call_url );
@@ -195,15 +211,36 @@ class Telemetry_Test extends WPTestCase {
 			true
 		);
 
-		$status = new Status();
-		$status->set_status( true );
+		$status    = new Status();
 		$telemetry = new Telemetry( new Null_Data_Provider(), $status );
+
+		$status->set_status( true );
+
 		$telemetry->save_token( '2389' );
+
 		$sent = $telemetry->send_data();
 
 		$this->assertEquals( Config::get_server_url() . '/telemetry', $call_url );
 		$this->assertArrayHasKey( 'blocking', $call_args );
 		$this->assertTrue( $call_args['blocking'] );
 		$this->assertTrue( $sent );
+	}
+
+	/**
+	 * It should not send data when site has not opted in (not authorized).
+	 *
+	 * @test
+	 */
+	public function should_not_send_data_without_authorization(): void {
+		$status    = new Status();
+		$telemetry = new Telemetry( new Null_Data_Provider(), $status );
+
+		$status->set_status( false );
+
+		$telemetry->save_token( 'abc1234' );
+
+		$sent = $telemetry->send_data();
+
+		$this->assertFalse( $sent );
 	}
 }
