@@ -57,7 +57,7 @@ class Uninstall {
 		$optin = get_option( 'stellarwp_telemetry' );
 
 		// Bail if option has more than 'token' in the array.
-		if ( count( $optin ) > 1 ) {
+		if ( $optin === false || count( $optin ) > 1 ) {
 			return;
 		}
 
