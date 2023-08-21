@@ -2,7 +2,7 @@
 /**
  * Handles all actions and filters related to telemetry events.
  *
- * @since TBD
+ * @since 2.1.0
  *
  * @package StellarWP\Telemetry
  */
@@ -14,7 +14,7 @@ use StellarWP\Telemetry\Contracts\Abstract_Subscriber;
 /**
  * Handles all actions and filters related to telemetry events.
  *
- * @since TBD
+ * @since 2.1.0
  *
  * @package StellarWP\Telemetry
  */
@@ -23,7 +23,7 @@ class Event_Subscriber extends Abstract_Subscriber {
 	/**
 	 * @inheritDoc
 	 *
-	 * @since TBD
+	 * @since 2.1.0
 	 *
 	 * @return void
 	 */
@@ -34,7 +34,7 @@ class Event_Subscriber extends Abstract_Subscriber {
 	/**
 	 * Sends an event request to the Telemetry server.
 	 *
-	 * @since TBD
+	 * @since 2.1.0
 	 *
 	 * @param string $name The name of the event to send.
 	 * @param array  $data Additional information to send with the event.

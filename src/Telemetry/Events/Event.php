@@ -2,7 +2,7 @@
 /**
  * Contains all event related functionality.
  *
- * @since TBD
+ * @since 2.1.0
  *
  * @package StellarWP\Telemetry
  */
@@ -15,7 +15,7 @@ use StellarWP\Telemetry\Telemetry\Telemetry;
 /**
  * The class that handles user triggered events.
  *
- * @since TBD
+ * @since 2.1.0
  *
  * @package StellarWP\Telemetry
  */
@@ -24,7 +24,7 @@ class Event {
 	/**
 	 * An instance of the Telemetry class.
 	 *
-	 * @since TBD
+	 * @since 2.1.0
 	 *
 	 * @var \StellarWP\Telemetry\Telemetry\Telemetry
 	 */
@@ -33,7 +33,7 @@ class Event {
 	/**
 	 * The class constructor.
 	 *
-	 * @since TBD
+	 * @since 2.1.0
 	 *
 	 * @param Telemetry $telemetry An instance of the Telemetry class.
 	 */
@@ -44,7 +44,7 @@ class Event {
 	/**
 	 * Sends an event to the telemetry server.
 	 *
-	 * @since TBD
+	 * @since 2.1.0
 	 *
 	 * @param string $name The name of the event.
 	 * @param array  $data Additional information to include with the event.
@@ -62,7 +62,7 @@ class Event {
 		/**
 		 * Provides the ability to filter event data before it is sent to the telemetry server.
 		 *
-		 * @since TBD
+		 * @since 2.1.0
 		 *
 		 * @param array $data The data about to be sent.
 		 */
@@ -80,7 +80,7 @@ class Event {
 	/**
 	 * Gets the url used for sending events.
 	 *
-	 * @since TBD
+	 * @since 2.1.0
 	 *
 	 * @return string
 	 */
@@ -90,7 +90,7 @@ class Event {
 		/**
 		 * Filters the url used to send events to the telemetry server.
 		 *
-		 * @since TBD
+		 * @since 2.1.0
 		 *
 		 * @param string $event_url The events endpoint url.
 		 */
