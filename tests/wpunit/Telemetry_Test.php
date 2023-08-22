@@ -21,10 +21,12 @@ class Telemetry_Test extends WPTestCase {
 	public function should_register_site_with_blocking_request(): void {
 		$mock_response = [
 			'headers'       => [],
-			'body'          => json_encode( [
-				'status' => 'success',
-				'token'  => '1234567890',
-			] ),
+			'body'          => json_encode( // phpcs:ignore WordPress.WP.AlternativeFunctions.json_encode_json_encode
+				[
+					'status' => 'success',
+					'token'  => '1234567890',
+				]
+			),
 			'response'      => [
 				'code'    => false,
 				'message' => false,
@@ -34,14 +36,22 @@ class Telemetry_Test extends WPTestCase {
 		];
 		$call_url      = null;
 		$call_args     = null;
-		$this->set_fn_return( 'wp_remote_post', static function ( string $url, array $args ) use ( $mock_response, &$call_url, &$call_args ) {
-			$call_url  = $url;
-			$call_args = $args;
+		$this->set_fn_return(
+			'wp_remote_post',
+			static function ( string $url, array $args ) use ( $mock_response, &$call_url, &$call_args ) {
+				$call_url  = $url;
+				$call_args = $args;
 
-			return $mock_response;
-		}, true );
+				return $mock_response;
+			},
+			true
+		);
 
-		$telemetry = new Telemetry( new Null_Data_Provider(), new Status() );
+		$opt_in_status = new Status();
+		$telemetry     = new Telemetry( new Null_Data_Provider(), $opt_in_status );
+
+		$opt_in_status->set_status( true );
+
 		$telemetry->register_site();
 
 		$this->assertEquals( Config::get_server_url() . '/register-site', $call_url );
@@ -59,14 +69,22 @@ class Telemetry_Test extends WPTestCase {
 		$mock_response = new \WP_Error( 'for reasons' );
 		$call_url      = null;
 		$call_args     = null;
-		$this->set_fn_return( 'wp_remote_post', static function ( string $url, array $args ) use ( $mock_response, &$call_url, &$call_args ) {
-			$call_url  = $url;
-			$call_args = $args;
+		$this->set_fn_return(
+			'wp_remote_post',
+			static function ( string $url, array $args ) use ( $mock_response, &$call_url, &$call_args ) {
+				$call_url  = $url;
+				$call_args = $args;
 
-			return $mock_response;
-		}, true );
+				return $mock_response;
+			},
+			true
+		);
 
-		$telemetry = new Telemetry( new Null_Data_Provider(), new Status() );
+		$opt_in_status = new Status();
+		$telemetry     = new Telemetry( new Null_Data_Provider(), $opt_in_status );
+
+		$opt_in_status->set_status( true );
+
 		$telemetry->register_site();
 
 		$this->assertEmpty( $telemetry->get_token() );
@@ -80,10 +98,12 @@ class Telemetry_Test extends WPTestCase {
 	public function should_register_user_with_non_blocking_request(): void {
 		$mock_response = [
 			'headers'       => [],
-			'body'          => json_encode( [
-				'status' => 'success',
-				'token'  => '1234567890',
-			] ),
+			'body'          => json_encode( // phpcs:ignore WordPress.WP.AlternativeFunctions.json_encode_json_encode
+				[
+					'status' => 'success',
+					'token'  => '1234567890',
+				]
+			),
 			'response'      => [
 				'code'    => false,
 				'message' => false,
@@ -93,14 +113,22 @@ class Telemetry_Test extends WPTestCase {
 		];
 		$call_url      = null;
 		$call_args     = null;
-		$this->set_fn_return( 'wp_remote_post', static function ( string $url, array $args ) use ( $mock_response, &$call_url, &$call_args ) {
-			$call_url  = $url;
-			$call_args = $args;
+		$this->set_fn_return(
+			'wp_remote_post',
+			static function ( string $url, array $args ) use ( $mock_response, &$call_url, &$call_args ) {
+				$call_url  = $url;
+				$call_args = $args;
 
-			return $mock_response;
-		}, true );
+				return $mock_response;
+			},
+			true
+		);
 
-		$telemetry = new Telemetry( new Null_Data_Provider(), new Status() );
+		$opt_in_status = new Status();
+		$telemetry     = new Telemetry( new Null_Data_Provider(), $opt_in_status );
+
+		$opt_in_status->set_status( true );
+
 		$telemetry->register_user();
 
 		$this->assertEquals( Config::get_server_url() . '/opt-in', $call_url );
@@ -126,14 +154,22 @@ class Telemetry_Test extends WPTestCase {
 		];
 		$call_url      = null;
 		$call_args     = null;
-		$this->set_fn_return( 'wp_remote_post', static function ( string $url, array $args ) use ( $mock_response, &$call_url, &$call_args ) {
-			$call_url  = $url;
-			$call_args = $args;
+		$this->set_fn_return(
+			'wp_remote_post',
+			static function ( string $url, array $args ) use ( $mock_response, &$call_url, &$call_args ) {
+				$call_url  = $url;
+				$call_args = $args;
 
-			return $mock_response;
-		}, true );
+				return $mock_response;
+			},
+			true
+		);
 
-		$telemetry = new Telemetry( new Null_Data_Provider(), new Status() );
+		$opt_in_status = new Status();
+		$telemetry     = new Telemetry( new Null_Data_Provider(), $opt_in_status );
+
+		$opt_in_status->set_status( true );
+
 		$telemetry->send_uninstall( 'acme-tickets', 'reasons', 'For reasons' );
 
 		$this->assertEquals( Config::get_server_url() . '/uninstall', $call_url );
@@ -149,10 +185,12 @@ class Telemetry_Test extends WPTestCase {
 	public function should_send_data_with_blocking_request(): void {
 		$mock_response = [
 			'headers'       => [],
-			'body'          => json_encode( [
-				'status' => 'success',
-				'token'  => '1234567890',
-			] ),
+			'body'          => json_encode( // phpcs:ignore WordPress.WP.AlternativeFunctions.json_encode_json_encode
+				[
+					'status' => 'success',
+					'token'  => '1234567890',
+				]
+			),
 			'response'      => [
 				'code'    => false,
 				'message' => false,
@@ -162,22 +200,47 @@ class Telemetry_Test extends WPTestCase {
 		];
 		$call_url      = null;
 		$call_args     = null;
-		$this->set_fn_return( 'wp_remote_post', static function ( string $url, array $args ) use ( $mock_response, &$call_url, &$call_args ) {
-			$call_url  = $url;
-			$call_args = $args;
+		$this->set_fn_return(
+			'wp_remote_post',
+			static function ( string $url, array $args ) use ( $mock_response, &$call_url, &$call_args ) {
+				$call_url  = $url;
+				$call_args = $args;
 
-			return $mock_response;
-		}, true );
+				return $mock_response;
+			},
+			true
+		);
 
-		$status = new Status();
-		$status->set_status( true );
+		$status    = new Status();
 		$telemetry = new Telemetry( new Null_Data_Provider(), $status );
+
+		$status->set_status( true );
+
 		$telemetry->save_token( '2389' );
+
 		$sent = $telemetry->send_data();
 
 		$this->assertEquals( Config::get_server_url() . '/telemetry', $call_url );
 		$this->assertArrayHasKey( 'blocking', $call_args );
 		$this->assertTrue( $call_args['blocking'] );
 		$this->assertTrue( $sent );
+	}
+
+	/**
+	 * It should not send data when site has not opted in (not authorized).
+	 *
+	 * @test
+	 */
+	public function should_not_send_data_without_authorization(): void {
+		$status    = new Status();
+		$telemetry = new Telemetry( new Null_Data_Provider(), $status );
+
+		$status->set_status( false );
+
+		$telemetry->save_token( 'abc1234' );
+
+		$sent = $telemetry->send_data();
+
+		$this->assertFalse( $sent );
 	}
 }

@@ -11,7 +11,6 @@ namespace StellarWP\Telemetry\Telemetry;
 
 use StellarWP\Telemetry\Config;
 use StellarWP\Telemetry\Contracts\Data_Provider;
-use StellarWP\Telemetry\Core;
 use StellarWP\Telemetry\Opt_In\Status;
 
 /**
@@ -124,6 +123,74 @@ class Telemetry {
 	}
 
 	/**
+	 * Saves the telemetry server's auth token for the site.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $token The site token to authenticate the request with.
+	 *
+	 * @return bool
+	 */
+	public function save_token( string $token ) {
+		$option = array_merge(
+			$this->get_option(),
+			[
+				'token' => $token,
+			]
+		);
+
+		return update_option( $this->opt_in_status->get_option_name(), $option );
+	}
+
+	/**
+	 * Determines if the current site is registered on the telemetry server.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return bool
+	 */
+	public function is_registered() {
+		// Check if the site is registered by checking if the token is set.
+		$option = $this->get_option();
+
+		return ! empty( $option['token'] );
+	}
+
+	/**
+	 * Sends data to the telemetry server.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return bool
+	 */
+	public function send_data() {
+		if ( ! $this->is_registered() ) {
+			return false;
+		}
+
+		if ( ! $this->opt_in_status->is_active() ) {
+			return false;
+		}
+
+		$response = $this->send( $this->get_send_data_args(), $this->get_send_data_url() );
+
+		return isset( $response['status'] );
+	}
+
+	/**
+	 * Gets the stored auth token for the current site.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return string
+	 */
+	public function get_token() {
+		$option = $this->get_option();
+
+		return $option['token'] ?? '';
+	}
+
+	/**
 	 * Sends requests to the telemetry server and parses the response.
 	 *
 	 * @since 1.0.0
@@ -135,7 +202,12 @@ class Telemetry {
 	 *
 	 * @return array|null
 	 */
-	protected function send( array $data, string $url, bool $blocking = true, float $timeout = 5.0 ) {
+	public function send( array $data, string $url, bool $blocking = true, float $timeout = 5.0 ) {
+
+		if ( ! $this->opt_in_status->is_active() ) {
+			return null;
+		}
+
 		$response = $this->request( $url, $data, $blocking, $timeout );
 
 		if ( is_wp_error( $response ) ) {
@@ -305,61 +377,6 @@ class Telemetry {
 	}
 
 	/**
-	 * Saves the telemetry server's auth token for the site.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @param string $token The site token to authenticate the request with.
-	 *
-	 * @return bool
-	 */
-	public function save_token( string $token ) {
-		$option = array_merge(
-			$this->get_option(),
-			[
-				'token' => $token,
-			]
-		);
-
-		return update_option( $this->opt_in_status->get_option_name(), $option );
-	}
-
-	/**
-	 * Determines if the current site is registered on the telemetry server.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return bool
-	 */
-	public function is_registered() {
-		// Check if the site is registered by checking if the token is set.
-		$option = $this->get_option();
-
-		return ! empty( $option['token'] );
-	}
-
-	/**
-	 * Sends data to the telemetry server.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return bool
-	 */
-	public function send_data() {
-		if ( ! $this->is_registered() ) {
-			return false;
-		}
-
-		if ( ! $this->opt_in_status->is_active() ) {
-			return false;
-		}
-
-		$response = $this->send( $this->get_send_data_args(), $this->get_send_data_url() );
-
-		return isset( $response['status'] );
-	}
-
-	/**
 	 * Gets the args for sending data to the telemetry server.
 	 *
 	 * @since 1.0.0
@@ -394,18 +411,4 @@ class Telemetry {
 		 */
 		return apply_filters( 'stellarwp/telemetry/' . Config::get_hook_prefix() . 'send_data_url', Config::get_server_url() . '/telemetry' );
 	}
-
-	/**
-	 * Gets the stored auth token for the current site.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return string
-	 */
-	public function get_token() {
-		$option = $this->get_option();
-
-		return $option['token'] ?? '';
-	}
-
 }
