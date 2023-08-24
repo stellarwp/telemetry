@@ -30,6 +30,8 @@ A library for Opt-in and Telemetry data to be sent to the StellarWP Telemetry se
 		- [stellarwp/telemetry/{hook-prefix}/last\_send\_expire\_seconds](#stellarwptelemetryhook-prefixlast_send_expire_seconds)
 		- [stellarwp/telemetry/exit\_interview\_args](#stellarwptelemetryexit_interview_args)
 		- [stellarwp/telemetry/{stellar\_slug}/exit\_interview\_args](#stellarwptelemetrystellar_slugexit_interview_args)
+		- [stellarwp/telemetry/{hook-prefix}/events\_data](#stellarwptelemetryhook-prefixevents_data)
+		- [stellarwp/telemetry/{hook-prefix}/events\_url](#stellarwptelemetryhook-prefixevents_url)
 	- [Action Reference](#action-reference)
 		- [stellarwp/telemetry/optin](#stellarwptelemetryoptin)
 		- [stellarwp/telemetry/{hook-prefix}/optin](#stellarwptelemetryhook-prefixoptin)
@@ -399,6 +401,27 @@ $args = [
 
 ### stellarwp/telemetry/{stellar_slug}/exit_interview_args
 This filter will be deprecated in future versions. Use [stellarwp/telemetry/exit_interview_args](#stellarwptelemetrystellar_slugexit_interview_args) instead.
+
+### stellarwp/telemetry/{hook-prefix}/events_data
+Filters the array of data sent along with the event.
+
+**Parameters**: _array_ `$data`
+
+**Default**:
+```php
+$data = [
+	'token'        => $this->telemetry->get_token(),
+	'stellar_slug' => Config::get_stellar_slug(),
+	'event'        => $name,
+	'event_data'   => wp_json_encode( $data ),
+];
+```
+### stellarwp/telemetry/{hook-prefix}/events_url
+Filters the event URL used when sending events to the Telemetry server.
+
+**Parameters**: _string_ `$url`
+
+**Default**: `https://telemetry.stellarwp.com/api/v1/events`
 
 ## Action Reference
 
