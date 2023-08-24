@@ -9,6 +9,7 @@
 
 namespace StellarWP\Telemetry\Events;
 
+use StellarWP\Telemetry\Config;
 use StellarWP\Telemetry\Contracts\Abstract_Subscriber;
 
 /**
@@ -28,7 +29,7 @@ class Event_Subscriber extends Abstract_Subscriber {
 	 * @return void
 	 */
 	public function register() {
-		add_action( 'stellarwp/telemetry/event', [ $this, 'send_event' ], 10, 2 );
+		add_action( 'stellarwp/telemetry/' . Config::get_hook_prefix() . 'event', [ $this, 'send_event' ], 10, 2 );
 	}
 
 	/**
