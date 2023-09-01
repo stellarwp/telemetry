@@ -22,6 +22,13 @@ use StellarWP\Telemetry\Telemetry\Telemetry;
 class Event {
 
 	/**
+	 * The hook name for sending events asyncronously.
+	 *
+	 * @since TBD
+	 */
+	public const AJAX_ACTION = 'stellarwp_telemetry_send_event';
+
+	/**
 	 * An instance of the Telemetry class.
 	 *
 	 * @since 2.1.0
