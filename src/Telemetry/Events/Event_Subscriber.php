@@ -102,9 +102,12 @@ class Event_Subscriber extends Abstract_Subscriber {
 	 * @return void
 	 */
 	public function send_event() {
+		// Get the passed event array.
 		$event = filter_input( INPUT_POST, 'event', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY ); // phpcs:ignore WordPressVIPMinimum.Security.PHPFilterFunctions.RestrictedFilter
-		$name  = key( $event );
-		$data  = $event[ $name ];
+		// Get the name of the event from the key of the array.
+		$name = key( $event );
+		// Set the data for the event.
+		$data = (array) $event[ $name ];
 
 		$this->container->get( Event::class )->send( $name, $data );
 	}
