@@ -69,7 +69,7 @@ class Event_Subscriber extends Abstract_Subscriber {
 			return;
 		}
 
-		$url = admin_url( 'admin-ajax.php?XDEBUG_SESSION_START=1' );
+		$url = admin_url( 'admin-ajax.php' );
 
 		$events = $this->container->get( 'events' );
 
