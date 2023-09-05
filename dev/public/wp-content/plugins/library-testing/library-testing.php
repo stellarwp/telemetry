@@ -36,7 +36,7 @@ add_action(
 add_action(
 	'init',
 	function() {
-		if ( ! isset( $_GET['send-events'] ) ) {
+		if ( ! isset( $_GET['send-events'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			return;
 		}
 
