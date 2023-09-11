@@ -30,7 +30,7 @@ class Event_Subscriber extends Abstract_Subscriber {
 	 */
 	public function register() {
 		add_action( 'shutdown', [ $this, 'send_cached_events' ] );
-		add_action( 'stellarwp/telemetry/' . Config::get_hook_prefix() . 'event', [ $this, 'cache_event' ], 10, 3 );
+		add_action( 'stellarwp/telemetry/' . Config::get_hook_prefix() . 'event', [ $this, 'cache_event' ], 10, 2 );
 		add_action( 'wp_ajax_' . Event::AJAX_ACTION, [ $this, 'send_events' ], 10, 1 );
 		add_action( 'wp_ajax_nopriv_' . Event::AJAX_ACTION, [ $this, 'send_events' ], 10, 1 );
 	}
