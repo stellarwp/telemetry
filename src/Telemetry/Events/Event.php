@@ -85,6 +85,30 @@ class Event {
 	}
 
 	/**
+	 * Send batched events.
+	 *
+	 * @since TBD
+	 *
+	 * @param array $events An array of stored events to send to the telemetry server.
+	 *
+	 * @return bool
+	 */
+	public function send_batch( array $events ) {
+		$data = [
+			'token'  => $this->telemetry->get_token(),
+			'events' => $events,
+		];
+
+		$response = $this->telemetry->send( $data, $this->get_url() );
+
+		if ( ! isset( $response['status'] ) ) {
+			return false;
+		}
+
+		return boolval( $response['status'] );
+	}
+
+	/**
 	 * Gets the url used for sending events.
 	 *
 	 * @since 2.1.0

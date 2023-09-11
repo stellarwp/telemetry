@@ -30,9 +30,9 @@ class Event_Subscriber extends Abstract_Subscriber {
 	 */
 	public function register() {
 		add_action( 'shutdown', [ $this, 'send_cached_events' ] );
-		add_action( 'stellarwp/telemetry/' . Config::get_hook_prefix() . 'event', [ $this, 'cache_event' ], 10, 2 );
-		add_action( 'wp_ajax_' . Event::AJAX_ACTION, [ $this, 'send_event' ], 10, 1 );
-		add_action( 'wp_ajax_nopriv_' . Event::AJAX_ACTION, [ $this, 'send_event' ], 10, 1 );
+		add_action( 'stellarwp/telemetry/' . Config::get_hook_prefix() . 'event', [ $this, 'cache_event' ], 10, 3 );
+		add_action( 'wp_ajax_' . Event::AJAX_ACTION, [ $this, 'send_events' ], 10, 1 );
+		add_action( 'wp_ajax_nopriv_' . Event::AJAX_ACTION, [ $this, 'send_events' ], 10, 1 );
 	}
 
 	/**
@@ -40,8 +40,8 @@ class Event_Subscriber extends Abstract_Subscriber {
 	 *
 	 * @since TBD
 	 *
-	 * @param string $name The name of the event.
-	 * @param array  $data The data sent along with the event.
+	 * @param string $name         The name of the event.
+	 * @param array  $data         The data sent along with the event.
 	 *
 	 * @return void
 	 */
@@ -52,7 +52,11 @@ class Event_Subscriber extends Abstract_Subscriber {
 			$events = $this->container->get( 'events' );
 		}
 
-		$events[] = [ $name => $data ];
+		$events[] = [
+			'name'         => $name,
+			'data'         => wp_json_encode( $data ),
+			'stellar_slug' => Config::get_stellar_slug(),
+		];
 
 		$this->container->bind( 'events', $events );
 	}
@@ -71,25 +75,17 @@ class Event_Subscriber extends Abstract_Subscriber {
 
 		$url = admin_url( 'admin-ajax.php' );
 
-		$events = $this->container->get( 'events' );
-
-		// Kick off asyncronous requests for each cached event.
-		foreach ( $events as $key => $event ) {
-			// Remove each event as they are sent.
-			unset( $events[ $key ] );
-
-			wp_remote_post(
-				$url,
-				[
-					'blocking'  => false,
-					'sslverify' => false,
-					'body'      => [
-						'action' => Event::AJAX_ACTION,
-						'event'  => $event,
-					],
-				]
-			);
-		}
+		wp_remote_post(
+			$url,
+			[
+				'blocking'  => false,
+				'sslverify' => false,
+				'body'      => [
+					'action' => Event::AJAX_ACTION,
+					'events' => $this->container->get( 'events' ),
+				],
+			]
+		);
 
 		$this->container->bind( 'events', [] );
 	}
@@ -101,14 +97,10 @@ class Event_Subscriber extends Abstract_Subscriber {
 	 *
 	 * @return void
 	 */
-	public function send_event() {
+	public function send_events() {
 		// Get the passed event array.
-		$event = filter_input( INPUT_POST, 'event', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY ); // phpcs:ignore WordPressVIPMinimum.Security.PHPFilterFunctions.RestrictedFilter
-		// Get the name of the event from the key of the array.
-		$name = key( $event );
-		// Set the data for the event.
-		$data = (array) $event[ $name ];
+		$events = filter_input( INPUT_POST, 'events', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY ); // phpcs:ignore WordPressVIPMinimum.Security.PHPFilterFunctions.RestrictedFilter
 
-		$this->container->get( Event::class )->send( $name, $data );
+		$this->container->get( Event::class )->send_batch( $events );
 	}
 }
