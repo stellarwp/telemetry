@@ -73,7 +73,7 @@ class Event {
 		 *
 		 * @param array $data The data about to be sent.
 		 */
-		$data = apply_filters( 'stellarwp/telemetry/events_data', $data );
+		$data = apply_filters( 'stellarwp/telemetry/' . Config::get_hook_prefix() . 'event_data', $data );
 
 		$response = $this->telemetry->send( $data, $this->get_url() );
 
