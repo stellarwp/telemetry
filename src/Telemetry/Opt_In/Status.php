@@ -20,10 +20,11 @@ use StellarWP\Telemetry\Core;
  * @package StellarWP\Telemetry
  */
 class Status {
-	public const OPTION_NAME     = 'stellarwp_telemetry';
-	public const STATUS_ACTIVE   = 1;
-	public const STATUS_INACTIVE = 2;
-	public const STATUS_MIXED    = 3;
+	public const OPTION_NAME           = 'stellarwp_telemetry';
+	public const OPTION_NAME_USER_INFO = 'stellarwp_telemetry_user_info';
+	public const STATUS_ACTIVE         = 1;
+	public const STATUS_INACTIVE       = 2;
+	public const STATUS_MIXED          = 3;
 
 	/**
 	 * Gets the option name used to store the opt-in status.
