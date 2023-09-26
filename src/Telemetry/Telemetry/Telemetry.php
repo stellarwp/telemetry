@@ -348,15 +348,14 @@ class Telemetry {
 			$stellar_slug = Config::get_stellar_slug();
 		}
 
-		$modal_args = Config::get_container()->get( Opt_In_Template::class )->get_args( $stellar_slug );
-
-		$user = wp_get_current_user();
+		$user     = wp_get_current_user();
+		$template = Config::get_container()->get( Opt_In_Template::class );
 
 		$args = [
 			'name'        => $user->display_name,
 			'email'       => $user->user_email,
 			'plugin_slug' => $stellar_slug,
-			'opt_in_text' => $modal_args['intro'],
+			'opt_in_text' => $template->get_intro( $user->display_name, $stellar_slug ),
 		];
 
 		/**
