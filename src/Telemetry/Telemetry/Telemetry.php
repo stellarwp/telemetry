@@ -11,6 +11,7 @@ namespace StellarWP\Telemetry\Telemetry;
 
 use StellarWP\Telemetry\Config;
 use StellarWP\Telemetry\Contracts\Data_Provider;
+use StellarWP\Telemetry\Opt_In\Opt_In_Template;
 use StellarWP\Telemetry\Opt_In\Status;
 
 /**
@@ -347,12 +348,15 @@ class Telemetry {
 			$stellar_slug = Config::get_stellar_slug();
 		}
 
+		$modal_args = Config::get_container()->get( Opt_In_Template::class )->get_args( $stellar_slug );
+
 		$user = wp_get_current_user();
 
 		$args = [
 			'name'        => $user->display_name,
 			'email'       => $user->user_email,
 			'plugin_slug' => $stellar_slug,
+			'opt_in_text' => $modal_args['intro'],
 		];
 
 		/**

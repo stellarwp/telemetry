@@ -62,7 +62,7 @@ class Opt_In_Template implements Template_Interface {
 	 *
 	 * @return array
 	 */
-	protected function get_args( string $stellar_slug ) {
+	public function get_args( string $stellar_slug ) {
 
 		$optin_args = [
 			'plugin_logo'           => Resources::get_asset_path() . 'resources/images/stellar-logo.svg',
