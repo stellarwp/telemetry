@@ -4,7 +4,6 @@ env_file:
   - dev/lando/.env
 
 excludes:
-  - vendor
   - .vscode
   - .github
 

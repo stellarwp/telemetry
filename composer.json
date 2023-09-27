@@ -40,9 +40,11 @@
     "dealerdirect/phpcodesniffer-composer-installer": "^0.7.2",
     "lucatume/di52": "3.0.0",
     "lucatume/wp-browser": "^3.1",
-    "szepeviktor/phpstan-wordpress": "^1.1",
     "phpcompatibility/phpcompatibility-wp": "*",
+    "szepeviktor/phpstan-wordpress": "^1.1",
     "the-events-calendar/coding-standards": "dev-master",
+    "wp-cli/dist-archive-command": "^2.0",
+    "wp-cli/wp-cli-bundle": "^2.8",
     "wp-coding-standards/wpcs": "^2.3"
   },
   "repositories": [
