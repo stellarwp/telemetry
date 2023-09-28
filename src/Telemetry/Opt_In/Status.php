@@ -22,9 +22,6 @@ use StellarWP\Telemetry\Core;
 class Status {
 	public const OPTION_NAME           = 'stellarwp_telemetry';
 	public const OPTION_NAME_USER_INFO = 'stellarwp_telemetry_user_info';
-	public const STATUS_ACTIVE         = 1;
-	public const STATUS_INACTIVE       = 2;
-	public const STATUS_MIXED          = 3;
 
 	/**
 	 * Gets the option name used to store the opt-in status.
@@ -67,44 +64,38 @@ class Status {
 	 *
 	 * @since 1.0.0
 	 * @since 2.0.1 Correct logic so it is not subject to the order of the plugins.
+	 * @since TBD   Update to remove unnecessary "mixed" status.
 	 *
-	 * @return integer The status value.
+	 * @return bool The site's current opt in status.
 	 */
 	public function get() {
-		$option = $this->get_option();
 
-		// If the status option is not an option, default to inactive.
-		if ( ! isset( $option['plugins'] ) ) {
-			return self::STATUS_INACTIVE;
+		$status  = false;
+		$option  = $this->get_option();
+		$plugins = isset( $option['plugins'] ) ? $option['plugins'] : [];
+
+		if ( ! isset( $plugins ) || count( $plugins ) === 0 ) {
+			$status = false;
 		}
 
-		$status = array_reduce(
-			$option['plugins'],
-			function( $carry, $item ) {
-				// First run, ignore the default STATUS_ACTIVE.
-				if ( empty( $carry ) ) {
-					return (int) $item['optin'];
-				}
+		foreach ( $plugins as $plugin ) {
 
-				// As long as they are the same, we keep returning the same.
-				if ( $carry === $item['optin'] ) {
-					return (int) $item['optin'];
-				}
-
-				return self::STATUS_MIXED;
+			// If any plugins are missing an optin status or at least one is false, set status to false.
+			if ( ! isset( $plugin['optin'] ) || false === $plugin['optin'] ) {
+				$status = false;
+				break;
 			}
-		);
 
-		if ( 0 === $status ) {
-			$status = self::STATUS_INACTIVE;
+			$status = true;
 		}
 
 		/**
 		 * Filters the opt-in status value.
 		 *
 		 * @since 1.0.0
+		 * @since TBD Update to return a bool status.
 		 *
-		 * @param integer $status The opt-in status value.
+		 * @param bool $status If the site is currently opted in.
 		 */
 		return apply_filters( 'stellarwp/telemetry/' . Config::get_hook_prefix() . 'optin_status', $status );
 	}
@@ -234,7 +225,7 @@ class Status {
 	 * @since 1.0.0
 	 * @since 2.0.0 - Updated to allow defined stellar_slug.
 	 *
-	 * @param boolean $status       The status to set (Active = 1, Inactive = 2, Mixed = 3).
+	 * @param boolean $status       The status to set.
 	 * @param string  $stellar_slug The stellar_slug to set the status of.
 	 *
 	 * @return boolean
@@ -260,19 +251,8 @@ class Status {
 	 * @return string
 	 */
 	public function get_status() {
-		$optin_label = '';
 
-		switch ( $this->get() ) {
-			case self::STATUS_ACTIVE:
-				$optin_label = __( 'Active', 'stellarwp-telemetry' );
-				break;
-			case self::STATUS_INACTIVE:
-				$optin_label = __( 'Inactive', 'stellarwp-telemetry' );
-				break;
-			case self::STATUS_MIXED:
-				$optin_label = __( 'Mixed', 'stellarwp-telemetry' );
-				break;
-		}
+		$optin_label = $this->get() ? esc_html__( 'Active', 'stellarwp-telemetry' ) : esc_html__( 'Inactive', 'stellarwp-telemetry' );
 
 		/**
 		 * Filters the opt-in status label.
@@ -292,6 +272,6 @@ class Status {
 	 * @return boolean
 	 */
 	public function is_active(): bool {
-		return $this->get() === self::STATUS_ACTIVE;
+		return $this->get();
 	}
 }
