@@ -74,7 +74,7 @@ class Status {
 		$option  = $this->get_option();
 		$plugins = isset( $option['plugins'] ) ? $option['plugins'] : [];
 
-		if ( ! isset( $plugins ) || count( $plugins ) === 0 ) {
+		if ( count( $plugins ) === 0 ) {
 			$status = false;
 		}
 
