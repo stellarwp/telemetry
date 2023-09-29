@@ -318,4 +318,18 @@ class StatusTest extends WPTestCase {
 
 		$this->assertEquals( $label, $status->get_status() );
 	}
+
+	/**
+	 * @dataProvider get_status_data_provider
+	 */
+	public function test_is_active( $option_value, $expected ): void {
+		$status = new Status();
+
+		update_option( $status->get_option_name(), $option_value );
+
+		$is_active = 1 === $expected ? true : false;
+
+		$this->assertIsBool( $status->is_active() );
+		$this->assertEquals( $is_active, $status->is_active() );
+	}
 }
