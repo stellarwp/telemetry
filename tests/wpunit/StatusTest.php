@@ -217,9 +217,9 @@ class StatusTest extends WPTestCase {
 
 	public function get_status_data_provider(): array {
 		return [
-			'empty'                            => [ [], false ],
-			'missing plugins key'              => [ [ 'token' => 'foo' ], false ],
-			'empty plugins'                    => [ [ 'plugins' => [] ], false ],
+			'empty'                            => [ [], 2 ],
+			'missing plugins key'              => [ [ 'token' => 'foo' ], 2 ],
+			'empty plugins'                    => [ [ 'plugins' => [] ], 2 ],
 			'one plugin is missing opt-in key' => [
 				[
 					'plugins' => [
@@ -232,7 +232,7 @@ class StatusTest extends WPTestCase {
 						],
 					],
 				],
-				false,
+				2,
 			],
 			'not all plugins opt-in'           => [
 				[
@@ -251,7 +251,7 @@ class StatusTest extends WPTestCase {
 						],
 					],
 				],
-				false,
+				2,
 			],
 			'all plugins opt-out'              => [
 				[
@@ -270,7 +270,7 @@ class StatusTest extends WPTestCase {
 						],
 					],
 				],
-				false,
+				2,
 			],
 			'all plugins opt-in'               => [
 				[
@@ -289,7 +289,7 @@ class StatusTest extends WPTestCase {
 						],
 					],
 				],
-				true,
+				1,
 			],
 		];
 	}
@@ -302,7 +302,7 @@ class StatusTest extends WPTestCase {
 
 		update_option( $status->get_option_name(), $option_value );
 
-		$this->assertIsBool( $status->get() );
+		$this->assertIsInt( $status->get() );
 		$this->assertEquals( $expected, $status->get() );
 	}
 
@@ -314,7 +314,7 @@ class StatusTest extends WPTestCase {
 
 		update_option( $status->get_option_name(), $option_value );
 
-		$label = $expected ? 'Active' : 'Inactive';
+		$label = 1 === $expected ? 'Active' : 'Inactive';
 
 		$this->assertEquals( $label, $status->get_status() );
 	}
