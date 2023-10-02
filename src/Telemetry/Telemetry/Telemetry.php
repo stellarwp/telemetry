@@ -339,6 +339,7 @@ class Telemetry {
 	 * @since 2.0.0 - Add support for passing stellar_slug directly.
 	 *
 	 * @param string $stellar_slug The plugin slug to pass to the server when registering a site user.
+	 * @param string $opt_in_text  The opt-in text displayed to the user when they agreed to share their data.
 	 *
 	 * @return array
 	 */
