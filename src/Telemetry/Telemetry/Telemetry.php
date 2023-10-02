@@ -81,16 +81,15 @@ class Telemetry {
 	 * @since 2.0.0 - Add support for setting the stellar slug.
 	 *
 	 * @param string $stellar_slug The slug to pass to the server when registering the site user.
-	 * @param string $opt_in_text  The opt-in text displayed to the user when they agreed to share their data.
 	 *
 	 * @return void
 	 */
-	public function register_user( string $stellar_slug = '', string $opt_in_text = '' ) {
+	public function register_user( string $stellar_slug = '' ) {
 		if ( '' === $stellar_slug ) {
 			$stellar_slug = Config::get_stellar_slug();
 		}
 
-		$user_details = $this->get_user_details( $stellar_slug, $opt_in_text );
+		$user_details = $this->get_user_details( $stellar_slug );
 
 		try {
 			$this->send( $user_details, Config::get_server_url() . '/opt-in', false );
@@ -343,7 +342,7 @@ class Telemetry {
 	 *
 	 * @return array
 	 */
-	protected function get_user_details( string $stellar_slug = '', string $opt_in_text = '' ) {
+	protected function get_user_details( string $stellar_slug = '' ) {
 		if ( '' == $stellar_slug ) {
 			$stellar_slug = Config::get_stellar_slug();
 		}
@@ -354,7 +353,6 @@ class Telemetry {
 			'name'        => $user->display_name,
 			'email'       => $user->user_email,
 			'plugin_slug' => $stellar_slug,
-			'opt_in_text' => $opt_in_text,
 		];
 
 		/**
