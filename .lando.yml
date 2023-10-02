@@ -9,7 +9,7 @@ excludes:
   - .github
 
 config:
-  php: '7.4'
+  php: '8.0'
   via: nginx
   database: mysql
   webroot: dev/public
