@@ -65,7 +65,7 @@ class Status {
 	 *
 	 * @since 1.0.0
 	 * @since 2.0.1 Correct logic so it is not subject to the order of the plugins.
-	 * @since TBD   Update to remove unnecessary "mixed" status.
+	 * @since 2.2.0 Update to remove unnecessary "mixed" status.
 	 *
 	 * @return integer The status value.
 	 */
