@@ -11,6 +11,7 @@ namespace StellarWP\Telemetry\Telemetry;
 
 use StellarWP\Telemetry\Config;
 use StellarWP\Telemetry\Contracts\Data_Provider;
+use StellarWP\Telemetry\Opt_In\Opt_In_Template;
 use StellarWP\Telemetry\Opt_In\Status;
 
 /**
@@ -81,16 +82,22 @@ class Telemetry {
 	 * @since 2.0.0 - Add support for setting the stellar slug.
 	 *
 	 * @param string $stellar_slug The slug to pass to the server when registering the site user.
+	 * @param string $opt_in_text  The opt-in text displayed to the user when they agreed to share their data.
 	 *
 	 * @return void
 	 */
-	public function register_user( string $stellar_slug = '' ) {
+	public function register_user( string $stellar_slug = '', string $opt_in_text = '' ) {
 		if ( '' === $stellar_slug ) {
 			$stellar_slug = Config::get_stellar_slug();
 		}
 
+		$user_details = $this->get_user_details( $stellar_slug, $opt_in_text );
+
 		try {
-			$this->send( $this->get_user_details( $stellar_slug ), Config::get_server_url() . '/opt-in', false );
+			// Store the user info in the options table.
+			update_option( Status::OPTION_NAME_USER_INFO, $user_details, false );
+
+			$this->send( $user_details, Config::get_server_url() . '/opt-in', false );
 		} catch ( \Error $e ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch
 			// We don't want to throw errors if the server fails.
 		}
@@ -335,20 +342,23 @@ class Telemetry {
 	 * @since 2.0.0 - Add support for passing stellar_slug directly.
 	 *
 	 * @param string $stellar_slug The plugin slug to pass to the server when registering a site user.
+	 * @param string $opt_in_text  The opt-in text displayed to the user when they agreed to share their data.
 	 *
 	 * @return array
 	 */
-	protected function get_user_details( string $stellar_slug = '' ) {
+	protected function get_user_details( string $stellar_slug = '', string $opt_in_text = '' ) {
 		if ( '' == $stellar_slug ) {
 			$stellar_slug = Config::get_stellar_slug();
 		}
 
-		$user = wp_get_current_user();
+		$user     = wp_get_current_user();
+		$template = Config::get_container()->get( Opt_In_Template::class );
 
 		$args = [
 			'name'        => $user->display_name,
 			'email'       => $user->user_email,
 			'plugin_slug' => $stellar_slug,
+			'opt_in_text' => $opt_in_text,
 		];
 
 		/**

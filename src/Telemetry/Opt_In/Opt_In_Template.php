@@ -62,7 +62,7 @@ class Opt_In_Template implements Template_Interface {
 	 *
 	 * @return array
 	 */
-	protected function get_args( string $stellar_slug ) {
+	public function get_args( string $stellar_slug ) {
 
 		$optin_args = [
 			'plugin_logo'           => Resources::get_asset_path() . 'resources/images/stellar-logo.svg',
@@ -85,18 +85,8 @@ class Opt_In_Template implements Template_Interface {
 			__( 'We hope you love %s.', 'stellarwp-telemetry' ),
 			$optin_args['plugin_name']
 		);
-		$optin_args['intro'] = sprintf(
-			// Translators: The user name and the plugin name.
-			__(
-				'Hi, %1$s! This is an invitation to help our StellarWP community.
-				If you opt-in, some data about your usage of %2$s and future StellarWP Products will be shared with our teams (so they can work their butts off to improve).
-				We will also share some helpful info on WordPress, and our products from time to time.
-				And if you skip this, that’s okay! Our products still work just fine.',
-				'stellarwp-telemetry'
-			),
-			$optin_args['user_name'],
-			$optin_args['plugin_name']
-		);
+
+		$optin_args['intro'] = $this->get_intro( $optin_args['user_name'], $optin_args['plugin_name'] );
 
 		/**
 		 * Filters the arguments for rendering the Opt-In modal.
@@ -229,5 +219,28 @@ class Opt_In_Template implements Template_Interface {
 		}
 
 		return $opted_in_plugins;
+	}
+
+	/**
+	 * Gets the primary message displayed on the opt-in modal.
+	 *
+	 * @param string $user_name   The display name of the user.
+	 * @param string $plugin_name The name of the plugin.
+	 *
+	 * @return string
+	 */
+	public function get_intro( $user_name, $plugin_name ) {
+		return sprintf(
+			// Translators: The user name and the plugin name.
+			esc_html__(
+				'Hi, %1$s! This is an invitation to help our StellarWP community.
+				If you opt-in, some data about your usage of %2$s and future StellarWP Products will be shared with our teams (so they can work their butts off to improve).
+				We will also share some helpful info on WordPress, and our products from time to time.
+				And if you skip this, that’s okay! Our products still work just fine.',
+				'stellarwp-telemetry'
+			),
+			$user_name,
+			$plugin_name
+		);
 	}
 }

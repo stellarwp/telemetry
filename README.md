@@ -30,6 +30,12 @@ A library for Opt-in and Telemetry data to be sent to the StellarWP Telemetry se
 		- [stellarwp/telemetry/{hook-prefix}/last\_send\_expire\_seconds](#stellarwptelemetryhook-prefixlast_send_expire_seconds)
 		- [stellarwp/telemetry/exit\_interview\_args](#stellarwptelemetryexit_interview_args)
 		- [stellarwp/telemetry/{stellar\_slug}/exit\_interview\_args](#stellarwptelemetrystellar_slugexit_interview_args)
+		- [stellarwp/telemetry/{hook-prefix}/event\_data](#stellarwptelemetryhook-prefixevent_data)
+		- [stellarwp/telemetry/{hook-prefix}/events\_url](#stellarwptelemetryhook-prefixevents_url)
+	- [Action Reference](#action-reference)
+		- [stellarwp/telemetry/optin](#stellarwptelemetryoptin)
+		- [stellarwp/telemetry/{hook-prefix}/optin](#stellarwptelemetryhook-prefixoptin)
+		- [stellarwp/telemetry/{hook-prefix}/event](#stellarwptelemetryhook-prefixevent)
 	- [Adding Plugin Data to Site Health](#adding-plugin-data-to-site-health)
 	- [Capturing User Events](#capturing-user-events)
 ## Installation
@@ -396,6 +402,42 @@ $args = [
 ### stellarwp/telemetry/{stellar_slug}/exit_interview_args
 This filter will be deprecated in future versions. Use [stellarwp/telemetry/exit_interview_args](#stellarwptelemetrystellar_slugexit_interview_args) instead.
 
+### stellarwp/telemetry/{hook-prefix}/event_data
+Filters the array of data sent along with the event.
+
+**Parameters**: _array_ `$data`
+
+**Default**:
+```php
+$data = [
+	'token'        => $this->telemetry->get_token(),
+	'stellar_slug' => Config::get_stellar_slug(),
+	'event'        => $name,
+	'event_data'   => wp_json_encode( $data ),
+];
+```
+### stellarwp/telemetry/{hook-prefix}/events_url
+Filters the event URL used when sending events to the Telemetry server.
+
+**Parameters**: _string_ `$url`
+
+**Default**: `https://telemetry.stellarwp.com/api/v1/events`
+
+## Action Reference
+
+### stellarwp/telemetry/optin
+
+**Parameters**: _string_ `$stellar_slug` The stellar slug of the plugin for which the modal should be shown.
+### stellarwp/telemetry/{hook-prefix}/optin
+This filter will be deprecated in future versions. Use [stellarwp/telemetry/optin](#stellarwptelemetryoptin) instead.
+
+### stellarwp/telemetry/{hook-prefix}/event
+Sends a site event to the Telemetry server.
+
+**Parameters**:
+- _string_ `$event` The name of the event.
+- _array_ `$data` A set of data that should be passed along with the event.
+
 ## Adding Plugin Data to Site Health
 
 We collect the Site Health data as json on the server.  In order to pass additional plugin specific items that can be reported on, you will need to add a section to the Site Health Data. The process for adding a section is documented on [developer.wordpress.org](https://developer.wordpress.org/reference/hooks/debug_information/).
@@ -455,7 +497,7 @@ $data = [
 	'two'   => 2,
 	'three' => 3,
 ];
-do_action( 'stellarwp/telemetry/event', 'your-event-name', $data );
+do_action( 'stellarwp/telemetry/{hook-prefix}/event', 'your-event-name', $data );
 ```
 
 Here is how you might log events when a user creates a new post:
@@ -490,6 +532,6 @@ function user_creates_post( $post_id, $post, $update ) {
 	];
 
 	// Log the event with the telemetry server.
-	do_action( 'stellarwp/telemetry/event', 'new_post', $event_data );
+	do_action( 'stellarwp/telemetry/{hook-prefix}/event', 'new_post', $event_data );
 }
 ```

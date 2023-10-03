@@ -22,6 +22,13 @@ use StellarWP\Telemetry\Telemetry\Telemetry;
 class Event {
 
 	/**
+	 * The hook name for sending events asyncronously.
+	 *
+	 * @since 2.2.0
+	 */
+	public const AJAX_ACTION = 'stellarwp_telemetry_send_event';
+
+	/**
 	 * An instance of the Telemetry class.
 	 *
 	 * @since 2.1.0
@@ -66,7 +73,31 @@ class Event {
 		 *
 		 * @param array $data The data about to be sent.
 		 */
-		$data = apply_filters( 'stellarwp/telemetry/events_data', $data );
+		$data = apply_filters( 'stellarwp/telemetry/' . Config::get_hook_prefix() . 'event_data', $data );
+
+		$response = $this->telemetry->send( $data, $this->get_url() );
+
+		if ( ! isset( $response['status'] ) ) {
+			return false;
+		}
+
+		return boolval( $response['status'] );
+	}
+
+	/**
+	 * Send batched events.
+	 *
+	 * @since 2.2.0
+	 *
+	 * @param array $events An array of stored events to send to the telemetry server.
+	 *
+	 * @return bool
+	 */
+	public function send_batch( array $events ) {
+		$data = [
+			'token'  => $this->telemetry->get_token(),
+			'events' => $events,
+		];
 
 		$response = $this->telemetry->send( $data, $this->get_url() );
 

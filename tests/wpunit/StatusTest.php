@@ -1,10 +1,7 @@
 <?php
 
 use Codeception\TestCase\WPTestCase;
-use StellarWP\Telemetry\Config;
-use StellarWP\Telemetry\Core;
 use StellarWP\Telemetry\Opt_In\Status;
-use StellarWP\Telemetry\Tests\Container;
 use StellarWP\Telemetry\Tests\Support\Traits\With_Test_Container;
 use StellarWP\Telemetry\Tests\Support\Traits\With_Uopz;
 
@@ -77,9 +74,9 @@ class StatusTest extends WPTestCase {
 				[
 					[
 						'slug'    => 'acme-commerce',
-						'version' => '1.2.3'
-					]
-				]
+						'version' => '1.2.3',
+					],
+				],
 			],
 			'one plugin is missing opt-in key'  => [
 				[
@@ -96,9 +93,9 @@ class StatusTest extends WPTestCase {
 				[
 					[
 						'slug'    => 'acme-commerce',
-						'version' => '1.2.3'
-					]
-				]
+						'version' => '1.2.3',
+					],
+				],
 			],
 			'not all plugins opt-in'            => [
 				[
@@ -120,12 +117,12 @@ class StatusTest extends WPTestCase {
 				[
 					[
 						'slug'    => 'acme-commerce',
-						'version' => '1.2.3'
+						'version' => '1.2.3',
 					],
 					[
 						'slug'    => 'acme-learn',
-						'version' => '5.6.7'
-					]
+						'version' => '5.6.7',
+					],
 				],
 			],
 			'all plugins opt-out'               => [
@@ -167,16 +164,16 @@ class StatusTest extends WPTestCase {
 				[
 					[
 						'slug'    => 'acme-commerce',
-						'version' => '1.2.3'
+						'version' => '1.2.3',
 					],
 					[
 						'slug'    => 'acme-tickets',
-						'version' => '3.4.5'
+						'version' => '3.4.5',
 					],
 					[
 						'slug'    => 'acme-learn',
-						'version' => '5.6.7'
-					]
+						'version' => '5.6.7',
+					],
 				],
 			],
 		];
@@ -186,31 +183,153 @@ class StatusTest extends WPTestCase {
 	 * @dataProvider get_opted_in_plugins_data_provider
 	 */
 	public function test_get_opted_in_plugins( $option_value, $expected ): void {
-		$this->set_fn_return( 'get_plugin_data', static function ( string $plugin ) {
-			if ( strpos( $plugin, 'acme-commerce', true ) ) {
-				return [
-					'Name'    => 'Acme Commerce',
-					'Version' => '1.2.3',
-				];
-			}
+		$this->set_fn_return(
+			'get_plugin_data',
+			static function ( string $plugin ) {
+				if ( strpos( $plugin, 'acme-commerce', true ) ) {
+					return [
+						'Name'    => 'Acme Commerce',
+						'Version' => '1.2.3',
+					];
+				}
 
-			if ( strpos( $plugin, 'acme-tickets', true ) ) {
-				return [
-					'Name'    => 'Acme Tickets',
-					'Version' => '3.4.5',
-				];
-			}
+				if ( strpos( $plugin, 'acme-tickets', true ) ) {
+					return [
+						'Name'    => 'Acme Tickets',
+						'Version' => '3.4.5',
+					];
+				}
 
-			return [
-				'Name'    => 'Acme Learn',
-				'Version' => '5.6.7',
-			];
-		}, true );
+				return [
+					'Name'    => 'Acme Learn',
+					'Version' => '5.6.7',
+				];
+			},
+			true
+		);
 		$status = new Status();
 
 		update_option( $status->get_option_name(), $option_value );
 
 		$this->assertIsArray( $status->get_opted_in_plugins() );
 		$this->assertEquals( $expected, $status->get_opted_in_plugins() );
+	}
+
+	public function get_status_data_provider(): array {
+		return [
+			'empty'                            => [ [], 2 ],
+			'missing plugins key'              => [ [ 'token' => 'foo' ], 2 ],
+			'empty plugins'                    => [ [ 'plugins' => [] ], 2 ],
+			'one plugin is missing opt-in key' => [
+				[
+					'plugins' => [
+						'acme-commerce' => [
+							'wp_slug' => 'acme-commerce/acme-commerce.php',
+							'optin'   => true,
+						],
+						'acme-tickets'  => [
+							'wp_slug' => 'acme-tickets/acme-tickets.php',
+						],
+					],
+				],
+				2,
+			],
+			'not all plugins opt-in'           => [
+				[
+					'plugins' => [
+						'acme-commerce' => [
+							'wp_slug' => 'acme-commerce/acme-commerce.php',
+							'optin'   => true,
+						],
+						'acme-tickets'  => [
+							'wp_slug' => 'acme-tickets/acme-tickets.php',
+							'optin'   => false,
+						],
+						'acme-learn'    => [
+							'wp_slug' => 'acme-learn/acme-learn.php',
+							'optin'   => true,
+						],
+					],
+				],
+				2,
+			],
+			'all plugins opt-out'              => [
+				[
+					'plugins' => [
+						'acme-commerce' => [
+							'wp_slug' => 'acme-commerce/acme-commerce.php',
+							'optin'   => false,
+						],
+						'acme-tickets'  => [
+							'wp_slug' => 'acme-tickets/acme-tickets.php',
+							'optin'   => false,
+						],
+						'acme-learn'    => [
+							'wp_slug' => 'acme-learn/acme-learn.php',
+							'optin'   => false,
+						],
+					],
+				],
+				2,
+			],
+			'all plugins opt-in'               => [
+				[
+					'plugins' => [
+						'acme-commerce' => [
+							'wp_slug' => 'acme-commerce/acme-commerce.php',
+							'optin'   => true,
+						],
+						'acme-tickets'  => [
+							'wp_slug' => 'acme-tickets/acme-tickets.php',
+							'optin'   => true,
+						],
+						'acme-learn'    => [
+							'wp_slug' => 'acme-learn/acme-learn.php',
+							'optin'   => true,
+						],
+					],
+				],
+				1,
+			],
+		];
+	}
+
+	/**
+	 * @dataProvider get_status_data_provider
+	 */
+	public function test_get_status( $option_value, $expected ): void {
+		$status = new Status();
+
+		update_option( $status->get_option_name(), $option_value );
+
+		$this->assertIsInt( $status->get() );
+		$this->assertEquals( $expected, $status->get() );
+	}
+
+	/**
+	 * @dataProvider get_status_data_provider
+	 */
+	public function test_get_status_label( $option_value, $expected ): void {
+		$status = new Status();
+
+		update_option( $status->get_option_name(), $option_value );
+
+		$label = 1 === $expected ? 'Active' : 'Inactive';
+
+		$this->assertEquals( $label, $status->get_status() );
+	}
+
+	/**
+	 * @dataProvider get_status_data_provider
+	 */
+	public function test_is_active( $option_value, $expected ): void {
+		$status = new Status();
+
+		update_option( $status->get_option_name(), $option_value );
+
+		$is_active = 1 === $expected ? true : false;
+
+		$this->assertIsBool( $status->is_active() );
+		$this->assertEquals( $is_active, $status->is_active() );
 	}
 }
