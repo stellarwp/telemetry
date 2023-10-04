@@ -140,7 +140,7 @@ class Opt_In_Subscriber extends Abstract_Subscriber {
 	 *
 	 * @since 1.0.0
 	 * @since 2.0.0 - Updated to allow specifying the stellar slug.
-	 * @since TBD - Updated to add opt-in text.
+	 * @since 2.2.0 - Updated to add opt-in text.
 	 *
 	 * @param string $stellar_slug The slug to use when opting in.
 	 * @param string $opt_in_text  The text displayed to the user when they agreed to opt-in.
