@@ -94,9 +94,6 @@ class Telemetry {
 		$user_details = $this->get_user_details( $stellar_slug, $opt_in_text );
 
 		try {
-			// Store the user info in the options table.
-			update_option( Status::OPTION_NAME_USER_INFO, $user_details, false );
-
 			$this->send( $user_details, Config::get_server_url() . '/opt-in', false );
 		} catch ( \Error $e ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch
 			// We don't want to throw errors if the server fails.
