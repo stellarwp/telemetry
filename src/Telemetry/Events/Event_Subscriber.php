@@ -38,7 +38,7 @@ class Event_Subscriber extends Abstract_Subscriber {
 	/**
 	 * Caches an event to be sent during shutdown.
 	 *
-	 * @since 2.2.0
+	 * @since TBD
 	 *
 	 * @param string $name         The name of the event.
 	 * @param array  $data         The data sent along with the event.
@@ -64,7 +64,7 @@ class Event_Subscriber extends Abstract_Subscriber {
 	/**
 	 * Sends the events that have been stored for the current request.
 	 *
-	 * @since 2.2.0
+	 * @since TBD
 	 *
 	 * @return void
 	 */
@@ -93,7 +93,7 @@ class Event_Subscriber extends Abstract_Subscriber {
 	/**
 	 * Send the event to the telemetry server.
 	 *
-	 * @since 2.2.0
+	 * @since TBD
 	 *
 	 * @return void
 	 */
