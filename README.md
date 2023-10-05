@@ -17,6 +17,7 @@ A library for Opt-in and Telemetry data to be sent to the StellarWP Telemetry se
 	- [Utilizing a Shared Telemetry Instance](#utilizing-a-shared-telemetry-instance)
 	- [Adding Plugin Data to Site Health](#adding-plugin-data-to-site-health)
 	- [Capturing User Events](#capturing-user-events)
+	- [Contribution](#contribution)
 ## Installation
 
 It's recommended that you install Telemetry as a project dependency via [Composer](https://getcomposer.org/):
@@ -313,3 +314,10 @@ function user_creates_post( $post_id, $post, $update ) {
 	do_action( 'stellarwp/telemetry/{hook-prefix}/event', 'new_post', $event_data );
 }
 ```
+
+## Contribution
+
+There are more detailed docs that provide guidance on contributing to the library:
+- [Automated testing](/docs/automated-testing.md)
+- [Local Environment Configuration](/docs/local-environment.md)
+- [Quality Assurance](/docs/quality-assurance.md)
