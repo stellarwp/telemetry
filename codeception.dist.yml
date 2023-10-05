@@ -12,3 +12,7 @@ extensions:
         - Codeception\Command\GenerateWPUnit
 params:
     - .env.testing
+coverage:
+    enabled: true
+    include:
+      - src/Telemetry/*.php
