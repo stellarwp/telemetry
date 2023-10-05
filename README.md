@@ -31,9 +31,9 @@ composer require stellarwp/telemetry
 > Luckily, adding Strauss to your `composer.json` is only slightly more complicated than adding a typical dependency, so checkout our [strauss docs](https://github.com/stellarwp/global-docs/blob/main/docs/strauss-setup.md).
 
 ## Usage Prerequisites
-To actually _use_ the telemetry library, you must have a Dependency Injection Container (DI Container) that is compatible with [di52](https://github.com/lucatume/di52) (_We recommend using di52_).
+To actually _use_ the telemetry library, you must have a Dependency Injection Container (DI Container) that is compatible with the [StellarWP Container Contract](https://github.com/stellarwp/container-contract).
 
-In order to keep this library as light as possible, a container is not included in the library itself. To avoid version compatibility issues, it is also not included as a Composer dependency. Instead, you must include it in your project. We recommend including it via composer [using Strauss](https://github.com/stellarwp/global-docs/blob/main/docs/strauss-setup.md), just like you have done with this library.
+In order to keep this library as light as possible, a container is not included in the library itself, however we do recommend [di52](https://github.com/lucatume/di52). To avoid version compatibility issues, it is also not included as a Composer dependency. Instead, you must include it in your project. We recommend including it via composer [using Strauss](https://github.com/stellarwp/global-docs/blob/main/docs/strauss-setup.md), just like you have done with this library.
 
 ## Filters & Actions
 If you'd like to take a look at the existing filters & actions available through the library, [view that documentation here](docs/filters.md).
