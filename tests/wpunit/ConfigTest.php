@@ -37,7 +37,7 @@ class ConfigTest extends WPTestCase {
 		$this->assertTrue( Config::has_container() );
 	}
 
-	public function test_it_returns_true_with_no_container_set() {
+	public function test_it_returns_false_with_no_container_set() {
 		$this->assertFalse( Config::has_container() );
 	}
 
