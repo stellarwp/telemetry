@@ -111,4 +111,65 @@ class TemplateTest extends WPTestCase {
 		$this->assertSame( false, $require );
 		$this->assertSame( $template->get_args( 'telemetry-library' ), $arguments );
 	}
+
+	public function test_get_option_name() {
+		$template = Config::get_container()->get( Opt_In_Template::class );
+
+		$this->assertSame( 'stellarwp_telemetry_telemetry-library_show_optin', $template->get_option_name( 'telemetry-library' ) );
+	}
+
+	public function test_should_render() {
+		$template = Config::get_container()->get( Opt_In_Template::class );
+		$option_name = $template->get_option_name( 'telemetry-library' );
+
+		update_option( $option_name, true );
+
+		$this->assertTrue( $template->should_render( 'telemetry-library' ) );
+
+		update_option( $option_name, false );
+
+		$this->assertFalse( $template->should_render( 'telemetry-library' ) );
+	}
+
+	public function test_maybe_render() {
+		$status   = Config::get_container()->get( Status::class );
+		$template = Config::get_container()->get( Opt_In_Template::class );
+
+		update_option(
+			$status->get_option_name(),
+			[
+				'plugins' => [
+					'the-events-calendar' => [
+						'wp_slug' => 'the-events-calendar/the-events-calendar.php',
+						'optin'   => false,
+					],
+				],
+				'token'   => 'abcd1234',
+			]
+		);
+
+		update_option( $template->get_option_name( 'telemetry-library' ), true);
+
+		$file      = null;
+		$require   = null;
+		$arguments = null;
+
+		$this->set_fn_return(
+			'load_template',
+			static function ( string $_template_file, bool $require_once, array $args ) use ( &$file, &$require, &$arguments ) {
+				$file      = $_template_file;
+				$require   = $require_once;
+				$arguments = $args;
+			},
+			true
+		);
+
+		$template->maybe_render( 'telemetry-library' );
+
+		$this->assertSame( '/var/www/html/wp-content/plugins/telemetry/src/views/optin.php', $file );
+		$this->assertSame( false, $require );
+		$this->assertSame( $template->get_args( 'telemetry-library' ), $arguments );
+
+		update_option( $template->get_option_name( 'telemetry-library' ), false );
+	}
 }
