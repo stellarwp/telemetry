@@ -169,7 +169,5 @@ class TemplateTest extends WPTestCase {
 		$this->assertSame( '/var/www/html/wp-content/plugins/telemetry/src/views/optin.php', $file );
 		$this->assertSame( false, $require );
 		$this->assertSame( $template->get_args( 'telemetry-library' ), $arguments );
-
-		update_option( $template->get_option_name( 'telemetry-library' ), false );
 	}
 }
