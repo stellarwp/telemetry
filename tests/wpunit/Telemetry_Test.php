@@ -2,7 +2,6 @@
 
 use Codeception\TestCase\WPTestCase;
 use StellarWP\Telemetry\Config;
-use StellarWP\Telemetry\Data_Providers\Debug_Data;
 use StellarWP\Telemetry\Data_Providers\Null_Data_Provider;
 use StellarWP\Telemetry\Opt_In\Status;
 use StellarWP\Telemetry\Telemetry\Telemetry;
