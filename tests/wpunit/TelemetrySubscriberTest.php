@@ -73,7 +73,4 @@ class TelemetrySubscriberTest extends WPTestCase {
 			[ 'wp_ajax_nopriv_' . Telemetry::AJAX_ACTION, [ Telemetry_Subscriber::class, 'send_telemetry_data'] ],
 		];
 	}
-
-
-
 }
