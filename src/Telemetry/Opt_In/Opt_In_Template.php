@@ -44,15 +44,6 @@ class Opt_In_Template implements Template_Interface {
 	}
 
 	/**
-	 * @inheritDoc
-	 *
-	 * @return void
-	 */
-	public function enqueue(): void {
-		// TODO: Once FE template is done, enqueue it here.
-	}
-
-	/**
 	 * Gets the arguments for configuring how the Opt-In modal is rendered.
 	 *
 	 * @since 1.0.0
