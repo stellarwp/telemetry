@@ -394,13 +394,21 @@ class Telemetry {
 	 * @return array
 	 */
 	protected function get_send_data_args() {
+		$opt_in_user = get_option( Status::OPTION_NAME_USER_INFO, [] );
+
+		$args = [
+			'token'         => $this->get_token(),
+			'telemetry'     => wp_json_encode( $this->provider->get_data() ),
+			'stellar_slugs' => wp_json_encode( $this->opt_in_status->get_opted_in_plugins() ),
+		];
+
+		if ( ! empty( $opt_in_user ) ) {
+			$args['opt_in_user'] = wp_json_encode( $opt_in_user );
+		}
+
 		return apply_filters(
 			'stellarwp/telemetry/' . Config::get_hook_prefix() . 'send_data_args',
-			[
-				'token'         => $this->get_token(),
-				'telemetry'     => wp_json_encode( $this->provider->get_data() ),
-				'stellar_slugs' => wp_json_encode( $this->opt_in_status->get_opted_in_plugins() ),
-			]
+			$args
 		);
 	}
 
