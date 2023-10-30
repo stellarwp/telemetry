@@ -58,6 +58,7 @@ jobs:
         run: |
           cd ${GITHUB_WORKSPACE}/..
           ${SLIC_BIN} here
+          ${SLIC_BIN} php-version set 8.2 --skip-rebuild
           ${SLIC_BIN} interactive off
           ${SLIC_BIN} build-prompt off
           ${SLIC_BIN} build-subdir off
