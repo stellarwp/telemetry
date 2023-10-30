@@ -399,7 +399,7 @@ class Telemetry {
 		$telemetry   = $this->provider->get_data();
 
 		if ( count( $opt_in_user ) > 0 ) {
-			$telemetry['opt_in_user'] = $opt_in_user;
+			$telemetry['opt_in_user'] = json_decode( $opt_in_user['user'], true );
 		}
 
 		$args = [
