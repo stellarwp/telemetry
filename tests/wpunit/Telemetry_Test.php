@@ -289,9 +289,10 @@ class Telemetry_Test extends WPTestCase {
 		$sent = $telemetry->send_data();
 
 		$this->assertEquals( Config::get_server_url() . '/telemetry', $call_url );
-		$this->assertArrayHasKey( 'opt_in_user', $call_args['body'] );
+		$this->assertArrayHasKey( 'opt_in_user', json_decode( $call_args['body']['telemetry'], true ) );
 		$this->assertTrue( $sent );
 	}
+
 	/**
 	 * It should include the opt-in user when sending data.
 	 *
@@ -341,7 +342,7 @@ class Telemetry_Test extends WPTestCase {
 		$sent = $telemetry->send_data();
 
 		$this->assertEquals( Config::get_server_url() . '/telemetry', $call_url );
-		$this->assertArrayNotHasKey( 'opt_in_user', $call_args['body'] );
+		$this->assertArrayNotHasKey( 'opt_in_user', json_decode( $call_args['body']['telemetry'], true ) );
 		$this->assertTrue( $sent );
 	}
 }
