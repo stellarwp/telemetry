@@ -249,7 +249,7 @@ class Telemetry_Test extends WPTestCase {
 	 * @test
 	 */
 	public function should_send_data_with_optin_user(): void {
-		set_current_user( 1 );
+		wp_set_current_user( 1 );
 
 		$mock_response = [
 			'headers'       => [],
@@ -298,7 +298,7 @@ class Telemetry_Test extends WPTestCase {
 	 * @test
 	 */
 	public function should_send_data_without_optin_user_if_missing(): void {
-		set_current_user( 1 );
+		wp_set_current_user( 1 );
 
 		$mock_response = [
 			'headers'       => [],
