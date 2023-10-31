@@ -27,6 +27,9 @@ services:
       environment:
         PHP_IDE_CONFIG: "serverName=telemetry-library"
         XDEBUG_SESSION_START: lando
+    build_as_root:
+      - apt-get update -y
+      - apt-get install zip
 
   mailhog:
     type: mailhog
