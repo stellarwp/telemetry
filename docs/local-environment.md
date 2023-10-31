@@ -11,7 +11,9 @@ Once lando starts, you should have a fresh environment running at [https://telem
 <img src="img/new-environment.png" alt="A newly created local environment" style="width: 800px; border:1px solid;margin-bottom: 20px;">
 
 
-This environment has a default plugin that does only what's required to load and initialize the library. Currently, the opt-in modal loads on every admin page for ease of use. If you need to test the library more, download and configure the [Telemetry Starter Plugin](https://github.com/stellarwp/telemetry-starter).
+This environment has a default plugin that provides several tools to test the different aspects of the library. As features are added, the plugin should be updated with features to test new functionality.
+
+![The local plugin used to test all functionality related to the library](img/telemetry-test-plugin.png)
 
 ## Xdebug with VS Code
 

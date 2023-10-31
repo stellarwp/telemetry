@@ -1,7 +1,8 @@
 <?php
 
-use Codeception\TestCase\WPTestCase;
+use lucatume\WPBrowser\TestCase\WPTestCase;
 use StellarWP\Telemetry\Admin\Resources;
+use StellarWP\Telemetry\Config;
 use StellarWP\Telemetry\Opt_In\Opt_In_Template;
 use StellarWP\Telemetry\Opt_In\Status;
 use StellarWP\Telemetry\Tests\Support\Traits\With_Test_Container;
@@ -12,6 +13,8 @@ class TemplateTest extends WPTestCase {
 	use With_Test_Container;
 	use With_Uopz;
 
+	public const PLUGIN_SLUG = 'telemetry-library';
+
 	public function get_default_template_data() {
 		return [
 			'plugin_logo'           => Resources::get_asset_path() . 'resources/images/stellar-logo.svg',
@@ -19,7 +22,7 @@ class TemplateTest extends WPTestCase {
 			'plugin_logo_height'    => 32,
 			'plugin_logo_alt'       => 'StellarWP Logo',
 			'plugin_name'           => 'StellarWP',
-			'plugin_slug'           => 'telemetry-library',
+			'plugin_slug'           => self::PLUGIN_SLUG,
 			'user_name'             => 'admin',
 			'permissions_url'       => '#',
 			'tos_url'               => '#',
@@ -59,7 +62,7 @@ class TemplateTest extends WPTestCase {
 		);
 
 		$expected = $this->get_default_template_data();
-		$actual   = ( new Opt_In_Template( $status ) )->get_args( 'telemetry-library' );
+		$actual   = ( new Opt_In_Template( $status ) )->get_args( self::PLUGIN_SLUG );
 
 		$this->assertIsArray( $actual );
 		$this->assertEquals( $expected, $actual );
@@ -71,5 +74,102 @@ class TemplateTest extends WPTestCase {
 
 		$this->assertIsString( $actual );
 		$this->assertEquals( $expected['intro'], $actual );
+	}
+
+	public function test_render() {
+		$status   = Config::get_container()->get( Status::class );
+		$template = Config::get_container()->get( Opt_In_Template::class );
+
+		update_option(
+			$status->get_option_name(),
+			[
+				'plugins' => [
+					'the-events-calendar' => [
+						'wp_slug' => 'the-events-calendar/the-events-calendar.php',
+						'optin'   => false,
+					],
+				],
+				'token'   => 'abcd1234',
+			]
+		);
+
+		$file      = null;
+		$require   = null;
+		$arguments = null;
+
+		$this->set_fn_return(
+			'load_template',
+			static function ( string $_template_file, bool $require_once, array $args ) use ( &$file, &$require, &$arguments ) {
+				$file      = $_template_file;
+				$require   = $require_once;
+				$arguments = $args;
+			},
+			true
+		);
+
+		$template->render( self::PLUGIN_SLUG );
+
+		$this->assertSame( '/var/www/html/wp-content/plugins/telemetry/src/views/optin.php', $file );
+		$this->assertSame( false, $require );
+		$this->assertSame( $template->get_args( self::PLUGIN_SLUG ), $arguments );
+	}
+
+	public function test_get_option_name() {
+		$template = Config::get_container()->get( Opt_In_Template::class );
+
+		$this->assertSame( 'stellarwp_telemetry_' . self::PLUGIN_SLUG . '_show_optin', $template->get_option_name( self::PLUGIN_SLUG ) );
+	}
+
+	public function test_should_render() {
+		$template = Config::get_container()->get( Opt_In_Template::class );
+		$option_name = $template->get_option_name( self::PLUGIN_SLUG );
+
+		update_option( $option_name, true );
+
+		$this->assertTrue( $template->should_render( self::PLUGIN_SLUG ) );
+
+		update_option( $option_name, false );
+
+		$this->assertFalse( $template->should_render( self::PLUGIN_SLUG ) );
+	}
+
+	public function test_maybe_render() {
+		$status   = Config::get_container()->get( Status::class );
+		$template = Config::get_container()->get( Opt_In_Template::class );
+
+		update_option(
+			$status->get_option_name(),
+			[
+				'plugins' => [
+					'the-events-calendar' => [
+						'wp_slug' => 'the-events-calendar/the-events-calendar.php',
+						'optin'   => false,
+					],
+				],
+				'token'   => 'abcd1234',
+			]
+		);
+
+		update_option( $template->get_option_name( self::PLUGIN_SLUG ), true);
+
+		$file      = null;
+		$require   = null;
+		$arguments = null;
+
+		$this->set_fn_return(
+			'load_template',
+			static function ( string $_template_file, bool $require_once, array $args ) use ( &$file, &$require, &$arguments ) {
+				$file      = $_template_file;
+				$require   = $require_once;
+				$arguments = $args;
+			},
+			true
+		);
+
+		$template->maybe_render( self::PLUGIN_SLUG );
+
+		$this->assertSame( '/var/www/html/wp-content/plugins/telemetry/src/views/optin.php', $file );
+		$this->assertSame( false, $require );
+		$this->assertSame( $template->get_args( self::PLUGIN_SLUG ), $arguments );
 	}
 }

@@ -2,13 +2,14 @@
 /**
  * Plugin Name: Telemetry Library
  * Description: A plugin for working on the telemetry library directly.
- * Version: 1.0
+ * Version: 2.3.0-rc.01
  * Author: StellarWP
  */
 
 use StellarWP\TelemetryLibraryTesting\Container;
 use StellarWP\Telemetry\Config;
 use StellarWP\Telemetry\Core as Telemetry;
+use StellarWP\TelemetryLibraryTesting\Settings_Page;
 
 require plugin_dir_path( __FILE__ ) . 'vendor/autoload.php';
 
@@ -24,50 +25,5 @@ add_action(
 	}
 );
 
-// Trigger the optin modal on every page load.
-add_action(
-	'admin_init',
-	function () {
-		do_action( 'stellarwp/telemetry/optin', 'telemetry-library' );
-	}
-);
-
-// If the 'Send Events' link was used, send some test events once.
-add_action(
-	'init',
-	function() {
-		if ( ! isset( $_GET['send-events'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-			return;
-		}
-
-		do_action( 'stellarwp/telemetry/telemetry-prefix/event', 'opt-in', [ 'one' => 1 ] );
-		do_action( 'stellarwp/telemetry/telemetry-prefix/event', 'create-post', [ 'post-title' => 'This is my first post!' ] );
-		do_action( 'stellarwp/telemetry/telemetry-prefix/event', 'opt-out', [ 'one' => 1 ] );
-
-		wp_safe_redirect( remove_query_arg( 'send-events' ) );
-		exit;
-	}
-);
-
-/**
- * Adds a helper link to the admin bar for sending a group of events.
- *
- * @param WP_Admin_Bar $admin_bar The adminbar class.
- *
- * @return void
- */
-function add_event_send_link( $admin_bar ) {
-	global $wp;
-
-	$admin_bar->add_menu(
-		[
-			'id'    => 'send-events',
-			'title' => 'Send Events',
-			'href'  => add_query_arg( [ 'send-events' => true ], home_url( $wp->request ) ),
-			'meta'  => [
-				'title' => __( 'Send Events' ),
-			],
-		]
-	);
-}
-add_action( 'admin_bar_menu', 'add_event_send_link', 100, 1 );
+// Initialize the Settings Page.
+new Settings_Page();

@@ -390,17 +390,27 @@ class Telemetry {
 	 * Gets the args for sending data to the telemetry server.
 	 *
 	 * @since 1.0.0
+	 * @since TBD - Updated to include the opted in user with the telemetry json.
 	 *
 	 * @return array
 	 */
 	protected function get_send_data_args() {
+		$opt_in_user = get_option( Status::OPTION_NAME_USER_INFO, [] );
+		$telemetry   = $this->provider->get_data();
+
+		if ( count( $opt_in_user ) > 0 ) {
+			$telemetry['opt_in_user'] = json_decode( $opt_in_user['user'], true );
+		}
+
+		$args = [
+			'token'         => $this->get_token(),
+			'telemetry'     => wp_json_encode( $telemetry ),
+			'stellar_slugs' => wp_json_encode( $this->opt_in_status->get_opted_in_plugins() ),
+		];
+
 		return apply_filters(
 			'stellarwp/telemetry/' . Config::get_hook_prefix() . 'send_data_args',
-			[
-				'token'         => $this->get_token(),
-				'telemetry'     => wp_json_encode( $this->provider->get_data() ),
-				'stellar_slugs' => wp_json_encode( $this->opt_in_status->get_opted_in_plugins() ),
-			]
+			$args
 		);
 	}
 
