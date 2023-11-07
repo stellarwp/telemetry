@@ -247,10 +247,14 @@ class Status {
 
 		$option = $this->get_option();
 
-		$option['plugins'][ $stellar_slug ]['optin'] = $status;
+		foreach( $option['plugins'] as &$plugin_data )  {
+			$plugin_data['optin'] = $status;
+		}
 
 		return update_option( $this->get_option_name(), $option );
 	}
+
+
 
 	/**
 	 * Gets the site's opt-in status label.
