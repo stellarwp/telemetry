@@ -11,6 +11,7 @@ namespace StellarWP\Telemetry\Telemetry;
 
 use StellarWP\Telemetry\Config;
 use StellarWP\Telemetry\Contracts\Data_Provider;
+use StellarWP\Telemetry\Opt_In\Opt_In_Template;
 use StellarWP\Telemetry\Opt_In\Status;
 
 /**
@@ -81,20 +82,22 @@ class Telemetry {
 	 * @since 2.0.0 - Add support for setting the stellar slug.
 	 *
 	 * @param string $stellar_slug The slug to pass to the server when registering the site user.
+	 * @param string $opt_in_text  The opt-in text displayed to the user when they agreed to share their data.
 	 *
 	 * @return void
 	 */
-	public function register_user( string $stellar_slug = '' ) {
+	public function register_user( string $stellar_slug = '', string $opt_in_text = '' ) {
 		if ( '' === $stellar_slug ) {
 			$stellar_slug = Config::get_stellar_slug();
 		}
 
-		$user_details = $this->get_user_details( $stellar_slug );
+		$user_details = $this->get_user_details( $stellar_slug, $opt_in_text );
 
 		try {
-			$this->send( $user_details, Config::get_server_url() . '/opt-in', false );
 			// Store the user info in the options table.
 			update_option( Status::OPTION_NAME_USER_INFO, $user_details, false );
+
+			$this->send( $user_details, Config::get_server_url() . '/opt-in', false );
 		} catch ( \Error $e ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch
 			// We don't want to throw errors if the server fails.
 		}
@@ -339,20 +342,23 @@ class Telemetry {
 	 * @since 2.0.0 - Add support for passing stellar_slug directly.
 	 *
 	 * @param string $stellar_slug The plugin slug to pass to the server when registering a site user.
+	 * @param string $opt_in_text  The opt-in text displayed to the user when they agreed to share their data.
 	 *
 	 * @return array
 	 */
-	protected function get_user_details( string $stellar_slug = '' ) {
+	protected function get_user_details( string $stellar_slug = '', string $opt_in_text = '' ) {
 		if ( '' == $stellar_slug ) {
 			$stellar_slug = Config::get_stellar_slug();
 		}
 
-		$user = wp_get_current_user();
+		$user     = wp_get_current_user();
+		$template = Config::get_container()->get( Opt_In_Template::class );
 
 		$args = [
 			'name'        => $user->display_name,
 			'email'       => $user->user_email,
 			'plugin_slug' => $stellar_slug,
+			'opt_in_text' => $opt_in_text,
 		];
 
 		/**
@@ -384,17 +390,27 @@ class Telemetry {
 	 * Gets the args for sending data to the telemetry server.
 	 *
 	 * @since 1.0.0
+	 * @since TBD - Updated to include the opted in user with the telemetry json.
 	 *
 	 * @return array
 	 */
 	protected function get_send_data_args() {
+		$opt_in_user = get_option( Status::OPTION_NAME_USER_INFO, [] );
+		$telemetry   = $this->provider->get_data();
+
+		if ( count( $opt_in_user ) > 0 ) {
+			$telemetry['opt_in_user'] = json_decode( $opt_in_user['user'], true );
+		}
+
+		$args = [
+			'token'         => $this->get_token(),
+			'telemetry'     => wp_json_encode( $telemetry ),
+			'stellar_slugs' => wp_json_encode( $this->opt_in_status->get_opted_in_plugins() ),
+		];
+
 		return apply_filters(
 			'stellarwp/telemetry/' . Config::get_hook_prefix() . 'send_data_args',
-			[
-				'token'         => $this->get_token(),
-				'telemetry'     => wp_json_encode( $this->provider->get_data() ),
-				'stellar_slugs' => wp_json_encode( $this->opt_in_status->get_opted_in_plugins() ),
-			]
+			$args
 		);
 	}
 

@@ -24,7 +24,7 @@ class Event {
 	/**
 	 * The hook name for sending events asyncronously.
 	 *
-	 * @since TBD
+	 * @since 2.2.0
 	 */
 	public const AJAX_ACTION = 'stellarwp_telemetry_send_event';
 
@@ -87,7 +87,7 @@ class Event {
 	/**
 	 * Send batched events.
 	 *
-	 * @since TBD
+	 * @since 2.2.0
 	 *
 	 * @param array $events An array of stored events to send to the telemetry server.
 	 *
