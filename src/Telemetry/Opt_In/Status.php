@@ -255,7 +255,6 @@ class Status {
 	}
 
 
-
 	/**
 	 * Gets the site's opt-in status label.
 	 *
