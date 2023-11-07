@@ -64,12 +64,12 @@ class Debug_Data implements Data_Provider {
 	 *
 	 * @return array<string,mixed> Filtered Site Health data.
 	 */
-	public function clean_private_data ( $data ): array {
+	public function clean_private_data( $data ): array {
 		foreach ( $data as &$details ) {
 			// remove private info.
 			$details['fields'] = array_filter(
 				$details['fields'],
-				function( $field ) {
+				function ( $field ) {
 					return empty( $field['private'] );
 				}
 			);
