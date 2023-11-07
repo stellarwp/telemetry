@@ -47,6 +47,7 @@ class Debug_Data implements Data_Provider {
 				unset( $plugins[ $active_plugin ] );
 			}
 		}
+
 		$info['telemetry-active-plugins']['fields']   = $active;
 		$info['telemetry-inactive-plugins']['fields'] = $plugins;
 
@@ -59,12 +60,12 @@ class Debug_Data implements Data_Provider {
 	 *
 	 * @since TBD
 	 *
-	 * @param array<string,mixed> $data Raw Site Health data
+	 * @param array<string,mixed> $data Raw Site Health data.
 	 *
-	 * @return array<string,mixed> Filtered Site Health data
+	 * @return array<string,mixed> Filtered Site Health data.
 	 */
-	function clean_private_data( $data ): array {
-		foreach( $data as &$details) {
+	public function clean_private_data ( $data ): array {
+		foreach ( $data as &$details ) {
 			// remove private info.
 			$details['fields'] = array_filter(
 				$details['fields'],
