@@ -29,7 +29,7 @@
     "stellarwp/container-contract": "^1.0"
   },
   "require-dev": {
-    "automattic/vipwpcs": "^2.3",
+    "automattic/vipwpcs": "^3.0",
     "dealerdirect/phpcodesniffer-composer-installer": "^0.7.2",
     "lucatume/di52": "3.0.0",
     "lucatume/wp-browser": "^4.0",
@@ -37,7 +37,7 @@
     "phpunit/php-code-coverage": "^9.2",
     "szepeviktor/phpstan-wordpress": "^1.1",
     "the-events-calendar/coding-standards": "dev-master",
-    "wp-coding-standards/wpcs": "^2.3"
+    "wp-coding-standards/wpcs": "^3.0"
   },
   "repositories": [
     {
