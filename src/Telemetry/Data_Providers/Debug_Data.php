@@ -34,7 +34,8 @@ class Debug_Data implements Data_Provider {
 		if ( ! class_exists( 'WP_Debug_Data' ) ) {
 			require_once ABSPATH . 'wp-admin/includes/class-wp-debug-data.php';
 		}
-		$info = WP_Debug_Data::debug_data();
+
+		$info = $this->clean_private_data( WP_Debug_Data::debug_data() );
 
 		$active_plugins = get_option( 'active_plugins' );
 		$plugins        = get_plugins();
@@ -50,5 +51,29 @@ class Debug_Data implements Data_Provider {
 		$info['telemetry-inactive-plugins']['fields'] = $plugins;
 
 		return $info;
+	}
+
+	/**
+	 * Some data in Site Health is marked as private.
+	 * This ensures we don't pass that on to the servers.
+	 *
+	 * @since TBD
+	 *
+	 * @param array<string,mixed> $data Raw Site Health data
+	 *
+	 * @return array<string,mixed> Filtered Site Health data
+	 */
+	function clean_private_data( $data ): array {
+		foreach( $data as &$details) {
+			// remove private info.
+			$details['fields'] = array_filter(
+				$details['fields'],
+				function( $field ) {
+					return empty( $field['private'] );
+				}
+			);
+		}
+
+		return $data;
 	}
 }
