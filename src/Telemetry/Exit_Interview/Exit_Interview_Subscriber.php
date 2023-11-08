@@ -11,7 +11,6 @@ namespace StellarWP\Telemetry\Exit_Interview;
 
 use StellarWP\Telemetry\Contracts\Abstract_Subscriber;
 use StellarWP\Telemetry\Config;
-use StellarWP\Telemetry\Core;
 use StellarWP\Telemetry\Opt_In\Status;
 use StellarWP\Telemetry\Telemetry\Telemetry;
 
@@ -161,5 +160,4 @@ class Exit_Interview_Subscriber extends Abstract_Subscriber {
 
 		return array_merge( $before_deactivate, $after_deactivate );
 	}
-
 }
