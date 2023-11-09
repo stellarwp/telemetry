@@ -51,15 +51,11 @@ class Event_Subscriber extends Abstract_Subscriber {
 	 * @return void
 	 */
 	public function cache_event( $name, $data ) {
-		$events = [];
-
 		self::$events[] = [
 			'name'         => $name,
 			'data'         => wp_json_encode( $data ),
 			'stellar_slug' => Config::get_stellar_slug(),
 		];
-
-		self::$events = $events;
 	}
 
 	/**
