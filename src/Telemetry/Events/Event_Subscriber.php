@@ -22,10 +22,6 @@ use StellarWP\Telemetry\Contracts\Abstract_Subscriber;
 class Event_Subscriber extends Abstract_Subscriber {
 
 	/**
-	 * Holds the events in a non-persistent way.
-	 *
-	 * @since 2.3.1
-	 *
 	 * @var array
 	 */
 	private static $events = [];
@@ -107,11 +103,11 @@ class Event_Subscriber extends Abstract_Subscriber {
 		$events = filter_input( INPUT_POST, 'events', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY ); // phpcs:ignore WordPressVIPMinimum.Security.PHPFilterFunctions.RestrictedFilter
 
 		if ( empty( $events ) ) {
-				return;
+			return;
 		}
-		
+
 		if ( ! is_array( $events ) ) {
-				$events = (array) $events;
+			$events = (array) $events;
 		}
 
 		$this->container->get( Event::class )->send_batch( $events );
