@@ -106,10 +106,6 @@ class Event_Subscriber extends Abstract_Subscriber {
 			return;
 		}
 
-		if ( ! is_array( $events ) ) {
-			$events = (array) $events;
-		}
-
-		$this->container->get( Event::class )->send_batch( $events );
+		$this->container->get( Event::class )->send_batch( (array) $events );
 	}
 }
