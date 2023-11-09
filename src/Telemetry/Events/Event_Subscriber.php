@@ -21,6 +21,13 @@ use StellarWP\Telemetry\Contracts\Abstract_Subscriber;
  */
 class Event_Subscriber extends Abstract_Subscriber {
 
+	/**
+	 * Holds the events in a non-persistent way.
+	 *
+	 * @since 2.3.1
+	 *
+	 * @var array
+	 */
 	private static $events = [];
 
 	/**
