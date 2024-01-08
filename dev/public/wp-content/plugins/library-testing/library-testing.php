@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Telemetry Library
  * Description: A plugin for working on the telemetry library directly.
- * Version: 1.0
+ * Version: 2.3.0-rc.01
  * Author: StellarWP
  */
 
