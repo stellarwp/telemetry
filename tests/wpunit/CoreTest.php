@@ -3,7 +3,7 @@
  * Handles all tests related to the Core class.
  */
 use StellarWP\Telemetry\Config;
-use lucatume\WPBrowser\TestCase\WPTestCase;
+use Codeception\TestCase\WPTestCase;
 use StellarWP\Telemetry\Core;
 use StellarWP\Telemetry\Tests\Container;
 
