@@ -3,7 +3,7 @@
  * Handles all tests related to the Config class.
  */
 use StellarWP\Telemetry\Config;
-use lucatume\WPBrowser\TestCase\WPTestCase;
+use Codeception\TestCase\WPTestCase;
 use StellarWP\Telemetry\Tests\Container;
 
 class ConfigTest extends WPTestCase {

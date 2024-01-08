@@ -4,7 +4,7 @@
  */
 
 use StellarWP\Telemetry\Config;
-use lucatume\WPBrowser\TestCase\WPTestCase;
+use Codeception\TestCase\WPTestCase;
 use StellarWP\Telemetry\Telemetry\Telemetry;
 use StellarWP\Telemetry\Telemetry\Telemetry_Subscriber;
 use StellarWP\Telemetry\Tests\Support\Traits\With_Uopz;
