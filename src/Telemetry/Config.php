@@ -228,5 +228,4 @@ class Config {
 	public static function set_server_url( string $url ) {
 		static::$server_url = $url;
 	}
-
 }
