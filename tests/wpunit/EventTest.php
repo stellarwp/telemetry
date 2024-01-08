@@ -3,7 +3,7 @@
  * Handles all tests related to event sending.
  */
 
-use lucatume\WPBrowser\TestCase\WPTestCase;
+use Codeception\TestCase\WPTestCase;
 use StellarWP\Telemetry\Config;
 use StellarWP\Telemetry\Data_Providers\Null_Data_Provider;
 use StellarWP\Telemetry\Events\Event;
