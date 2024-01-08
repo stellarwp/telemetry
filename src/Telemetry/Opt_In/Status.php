@@ -73,7 +73,7 @@ class Status {
 
 		$status  = self::STATUS_INACTIVE;
 		$option  = $this->get_option();
-		$plugins = isset( $option['plugins'] ) ? $option['plugins'] : [];
+		$plugins = $option['plugins'] ?? [];
 
 		if ( count( $plugins ) === 0 ) {
 			$status = self::STATUS_INACTIVE;
@@ -238,10 +238,17 @@ class Status {
 
 		$option = $this->get_option();
 
+		// Set the sent plugin's optin status.
 		$option['plugins'][ $stellar_slug ]['optin'] = $status;
+
+		// Force the others to all match.
+		foreach ( $option['plugins'] as &$plugin_data ) {
+			$plugin_data['optin'] = $status;
+		}
 
 		return update_option( $this->get_option_name(), $option );
 	}
+
 
 	/**
 	 * Gets the site's opt-in status label.
