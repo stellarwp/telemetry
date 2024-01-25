@@ -11,6 +11,7 @@ namespace StellarWP\Telemetry\Opt_In;
 
 use StellarWP\Telemetry\Config;
 use StellarWP\Telemetry\Core;
+use StellarWP\Telemetry\Telemetry\Telemetry;
 
 /**
  * Class for handling the Opt-in status for the site.
@@ -240,7 +241,13 @@ class Status {
 
 		$option['plugins'][ $stellar_slug ]['optin'] = $status;
 
-		return update_option( $this->get_option_name(), $option );
+		$updated = update_option( $this->get_option_name(), $option );
+
+		if ( $updated && $status && ! $this->get_token() ) {
+			Config::get_container()->get( Opt_In_Subscriber::class )->opt_in( $stellar_slug );
+		}
+
+		return $updated;
 	}
 
 	/**

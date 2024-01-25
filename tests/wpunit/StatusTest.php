@@ -6,7 +6,9 @@
 use Codeception\TestCase\WPTestCase;
 use StellarWP\Telemetry\Config;
 use StellarWP\Telemetry\Core;
+use StellarWP\Telemetry\Opt_In\Opt_In_Subscriber;
 use StellarWP\Telemetry\Opt_In\Status;
+use StellarWP\Telemetry\Tests\Container;
 use StellarWP\Telemetry\Tests\Support\Traits\With_Test_Container;
 use StellarWP\Telemetry\Tests\Support\Traits\With_Uopz;
 
@@ -510,5 +512,21 @@ class StatusTest extends WPTestCase {
 		$plugin_removed = $status->remove_plugin( 'plugin_that_does_not_exist' );
 
 		$this->assertFalse( $plugin_removed );
+	}
+
+	public function test_it_registers_the_site_when_opting_in() {
+
+		$subscriber_mock = $this->createMock( Opt_In_Subscriber::class );
+		$subscriber_mock->expects( $this->once() )
+		                ->method( 'opt_in' )
+		                ->with( 'the-events-calendar' );
+
+		$this->set_container();
+		$container = new Container();
+		$container->bind(Opt_In_Subscriber::class, $subscriber_mock );
+		Config::set_container($container);
+
+		$status = new Status();
+		$status->set_status( true, 'the-events-calendar' );
 	}
 }
