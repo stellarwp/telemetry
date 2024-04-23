@@ -201,12 +201,17 @@ class Status {
 			return $opted_in_plugins;
 		}
 
-		foreach ( $option['plugins'] as $stellar_slug => $plugin ) {
-			if ( ! isset( $plugin['wp_slug'] ) ) {
-				continue;
-			}
+		if ( ! isset( $option['plugins'] ) ) {
+			return $opted_in_plugins;
+		}
 
-			$plugin_data = get_plugin_data( trailingslashit( $site_plugins_dir ) . $plugin['wp_slug'] );
+		foreach ( $option['plugins'] as $stellar_slug => $plugin ) {
+            $plugin_path = trailingslashit( $site_plugins_dir ) . $plugin['wp_slug'];
+            if ( ! file_exists( $plugin_path ) ) {
+                continue;
+            }
+
+			$plugin_data = get_plugin_data( $plugin_path );
 
 			if ( isset( $plugin['optin'] ) && true === $plugin['optin'] ) {
 				$opted_in_plugins[] = [
