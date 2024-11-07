@@ -14,6 +14,7 @@ use StellarWP\Telemetry\Admin\Admin_Subscriber;
 use StellarWP\Telemetry\Admin\Resources;
 use StellarWP\Telemetry\Contracts\Data_Provider;
 use StellarWP\Telemetry\Data_Providers\Debug_Data;
+use StellarWP\Telemetry\Events\Event;
 use StellarWP\Telemetry\Events\Event_Subscriber;
 use StellarWP\Telemetry\Exit_Interview\Exit_Interview_Subscriber;
 use StellarWP\Telemetry\Exit_Interview\Template;
@@ -143,6 +144,7 @@ class Core {
 		$container->bind( Data_Provider::class, Debug_Data::class );
 		$container->bind( Status::class, Status::class );
 		$container->bind( Last_Send::class, Last_Send::class );
+		$container->bind( Event::class, Event::class );
 		$container->bind(
 			Opt_In_Template::class,
 			static function () use ( $container ) {
