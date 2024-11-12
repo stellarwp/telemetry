@@ -38,5 +38,6 @@ events:
   post-start:
     - appserver: composer install
     - appserver: /app/dev/lando/install-wp.sh
+    - appserver: cd /app/dev/public/wp-content/plugins/library-testing && composer install
   post-destroy:
     - appserver: rm -rf /app/dev/public/wp
