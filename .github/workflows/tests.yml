@@ -10,28 +10,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the repository
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 1000
-          submodules: recursive
+        uses: actions/checkout@v4
       # ------------------------------------------------------------------------------
       # Checkout slic
       # ------------------------------------------------------------------------------
       - name: Checkout slic
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           repository: stellarwp/slic
           ref: main
           path: slic
           fetch-depth: 1
-      # ------------------------------------------------------------------------------
-      # Prepare our composer cache directory
-      # ------------------------------------------------------------------------------
       - name: Get Composer Cache Directory
         id: get-composer-cache-dir
         run: |
           echo "::set-output name=dir::$(composer config cache-files-dir)"
-      - uses: actions/cache@v2
+      - uses: actions/cache@v4
         id: composer-cache
         with:
           path: ${{ steps.get-composer-cache-dir.outputs.dir }}
