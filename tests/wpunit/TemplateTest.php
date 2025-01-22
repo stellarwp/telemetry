@@ -117,7 +117,7 @@ class TemplateTest extends WPTestCase {
 	public function test_get_option_name() {
 		$template = Config::get_container()->get( Opt_In_Template::class );
 
-		$this->assertSame( 'stellarwp_telemetry_show_optin', $template->get_option_name( self::PLUGIN_SLUG ) );
+		$this->assertSame( 'stellarwp/telemetry/show_optin_option_name', $template->get_option_name( self::PLUGIN_SLUG ) );
 		$this->assertSame( 'stellarwp_telemetry_' . self::PLUGIN_SLUG . '_show_optin', $template->get_option_name( self::PLUGIN_SLUG ) );
 	}
 
