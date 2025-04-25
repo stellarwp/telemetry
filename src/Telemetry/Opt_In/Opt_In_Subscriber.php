@@ -61,6 +61,10 @@ class Opt_In_Subscriber extends Abstract_Subscriber {
 			return;
 		}
 
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
+
 		// We're not attempting a telemetry action.
 		if ( isset( $_POST['action'] ) && 'stellarwp-telemetry' !== $_POST['action'] ) {
 			return;
