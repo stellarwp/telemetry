@@ -79,6 +79,11 @@ class Settings_Page {
 			return;
 		}
 
+		// Check if the user has the necessary permissions.
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
+
 		$number = filter_input( INPUT_POST, 'number', FILTER_VALIDATE_INT ) ?: 1;
 
 		// Set up basic event data for each valid event.
@@ -111,6 +116,11 @@ class Settings_Page {
 	 */
 	public function clear_all_database_options() {
 		if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], 'telemetry-library-clear-database-options' ) ) {
+			return;
+		}
+
+		// Check if the user has the necessary permissions.
+		if ( ! current_user_can( 'manage_options' ) ) {
 			return;
 		}
 
