@@ -79,13 +79,6 @@ class Exit_Interview_Subscriber extends Abstract_Subscriber {
 	 * @return void
 	 */
 	public function ajax_exit_interview() {
-		// Validate nonce.
-		$nonce = filter_input( INPUT_POST, 'nonce', FILTER_SANITIZE_SPECIAL_CHARS );
-		$nonce = ! empty( $nonce ) ? $nonce : '';
-
-		if ( ! wp_verify_nonce( $nonce, self::AJAX_ACTION ) ) {
-			wp_send_json_error( 'Invalid nonce' );
-		}
 
 		// Check sent data before we do any database checks for faster failures.
 		$uninstall_reason_id = filter_input( INPUT_POST, 'uninstall_reason_id', FILTER_SANITIZE_SPECIAL_CHARS );
@@ -104,6 +97,14 @@ class Exit_Interview_Subscriber extends Abstract_Subscriber {
 
 		$comment = filter_input( INPUT_POST, 'comment', FILTER_SANITIZE_SPECIAL_CHARS );
 		$comment = ! empty( $comment ) ? $comment : '';
+
+		// Validate nonce.
+		$nonce = filter_input( INPUT_POST, 'nonce', FILTER_SANITIZE_SPECIAL_CHARS );
+		$nonce = ! empty( $nonce ) ? $nonce : '';
+
+		if ( ! wp_verify_nonce( $nonce, self::AJAX_ACTION ) ) {
+			wp_send_json_error( 'Invalid nonce' );
+		}
 
 		// Sent data validated, check if the user has the necessary permissions.
 		if ( ! current_user_can( 'manage_options' ) ) {
