@@ -88,7 +88,7 @@ class Exit_Interview_Subscriber extends Abstract_Subscriber {
 
 		// Check if the user has the necessary permissions.
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_send_json_error( 'User does not have proper permissions plugins' );
+			wp_send_json_error( 'User does not have proper permissions to modify plugins' );
 		}
 
 		$uninstall_reason_id = filter_input( INPUT_POST, 'uninstall_reason_id', FILTER_SANITIZE_SPECIAL_CHARS );
