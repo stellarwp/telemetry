@@ -45,6 +45,7 @@ class Opt_In_Subscriber extends Abstract_Subscriber {
 	 * Sets the opt-in status for the site.
 	 *
 	 * @since 1.0.0
+	 * @since 2.3.4 - Added user capability check.
 	 *
 	 * @return void
 	 */

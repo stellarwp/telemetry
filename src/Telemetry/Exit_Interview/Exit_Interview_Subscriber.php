@@ -75,6 +75,7 @@ class Exit_Interview_Subscriber extends Abstract_Subscriber {
 	 * Handles the ajax request for submitting "Exit Interivew" form data.
 	 *
 	 * @since 1.0.0
+	 * @since 2.3.4 - Added user capability check.
 	 *
 	 * @return void
 	 */
