@@ -79,6 +79,7 @@ class Exit_Interview_Subscriber extends Abstract_Subscriber {
 	 * @return void
 	 */
 	public function ajax_exit_interview() {
+		// Validate nonce.
 		$nonce = filter_input( INPUT_POST, 'nonce', FILTER_SANITIZE_SPECIAL_CHARS );
 		$nonce = ! empty( $nonce ) ? $nonce : '';
 
@@ -86,11 +87,7 @@ class Exit_Interview_Subscriber extends Abstract_Subscriber {
 			wp_send_json_error( 'Invalid nonce' );
 		}
 
-		// Check if the user has the necessary permissions.
-		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_send_json_error( 'User does not have proper permissions to modify plugins' );
-		}
-
+		// Check sent data before we do any database checks for faster failures.
 		$uninstall_reason_id = filter_input( INPUT_POST, 'uninstall_reason_id', FILTER_SANITIZE_SPECIAL_CHARS );
 		$uninstall_reason_id = ! empty( $uninstall_reason_id ) ? $uninstall_reason_id : false;
 		if ( ! $uninstall_reason_id ) {
@@ -107,6 +104,11 @@ class Exit_Interview_Subscriber extends Abstract_Subscriber {
 
 		$comment = filter_input( INPUT_POST, 'comment', FILTER_SANITIZE_SPECIAL_CHARS );
 		$comment = ! empty( $comment ) ? $comment : '';
+
+		// Sent data validated, check if the user has the necessary permissions.
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( 'User does not have proper permissions to modify plugins' );
+		}
 
 		$telemetry = $this->container->get( Telemetry::class );
 		$telemetry->send_uninstall( $plugin_slug, $uninstall_reason_id, $uninstall_reason, $comment );
