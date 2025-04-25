@@ -13,7 +13,6 @@ use StellarWP\ContainerContract\ContainerInterface;
 use StellarWP\Telemetry\Admin\Resources;
 use StellarWP\Telemetry\Config;
 use StellarWP\Telemetry\Contracts\Template_Interface;
-use StellarWP\Telemetry\Core;
 
 /**
  * The primary class for rendering the "Exit Interview" modal on plugin deactivation.

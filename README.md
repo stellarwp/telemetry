@@ -1,4 +1,8 @@
 # Telemetry Library
+![Tests](https://github.com/stellarwp/telemetry/actions/workflows/tests.yml/badge.svg)
+![Coding Standards](https://github.com/stellarwp/telemetry/actions/workflows/phpcs.yml/badge.svg)
+![PHP Compatibility](https://github.com/stellarwp/telemetry/actions/workflows/compatibility.yml/badge.svg)
+![Static Analysis](https://github.com/stellarwp/telemetry/actions/workflows/phpstan.yml/badge.svg)
 
 A library for Opt-in and Telemetry data to be sent to the StellarWP Telemetry server.
 

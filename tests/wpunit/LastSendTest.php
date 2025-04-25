@@ -2,7 +2,7 @@
 /**
  * Handles all tests related to the Config class.
  */
-use lucatume\WPBrowser\TestCase\WPTestCase;
+use Codeception\TestCase\WPTestCase;
 use StellarWP\Telemetry\Last_Send\Last_Send;
 use StellarWP\Telemetry\Tests\Support\Traits\With_Uopz;
 

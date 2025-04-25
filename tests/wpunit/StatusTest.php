@@ -3,7 +3,7 @@
  * Handles all tests related to the Status class.
  */
 
-use lucatume\WPBrowser\TestCase\WPTestCase;
+use Codeception\TestCase\WPTestCase;
 use StellarWP\Telemetry\Config;
 use StellarWP\Telemetry\Core;
 use StellarWP\Telemetry\Opt_In\Status;

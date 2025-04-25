@@ -1,6 +1,6 @@
 <?php
 
-use lucatume\WPBrowser\TestCase\WPTestCase;
+use Codeception\TestCase\WPTestCase;
 use StellarWP\Telemetry\Admin\Resources;
 use StellarWP\Telemetry\Config;
 use StellarWP\Telemetry\Opt_In\Opt_In_Template;
