@@ -31,12 +31,12 @@
   "require-dev": {
     "automattic/vipwpcs": "^3.0.0",
     "dealerdirect/phpcodesniffer-composer-installer": "^0.7.2",
-    "lucatume/di52": "3.0.0",
+    "lucatume/di52": "^4.0",
     "lucatume/wp-browser": "^3.2.3",
     "phpcompatibility/phpcompatibility-wp": "*",
     "phpunit/php-code-coverage": "^9.2",
     "szepeviktor/phpstan-wordpress": "^1.1",
-    "the-events-calendar/coding-standards": "dev-master",
+    "the-events-calendar/coding-standards": "dev-main",
     "wp-coding-standards/wpcs": "^3.0.0"
   },
   "repositories": [
