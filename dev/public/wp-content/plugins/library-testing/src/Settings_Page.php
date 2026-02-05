@@ -102,7 +102,7 @@ class Settings_Page {
 
 		// Send the event.
 		for ( $i = 0; $i < $number; $i++ ) {
-			do_action( 'stellarwp/telemetry/telemetry-library/event', $event_key, $event_data );
+			do_action( 'stellarwp/telemetry/' . Config::get_hook_prefix() . '/event', $event_key, $event_data );
 		}
 	}
 
