@@ -57,10 +57,10 @@ class Template implements Template_Interface {
 
 		$args = [
 			'plugin_slug'        => $stellar_slug,
-			'plugin_logo'        => Resources::get_asset_path() . 'resources/images/stellar-logo.svg',
-			'plugin_logo_width'  => 151,
+			'plugin_logo'        => Resources::get_asset_path() . 'resources/images/liquid-web-logo.svg',
+			'plugin_logo_width'  => 148,
 			'plugin_logo_height' => 32,
-			'plugin_logo_alt'    => 'StellarWP Logo',
+			'plugin_logo_alt'    => 'Liquid Web Logo',
 			'heading'            => __( 'We’re sorry to see you go.', 'stellarwp-telemetry' ),
 			'intro'              => __( 'We’d love to know why you’re leaving so we can improve our plugin.', 'stellarwp-telemetry' ),
 			'uninstall_reasons'  => [

@@ -17,11 +17,11 @@ class TemplateTest extends WPTestCase {
 
 	public function get_default_template_data() {
 		return [
-			'plugin_logo'           => Resources::get_asset_path() . 'resources/images/stellar-logo.svg',
-			'plugin_logo_width'     => 151,
+			'plugin_logo'           => Resources::get_asset_path() . 'resources/images/liquid-web-logo.svg',
+			'plugin_logo_width'     => 148,
 			'plugin_logo_height'    => 32,
-			'plugin_logo_alt'       => 'StellarWP Logo',
-			'plugin_name'           => 'StellarWP',
+			'plugin_logo_alt'       => 'Liquid Web Logo',
+			'plugin_name'           => 'Liquid Web',
 			'plugin_slug'           => self::PLUGIN_SLUG,
 			'user_name'             => 'admin',
 			'permissions_url'       => '#',
@@ -29,9 +29,9 @@ class TemplateTest extends WPTestCase {
 			'privacy_url'           => 'https://stellarwp.com/privacy-policy/',
 			'opted_in_plugins_text' => 'See which plugins you have opted in to tracking for',
 			'opted_in_plugins'      => [],
-			'heading'               => 'We hope you love StellarWP.',
-			'intro'                 => 'Hi, admin! This is an invitation to help our StellarWP community.
-				If you opt-in, some data about your usage of StellarWP and future StellarWP Products will be shared with our teams (so they can work their butts off to improve).
+			'heading'               => 'We hope you love Liquid Web.',
+			'intro'                 => 'Hi, admin! This is an invitation to help our Liquid Web community.
+				If you opt-in, some data about your usage of Liquid Web and future Liquid Web Products will be shared with our teams (so they can work their butts off to improve).
 				We will also share some helpful info on WordPress, and our products from time to time.
 				And if you skip this, that’s okay! Our products still work just fine.',
 		];
@@ -70,7 +70,7 @@ class TemplateTest extends WPTestCase {
 
 	public function test_get_intro() {
 		$expected = $this->get_default_template_data();
-		$actual   = ( new Opt_In_Template( new Status() ) )->get_intro( 'admin', 'StellarWP' );
+		$actual   = ( new Opt_In_Template( new Status() ) )->get_intro( 'admin', 'Liquid Web' );
 
 		$this->assertIsString( $actual );
 		$this->assertEquals( $expected['intro'], $actual );
