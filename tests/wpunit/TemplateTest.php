@@ -30,10 +30,7 @@ class TemplateTest extends WPTestCase {
 			'opted_in_plugins_text' => 'See which plugins you have opted in to tracking for',
 			'opted_in_plugins'      => [],
 			'heading'               => 'We hope you love Liquid Web.',
-			'intro'                 => 'Hi, admin! This is an invitation to help our Liquid Web community.
-				If you opt-in, some data about your usage of Liquid Web and future Liquid Web Products will be shared with our teams (so they can work their butts off to improve).
-				We will also share some helpful info on WordPress, and our products from time to time.
-				And if you skip this, that’s okay! Our products still work just fine.',
+			'intro'                 => 'Want to help shape the future of Liquid Web by Nexcess software products? Opting in shares anonymous usage data with our team at Liquid Web, giving us the insights we need to keep improving the tools you rely on.',
 		];
 	}
 

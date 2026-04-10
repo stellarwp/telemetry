@@ -82,7 +82,7 @@ $args = [
 	'privacy_url'           => '#',
 	'opted_in_plugins_text' => __( 'See which plugins you have opted in to tracking for', 'stellarwp-telemetry' ),
 	'heading'               => __( 'We hope you love {plugin_name}.', 'stellarwp-telemetry' ),
-	'intro'                 => __( 'Hi, {user_name}.! This is an invitation to help our Liquid Web community. If you opt-in, some data about your usage of {plugin_name} and future Liquid Web Products will be shared with our teams (so they can work their butts off to improve). We will also share some helpful info on WordPress, and our products from time to time. And if you skip this, that’s okay! Our products still work just fine.', 'stellarwp-telemetry' ),
+	'intro'                 => __( 'Want to help shape the future of Liquid Web by Nexcess software products? Opting in shares anonymous usage data with our team at Liquid Web, giving us the insights we need to keep improving the tools you rely on.', 'stellarwp-telemetry' ),
 ];
 ```
 ### stellarwp/telemetry/{stellar_slug}/optin_args
