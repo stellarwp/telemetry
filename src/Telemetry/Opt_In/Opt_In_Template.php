@@ -56,11 +56,11 @@ class Opt_In_Template implements Template_Interface {
 	public function get_args( string $stellar_slug ) {
 
 		$optin_args = [
-			'plugin_logo'           => Resources::get_asset_path() . 'resources/images/stellar-logo.svg',
-			'plugin_logo_width'     => 151,
+			'plugin_logo'           => Resources::get_asset_path() . 'resources/images/liquid-web-logo.svg',
+			'plugin_logo_width'     => 148,
 			'plugin_logo_height'    => 32,
-			'plugin_logo_alt'       => 'StellarWP Logo',
-			'plugin_name'           => 'StellarWP',
+			'plugin_logo_alt'       => 'Liquid Web Logo',
+			'plugin_name'           => 'Liquid Web',
 			'plugin_slug'           => $stellar_slug,
 			'user_name'             => wp_get_current_user()->display_name,
 			'permissions_url'       => '#',
@@ -240,10 +240,7 @@ class Opt_In_Template implements Template_Interface {
 		return sprintf(
 			// Translators: The user name and the plugin name.
 			esc_html__(
-				'Hi, %1$s! This is an invitation to help our StellarWP community.
-				If you opt-in, some data about your usage of %2$s and future StellarWP Products will be shared with our teams (so they can work their butts off to improve).
-				We will also share some helpful info on WordPress, and our products from time to time.
-				And if you skip this, that’s okay! Our products still work just fine.',
+				'Want to help shape the future of Liquid Web by Nexcess software products? Opting in shares anonymous usage data with our team at Liquid Web, giving us the insights we need to keep improving the tools you rely on.',
 				'stellarwp-telemetry'
 			),
 			$user_name,
